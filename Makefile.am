@@ -19,9 +19,9 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/mkinstalldirs
 
 GITIGNOREFILES = \
-	m4/intltool.m4 \
-	m4/libtool.m4 \
-	m4/lt* \
+	m4/*.m4 \
+	ABOUT-NLS \
+	config.rpath \
 	rpms/
 
 distdir = $(PACKAGE_TARNAME)-$(VERSION)

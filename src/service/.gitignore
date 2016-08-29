@@ -1,3 +1,5 @@
+platform_config.js
+
 node_modules/q/
 node_modules/.bin/
 node_modules/base64-url/
@@ -33,3 +35,7 @@ node_modules/oauth/
 node_modules/options/
 node_modules/tmp/
 node_modules/ultron/
+node_modules/lodash/
+node_modules/node-gettext/
+node_modules/omlib/
+node_modules/ws/

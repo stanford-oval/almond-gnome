@@ -1,5 +1,5 @@
 AC_PREREQ(2.63)
-AC_INIT([edu.stanford.thingengine.engine], [0.1],
+AC_INIT([edu.stanford.thingengine], [0.1],
         [https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-platform-gnome/issues],
         [thingengine-platform-gnome],
         [https://thingengine.stanford.edu/])
@@ -21,6 +21,7 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
                    [The prefix for our gettext translation domains.])
 AM_GNU_GETTEXT_VERSION([0.19.7])
+AM_GNU_GETTEXT([external])
 
 APPSTREAM_XML
 GLIB_GSETTINGS

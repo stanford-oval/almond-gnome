@@ -35,11 +35,10 @@ CLEANFILES = \
 SUBMODULE_DEPS = thingengine-core sabrina thingpedia thingpedia-discovery thingtalk
 
 all-local: $(SUBMODULE_DEPS) service/platform_config.js
-	npm install --only=prod
-	npm dedupe
-	cd node_modules/sabrina ; npm run compile-mo
-	cd node_modules/thingengine-core ; npm run compile-mo
-	npm run compile-mo
+	cd service; npm install --only=prod
+	cd service; npm dedupe
+	cd service/node_modules/sabrina ; npm run compile-mo
+	cd service/node_modules/thingengine-core ; npm run compile-mo
 
 .PHONY: $(SUBMODULE_DEPS)
 
@@ -47,9 +46,9 @@ $(SUBMODULE_DEPS):
 	cd service/node_modules/$(notdir $@) ; npm install --only=prod
 
 service/platform_config.js:
-	echo "exports.PREFIX = '$(prefix)';" > platform_config.js
+	echo "exports.PREFIX = '$(prefix)';" > $@
 
-install-local:
+install-data-local:
 	cp -r service/ $(DESTDIR)$(pkgdatadir)/service
 
 -include $(top_srcdir)/git.mk
