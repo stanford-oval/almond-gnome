@@ -1,0 +1,10 @@
+{
+  "name": "thingengine-gnome",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "node-gettext": "https://github.com/gcampax/node-gettext/tarball/master",
+    "omlib": "https://github.com/Stanford-Mobisocial-IoT-Lab/omclient/tarball/master",
+    "q": "~1.4.0"
+  }
+}
