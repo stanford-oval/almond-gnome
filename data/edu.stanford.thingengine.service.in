@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=edu.stanford.thingengine
+Exec=@pkgdatadir@/edu.stanford.thingengine --gapplication-service

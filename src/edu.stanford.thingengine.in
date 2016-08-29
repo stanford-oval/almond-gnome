@@ -1,0 +1,6 @@
+#!@GJS@
+imports.package.init({ name: "edu.stanford.thingengine",
+                       version: "@PACKAGE_VERSION@",
+                       prefix: "@prefix@",
+                       libdir: "@libdir@" });
+imports.package.run(imports.main);

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.6 -->
+  <object class="GtkHeaderBar" id="main-header">
+    <property name="can_focus">False</property>
+    <property name="visible">True</property>
+    <property name="show-close-button">True</property>
+    <property name="title" translatable="yes">Current page</property>
+    <child>
+      <object class="GtkToggleButton" id="search-active-button">
+        <property name="can_focus">True</property>
+        <property name="visible">True</property>
+        <style>
+          <class name="image-button"/>
+        </style>
+        <child>
+          <object class="GtkImage" id="search-button-image">
+            <property name="visible">True</property>
+            <property name="icon-name">edit-find-symbolic</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack-type">end</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkGrid" id="main-grid">
+    <property name="can_focus">False</property>
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkSearchBar" id="main-search-bar">
+        <property name="visible">True</property>
+        <property name="hexpand">True</property>
+        <child>
+          <object class="GtkSearchEntry" id="main-search-entry">
+            <property name="can_focus">True</property>
+            <property name="width-request">500</property>
+            <property name="halign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+</interface>

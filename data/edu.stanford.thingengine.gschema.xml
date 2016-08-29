@@ -1,0 +1,4 @@
+<schemalist gettext-domain="edu.stanford.thingengine">
+  <schema id="edu.stanford.thingengine" path="/edu/stanford/thingengine/">
+  </schema>
+</schemalist>

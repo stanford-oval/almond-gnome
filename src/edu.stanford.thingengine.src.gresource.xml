@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/edu/stanford/thingengine/js">
+    <file>main.js</file>
+    <file>params.js</file>
+    <file>util.js</file>
+    <file>window.js</file>
+  </gresource>
+</gresources>
