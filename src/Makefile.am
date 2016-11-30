@@ -46,9 +46,9 @@ $(SUBMODULE_DEPS):
 	cd service/node_modules/$(notdir $@) ; npm install --only=prod
 
 service/platform_config.js:
-	echo "exports.PREFIX = '$(prefix)';" > $@
+	echo "exports.PREFIX = '$(prefix)'; exports.PKGLIBDIR = '$(pkglibdir)'" > $@
 
 install-data-local:
-	cp -r service/ $(DESTDIR)$(pkgdatadir)/service
+	cp -r service/ $(DESTDIR)$(pkglibdir)/service
 
 -include $(top_srcdir)/git.mk

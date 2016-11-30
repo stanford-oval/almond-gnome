@@ -6,6 +6,4 @@
 //
 // See COPYING for details
 
-module.exports.S3_CLOUDFRONT_HOST = 'https://d1ge76rambtuys.cloudfront.net';
-
-module.exports.SEMPRE_URL = 'https://pepperjack.stanford.edu';
+module.exports.SEMPRE_URL = 'https://sabrina-nl.stanford.edu';

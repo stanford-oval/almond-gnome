@@ -7,24 +7,19 @@
 // See COPYING for details
 "use strict";
 
+const posix = require('posix');
+
 const Config = require('./config');
 
 const Sabrina = require('sabrina');
 
-/*
-const JavaAPI = require('./java_api');
-
-const COMMANDS = ['send', 'sendPicture', 'sendChoice', 'sendLink', 'sendButton', 'sendAskSpecial'];
-const AssistantJavaApi = JavaAPI.makeJavaAPI('Assistant', [],
-    COMMANDS.concat(['sendRDL']),
-    ['onready', 'onhandlecommand', 'onhandleparsedcommand']);
-*/
-
 class LocalUser {
     constructor() {
-        this.id = 0;
-        this.account = 'INVALID';
-        this.name = platform.getSharedPreferences().get('user-name');
+        var pwnam = posix.getpwnam(process.getuid());
+
+        this.id = process.getuid();
+        this.account = pwnam.name;
+        this.name = pwnam.gecos;
     }
 }
 
@@ -32,22 +27,23 @@ class AssistantDispatcher {
     constructor(engine) {
         this._engine = engine;
         this._conversation = null;
+
+        this._bus = platform.getCapability('dbus-session');
+        this._output = null;
+    }
+
+    setAssistantOutput(service, object) {
+        return this._bus.getInterface(service, object, 'edu.stanford.thingengine.AssistantOutput')
+            .then((iface) => {
+            this._output = iface;
+            this._ensureConversation();
+        });
     }
 
     start() {
-/*
-        AssistantJavaApi.onhandlecommand = this._onHandleCommand.bind(this);
-        AssistantJavaApi.onhandleparsedcommand = this._onHandleParsedCommand.bind(this);
-        AssistantJavaApi.onready = this._onReady.bind(this);
-*/
     }
 
     stop() {
-/*
-        AssistantJavaApi.onhandlecommand = null;
-        AssistantJavaApi.onhandleparsedcommand = null;
-        AssistantJavaApi.onready = null;
-*/
     }
 
     _ensureConversation() {
@@ -62,32 +58,43 @@ class AssistantDispatcher {
         return this._conversation;
     }
 
-    _onReady() {
-        this._ensureConversation();
-    }
-
-    _onHandleParsedCommand(error, json) {
+    handleParsedCommand(json) {
         this._ensureConversation();
         return this._conversation.handleParsedCommand(json);
     }
 
-    _onHandleCommand(error, text) {
+    handleCommand(text) {
         this._ensureConversation();
         return this._conversation.handleCommand(text);
     }
 
-/*
-    // sendRDL is special because we need to stringify the rdl before we
-    // call the Java API, or jxcore will marshal it weirdly
-    sendRDL(rdl, icon) {
-        return AssistantJavaApi.sendRDL(JSON.stringify(rdl), icon);
+    send(text, icon) {
+        return Q.ninvoke(this._output, 'Send', text, icon || '');
     }
-*/
+
+    sendPicture(url, icon) {
+        return Q.ninvoke(this._output, 'SendPicture', url, icon || '');
+    }
+
+    sendChoice(idx, what, title, text) {
+        return Q.ninvoke(this._output, 'SendChoice', idx, what, title, text);
+    }
+
+    sendLink(title, url) {
+        return Q.ninvoke(this._output, 'SendLink', title, url);
+    }
+
+    sendButton(title, json) {
+        return Q.ninvoke(this._output, 'SendButton', title, json);
+    }
+
+    sendAskSpecial(what) {
+        return Q.ninvoke(this._output, 'SendAskSpecial', what);
+    }
+
+    sendRDL(rdl, icon) {
+        return Q.ninvoke(this._output, 'SendRDL', JSON.stringify(rdl), icon);
+    }
 };
-/*
-COMMANDS.forEach(function(c) {
-    AssistantDispatcher.prototype[c] = AssistantJavaApi[c];
-});
-*/
 
 module.exports = AssistantDispatcher;

@@ -11,11 +11,10 @@
 const Q = require('q');
 const fs = require('fs');
 const Gettext = require('node-gettext');
+const DBus = require('dbus-native');
 
 const Config = require('./platform_config');
 
-// FIXME
-const sql = require('thingengine-core/lib/util/sql');
 const prefs = require('thingengine-core/lib/util/prefs');
 
 var _unzipApi = {
@@ -62,10 +61,6 @@ const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
 const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
 */
 
-var filesDir = null;
-var cacheDir = null;
-var encoding = null;
-
 function safeMkdirSync(dir) {
     try {
         fs.mkdirSync(dir);
@@ -74,8 +69,6 @@ function safeMkdirSync(dir) {
             throw e;
     }
 }
-
-var _prefs = null;
 
 function getUserConfigDir() {
     if (process.env.XDG_CONFIG_HOME)
@@ -102,17 +95,16 @@ module.exports = {
 
         this._gettext = new Gettext();
 
-        filesDir = getUserConfigDir() + '/thingengine';
-        safeMkdirSync(filesDir);
+        this._filesDir = getUserConfigDir() + '/thingengine';
+        safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
-        this._gettext.setlocale(value);
+        this._gettext.setlocale(this._locale);
         this._timezone = process.env.TZ;
-        _prefs = new prefs.FilePreferences(filesDir + '/prefs.db');
+        this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
         cacheDir = getUserCacheDir() + '/thingengine';
         safeMkdirSync(cacheDir);
 
-        return sql.ensureSchema(filesDir + '/sqlite.db',
-                                '../data/schema.sql');
+        this._dbus = DBus.sessionBus();
     },
 
     setAssistant(ad) {
@@ -159,6 +151,8 @@ module.exports = {
             // this platform
             return true;
 
+        case 'dbus-session':
+            return true;
 /*
         // We can use the phone capabilities
         case 'notify':
@@ -196,6 +190,9 @@ module.exports = {
         case 'code-download':
             // We have the support to download code
             return _unzipApi;
+
+        case 'dbus-session':
+            return this._dbus;
 
 /*
         case 'notify-api':
@@ -251,19 +248,19 @@ module.exports = {
     // Preferences should be normally used only by the engine code, and a persistent
     // shared store such as DataVault should be used by regular apps
     getSharedPreferences: function() {
-        return _prefs;
+        return this._prefs;
     },
 
     // Get the root of the application
     // (In android, this is the virtual root of the APK)
     getRoot: function() {
-        return Config.PREFIX;
+        return Config.PKGLIBDIR + '/service';
     },
 
     // Get a directory that is guaranteed to be writable
     // (in the private data space for Android)
     getWritableDir: function() {
-        return filesDir;
+        return this._filesDir;
     },
 
     // Get a temporary directory
@@ -287,11 +284,15 @@ module.exports = {
 
     // Get the filename of the sqlite database
     getSqliteDB: function() {
-        return filesDir + '/sqlite.db';
+        return this._filesDir + '/sqlite.db';
+    },
+
+    getSqliteKey: function() {
+        return null; // for now
     },
 
     getGraphDB: function() {
-        return filesDir + '/rdf.db';
+        return this._filesDir + '/rdf.db';
     },
 
     // Stop the main loop and exit
@@ -304,13 +305,13 @@ module.exports = {
 
     // Get the ThingPedia developer key, if one is configured
     getDeveloperKey: function() {
-        return _prefs.get('developer-key');
+        return this._prefs.get('developer-key');
     },
 
     // Change the ThingPedia developer key, if possible
     // Returns true if the change actually happened
     setDeveloperKey: function(key) {
-        return _prefs.set('developer-key', key);
+        return this._prefs.set('developer-key', key);
         return true;
     },
 
@@ -322,21 +323,21 @@ module.exports = {
     },
 
     getCloudId() {
-        return _prefs.get('cloud-id');
+        return this._prefs.get('cloud-id');
     },
 
     getAuthToken() {
-        return _prefs.get('auth-token');
+        return this._prefs.get('auth-token');
     },
 
     // Change the auth token
     // Returns true if a change actually occurred, false if the change
     // was rejected
     setAuthToken: function(authToken) {
-        var oldAuthToken = _prefs.get('auth-token');
+        var oldAuthToken = this._prefs.get('auth-token');
         if (oldAuthToken !== undefined && authToken !== oldAuthToken)
             return false;
-        _prefs.set('auth-token', authToken);
+        this._prefs.set('auth-token', authToken);
         return true;
     },
 
