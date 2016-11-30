@@ -26,26 +26,18 @@ function initEnvironment() {
     };
 }
 
-const MyApplication = new Lang.Class({
-    Name: 'MyApplication',
+const SabrinaApplication = new Lang.Class({
+    Name: 'SabrinaApplication',
     Extends: Gtk.Application,
 
     _init: function() {
         this.parent({ application_id: pkg.name });
 
-        GLib.set_application_name(_("My JS Application"));
+        GLib.set_application_name(_("Sabrina"));
     },
 
     _onQuit: function() {
         this.quit();
-    },
-
-    _initAppMenu: function() {
-        let builder = new Gtk.Builder();
-        builder.add_from_resource('/edu/stanford/thingengine/app-menu.ui');
-
-        let menu = builder.get_object('app-menu');
-        this.set_app_menu(menu);
     },
 
     vfunc_startup: function() {
@@ -56,24 +48,19 @@ const MyApplication = new Lang.Class({
         Util.initActions(this,
                          [{ name: 'quit',
                             activate: this._onQuit }]);
-        this._initAppMenu();
-
-        log(_("My JS Application started"));
     },
 
     vfunc_activate: function() {
-        (new Window.MainWindow({ application: this })).show();
-    },
+        var window = this.get_active_window();
+        if (window == null)
+            window = new Window.MainWindow({ application: this });
 
-    vfunc_shutdown: function() {
-        log(_("My JS Application exiting"));
-
-        this.parent();
+        window.present();
     }
 });
 
 function main(argv) {
     initEnvironment();
 
-    return (new MyApplication()).run(argv);
+    return (new SabrinaApplication()).run(argv);
 }

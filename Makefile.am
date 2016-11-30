@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 DISTCHECK_CONFIGURE_FLAGS = --disable-dogtail
 
-SUBDIRS = data po src
+SUBDIRS = data src service po
 
 MAINTAINERCLEANFILES = \
 	$(srcdir)/INSTALL \

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/edu/stanford/thingengine/">
-    <file preprocess="xml-stripblanks">app-menu.ui</file>
     <file preprocess="xml-stripblanks">main.ui</file>
     <file>application.css</file>
+  </gresource>
+  <gresource prefix="/edu/stanford/thingengine/gtk">
+    <file preprocess="xml-stripblanks">menus.ui</file>
   </gresource>
 </gresources>

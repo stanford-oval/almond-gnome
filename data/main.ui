@@ -1,49 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <!-- interface-requires gtk+ 3.6 -->
-  <object class="GtkHeaderBar" id="main-header">
+  <requires lib="gtk+" version="3.22"/>
+  <template class="Gjs_MainWindow" parent="GtkApplicationWindow">
     <property name="can_focus">False</property>
-    <property name="visible">True</property>
-    <property name="show-close-button">True</property>
-    <property name="title" translatable="yes">Current page</property>
     <child>
-      <object class="GtkToggleButton" id="search-active-button">
-        <property name="can_focus">True</property>
+      <object class="GtkStack" id="main-stack">
         <property name="visible">True</property>
-        <style>
-          <class name="image-button"/>
-        </style>
+        <property name="can_focus">False</property>
+        <property name="transition_type">slide-left</property>
         <child>
-          <object class="GtkImage" id="search-button-image">
+          <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="icon-name">edit-find-symbolic</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkListBox" id="assistant-chat-listbox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="assistant-input">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hexpand">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
           </object>
+          <packing>
+            <property name="name">page-chat</property>
+            <property name="title" translatable="yes">Chat</property>
+          </packing>
         </child>
-      </object>
-      <packing>
-        <property name="pack-type">end</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkGrid" id="main-grid">
-    <property name="can_focus">False</property>
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkSearchBar" id="main-search-bar">
-        <property name="visible">True</property>
-        <property name="hexpand">True</property>
         <child>
-          <object class="GtkSearchEntry" id="main-search-entry">
-            <property name="can_focus">True</property>
-            <property name="width-request">500</property>
-            <property name="halign">center</property>
+          <object class="GtkFlowBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
+          <packing>
+            <property name="name">page-my-stuff</property>
+            <property name="title" translatable="yes">My Goods</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkListBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="name">page-my-rules</property>
+            <property name="title" translatable="yes">My Rules</property>
+            <property name="position">2</property>
+          </packing>
         </child>
       </object>
     </child>
-    <child>
-      <placeholder/>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="main-header">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title">Sabrina</property>
+        <property name="has_subtitle">False</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkMenuButton" id="gear-menubtn">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="menu-model">hamburger-menu</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="icon-name">open-menu-symbolic</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+      </object>
     </child>
-  </object>
+  </template>
+  <menu id="hamburger-menu">
+    <section>
+      <item>
+        <attribute name="action">win.switch-to</attribute>
+        <attribute name="target">page-chat</attribute>
+        <attribute name="label" translatable="yes">Chat</attribute>
+      </item>
+      <item>
+        <attribute name="action">win.switch-to</attribute>
+        <attribute name="target">page-my-stuff</attribute>
+        <attribute name="label" translatable="yes">My Goods</attribute>
+      </item>
+      <item>
+        <attribute name="action">win.switch-to</attribute>
+        <attribute name="target">page-my-rules</attribute>
+        <attribute name="label" translatable="yes">My Rules</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

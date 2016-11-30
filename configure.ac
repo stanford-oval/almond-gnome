@@ -44,6 +44,7 @@ AC_CONFIG_FILES([
   data/Makefile
   data/icons/Makefile
   src/Makefile
+  service/Makefile
   po/Makefile.in
 ])
 AC_OUTPUT

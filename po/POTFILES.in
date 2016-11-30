@@ -1,6 +1,6 @@
 data/app-menu.ui
 data/main.ui
-data/edu.stanford.thingengine.desktop
-data/edu.stanford.thingengine.appdata.xml
+data/edu.stanford.thingengine.desktop.in
+data/edu.stanford.thingengine.appdata.xml.in
 data/edu.stanford.thingengine.gschema.xml
 src/main.js

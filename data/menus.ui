@@ -2,15 +2,8 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="label" translatable="yes">_New</attribute>
-        <attribute name="action">win.new</attribute>
-        <attribute name="accel">&lt;Primary&gt;n</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="action">win.about</attribute>
-        <attribute name="label" translatable="yes">About Example</attribute>
+        <attribute name="label" translatable="yes">About Sabrina</attribute>
       </item>
       <item>
         <attribute name="action">app.quit</attribute>

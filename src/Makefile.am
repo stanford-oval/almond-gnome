@@ -32,23 +32,4 @@ CLEANFILES = \
 	edu.stanford.thingengine.src.gresource \
 	$(NULL)
 
-SUBMODULE_DEPS = thingengine-core sabrina thingpedia thingpedia-discovery thingtalk
-
-all-local: $(SUBMODULE_DEPS) service/platform_config.js
-	cd service; npm install --only=prod
-	cd service; npm dedupe
-	cd service/node_modules/sabrina ; npm run compile-mo
-	cd service/node_modules/thingengine-core ; npm run compile-mo
-
-.PHONY: $(SUBMODULE_DEPS)
-
-$(SUBMODULE_DEPS):
-	cd service/node_modules/$(notdir $@) ; npm install --only=prod
-
-service/platform_config.js:
-	echo "exports.PREFIX = '$(prefix)'; exports.PKGLIBDIR = '$(pkglibdir)'" > $@
-
-install-data-local:
-	cp -r service/ $(DESTDIR)$(pkglibdir)/service
-
 -include $(top_srcdir)/git.mk
