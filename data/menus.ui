@@ -3,7 +3,7 @@
     <section>
       <item>
         <attribute name="action">win.about</attribute>
-        <attribute name="label" translatable="yes">About Sabrina</attribute>
+        <attribute name="label" translatable="yes">About Almond</attribute>
       </item>
       <item>
         <attribute name="action">app.quit</attribute>

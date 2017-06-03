@@ -15,7 +15,7 @@ const Util = imports.util;
 const MainWindow = new Lang.Class({
     Name: 'MainWindow',
     Extends: Gtk.ApplicationWindow,
-    Template: 'resource:///edu/stanford/thingengine/main.ui',
+    Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
     InternalChildren: ['main-stack'],
 
@@ -40,15 +40,15 @@ const MainWindow = new Lang.Class({
 
     _about: function() {
         let aboutDialog = new Gtk.AboutDialog(
-            { authors: [ 'Giovanni Campagna <gcampagna@src.gnome.org>' ],
+            { authors: [ 'Giovanni Campagna <gcampagn@cs.stanford.edu>' ],
               translator_credits: _("translator-credits"),
-              program_name: _("Sabrina"),
+              program_name: _("Almond"),
               comments: _("The Open Virtual Assistant"),
-              copyright: 'Copyright 2016 Stanford University, Mobisocial Computing Lab',
+              copyright: 'Copyright 2016-2017 Stanford University, Mobisocial Computing Lab',
               license_type: Gtk.License.GPL_2_0,
-              logo_icon_name: 'edu.stanford.thingengine',
+              logo_icon_name: 'edu.stanford.Almond',
               version: pkg.version,
-              website: 'https://thingengine.stanford.edu',
+              website: 'https://thingpedia.stanford.edu',
               wrap_license: true,
               modal: true,
               transient_for: this

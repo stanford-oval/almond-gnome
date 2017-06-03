@@ -13,8 +13,6 @@ const fs = require('fs');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 
-const Config = require('./platform_config');
-
 const prefs = require('thingengine-core/lib/util/prefs');
 
 var _unzipApi = {
@@ -95,13 +93,13 @@ module.exports = {
 
         this._gettext = new Gettext();
 
-        this._filesDir = getUserConfigDir() + '/thingengine';
+        this._filesDir = getUserConfigDir() + '/almond';
         safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
         this._gettext.setlocale(this._locale);
         this._timezone = process.env.TZ;
         this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
-        cacheDir = getUserCacheDir() + '/thingengine';
+        cacheDir = getUserCacheDir() + '/almond';
         safeMkdirSync(cacheDir);
 
         this._dbus = DBus.sessionBus();
@@ -249,12 +247,6 @@ module.exports = {
     // shared store such as DataVault should be used by regular apps
     getSharedPreferences: function() {
         return this._prefs;
-    },
-
-    // Get the root of the application
-    // (In android, this is the virtual root of the APK)
-    getRoot: function() {
-        return Config.PKGLIBDIR + '/service';
     },
 
     // Get a directory that is guaranteed to be writable

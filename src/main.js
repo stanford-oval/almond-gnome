@@ -26,14 +26,14 @@ function initEnvironment() {
     };
 }
 
-const SabrinaApplication = new Lang.Class({
-    Name: 'SabrinaApplication',
+const AlmondApplication = new Lang.Class({
+    Name: 'AlmondApplication',
     Extends: Gtk.Application,
 
     _init: function() {
         this.parent({ application_id: pkg.name });
 
-        GLib.set_application_name(_("Sabrina"));
+        GLib.set_application_name(_("Almond"));
     },
 
     _onQuit: function() {
@@ -43,7 +43,7 @@ const SabrinaApplication = new Lang.Class({
     vfunc_startup: function() {
         this.parent();
 
-        Util.loadStyleSheet('/edu/stanford/thingengine/application.css');
+        Util.loadStyleSheet('/edu/stanford/Almond/application.css');
 
         Util.initActions(this,
                          [{ name: 'quit',
@@ -62,5 +62,5 @@ const SabrinaApplication = new Lang.Class({
 function main(argv) {
     initEnvironment();
 
-    return (new SabrinaApplication()).run(argv);
+    return (new AlmondApplication()).run(argv);
 }

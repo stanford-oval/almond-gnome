@@ -18,10 +18,10 @@ var _waitReady;
 var _running;
 var _stopped;
 
-const DBUS_CONTROL_PATH = '/edu/stanford/thingengine/BackgroundService';
+const DBUS_CONTROL_PATH = '/edu/stanford/Almond/BackgroundService';
 
 const DBUS_CONTROL_INTERFACE = {
-    name: 'edu.stanford.thingengine.BackgroundService',
+    name: 'edu.stanford.Almond.BackgroundService',
     methods: {
         Stop: ['', ''],
         SetAssistantOutput: ['o', ''],
@@ -230,9 +230,9 @@ function main() {
     var controlChannel = new AppControlChannel();
 
     var bus = platform.getCapability('dbus-session');
-    bus.exportInterface(controlChannel, '/edu/stanford/thingengine/BackgroundService', DBUS_CONTROL_INTERFACE);
+    bus.exportInterface(controlChannel, '/edu/stanford/Almond/BackgroundService', DBUS_CONTROL_INTERFACE);
 
-    Q.ninvoke(bus, 'requestName', 'edu.stanford.thingengine.BackgroundService', 0).then(function() {
+    Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0).then(function() {
         console.log('Control channel ready');
 
         _waitReady = _engine.open();

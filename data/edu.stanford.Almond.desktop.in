@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=Sabrina
-Comment=The Extensible Virtual Assistant
-Icon=edu.stanford.thingengine
-Exec=gapplication launch edu.stanford.thingengine
+Name=Almond
+Comment=The Open Virtual Assistant
+Icon=edu.stanford.Almond
+Exec=gapplication launch edu.stanford.Almond
 DBusActivatable=true
 StartupNotify=true
 Keywords=sabrina;assistant;web;search;iot

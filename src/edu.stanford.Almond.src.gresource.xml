@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/edu/stanford/thingengine/js">
+  <gresource prefix="/edu/stanford/Almond/js">
     <file>main.js</file>
     <file>params.js</file>
     <file>util.js</file>

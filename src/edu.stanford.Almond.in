@@ -1,5 +1,5 @@
 #!@GJS@
-imports.package.init({ name: "edu.stanford.thingengine",
+imports.package.init({ name: "edu.stanford.Almond",
                        version: "@PACKAGE_VERSION@",
                        prefix: "@prefix@",
                        libdir: "@libdir@" });
