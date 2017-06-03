@@ -14,16 +14,23 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkListBox" id="assistant-chat-listbox">
+              <object class="GtkScrolledWindow">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
+                <child>
+                  <object class="GtkListBox" id="assistant-chat-listbox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
               </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkEntry" id="assistant-input">
@@ -43,20 +50,34 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFlowBox">
+          <object class="GtkScrolledWindow">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkFlowBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="name">page-my-stuff</property>
+                <property name="title" translatable="yes">My Goods</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
-          <packing>
-            <property name="name">page-my-stuff</property>
-            <property name="title" translatable="yes">My Goods</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
-          <object class="GtkListBox">
+          <object class="GtkScrolledWindow">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkListBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="name">page-my-rules</property>

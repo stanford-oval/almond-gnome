@@ -7,11 +7,12 @@
 // See COPYING for details
 "use strict";
 
+const Q = require('q');
 const posix = require('posix');
 
 const Config = require('./config');
 
-const Sabrina = require('sabrina');
+const Almond = require('almond');
 
 class LocalUser {
     constructor() {
@@ -32,25 +33,43 @@ class AssistantDispatcher {
         this._output = null;
     }
 
+    start() {}
+    stop() {}
+
     setAssistantOutput(service, object) {
-        return this._bus.getInterface(service, object, 'edu.stanford.thingengine.AssistantOutput')
+        if (object === '/') {
+            this._output = null;
+            return;
+        }
+
+        return Q.ninvoke(this._bus, 'getInterface', service, object, 'edu.stanford.Almond.AssistantOutput')
             .then((iface) => {
             this._output = iface;
             this._ensureConversation();
+        }).catch((e) => {
+            console.error('Failed to retrieve interface AssistantOutput', e);
         });
-    }
-
-    start() {
-    }
-
-    stop() {
     }
 
     _ensureConversation() {
         if (this._conversation)
             return;
-        this._conversation = new Sabrina(this._engine, new LocalUser(), this, true, Config.SEMPRE_URL);
+        this._conversation = new Almond(this._engine, 'native-gnome', new LocalUser(), this, {
+            debug: true,
+            sempreUrl: Config.SEMPRE_URL,
+            showWelcome: true
+        });
         this._conversation.start();
+    }
+
+    notifyAll(data) {
+        this._ensureConversation();
+        return this._conversation.notify(data);
+    }
+
+    notifyErrorAll(data) {
+        this._ensureConversation();
+        return this._conversation.notifyError(data);
     }
 
     getConversation() {
@@ -69,31 +88,45 @@ class AssistantDispatcher {
     }
 
     send(text, icon) {
+        if (!this._output) // FIXME
+            return console.log('Lost message ' + text);
         return Q.ninvoke(this._output, 'Send', text, icon || '');
     }
 
     sendPicture(url, icon) {
+        if (!this._output) // FIXME
+            return console.log('Lost picture ' + url);
         return Q.ninvoke(this._output, 'SendPicture', url, icon || '');
     }
 
     sendChoice(idx, what, title, text) {
+        if (!this._output) // FIXME
+            return console.log('Lost choice ', idx, what);
         return Q.ninvoke(this._output, 'SendChoice', idx, what, title, text);
     }
 
     sendLink(title, url) {
+        if (!this._output) // FIXME
+            return console.log('Lost link ' + url);
         return Q.ninvoke(this._output, 'SendLink', title, url);
     }
 
     sendButton(title, json) {
+        if (!this._output) // FIXME
+            return console.log('Lost button ' + json);
         return Q.ninvoke(this._output, 'SendButton', title, json);
     }
 
     sendAskSpecial(what) {
-        return Q.ninvoke(this._output, 'SendAskSpecial', what);
+        if (!this._output) // FIXME
+            return console.log('Lost ask special ' + what);
+        return Q.ninvoke(this._output, 'SendAskSpecial', what || '');
     }
 
     sendRDL(rdl, icon) {
-        return Q.ninvoke(this._output, 'SendRDL', JSON.stringify(rdl), icon);
+        if (!this._output) // FIXME
+            return console.log('Lost RDL ', rdl);
+        return Q.ninvoke(this._output, 'SendRDL', JSON.stringify(rdl), icon || '');
     }
 };
 

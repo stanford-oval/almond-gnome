@@ -5,5 +5,7 @@
     <file>params.js</file>
     <file>util.js</file>
     <file>window.js</file>
+    <file>chatmodel.js</file>
+    <file>serviceproxy.js</file>
   </gresource>
 </gresources>

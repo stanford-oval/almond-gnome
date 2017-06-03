@@ -10,6 +10,9 @@
 console.log('ThingEngine-GNOME starting up...');
 
 const Q = require('q');
+Q.longStackSupport = true;
+setTimeout(function() { }, 100000);
+
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
 
@@ -38,7 +41,7 @@ const DBUS_CONTROL_INTERFACE = {
         GetAppInfos: ['', 'aa{sv}'],
         DeleteApp: ['s', ''],
         SetCloudId: ['ss', 'b'],
-        SetServerAddress: ['sss', 'b']
+        SetServerAddress: ['sus', 'b']
     },
     signals: {}
 }
@@ -236,7 +239,6 @@ function main() {
         console.log('Control channel ready');
 
         _waitReady = _engine.open();
-        _ad.start();
         return _waitReady;
     }).then(function() {
         _running = true;
@@ -247,7 +249,6 @@ function main() {
         console.log('Uncaught exception: ' + error.message);
         console.log(error.stack);
     }).finally(function() {
-        _ad.stop();
         return _engine.close();
     }).catch(function(error) {
         console.log('Exception during stop: ' + error.message);

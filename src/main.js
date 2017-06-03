@@ -19,6 +19,7 @@ const Lang = imports.lang;
 
 const Util = imports.util;
 const Window = imports.window;
+const Service = imports.serviceproxy.Service;
 
 function initEnvironment() {
     window.getApp = function() {
@@ -52,10 +53,25 @@ const AlmondApplication = new Lang.Class({
 
     vfunc_activate: function() {
         var window = this.get_active_window();
-        if (window == null)
-            window = new Window.MainWindow({ application: this });
+        if (window == null) {
+            if (this._service == null) {
+                this.hold();
+                new Service(Gio.DBus.session, 'edu.stanford.Almond.BackgroundService', '/edu/stanford/Almond/BackgroundService', (result, error) => {
+                    this.release();
+                    if (error)
+                        throw error; // die
+                    this._service = result;
 
-        window.present();
+                    var window = new Window.MainWindow(this, this._service);
+                    window.present();
+                });
+            } else {
+                var window = new Window.MainWindow(this, this._service);
+                window.present();
+            }
+        } else {
+            window.present();
+        }
     }
 });
 

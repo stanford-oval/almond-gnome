@@ -10,6 +10,8 @@
 
 const Q = require('q');
 const fs = require('fs');
+const os = require('os');
+const child_process = require('child_process');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 
@@ -96,6 +98,9 @@ module.exports = {
         this._filesDir = getUserConfigDir() + '/almond';
         safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
+        // normalize this._locale to something that Intl can grok
+        this._locale = this._locale.split(/[-_\.@]/).slice(0,2).join('-');
+
         this._gettext.setlocale(this._locale);
         this._timezone = process.env.TZ;
         this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
@@ -230,7 +235,7 @@ module.exports = {
 */
 
         case 'assistant':
-            return this._assistant.getConversation();
+            return this._assistant;
 
         case 'gettext':
             return this._gettext;

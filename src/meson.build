@@ -13,3 +13,6 @@ install_data(app_launcher,
   install_dir: get_option('bindir'),
   install_mode: 'rwxr-xr-x'
 )
+
+run_target('launch-app',
+  command: ['gjs', app_launcher])
