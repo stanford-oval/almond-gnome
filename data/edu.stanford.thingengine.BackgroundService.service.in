@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=edu.stanford.thingengine.BackgroundService
-Exec=/usr/bin/node @pkglibdir@/service/main.js
