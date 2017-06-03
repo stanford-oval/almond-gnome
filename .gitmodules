@@ -2,7 +2,7 @@
 	path = service/node_modules/thingengine-core
 	url = https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core
 [submodule "src/service/node_modules/sabrina"]
-	path = service/node_modules/sabrina
+	path = service/node_modules/almond
 	url = https://github.com/Stanford-Mobisocial-IoT-Lab/sabrina
 [submodule "src/service/node_modules/thingpedia"]
 	path = service/node_modules/thingpedia
