@@ -12,6 +12,7 @@ const posix = require('posix');
 const events = require('events');
 
 const Config = require('./config');
+const SpeechHandler = require('./speech_handler');
 
 const Almond = require('almond');
 
@@ -51,10 +52,33 @@ class AssistantDispatcher extends events.EventEmitter {
 
         this._nextMsgId = 0;
         this._history = [];
+
+        this._speechHandler = new SpeechHandler(engine.platform);
+        this._speechSynth = engine.platform.getCapability('text-to-speech');
+
+        this._speechHandler.on('hypothesis', (hypothesis) => {
+            this.emit('VoiceHypothesis', hypothesis);
+        });
+        this._speechHandler.on('utterance', (utterance) => {
+            this.handleCommand(utterance).catch((e) => {
+                console.error(e.stack);
+            });
+        });
+        this._speechHandler.on('error', (error) => {
+            console.log('Error in speech recognition: ' + error.message);
+            this.send("Sorry, I had an error understanding your speech: " + error.message);
+        });
     }
 
-    start() {}
+    start() {
+        return this._speechSynth.start();
+    }
     stop() {}
+
+    startConversation() {
+        this._ensureConversation();
+        this._speechHandler.start();
+    }
 
     _ensureConversation() {
         if (this._conversation)
@@ -83,6 +107,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     handleParsedCommand(title, json) {
+        this._speechSynth.clearQueue();
         this._collapseButtons();
         if (title) {
             this._addMessage(MessageType.TEXT, Direction.FROM_USER, {
@@ -94,6 +119,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     handleCommand(text) {
+        this._speechSynth.clearQueue();
         this._collapseButtons();
         this._addMessage(MessageType.TEXT, Direction.FROM_USER, {
             text: text
@@ -131,6 +157,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     send(text, icon) {
+        this._speechSynth.say(text);
         this._addMessage(MessageType.TEXT, Direction.FROM_ALMOND, {
             text: text,
             icon: icon || ''
@@ -145,6 +172,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     sendChoice(idx, what, title, text) {
+        this._speechSynth.say(title);
         this._addMessage(MessageType.CHOICE, Direction.FROM_ALMOND, {
             choice_idx: String(idx),
             text: title
@@ -159,6 +187,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     sendButton(title, json) {
+        this._speechSynth.say(title);
         this._addMessage(MessageType.BUTTON, Direction.FROM_ALMOND, {
             text: title,
             json: json
@@ -172,6 +201,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     sendRDL(rdl, icon) {
+        this._speechSynth.say(rdl.displayTitle);
         this._addMessage(MessageType.RDL, Direction.FROM_ALMOND, {
             text: rdl.displayTitle,
             rdl_description: rdl.displayText || '',

@@ -6,9 +6,12 @@
     "cvc4": "^0.1.1",
     "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
     "node-gettext": "^2.0.0",
+    "node-mimic": "0.0.1",
     "omlib": "https://github.com/Stanford-Mobisocial-IoT-Lab/omclient/tarball/master",
     "posix": "^4.1.1",
+    "pulseaudio": "bitbucket:gcampax/node-pulseaudio",
     "q": "~1.4.0",
+    "snowboy": "^1.2.0",
     "sqlite3": "^3.1.4"
   }
 }

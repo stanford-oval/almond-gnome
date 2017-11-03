@@ -245,9 +245,10 @@ function main() {
     Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0).then(function() {
         console.log('Control channel ready');
 
-        _waitReady = _engine.open();
+        _waitReady = Promise.all([_engine.open(), _ad.start()]);
         return _waitReady;
     }).then(function() {
+        _ad.startConversation();
         _running = true;
         if (_stopped)
             return;

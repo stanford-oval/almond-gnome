@@ -17,6 +17,7 @@ const child_process = require('child_process');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('cvc4');
+const PulseAudio = require('pulseaudio');
 
 const prefs = require('thingengine-core/lib/util/prefs');
 
@@ -64,6 +65,7 @@ const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
 const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
 */
 const BluezBluetooth = require('./bluez');
+const SpeechSynthesizer = require('./speech_synthesizer');
 
 function safeMkdirSync(dir) {
     try {
@@ -115,6 +117,10 @@ class Platform {
         this._dbusSession = DBus.sessionBus();
         this._dbusSystem = DBus.systemBus();
         this._btApi = null;
+        this._pulse = new PulseAudio({
+            client: "thingengine-platform-gnome"
+        });
+        this._tts = new SpeechSynthesizer(this._pulse, path.resolve(module.filename, '../../data/cmu_us_slt.flitevox'));
 
         this._origin = null;
     }
@@ -159,12 +165,13 @@ class Platform {
             // this platform
             return true;
 
+        // We can use the capabilities of a desktop assistant
         case 'dbus-session':
         case 'dbus-system':
-            return true;
-
+        case 'text-to-speech':
         case 'bluetooth':
             return true;
+
 /*
         // We can use the phone capabilities
         case 'notify':
@@ -210,10 +217,14 @@ class Platform {
             return this._dbusSession;
         case 'dbus-system':
             return this._dbusSystem;
+        case 'text-to-speech':
+            return this._tts;
         case 'bluetooth':
             if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);
             return this._btApi;
+        case 'pulseaudio':
+            return this._pulse;
 
         case 'smt-solver':
             return CVC4Solver;
