@@ -49,6 +49,7 @@ class AssistantDispatcher extends events.EventEmitter {
 
         this._bus = engine.platform.getCapability('dbus-session');
 
+        this._nextMsgId = 0;
         this._history = [];
     }
 
@@ -82,9 +83,10 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     handleParsedCommand(title, json) {
+        this._collapseButtons();
         if (title) {
             this._addMessage(MessageType.TEXT, Direction.FROM_USER, {
-                text: text
+                text: title
             });
         }
         this._ensureConversation();
@@ -92,6 +94,7 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     handleCommand(text) {
+        this._collapseButtons();
         this._addMessage(MessageType.TEXT, Direction.FROM_USER, {
             text: text
         });
@@ -105,11 +108,26 @@ class AssistantDispatcher extends events.EventEmitter {
         return Q(history);
     }
 
+    _collapseButtons() {
+        for (let i = this._history.length-1; i >= 0; i--) {
+            let last = this._history[i];
+            let id = last[0];
+            let type = last[1];
+            if (type === MessageType.ASK_SPECIAL || type === MessageType.CHOICE || type === MessageType.BUTTON) {
+                this._history.pop();
+                this.emit('RemoveMessage', id);
+            } else {
+                break;
+            }
+        }
+    }
+
     _addMessage(type, direction, msg) {
-        this._history.push([type, direction, msg]);
+        let id = this._nextMsgId++;
+        this._history.push([id, type, direction, msg]);
         if (this._history.length > 30)
             this._history.shift();
-        this.emit('NewMessage', type, direction, msg);
+        this.emit('NewMessage', id, type, direction, msg);
     }
 
     send(text, icon) {
@@ -128,7 +146,7 @@ class AssistantDispatcher extends events.EventEmitter {
 
     sendChoice(idx, what, title, text) {
         this._addMessage(MessageType.CHOICE, Direction.FROM_ALMOND, {
-            choice_idx: idx,
+            choice_idx: String(idx),
             text: title
         });
     }

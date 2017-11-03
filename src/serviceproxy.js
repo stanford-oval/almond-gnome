@@ -20,7 +20,7 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <method name="Stop">
     </method>
     <method name="GetHistory">
-      <arg type="a(uua{ss})" name="history" direction="out" />
+      <arg type="a(uuua{ss})" name="history" direction="out" />
     </method>
     <method name="HandleCommand">
       <arg type="s" name="command" direction="in" />
@@ -79,9 +79,13 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="b" name="ok" direction="out" />
     </method>
     <signal name="NewMessage">
+      <arg type="u" name="message_id" />
       <arg type="u" name="message_type" />
       <arg type="u" name="direction" />
       <arg type="a{ss}" name="message" />
+    </signal>
+    <signal name="RemoveMessage">
+      <arg type="u" name="message_id" />
     </signal>
   </interface>
 </node>`;

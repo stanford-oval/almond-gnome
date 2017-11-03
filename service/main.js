@@ -30,7 +30,7 @@ const DBUS_CONTROL_INTERFACE = {
     name: 'edu.stanford.Almond.BackgroundService',
     methods: {
         Stop: ['', ''],
-        GetHistory: ['', 'a(uua{ss})'],
+        GetHistory: ['', 'a(uuua{ss})'],
         HandleCommand: ['s', ''],
         HandleParsedCommand: ['ss', ''],
         StartOAuth2: ['s', '(bsa{ss})'],
@@ -47,7 +47,8 @@ const DBUS_CONTROL_INTERFACE = {
         SetServerAddress: ['sus', 'b']
     },
     signals: {
-        'NewMessage': ['uua{ss}']
+        'NewMessage': ['uuua{ss}'],
+        'RemoveMessage': ['u']
     }
 }
 
@@ -67,7 +68,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetHistory() {
-        return _ad.getHistory().then((history) => history.map(([type, direction, message]) => [type, direction, marshallASS(message)]));
+        return _ad.getHistory().then((history) => history.map(([id, type, direction, message]) => [id, type, direction, marshallASS(message)]));
     }
 
     HandleCommand(command) {
@@ -236,7 +237,8 @@ function main() {
     platform.setAssistant(_ad);
 
     var controlChannel = new AppControlChannel();
-    _ad.on('NewMessage', (type, direction, msg) => controlChannel.emit('NewMessage', type, direction, marshallASS(msg)));
+    _ad.on('NewMessage', (id, type, direction, msg) => controlChannel.emit('NewMessage', id, type, direction, marshallASS(msg)));
+    _ad.on('RemoveMessage', (id) => controlChannel.emit('RemoveMessage', id));
 
     var bus = platform.getCapability('dbus-session');
     bus.exportInterface(controlChannel, '/edu/stanford/Almond/BackgroundService', DBUS_CONTROL_INTERFACE);

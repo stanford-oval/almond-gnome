@@ -34,6 +34,7 @@ const Message = new Lang.Class({
     Name: 'AssistantMessage',
     Extends: GObject.Object,
     Properties: {
+        message_id: GObject.ParamSpec.int('message-id', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, GLib.MAXINT32, 0),
         message_type: GObject.ParamSpec.int('message-type', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, MessageType.MAX, 0),
         direction: GObject.ParamSpec.int('direction', '','', GObject.ParamFlags.READWRITE, 0, 1, 0),
 
@@ -65,7 +66,7 @@ function makeAlmondWrapper(msg) {
     return box;
 }
 
-function makeUserWrapper(msg) {
+function makeGenericWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
                             spacing: 12 });
     box.get_style_context().add_class('message-container');
@@ -102,13 +103,17 @@ const MessageConstructors = {
         let box;
         if (msg.direction === Direction.FROM_ALMOND) {
             box = makeAlmondWrapper(msg);
-            label = new Gtk.Label({ wrap: true,
+            label = new Gtk.Label({
+                wrap: true,
+                hexpand: true,
                 halign: Gtk.Align.START,
                 xalign: 0 });
             label.get_style_context().add_class('from-almond');
         } else {
-            box = makeUserWrapper(msg);
-            label = new Gtk.Label({ wrap: true,
+            box = makeGenericWrapper(msg);
+            label = new Gtk.Label({
+                wrap: true,
+                hexpand: true,
                 halign: Gtk.Align.END,
                 xalign: 1 });
             label.get_style_context().add_class('from-user');
@@ -122,7 +127,7 @@ const MessageConstructors = {
 
     [MessageType.PICTURE](msg) {
         var box = makeAlmondWrapper(msg);
-        var image = new Gtk.Image();
+        var image = new Gtk.Image({ hexpand: true });
         image.get_style_context().add_class('message');
         image.get_style_context().add_class('from-almond');
 
@@ -140,20 +145,79 @@ const MessageConstructors = {
         return box;
     },
 
-    [MessageType.CHOICE]() {
-        return null;
+    [MessageType.CHOICE](msg, service) {
+        var box = makeGenericWrapper(msg);
+        var button = new Gtk.Button({
+            halign: Gtk.Align.CENTER,
+            hexpand: true });
+        msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
+        button.show();
+        button.connect('clicked', () => {
+            dbusPromiseify(service, 'HandleParsedCommandRemote', msg.text, JSON.stringify({answer:{type:'Choice', value: msg.choice_idx}})).catch((e) => {
+                log('Failed to click on button: ' + e);
+            });
+        });
+        box.pack_start(button, true, true, 0);
+        return box;
     },
 
     [MessageType.LINK]() {
         return null;
     },
 
-    [MessageType.BUTTON]() {
-        return null;
+    [MessageType.BUTTON](msg, service) {
+        var box = makeGenericWrapper(msg);
+        var button = new Gtk.Button({
+            halign: Gtk.Align.CENTER,
+            hexpand: true });
+        msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
+        button.show();
+        button.connect('clicked', () => {
+            dbusPromiseify(service, 'HandleParsedCommandRemote', msg.text, msg.json).catch((e) => {
+                log('Failed to click on button: ' + e);
+            });
+        });
+        box.pack_start(button, true, true, 0);
+        return box;
     },
 
-    [MessageType.ASK_SPECIAL]() {
-        return null;
+    [MessageType.ASK_SPECIAL](msg, service) {
+        if (msg.ask_special_what === 'yesno') {
+            var box = makeGenericWrapper(msg);
+            var button_box = new Gtk.ButtonBox({
+                layout_style: Gtk.ButtonBoxStyle.CENTER,
+                hexpand: true });
+
+            var yes = new Gtk.Button({
+                label: _("Yes"),
+                halign: Gtk.Align.CENTER,
+                hexpand: true });
+            yes.show();
+            yes.connect('clicked', () => {
+                dbusPromiseify(service, 'HandleParsedCommandRemote', _("Yes"), JSON.stringify({"special":"yes"})).catch((e) => {
+                    log('Failed to click on button: ' + e);
+                });
+            });
+            button_box.add(yes);
+
+            var no = new Gtk.Button({
+                label: _("No"),
+                halign: Gtk.Align.CENTER,
+                hexpand: true });
+            no.show();
+            no.connect('clicked', () => {
+                dbusPromiseify(service, 'HandleParsedCommandRemote', _("No"), JSON.stringify({"special":"no"})).catch((e) => {
+                    log('Failed to click on button: ' + e);
+                });
+            });
+            button_box.add(no);
+
+            button_box.show();
+            box.pack_start(button_box, true, true, 0);
+            return box;
+        } else {
+            // do something else...
+        }
     },
 
     [MessageType.RDL](msg) {
@@ -161,11 +225,13 @@ const MessageConstructors = {
         let text = `<a href="${GLib.markup_escape_text(msg.rdl_callback, -1)}">${GLib.markup_escape_text(msg.text, -1)}</a>`;
         if (msg.rdl_description)
             text += '\n' + GLib.markup_escape_text(msg.rdl_description, -1);
-        var label = new Gtk.Label({ wrap: true,
-                halign: Gtk.Align.START,
-                xalign: 0,
-                label: text,
-                use_markup: true });
+        var label = new Gtk.Label({
+            wrap: true,
+            hexpand: true,
+            halign: Gtk.Align.START,
+            xalign: 0,
+            label: text,
+            use_markup: true });
         label.get_style_context().add_class('message');
         label.get_style_context().add_class('from-almond');
         label.show();
@@ -190,16 +256,20 @@ const AssistantModel = new Lang.Class({
 
     _init(window, service, listbox) {
         this._service = service;
+        this._listbox = listbox;
 
         this._store = new Gio.ListStore();
         listbox.bind_model(this._store, (msg) => {
-            return MessageConstructors[msg.message_type](msg);
+            return MessageConstructors[msg.message_type](msg, service);
         });
     },
 
     start() {
-        this._signalId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
+        this._newMessageId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
             this._onNewMessage(params);
+        });
+        this._removeMessageId = this._service.connectSignal('RemoveMessage', (signal, sender, [id]) => {
+            this._onRemoveMessage(id);
         });
 
         return dbusPromiseify(this._service, 'GetHistoryRemote').then(([history]) => {
@@ -211,18 +281,34 @@ const AssistantModel = new Lang.Class({
     },
 
     stop() {
-        this._service.disconnectSignal(this._signalId);
-
+        this._service.disconnectSignal(this._newMessageId);
+        this._service.disconnectSignal(this._removeMessageId);
     },
 
-    _onNewMessage([type, direction, msg]) {
-        if (type === MessageType.ASK_SPECIAL) {
+    _onNewMessage([id, type, direction, msg]) {
+        if (type === MessageType.ASK_SPECIAL && msg.ask_special_what !== 'yesno') {
             // do something about it...
             return;
         }
+        if (type === MessageType.CHOICE)
+            msg.choice_idx = parseInt(msg.choice_idx);
 
+        msg.message_id = id;
         msg.message_type = type;
         msg.direction = direction;
         this._store.append(new Message(msg));
+    },
+
+    _onRemoveMessage(id) {
+        let n = this._store.get_n_items();
+
+        // start from the end, for the common case of buttons collapsing
+        for (let i = n-1; i >= 0; i--) {
+            let msg = this._store.get_item(i);
+            if (msg.message_id === id) {
+                this._store.remove(i);
+                break;
+            }
+        }
     }
 });
