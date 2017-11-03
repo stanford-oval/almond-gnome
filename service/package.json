@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "cvc4": "^0.1.1",
     "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
     "node-gettext": "^2.0.0",
     "omlib": "https://github.com/Stanford-Mobisocial-IoT-Lab/omclient/tarball/master",

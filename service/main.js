@@ -225,8 +225,7 @@ class AppControlChannel extends events.EventEmitter {
 }
 
 function main() {
-    platform = require('./platform');
-    platform.init();
+    platform = require('./platform').newInstance();
 
     console.log('GNOME platform initialized');
 
