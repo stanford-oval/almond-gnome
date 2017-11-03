@@ -2,3 +2,31 @@
     font-size: 4em;
     font-weight: bold;
 }
+
+.from-user {
+  border-image-source: url("resource:///edu/stanford/Almond/bubble_user.png");
+  border-image-slice: 88 130 93 97 fill;
+  border-image-width: 13px 24px 12px 24px;
+  padding: 13px 24px 12px 24px;
+}
+
+.from-almond {
+  border-image-source: url("resource:///edu/stanford/Almond/bubble_almond.png");
+  border-image-slice: 90 97 94 120 fill;
+  border-image-width: 13px 24px 12px 24px;
+  padding: 13px 24px 12px 24px;
+}
+
+#assistant-chat-listbox {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.message-container {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.message {
+  background-color: white;
+  background-clip: content-box;
+}

@@ -45,9 +45,8 @@ const MainWindow = new Lang.Class({
             if (!text)
                 return;
             if (text.startsWith('\\r ')) {
-                this._service.HandleParsedCommandRemote(text.substr('\\r '.length));
+                this._service.HandleParsedCommandRemote('', text.substr('\\r '.length));
             } else {
-                this._assistantModel.addUser(text);
                 this._service.HandleCommandRemote(text);
             }
             this._assistant_input.text = '';

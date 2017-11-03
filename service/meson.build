@@ -1,3 +1,2 @@
-run_command('npm', 'install')
+#run_command('npm', 'install')
 
-  

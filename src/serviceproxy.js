@@ -19,13 +19,14 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
   <interface name="edu.stanford.Almond.BackgroundService">
     <method name="Stop">
     </method>
-    <method name="SetAssistantOutput">
-      <arg type="o" name="output" direction="in" />
+    <method name="GetHistory">
+      <arg type="a(uua{ss})" name="history" direction="out" />
     </method>
     <method name="HandleCommand">
       <arg type="s" name="command" direction="in" />
     </method>
     <method name="HandleParsedCommand">
+      <arg type="s" name="title" direction="in" />
       <arg type="s" name="json" direction="in" />
     </method>
     <method name="StartOAuth2">
@@ -77,6 +78,11 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="s" name="authToken" direction="in" />
       <arg type="b" name="ok" direction="out" />
     </method>
+    <signal name="NewMessage">
+      <arg type="u" name="message_type" />
+      <arg type="u" name="direction" />
+      <arg type="a{ss}" name="message" />
+    </signal>
   </interface>
 </node>`;
 

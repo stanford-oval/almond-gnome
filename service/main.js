@@ -10,6 +10,7 @@
 console.log('ThingEngine-GNOME starting up...');
 
 const Q = require('q');
+const events = require('events');
 Q.longStackSupport = true;
 
 const Engine = require('thingengine-core');
@@ -29,9 +30,9 @@ const DBUS_CONTROL_INTERFACE = {
     name: 'edu.stanford.Almond.BackgroundService',
     methods: {
         Stop: ['', ''],
-        SetAssistantOutput: ['o', ''],
+        GetHistory: ['', 'a(uua{ss})'],
         HandleCommand: ['s', ''],
-        HandleParsedCommand: ['s', ''],
+        HandleParsedCommand: ['ss', ''],
         StartOAuth2: ['s', '(bsa{ss})'],
         HandleOAuth2Callback: ['sa{sv}', 'b'],
         CreateDevice: ['a{sv}', 'b'],
@@ -45,10 +46,17 @@ const DBUS_CONTROL_INTERFACE = {
         SetCloudId: ['ss', 'b'],
         SetServerAddress: ['sus', 'b']
     },
-    signals: {}
+    signals: {
+        'NewMessage': ['uua{ss}']
+    }
 }
 
-class AppControlChannel {
+// marshall one a{ss} into something that dbus-native will like
+function marshallASS(obj) {
+    return Object.keys(obj).map((key) => [key, obj[key]]);
+}
+
+class AppControlChannel extends events.EventEmitter {
     // handle control methods here...
 
     Stop() {
@@ -58,16 +66,16 @@ class AppControlChannel {
             _stopped = true;
     }
 
-    SetAssistantOutput(path, msg) {
-        return _ad.setAssistantOutput(msg.sender, path);
+    GetHistory() {
+        return _ad.getHistory().then((history) => history.map(([type, direction, message]) => [type, direction, marshallASS(message)]));
     }
 
     HandleCommand(command) {
         return _ad.handleCommand(command);
     }
 
-    HandleParsedCommand(json) {
-        return _ad.handleParsedCommand(json);
+    HandleParsedCommand(title, json) {
+        return _ad.handleParsedCommand(title, json);
     }
 
     StartOAuth2(kind) {
@@ -224,10 +232,11 @@ function main() {
     console.log('Creating engine...');
     _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
 
-    _ad = new AssistantDispatcher(_engine);
+    _ad = new AssistantDispatcher(_engine, controlChannel);
     platform.setAssistant(_ad);
 
     var controlChannel = new AppControlChannel();
+    _ad.on('NewMessage', (type, direction, msg) => controlChannel.emit('NewMessage', type, direction, marshallASS(msg)));
 
     var bus = platform.getCapability('dbus-session');
     bus.exportInterface(controlChannel, '/edu/stanford/Almond/BackgroundService', DBUS_CONTROL_INTERFACE);
