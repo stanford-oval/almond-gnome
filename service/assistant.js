@@ -29,7 +29,7 @@ class AssistantDispatcher {
         this._engine = engine;
         this._conversation = null;
 
-        this._bus = platform.getCapability('dbus-session');
+        this._bus = engine.platform.getCapability('dbus-session');
         this._output = null;
     }
 
@@ -62,14 +62,14 @@ class AssistantDispatcher {
         this._conversation.start();
     }
 
-    notifyAll(data) {
+    notifyAll(...data) {
         this._ensureConversation();
-        return this._conversation.notify(data);
+        return this._conversation.notify(...data);
     }
 
-    notifyErrorAll(data) {
+    notifyErrorAll(...data) {
         this._ensureConversation();
-        return this._conversation.notifyError(data);
+        return this._conversation.notifyError(...data);
     }
 
     getConversation() {

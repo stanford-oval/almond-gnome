@@ -11,15 +11,17 @@ console.log('ThingEngine-GNOME starting up...');
 
 const Q = require('q');
 Q.longStackSupport = true;
-setTimeout(function() { }, 100000);
 
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
+
+const Config = require('./config');
 
 var _engine, _ad;
 var _waitReady;
 var _running;
 var _stopped;
+var platform;
 
 const DBUS_CONTROL_PATH = '/edu/stanford/Almond/BackgroundService';
 
@@ -214,18 +216,13 @@ class AppControlChannel {
 }
 
 function main() {
-    Q.longStackSupport = true;
-
-    // we would like to create the control channel without
-    // initializing the platform but we can't because the
-    // control channels needs paths and encodings from the platform
-    global.platform = require('./platform');
+    platform = require('./platform');
     platform.init();
 
     console.log('GNOME platform initialized');
 
     console.log('Creating engine...');
-    _engine = new Engine(global.platform);
+    _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
 
     _ad = new AssistantDispatcher(_engine);
     platform.setAssistant(_ad);

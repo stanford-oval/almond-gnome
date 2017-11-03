@@ -7,3 +7,4 @@
 // See COPYING for details
 
 module.exports.SEMPRE_URL = 'https://sabrina-nl.stanford.edu';
+module.exports.THINGPEDIA_URL = 'https://thingpedia.stanford.edu/thingpedia';

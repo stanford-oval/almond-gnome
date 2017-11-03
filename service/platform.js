@@ -101,7 +101,7 @@ module.exports = {
         // normalize this._locale to something that Intl can grok
         this._locale = this._locale.split(/[-_\.@]/).slice(0,2).join('-');
 
-        this._gettext.setlocale(this._locale);
+        this._gettext.setLocale(this._locale);
         this._timezone = process.env.TZ;
         this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
         cacheDir = getUserCacheDir() + '/almond';

@@ -4,8 +4,7 @@
   "private": true,
   "dependencies": {
     "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
-    "leveldown": "^1.4.6",
-    "node-gettext": "https://github.com/gcampax/node-gettext/tarball/master",
+    "node-gettext": "^2.0.0",
     "omlib": "https://github.com/Stanford-Mobisocial-IoT-Lab/omclient/tarball/master",
     "posix": "^4.1.1",
     "q": "~1.4.0",
