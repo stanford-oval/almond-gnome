@@ -6,7 +6,7 @@
     "sdk-extensions": [
         "org.freedesktop.Sdk.Extension.gfortran-62"
     ],
-    "command": "/app/share/edu.stanford.Almond/edu.stanford.Almond",
+    "command": "/app/bin/edu.stanford.Almond",
     "tags": ["nightly"],
     "finish-args": [
         "--share=ipc", "--socket=x11",
@@ -24,7 +24,7 @@
                 "/share/vala",
                 "/bin/npm", "/bin/cvc4", "/bin/antlr3", "/bin/pi",
                 "/lib/yarn", "/bin/yarn",
-                "*.la", "*.a", "Makefile", "binding.gyp"],
+                "*.la", "*.a", "Makefile", "binding.gyp", "*.o", "*.d"],
     "modules": [
          {
             "name": "node",
@@ -167,15 +167,18 @@
             "build-options": {
                 "env": {
                     "npm_config_nodedir": "/app"
-                },
-                "build-args": [
-                    "--share=network"
-                ]
+                }
             },
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-platform-gnome"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "cd ./service && yarn"
+                    ]
                 }
             ]
         }

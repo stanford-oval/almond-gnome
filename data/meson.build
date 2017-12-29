@@ -1,7 +1,4 @@
-iconsdir = join_paths(get_option('datadir'), 'icons/hicolor')
-foreach size: ['512x512']
-  install_subdir('icons/hicolor/' + size, install_dir: iconsdir)
-endforeach
+install_subdir('icons', install_dir: get_option('datadir'))
 
 data_resource = gnome.compile_resources(app_id + '.data',
   app_id + '.data.gresource.xml',
