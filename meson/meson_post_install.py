@@ -30,6 +30,6 @@ except FileNotFoundError:
 shutil.copytree(sourcedir, servicedir, symlinks=True)
 
 yarn = os.environ.get('YARN', 'yarn')
-subprocess.check_call([yarn, "install", "--offline", "--frozen-lockfile"], cwd=servicedir)
+subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile"], cwd=servicedir)
 
 shutil.rmtree(os.path.join(servicedir, "deps"))

@@ -3,20 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "almond": "https://github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent#stable",
+    "almond": "github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent#stable",
     "cvc4": "^0.1.1",
-    "dbus-native": "https://github.com/gcampax/node-dbus/tarball/master",
+    "dbus-native": "github:gcampax/node-dbus#master",
     "node-gettext": "^2.0.0",
     "node-mimic": "0.0.1",
-    "omlib": "https://github.com/Stanford-Mobisocial-IoT-Lab/omclient/tarball/master",
+    "omlib": "github:Stanford-Mobisocial-IoT-Lab/omclient#master",
     "posix": "^4.1.1",
     "pulseaudio": "bitbucket:gcampax/node-pulseaudio",
     "q": "~1.4.0",
     "snowboy": "^1.2.0",
     "sqlite3": "^3.1.4",
-    "thingengine-core": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core#stable",
-    "thingpedia": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api#stable",
-    "thingpedia-discovery": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-discovery#stable",
-    "thingtalk": "https://github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk#stable"
+    "thingengine-core": "github:Stanford-Mobisocial-IoT-Lab/thingengine-core#stable",
+    "thingpedia": "github:Stanford-Mobisocial-IoT-Lab/thingpedia-api#stable",
+    "thingpedia-discovery": "github:Stanford-Mobisocial-IoT-Lab/thingpedia-discovery#stable",
+    "thingtalk": "github:Stanford-Mobisocial-IoT-Lab/ThingTalk#stable"
+  },
+  "devDependencies": {
+    "@yarnpkg/lockfile": "^1.0.0"
   }
 }
