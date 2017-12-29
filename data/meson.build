@@ -17,7 +17,6 @@ desktop = intl.merge_file(
 
 gsettingsdir = join_paths(get_option('datadir'), 'glib-2.0', 'schemas')
 install_data(app_id + '.gschema.xml', install_dir : gsettingsdir)
-meson.add_install_script('../meson/meson_post_install.py')
 
 appdatadir = join_paths(get_option('datadir'), 'appdata')
 appdata = intl.merge_file(

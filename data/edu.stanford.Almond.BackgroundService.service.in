@@ -1,3 +1,3 @@
 [D-BUS Service]
 Name=edu.stanford.Almond.BackgroundService
-Exec=@NODE@ @pkglibdir@/service/main.js
+Exec=@NODE@ @prefix@/lib/edu.stanford.Almond/service/main.js

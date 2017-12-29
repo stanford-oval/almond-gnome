@@ -10,7 +10,7 @@ app_launcher = configure_file(
   input : app_id + '.in',
   configuration: app_configuration)
 install_data(app_launcher,
-  install_dir: get_option('bindir'),
+  install_dir: pkgdatadir,
   install_mode: 'rwxr-xr-x'
 )
 

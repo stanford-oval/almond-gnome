@@ -1,0 +1,183 @@
+{
+    "app-id": "edu.stanford.Almond",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "master",
+    "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.gfortran-62"
+    ],
+    "command": "/app/share/edu.stanford.Almond/edu.stanford.Almond",
+    "tags": ["nightly"],
+    "finish-args": [
+        "--share=ipc", "--socket=x11",
+        "--socket=wayland",
+        "--socket=pulseaudio",
+        "--share=network",
+        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--system-talk-name=org.bluez"
+    ],
+    "cleanup": ["/include", "/lib/pkgconfig",
+                "/share/pkgconfig", "/share/aclocal",
+                "/lib/cmake",
+                "/man", "/share/man", "/share/gtk-doc",
+                "/share/vala",
+                "/bin/npm", "/bin/cvc4", "/bin/antlr3", "/bin/pi",
+                "/lib/yarn", "/bin/yarn",
+                "*.la", "*.a", "Makefile", "binding.gyp"],
+    "modules": [
+         {
+            "name": "node",
+            "config-opts": ["--openssl-use-def-ca-store", "--shared-openssl", "--shared-zlib",
+                            "--with-intl=full-icu"],
+            "sources": [
+                {
+                    "type": "archive",
+                    "sha256": "33677c1fcf6a2f35d2718834fd0afdb36166b0cc68349820e05d8f9316b1dafc",
+                    "url": "https://nodejs.org/download/release/v6.12.2/node-v6.12.2.tar.xz"
+                },
+                {
+                    "type": "archive",
+                    "sha256": "0c124e7ed7edfc9f942a13126becc2ddd60d2afc3f3b6f7c3c763b49f02f782c",
+                    "url": "https://ssl.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.zip",
+                    "dest": "deps/icu"
+                }
+            ]
+        },
+        {
+            "name": "lapack",
+            "buildsystem": "cmake",
+            "builddir": true,
+            "config-opts": ["-DBUILD_SHARED_LIBS=ON", "-DCBLAS=ON", "-DCMAKE_INSTALL_LIBDIR=lib"],
+            "build-options": {
+                "env": {
+                    "FC": "/usr/lib/sdk/gfortran-62/bin/gfortran"
+                }
+            },
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.netlib.org/lapack/lapack-3.8.0.tar.gz",
+                    "sha256": "deb22cc4a6120bff72621155a9917f485f96ef8319ac074a7afbc68aab88bcf6"
+                }
+            ]
+        },
+        {
+            "name": "cln",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.ginac.de/CLN/cln-1.3.4.tar.bz2",
+                    "sha256": "2d99d7c433fb60db1e28299298a98354339bdc120d31bb9a862cafc5210ab748"
+                }
+            ]
+        },
+        {
+            "name": "antlr3",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -m 0755 -d /app/share/java",
+                "install -m 0644 antlr-3.4-complete.jar /app/share/java",
+                "echo 'java -cp /app/share/java/antlr-3.4-complete.jar org.antlr.Tool \"\\$@\"' > /app/bin/antlr3",
+                "chmod 0755 /app/bin/antlr3"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "url": "http://www.antlr3.org/download/antlr-3.4-complete.jar",
+                    "sha256": "9d3e866b610460664522520f73b81777b5626fb0a282a5952b9800b751550bf7"
+                }
+            ]
+        },
+        {
+            "name": "libantlr3",
+            "config-opts": ["--disable-static", "--enable-shared", "--disable-antlrdebug", "--with-pic"],
+            "build-options": {
+                "arch": {
+                    "x86_64": {
+                        "config-opts": ["--enable-64bit", "--disable-static", "--enable-shared", "--disable-antlrdebug", "--with-pic"]
+                    }
+                }
+            },
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.antlr3.org/download/C/libantlr3c-3.4.tar.gz",
+                    "sha256": "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
+                }
+            ]
+        },
+        {
+            "name": "boost",
+            "buildsystem": "simple",
+            "build-commands": [
+                "./bootstrap.sh",
+                "./b2 -j8 link=shared runtime-link=shared threading=multi variant=release --without-math --without-python install --prefix=/app"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2",
+                    "sha256": "5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9"
+                }
+            ]
+        },
+        {
+            "name": "cvc4",
+            "config-opts": ["--with-build=production", "--enable-optimized", "--with-cln", "--without-readline",
+                            "--enable-gpl", "--without-compat"],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://cvc4.cs.stanford.edu/downloads/builds/src/cvc4-1.5.tar.gz",
+                    "sha256": "5d6b4f8ee8420f85e3f804181341cedf6ea32342c48f355a5be87754152b14e9"
+                }
+            ]
+        },
+        {
+            "name": "mimic",
+            "config-opts": ["--enable-shared", "--disable-static", "--with-audio=no"],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/MycroftAI/mimic",
+                    "tag": "1.2.0.2",
+                    "commit": "67e43bf0fa56008276b878ec3790aa5f32eb2a16"
+                }
+            ]
+        },
+        {
+            "name": "yarn",
+            "buildsystem": "simple",
+            "build-commands": [
+                "cp -r . /app/lib/yarn",
+                "ln -s /app/lib/yarn/bin/yarn /app/bin/yarn"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/yarnpkg/yarn/releases/download/v1.3.2/yarn-v1.3.2.tar.gz",
+                    "sha256": "6cfe82e530ef0837212f13e45c1565ba53f5199eec2527b85ecbcd88bf26821d"
+                }
+            ]
+        },
+        {
+            "name": "thingengine-platform-gnome",
+            "buildsystem": "meson",
+            "build-options": {
+                "env": {
+                    "npm_config_nodedir": "/app"
+                },
+                "build-args": [
+                    "--share=network"
+                ]
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-platform-gnome"
+                }
+            ]
+        }
+    ]
+}
