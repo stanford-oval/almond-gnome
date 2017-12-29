@@ -245,10 +245,10 @@
         },
         {
           "type": "file",
-          "url": "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-1.1.0.tgz#8975e091064839b38fe795719fbc6cee5170f7b8",
-          "sha256": "f926204f18cfacf44684378966d0843252910280df8565f773516b0e2899ab86",
+          "url": "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-2.0.0.tgz#d83c93e7df30d27e23f3e82a763e7f5e78d916f9",
+          "sha256": "da48f8e58382d95cde46a141765f64f391fe6ba67adc9b2b902bb4b68d075edc",
           "dest": "service/deps",
-          "dest-filename": "abstract-socket-1.1.0.tgz"
+          "dest-filename": "abstract-socket-2.0.0.tgz"
         },
         {
           "type": "file",
@@ -581,10 +581,10 @@
         },
         {
           "type": "file",
-          "url": "https://codeload.github.com/gcampax/node-dbus/tar.gz/6031f1c2f294291d1113c26acd4aeba1e4dc9b44",
-          "sha256": "b96de37974b4c370916fc879eef30db50c8fca2e5a6cdf38712ee31514d21dee",
+          "url": "https://codeload.github.com/gcampax/node-dbus/tar.gz/b5d903ac1841f9f5c24168f1ff18eeec11221213",
+          "sha256": "301bc2f77d8204c02d7b547c5c21076f60f2d47bd455886a0b2183351d382e45",
           "dest": "service/deps",
-          "dest-filename": "6031f1c2f294291d1113c26acd4aeba1e4dc9b44"
+          "dest-filename": "b5d903ac1841f9f5c24168f1ff18eeec11221213"
         },
         {
           "type": "file",
@@ -833,6 +833,13 @@
         },
         {
           "type": "file",
+          "url": "https://registry.yarnpkg.com/hexy/-/hexy-0.2.10.tgz#eb9504947ad293ede2f554ddb14d0891a07a16b5",
+          "sha256": "f835fce4d27c48c4a4ab58f2c60322faa2794e5a844fee77a803ff2acbb87dfc",
+          "dest": "service/deps",
+          "dest-filename": "hexy-0.2.10.tgz"
+        },
+        {
+          "type": "file",
           "url": "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed",
           "sha256": "b203a87561b58b0c712cf1df4a5b362d3709b851c5e6cc4bfa7c020bd372672d",
           "dest": "service/deps",
@@ -987,6 +994,13 @@
         },
         {
           "type": "file",
+          "url": "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b",
+          "sha256": "a5b10daf8eaa2e6507a3e9e648016cdc9777857ad501917316a5228aa5f3d9cb",
+          "dest": "service/deps",
+          "dest-filename": "long-3.2.0.tgz"
+        },
+        {
+          "type": "file",
           "url": "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194",
           "sha256": "2a72c6e4d972decd6d9fc3fe803b7bfd963ad0b84f601e79fa10f700c8b563ba",
           "dest": "service/deps",
@@ -1033,6 +1047,13 @@
           "sha256": "ec0d0bdf71837612eea9fa61e5689e14856807946d499ce6ebf062ba09a5f270",
           "dest": "service/deps",
           "dest-filename": "minimist-1.2.0.tgz"
+        },
+        {
+          "type": "file",
+          "url": "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf",
+          "sha256": "73e03ee5fba64f3ee864fa90aacd4fc799e427a0555e27b41dd1988a35ffcb76",
+          "dest": "service/deps",
+          "dest-filename": "minimist-0.0.10.tgz"
         },
         {
           "type": "file",
@@ -1159,6 +1180,13 @@
           "sha256": "cf51460ba370c698f68b976e514d113497339ba018b6003e8e8eb569c6fccfcf",
           "dest": "service/deps",
           "dest-filename": "once-1.4.0.tgz"
+        },
+        {
+          "type": "file",
+          "url": "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686",
+          "sha256": "56425fd38177f312912848ff242a684e0c69a03a4c370f49269e1411e031a1a5",
+          "dest": "service/deps",
+          "dest-filename": "optimist-0.6.1.tgz"
         },
         {
           "type": "file",
@@ -1607,6 +1635,13 @@
           "sha256": "e1538f1c765d5151940c93196b6d151300805666fd5e8eaaba65fa7747e47615",
           "dest": "service/deps",
           "dest-filename": "wide-align-1.1.2.tgz"
+        },
+        {
+          "type": "file",
+          "url": "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107",
+          "sha256": "419fcd999c644377c678ea8315aacf9bda442cd75bdfa50aee3918dd917ae274",
+          "dest": "service/deps",
+          "dest-filename": "wordwrap-0.0.3.tgz"
         },
         {
           "type": "file",

@@ -10,9 +10,9 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abstract-socket@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-1.1.0.tgz#8975e091064839b38fe795719fbc6cee5170f7b8"
+abstract-socket@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-2.0.0.tgz#d83c93e7df30d27e23f3e82a763e7f5e78d916f9"
   dependencies:
     bindings "^1.2.1"
     nan "^2.0.9"
@@ -263,15 +263,18 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 "dbus-native@github:gcampax/node-dbus#master":
-  version "0.2.0"
-  resolved "https://codeload.github.com/gcampax/node-dbus/tar.gz/6031f1c2f294291d1113c26acd4aeba1e4dc9b44"
+  version "0.2.3"
+  resolved "https://codeload.github.com/gcampax/node-dbus/tar.gz/b5d903ac1841f9f5c24168f1ff18eeec11221213"
   dependencies:
     event-stream "^3.1.7"
+    hexy "^0.2.10"
+    long "^3.0.1"
+    optimist "^0.6.1"
     put "0.0.6"
-    q "^1.4.1"
+    safe-buffer "^5.1.1"
     xml2js "0.1.14"
   optionalDependencies:
-    abstract-socket "^1.0.1"
+    abstract-socket "^2.0.0"
 
 debug@^2.2.0:
   version "2.6.9"
@@ -478,6 +481,10 @@ hawk@~6.0.2:
     hoek "4.x.x"
     sntp "2.x.x"
 
+hexy@^0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/hexy/-/hexy-0.2.10.tgz#eb9504947ad293ede2f554ddb14d0891a07a16b5"
+
 hoek@2.x.x:
   version "2.16.3"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
@@ -586,6 +593,10 @@ lokijs@^1.3.16:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/lokijs/-/lokijs-1.5.1.tgz#7e1b20217142ec2a68ecc5476cbb6c80fc3ffa56"
 
+long@^3.0.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
+
 map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
@@ -623,6 +634,10 @@ minimist@0.0.8:
 minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
+
+minimist@~0.0.1:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 "mkdirp@>=0.5 0", mkdirp@^0.5.1:
   version "0.5.1"
@@ -738,6 +753,13 @@ once@^1.3.0, once@^1.3.3:
   dependencies:
     wrappy "1"
 
+optimist@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
+  dependencies:
+    minimist "~0.0.1"
+    wordwrap "~0.0.2"
+
 options@>=0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
@@ -797,7 +819,7 @@ put@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/put/-/put-0.0.6.tgz#30f5f60bd6e4389bd329e16a25386cbb2e4a00a3"
 
-q@^1.4.1, q@^1.5.0:
+q@^1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
 
@@ -1155,6 +1177,10 @@ wide-align@^1.1.0:
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
   dependencies:
     string-width "^1.0.2"
+
+wordwrap@~0.0.2:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 wrappy@1:
   version "1.0.2"
