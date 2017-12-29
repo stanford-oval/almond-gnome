@@ -12,13 +12,15 @@ const Params = imports.params;
 
 const Util = imports.util;
 const AssistantModel = imports.chatmodel.AssistantModel;
+const DeviceModel = imports.devicemodel.DeviceModel;
 
-const MainWindow = new Lang.Class({
+var MainWindow = new Lang.Class({
     Name: 'MainWindow',
     Extends: Gtk.ApplicationWindow,
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
-    InternalChildren: ['main-stack', 'assistant-chat-listbox', 'assistant-input'],
+    InternalChildren: ['main-stack', 'assistant-chat-listbox',
+        'assistant-input', 'my-stuff-grid-view'],
 
     _init: function(app, service) {
         this.parent({ application: app,
@@ -31,13 +33,22 @@ const MainWindow = new Lang.Class({
                             activate: this._about },
                           { name: 'switch-to',
                             activate: this._switchTo,
-                            parameter_type: new GLib.VariantType('s') }]);
+                            parameter_type: new GLib.VariantType('s') },
+                          { name: 'new-device',
+                            activate: this._configureNewDevice },
+                          { name: 'new-account',
+                            activate: this._configureNewAccount }]);
 
         this._service = service;
         this._assistantModel = new AssistantModel(this, service, this._assistant_chat_listbox);
         this._assistantModel.start();
+        this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
+        this._deviceModel.start();
 
-        this.connect('destroy', () => this._assistantModel.stop());
+        this.connect('destroy', () => {
+            this._assistantModel.stop();
+            this._deviceModel.stop();
+        });
 
         this._assistant_input.connect('activate', () => {
             var text = this._assistant_input.text || '';
@@ -56,6 +67,16 @@ const MainWindow = new Lang.Class({
     _switchTo: function(action, page) {
         let [pageName, len] = page.get_string();
         this._main_stack.visible_child_name = pageName;
+    },
+
+    _configureNewDevice() {
+        this._configureNew('physical');
+    },
+    _configureNewAccount() {
+        this._configureNew('online');
+    },
+    _configureNew(klass) {
+        // do something
     },
 
     _about: function() {

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/edu/stanford/Almond/js">
+    <file>chatmodel.js</file>
+    <file>config.js</file>
+    <file>devicemodel.js</file>
     <file>main.js</file>
     <file>params.js</file>
+    <file>serviceproxy.js</file>
     <file>util.js</file>
     <file>window.js</file>
-    <file>chatmodel.js</file>
-    <file>serviceproxy.js</file>
   </gresource>
 </gresources>

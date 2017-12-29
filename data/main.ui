@@ -28,18 +28,27 @@
                     <property name="name">assistant-chat-listbox</property>
                     <property name="selection-mode">none</property>
                   </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
                 </child>
               </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="assistant-input">
+              <object class="GtkActionBar">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
+                <child>
+                  <object class="GtkEntry" id="assistant-input">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hexpand">True</property>
+                  </object>
+                  <packing>
+                    <property name="pack_type">start</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -53,22 +62,70 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
+            <property name="can_focus">False</property>
             <child>
-              <object class="GtkFlowBox">
+              <object class="GtkScrolledWindow">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkFlowBox" id="my-stuff-grid-view">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="homogeneous">True</property>
+                    <property name="selection-mode">none</property>
+                  </object>
+                </child>
               </object>
               <packing>
-                <property name="name">page-my-stuff</property>
-                <property name="title" translatable="yes">My Goods</property>
-                <property name="position">1</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkActionBar">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkButton" id="configure-new-device">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="use_underline">True</property>
+                    <property name="label" translatable="yes">Configure New _Device</property>
+                    <property name="action-name">win.new-device</property>
+                  </object>
+                  <packing>
+                    <property name="pack_type">start</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="configure-new-account">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="use_underline">True</property>
+                    <property name="label" translatable="yes">Configure New _Account</property>
+                    <property name="action-name">win.new-account</property>
+                  </object>
+                  <packing>
+                    <property name="pack_type">start</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="name">page-my-stuff</property>
+            <property name="title" translatable="yes">My Goods</property>
+            <property name="position">1</property>
+          </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow">
@@ -86,6 +143,24 @@
             <property name="name">page-my-rules</property>
             <property name="title" translatable="yes">My Rules</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkListBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">page-my-permissions</property>
+            <property name="title" translatable="yes">My Permissions</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
@@ -132,6 +207,11 @@
         <attribute name="action">win.switch-to</attribute>
         <attribute name="target">page-my-rules</attribute>
         <attribute name="label" translatable="yes">My Rules</attribute>
+      </item>
+      <item>
+        <attribute name="action">win.switch-to</attribute>
+        <attribute name="target">page-my-permissions</attribute>
+        <attribute name="label" translatable="yes">My Permissions</attribute>
       </item>
     </section>
   </menu>

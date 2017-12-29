@@ -13,6 +13,7 @@ const Lang = imports.lang;
 const Params = imports.params;
 
 const Util = imports.util;
+const Config = imports.config;
 
 const Direction = {
     FROM_ALMOND: 0,
@@ -62,7 +63,7 @@ function makeAlmondWrapper(msg) {
     box.halign = Gtk.Align.START;
 
     let deviceIcon = msg.icon || 'org.thingpedia.builtin.thingengine.builtin';
-    icon.gicon = new Gio.FileIcon({ file: Gio.File.new_for_uri('https://d1ge76rambtuys.cloudfront.net/icons/' + deviceIcon + '.png') });
+    icon.gicon = new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.S3_CLOUDFRONT_HOST + '/icons/' + deviceIcon + '.png') });
     return box;
 }
 
@@ -251,10 +252,8 @@ function dbusPromiseify(obj, fn, ...args) {
     });
 }
 
-const AssistantModel = new Lang.Class({
-    Name: 'AssistantModel',
-
-    _init(window, service, listbox) {
+var AssistantModel = class AssistantModel {
+    constructor(window, service, listbox) {
         this._service = service;
         this._listbox = listbox;
 
@@ -262,7 +261,7 @@ const AssistantModel = new Lang.Class({
         listbox.bind_model(this._store, (msg) => {
             return MessageConstructors[msg.message_type](msg, service);
         });
-    },
+    }
 
     start() {
         this._newMessageId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
@@ -278,12 +277,12 @@ const AssistantModel = new Lang.Class({
         }).catch((e) => {
             log('Failed to retrieve the assistant history: ' + e);
         });
-    },
+    }
 
     stop() {
         this._service.disconnectSignal(this._newMessageId);
         this._service.disconnectSignal(this._removeMessageId);
-    },
+    }
 
     _onNewMessage([id, type, direction, msg]) {
         if (type === MessageType.ASK_SPECIAL && msg.ask_special_what !== 'yesno') {
@@ -297,7 +296,7 @@ const AssistantModel = new Lang.Class({
         msg.message_type = type;
         msg.direction = direction;
         this._store.append(new Message(msg));
-    },
+    }
 
     _onRemoveMessage(id) {
         let n = this._store.get_n_items();
@@ -311,4 +310,4 @@ const AssistantModel = new Lang.Class({
             }
         }
     }
-});
+};

@@ -48,7 +48,9 @@ const DBUS_CONTROL_INTERFACE = {
     },
     signals: {
         'NewMessage': ['uuua{ss}'],
-        'RemoveMessage': ['u']
+        'RemoveMessage': ['u'],
+        'DeviceAdded': ['a{sv}'],
+        'DeviceRemoved': ['s']
     }
 }
 
@@ -59,6 +61,18 @@ function marshallASS(obj) {
 
 class AppControlChannel extends events.EventEmitter {
     // handle control methods here...
+    constructor() {
+        super();
+
+        _ad.on('NewMessage', (id, type, direction, msg) => this.emit('NewMessage', id, type, direction, marshallASS(msg)));
+        _ad.on('RemoveMessage', (id) => this.emit('RemoveMessage', id));
+        _engine.devices.on('device-added', (device) => {
+            this.emit('DeviceAdded', this._toDeviceInfo(device));
+        });
+        _engine.devices.on('device-removed', (device) => {
+            this.emit('DeviceRemoved', device.uniqueId);
+        });
+    }
 
     Stop() {
         if (_running)
@@ -82,9 +96,9 @@ class AppControlChannel extends events.EventEmitter {
     StartOAuth2(kind) {
         return _engine.devices.factory.runOAuth2(kind, null).then(function(result) {
             if (result === null)
-                return [false, '', {}];
+                return [false, '', []];
             else
-                return [true, result[0], result[1]];
+                return [true, result[0], marshallASS(result[1])];
         });
     }
 
@@ -115,48 +129,46 @@ class AppControlChannel extends events.EventEmitter {
         });
     }
 
-    GetDeviceInfos() {
-        return _waitReady.then(function() {
-            var devices = _engine.devices.getAllDevices();
+    _toDeviceInfo(d) {
+        let deviceKlass = 'physical';
+        if (d.hasKind('data-source'))
+            deviceKlass = 'data';
+        else if (d.hasKind('online-account'))
+            deviceKlass = 'online';
+        else if (d.hasKind('thingengine-system'))
+            deviceKlass = 'system';
 
-            return devices.map(function(d) {
-                return [['uniqueId', ['s', d.uniqueId]],
-                        ['name', ['s', d.name || "Unknown device"]],
-                        ['description', ['s', d.description || "Description not available"]],
-                        ['kind', ['s', d.kind]],
-                        ['ownerTier', ['s', d.ownerTier]],
-                        ['version', ['u', d.constructor.version || 0]],
-                        ['isTransient', ['b', d.isTransient]],
-                        ['isOnlineAccount', ['b', d.hasKind('online-account')]],
-                        ['isDataSource', ['b', d.hasKind('data-source')]],
-                        ['isThingEngine', ['b', d.hasKind('thingengine-system')]]];
-            });
+        return [['uniqueId', ['s', d.uniqueId]],
+                ['name', ['s', d.name || "Unknown device"]],
+                ['description', ['s', d.description || "Description not available"]],
+                ['kind', ['s', d.kind]],
+                ['version', ['u', d.constructor.version || 0]],
+                ['class', ['s', deviceKlass]],
+                ['ownerTier', ['s', d.ownerTier]],
+                ['isTransient', ['b', d.isTransient]]];
+    }
+
+    GetDeviceInfos() {
+        return _waitReady.then(() => {
+            var devices = _engine.devices.getAllDevices();
+            return devices.map(this._toDeviceInfo, this);
         }, function(e) {
             return [];
         });
     }
 
     GetDeviceInfo(uniqueId) {
-        return _waitReady.then(function() {
+        return _waitReady.then(() => {
             var d = _engine.devices.getDevice(uniqueId);
             if (d === undefined)
                 throw new Error('Invalid device ' + uniqueId);
 
-            return [['uniqueId', ['s', d.uniqueId]],
-                    ['name', ['s', d.name || "Unknown device"]],
-                    ['description', ['s', d.description || "Description not available"]],
-                    ['kind', ['s', d.kind]],
-                    ['ownerTier', ['s', d.ownerTier]],
-                    ['version', ['u', d.constructor.version || 0]],
-                    ['isTransient', ['b', d.isTransient]],
-                    ['isOnlineAccount', ['b', d.hasKind('online-account')]],
-                    ['isDataSource', ['b', d.hasKind('data-source')]],
-                    ['isThingEngine', ['b', d.hasKind('thingengine-system')]]];
+            return this._toDeviceInfo(d);
         });
     }
 
     CheckDeviceAvailable(uniqueId) {
-        return _waitReady.then(function() {
+        return _waitReady.then(() => {
             var d = _engine.devices.getDevice(uniqueId);
             if (d === undefined)
                 return -1;
@@ -166,10 +178,10 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetAppInfos() {
-        return _waitReady.then(function() {
+        return _waitReady.then(() => {
             var apps = _engine.apps.getAllApps();
 
-            return apps.map(function(a) {
+            return apps.map((a) => {
                 var app =  [['uniqueId', ['s', a.uniqueId]],
                             ['name', ['s', a.name || "Some app"]],
                             ['description', ['s', a.description || a.name || "Some app"]],
@@ -183,7 +195,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     DeleteApp(uniqueId) {
-        return _waitReady.then(function() {
+        return _waitReady.then(() => {
             var app = _engine.apps.getApp(uniqueId);
             if (app === undefined)
                 return false;
@@ -236,8 +248,6 @@ function main() {
     platform.setAssistant(_ad);
 
     var controlChannel = new AppControlChannel();
-    _ad.on('NewMessage', (id, type, direction, msg) => controlChannel.emit('NewMessage', id, type, direction, marshallASS(msg)));
-    _ad.on('RemoveMessage', (id) => controlChannel.emit('RemoveMessage', id));
 
     var bus = platform.getCapability('dbus-session');
     bus.exportInterface(controlChannel, '/edu/stanford/Almond/BackgroundService', DBUS_CONTROL_INTERFACE);

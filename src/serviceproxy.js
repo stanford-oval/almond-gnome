@@ -87,7 +87,13 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <signal name="RemoveMessage">
       <arg type="u" name="message_id" />
     </signal>
+    <signal name="DeviceAdded">
+      <arg type="a{sv}" name="device" />
+    </signal>
+    <signal name="DeviceRemoved">
+      <arg type="s" name="unique_id" />
+    </signal>
   </interface>
 </node>`;
 
-const Service = Gio.DBusProxy.makeProxyWrapper(SERVICE_INTERFACE);
+var Service = Gio.DBusProxy.makeProxyWrapper(SERVICE_INTERFACE);
