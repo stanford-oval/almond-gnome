@@ -264,7 +264,7 @@ dashdash@^1.12.0:
 
 "dbus-native@github:gcampax/node-dbus#master":
   version "0.2.3"
-  resolved "https://codeload.github.com/gcampax/node-dbus/tar.gz/b5d903ac1841f9f5c24168f1ff18eeec11221213"
+  resolved "https://codeload.github.com/gcampax/node-dbus/tar.gz/1c3a88440e05efab332da4d587f56d17b8d38bc4"
   dependencies:
     event-stream "^3.1.7"
     hexy "^0.2.10"
@@ -1072,7 +1072,7 @@ tar@^2.2.1:
 
 "thingengine-core@github:Stanford-Mobisocial-IoT-Lab/thingengine-core#stable":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/a557b74e4c130e3f2c467cdeb26631dc20d6bad3"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/7c6fe20c053a13753827e5fd313aedf06b7fafb4"
   dependencies:
     adt "^0.7.2"
     babel-runtime "^6.26.0"

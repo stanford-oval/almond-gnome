@@ -32,6 +32,7 @@ app_configuration.set('prefix', get_option('prefix'))
 
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), app_id)
 pkglibdir = join_paths(get_option('prefix'), 'lib', app_id)
+app_configuration.set('bindir', join_paths(get_option('prefix'), get_option('bindir')))
 app_configuration.set('libdir', join_paths(get_option('prefix'), get_option('libdir')))
 app_configuration.set('pkglibdir', pkglibdir)
 app_configuration.set('pkgdatadir', pkgdatadir)

@@ -142,7 +142,7 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
                     this.ondeviceadded(null, this._devices[objectpath]);
                 //this.emit('device-added', objectpath, this._devices[objectpath]);
             }.bind(this)).catch((e) => {
-            console.error('Error while processing new Bluez device: ' + e.message);
+                console.error('Error while processing new Bluez device: ' + e.message);
             });
     }
 

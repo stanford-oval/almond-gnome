@@ -38,6 +38,10 @@
     "/bin/pi",
     "/lib/yarn",
     "/bin/yarn",
+    "/bin/mimic*",
+    "/bin/lfsc-checker",
+    "/bin/compile_regexes",
+    "/bin/t2p",
     "*.la",
     "*.a",
     "Makefile",
@@ -581,10 +585,10 @@
         },
         {
           "type": "file",
-          "url": "https://codeload.github.com/gcampax/node-dbus/tar.gz/b5d903ac1841f9f5c24168f1ff18eeec11221213",
-          "sha256": "301bc2f77d8204c02d7b547c5c21076f60f2d47bd455886a0b2183351d382e45",
+          "url": "https://codeload.github.com/gcampax/node-dbus/tar.gz/1c3a88440e05efab332da4d587f56d17b8d38bc4",
+          "sha256": "7d98b3ac2db316e4d71c290d954eab1e2e985130843b56cacbf0a3815cda80e8",
           "dest": "service/deps",
-          "dest-filename": "b5d903ac1841f9f5c24168f1ff18eeec11221213"
+          "dest-filename": "1c3a88440e05efab332da4d587f56d17b8d38bc4"
         },
         {
           "type": "file",
@@ -1519,10 +1523,10 @@
         },
         {
           "type": "file",
-          "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/a557b74e4c130e3f2c467cdeb26631dc20d6bad3",
-          "sha256": "aa8fb62d283025358b4e6b877d329edd6fa2e0df80f0a41bd79f2f661bfb3b64",
+          "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/7c6fe20c053a13753827e5fd313aedf06b7fafb4",
+          "sha256": "cb63884d863e8edf80f4bf446ea4c646f5b5c698b458726f312441b95295016f",
           "dest": "service/deps",
-          "dest-filename": "a557b74e4c130e3f2c467cdeb26631dc20d6bad3"
+          "dest-filename": "7c6fe20c053a13753827e5fd313aedf06b7fafb4"
         },
         {
           "type": "file",
