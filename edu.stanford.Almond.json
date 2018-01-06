@@ -20,7 +20,9 @@
     "--filesystem=~/.config/dconf:ro",
     "--talk-name=ca.desrt.dconf",
     "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
-    "--system-talk-name=org.bluez"
+    "--system-talk-name=org.bluez",
+    "--talk-name=org.gtk.vfs.Daemon",
+    "--talk-name=org.gtk.vfs.mountpoint_http"
   ],
   "cleanup": [
     "/include",
