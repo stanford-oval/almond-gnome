@@ -34,7 +34,7 @@ const DBUS_CONTROL_INTERFACE = {
         HandleCommand: ['s', ''],
         HandleParsedCommand: ['ss', ''],
         StartOAuth2: ['s', '(bsa{ss})'],
-        HandleOAuth2Callback: ['sa{sv}', 'b'],
+        HandleOAuth2Callback: ['sa{sv}', ''],
         CreateDevice: ['a{sv}', 'b'],
         DeleteDevice: ['s', 'b'],
         UpgradeDevice: ['s', 'b'],
@@ -42,7 +42,7 @@ const DBUS_CONTROL_INTERFACE = {
         GetDeviceInfo: ['s', 'a{sv}'],
         CheckDeviceAvailable: ['s', 'u'],
         GetAppInfos: ['', 'aa{sv}'],
-        DeleteApp: ['s', ''],
+        DeleteApp: ['s', 'b'],
         SetCloudId: ['ss', 'b'],
         SetServerAddress: ['sus', 'b']
     },
@@ -86,11 +86,11 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     HandleCommand(command) {
-        return _ad.handleCommand(command);
+        return _ad.handleCommand(command).then(() => null);
     }
 
     HandleParsedCommand(title, json) {
-        return _ad.handleParsedCommand(title, json);
+        return _ad.handleParsedCommand(title, json).then(() => null);
     }
 
     StartOAuth2(kind) {
