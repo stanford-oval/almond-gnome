@@ -129,7 +129,7 @@
             <property name="position">1</property>
           </packing>
         </child>
-        <child>
+        <!--<child>
           <object class="GtkScrolledWindow">
             <property name="visible">True</property>
             <property name="hexpand">True</property>
@@ -164,7 +164,7 @@
             <property name="title" translatable="yes">My Permissions</property>
             <property name="position">3</property>
           </packing>
-        </child>
+        </child>-->
       </object>
     </child>
     <child type="titlebar">
