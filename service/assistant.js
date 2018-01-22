@@ -29,7 +29,7 @@ class LocalUser {
 const Direction = {
     FROM_ALMOND: 0,
     FROM_USER: 1,
-}
+};
 
 const MessageType = {
     TEXT: 0,

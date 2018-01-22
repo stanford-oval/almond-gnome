@@ -20,7 +20,6 @@ const AssistantDispatcher = require('./assistant');
 const Config = require('./config');
 
 var _engine, _ad;
-var _waitReady;
 var _running;
 var _stopped;
 var platform;
@@ -54,7 +53,7 @@ const DBUS_CONTROL_INTERFACE = {
         'DeviceAdded': ['a{sv}'],
         'DeviceRemoved': ['s']
     }
-}
+};
 
 // marshall one a{ss} into something that dbus-native will like
 function marshallASS(obj) {
@@ -96,7 +95,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     StartOAuth2(kind) {
-        return _engine.devices.factory.runOAuth2(kind, null).then(function(result) {
+        return _engine.devices.factory.runOAuth2(kind, null).then((result) => {
             if (result === null)
                 return [false, '', []];
             else
@@ -126,9 +125,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     CreateSimpleDevice(kind) {
-        return _engine.devices.loadOneDevice({ kind }, true).then(() => {
-            return true;
-        });
+        return _engine.devices.loadOneDevice({ kind }, true).then(() => true);
     }
 
     DeleteDevice(uniqueId) {
@@ -141,9 +138,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     UpgradeDevice(kind) {
-        return _engine.devices.factory.updateFactory(kind).then(() => {
-            return true;
-        });
+        return _engine.devices.factory.updateFactory(kind).then(() => true);
     }
 
     _toDeviceInfo(d) {
@@ -166,81 +161,65 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceInfos() {
-        return _waitReady.then(() => {
-            var devices = _engine.devices.getAllDevices();
-            return devices.map(this._toDeviceInfo, this);
-        }, function(e) {
-            return [];
-        });
+        var devices = _engine.devices.getAllDevices();
+        return devices.map(this._toDeviceInfo, this);
     }
 
     GetDeviceFactories(deviceClass) {
-        return _waitReady.then(() => {
-            return _engine.thingpedia.getDeviceFactories(deviceClass);
-        }).then((factories) => {
-            return factories.map((f) => {
-                let factory = [];
-                let value;
-                for (let name in f.factory) {
-                    if (name === 'fields') {
-                        // this extra wrapping of the value seem unnecessary but
-                        // it works around a bug in dbus-native
-                        value = ['aa{ss}', [f.factory.fields.map(marshallASS)]];
-                    } else {
-                        value = [typeof f.factory[name] === 'number' ? 'u' : 's', f.factory[name]];
-                    }
-                    factory.push([name, value]);
+        return _engine.thingpedia.getDeviceFactories(deviceClass).then((factories) => factories.map((f) => {
+            let factory = [];
+            let value;
+            for (let name in f.factory) {
+                if (name === 'fields') {
+                    // this extra wrapping of the value seem unnecessary but
+                    // it works around a bug in dbus-native
+                    value = ['aa{ss}', [f.factory.fields.map(marshallASS)]];
+                } else {
+                    value = [typeof f.factory[name] === 'number' ? 'u' : 's', f.factory[name]];
                 }
-                return factory;
-            });
-        });
+                factory.push([name, value]);
+            }
+            return factory;
+        }));
     }
 
     GetDeviceInfo(uniqueId) {
-        return _waitReady.then(() => {
-            var d = _engine.devices.getDevice(uniqueId);
-            if (d === undefined)
-                throw new Error('Invalid device ' + uniqueId);
+        var d = _engine.devices.getDevice(uniqueId);
+        if (d === undefined)
+            throw new Error('Invalid device ' + uniqueId);
 
-            return this._toDeviceInfo(d);
-        });
+        return this._toDeviceInfo(d);
     }
 
     CheckDeviceAvailable(uniqueId) {
-        return _waitReady.then(() => {
-            var d = _engine.devices.getDevice(uniqueId);
-            if (d === undefined)
-                return -1;
+        var d = _engine.devices.getDevice(uniqueId);
+        if (d === undefined)
+            return -1;
 
-            return d.checkAvailable();
-        });
+        return d.checkAvailable();
     }
 
     GetAppInfos() {
-        return _waitReady.then(() => {
-            var apps = _engine.apps.getAllApps();
+        var apps = _engine.apps.getAllApps();
 
-            return apps.map((a) => {
-                var app =  [['uniqueId', ['s', a.uniqueId]],
-                            ['name', ['s', a.name || "Some app"]],
-                            ['description', ['s', a.description || a.name || "Some app"]],
-                            ['icon', ['s', a.icon || '']],
-                            ['isRunning', ['b', a.isRunning]],
-                            ['isEnabled', ['b', a.isEnabled]],
-                            ['error', ['s', a.error ? a.error.message : '']]];
-                return app;
-            });
+        return apps.map((a) => {
+            var app =  [['uniqueId', ['s', a.uniqueId]],
+                        ['name', ['s', a.name || "Some app"]],
+                        ['description', ['s', a.description || a.name || "Some app"]],
+                        ['icon', ['s', a.icon || '']],
+                        ['isRunning', ['b', a.isRunning]],
+                        ['isEnabled', ['b', a.isEnabled]],
+                        ['error', ['s', a.error ? a.error.message : '']]];
+            return app;
         });
     }
 
     DeleteApp(uniqueId) {
-        return _waitReady.then(() => {
-            var app = _engine.apps.getApp(uniqueId);
-            if (app === undefined)
-                return false;
+        var app = _engine.apps.getApp(uniqueId);
+        if (app === undefined)
+            return false;
 
-            return _engine.apps.removeApp(app).then(() => true);
-        });
+        return _engine.apps.removeApp(app).then(() => true);
     }
 
     SetCloudId(cloudId, authToken) {
@@ -292,30 +271,28 @@ function main() {
     var bus = platform.getCapability('dbus-session');
     bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
-    Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0).then(function() {
-        console.log('Control channel ready');
-
-        _waitReady = Promise.all([_engine.open(), _ad.start()]);
-        return _waitReady;
-    }).then(function() {
+    Q.all([_engine.open(), _ad.start()]).then(() =>
+        Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0)
+    ).then(() => {
+        console.log('Ready');
+    }).then(() => {
         _ad.startConversation();
         _running = true;
         if (_stopped)
-            return;
+            return Promise.resolve();
         return _engine.run();
-    }).catch(function(error) {
+    }).catch((error) => {
         console.log('Uncaught exception: ' + error.message);
         console.log(error.stack);
-    }).finally(function() {
-        return _engine.close();
-    }).catch(function(error) {
+    }).finally(() =>
+        _engine.close()
+    ).catch((error) => {
         console.log('Exception during stop: ' + error.message);
         console.log(error.stack);
-    }).finally(function() {
+    }).finally(() => {
         console.log('Cleaning up');
         platform.exit();
     }).done();
 }
 
 main();
-
