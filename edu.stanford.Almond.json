@@ -1526,10 +1526,10 @@
         },
         {
           "type": "file",
-          "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/7c6fe20c053a13753827e5fd313aedf06b7fafb4",
-          "sha256": "cb63884d863e8edf80f4bf446ea4c646f5b5c698b458726f312441b95295016f",
+          "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/882269d3ec74bf57cc0fddd7b0bdc1af8c60931a",
+          "sha256": "1c7977758c1c8e442ca99b5e508afef82663cf05dea1d05463c52a820c8bdd34",
           "dest": "service/deps",
-          "dest-filename": "7c6fe20c053a13753827e5fd313aedf06b7fafb4"
+          "dest-filename": "882269d3ec74bf57cc0fddd7b0bdc1af8c60931a"
         },
         {
           "type": "file",
@@ -1628,6 +1628,13 @@
           "sha256": "9474cf5baa1ad66a2eb43f4397df0ad051633d44f9b83156c969aa932724f1e3",
           "dest": "service/deps",
           "dest-filename": "uuid-3.1.0.tgz"
+        },
+        {
+          "type": "file",
+          "url": "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14",
+          "sha256": "917d0c22a3268506a2b5061722916aa3982497ee5e879ade8f726e14324f0664",
+          "dest": "service/deps",
+          "dest-filename": "uuid-3.2.1.tgz"
         },
         {
           "type": "file",

@@ -1072,7 +1072,7 @@ tar@^2.2.1:
 
 "thingengine-core@github:Stanford-Mobisocial-IoT-Lab/thingengine-core#stable":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/7c6fe20c053a13753827e5fd313aedf06b7fafb4"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/882269d3ec74bf57cc0fddd7b0bdc1af8c60931a"
   dependencies:
     adt "^0.7.2"
     babel-runtime "^6.26.0"
@@ -1080,6 +1080,7 @@ tar@^2.2.1:
     ip "^1.1.5"
     matrix-js-sdk "^0.8.4"
     olm "https://matrix.org/packages/npm/olm/olm-2.2.2.tgz"
+    omlib "github:Stanford-Mobisocial-IoT-Lab/omclient#master"
     q "^1.5.0"
     tmp "0.0.31"
     uuid "^3.1.0"
@@ -1160,9 +1161,13 @@ util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
-uuid@^3.0.0, uuid@^3.1.0:
+uuid@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
+
+uuid@^3.1.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 verror@1.10.0:
   version "1.10.0"

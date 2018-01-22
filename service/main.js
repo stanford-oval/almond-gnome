@@ -45,19 +45,48 @@ const DBUS_CONTROL_INTERFACE = {
         GetAppInfos: ['', 'aa{sv}'],
         DeleteApp: ['s', 'b'],
         SetCloudId: ['ss', 'b'],
-        SetServerAddress: ['sus', 'b']
+        SetServerAddress: ['sus', 'b'],
+
+        SetStringPreference: ['ss', ''],
+        SetBoolPreference: ['ss', ''],
+        GetPreference: ['s', 'v'],
     },
     signals: {
         'NewMessage': ['uuua{ss}'],
         'RemoveMessage': ['u'],
         'DeviceAdded': ['a{sv}'],
-        'DeviceRemoved': ['s']
+        'DeviceRemoved': ['s'],
+        'PreferenceChanged': ['s']
     }
 };
 
 // marshall one a{ss} into something that dbus-native will like
 function marshallASS(obj) {
     return Object.keys(obj).map((key) => [key, obj[key]]);
+}
+
+// marshal any JS value into a variant
+function marshalAny(obj) {
+    if (typeof obj === 'string')
+        return ['s', obj];
+    else if (typeof obj === 'number')
+        return ['d', obj];
+    else if (typeof obj === 'boolean')
+        return ['b', obj];
+    else if (obj === null || obj === undefined)
+        throw new Error('null/undefined cannot be sent over dbus');
+    else
+        return ['a{sv}', Object.keys(obj).map((key) => [key, marshalAny(obj[key])])];
+}
+
+function unmarshalASV(values) {
+    let obj = {};
+    for (let [name, [signature, value]] of values) {
+        if (signature == 'a{sv}')
+            value = unmarshalASV(value);
+
+        obj[name] = value;
+    }
 }
 
 class AppControlChannel extends events.EventEmitter {
@@ -72,6 +101,11 @@ class AppControlChannel extends events.EventEmitter {
         });
         _engine.devices.on('device-removed', (device) => {
             this.emit('DeviceRemoved', device.uniqueId);
+        });
+
+        let prefs = _engine.platform.getSharedPreferences();
+        prefs.on('changed', (key) => {
+            this.emit('PreferenceChanged', key || '');
         });
     }
 
@@ -251,6 +285,20 @@ class AppControlChannel extends events.EventEmitter {
                                         port: serverPort,
                                         own: true }, true).done();
         return true;
+    }
+
+    GetPreference(key) {
+        let prefs = _engine.platform.getSharedPreferences();
+        let value = prefs.get(key);
+        return marshalAny(value === undefined ? '' : value);
+    }
+    SetStringPreference(key, value) {
+        let prefs = _engine.platform.getSharedPreferences();
+        prefs.set(key, value);
+    }
+    SetBoolPreference(key, value) {
+        let prefs = _engine.platform.getSharedPreferences();
+        prefs.set(key, value);
     }
 }
 
