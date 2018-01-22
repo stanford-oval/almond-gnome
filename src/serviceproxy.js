@@ -5,14 +5,7 @@
 // See COPYING for details
 "use strict";
 
-const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
-const Params = imports.params;
-
-const Util = imports.util;
 
 const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
     "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
@@ -83,6 +76,14 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="s" name="authToken" direction="in" />
       <arg type="b" name="ok" direction="out" />
     </method>
+    <method name="GetPreference">
+      <arg type="s" name="key" direction="in" />
+      <arg type="v" name="value" direction="out" />
+    </method>
+    <method name="SetPreference">
+      <arg type="s" name="key" direction="in" />
+      <arg type="v" name="value" direction="in" />
+    </method>
     <signal name="NewMessage">
       <arg type="u" name="message_id" />
       <arg type="u" name="message_type" />
@@ -98,7 +99,11 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <signal name="DeviceRemoved">
       <arg type="s" name="unique_id" />
     </signal>
+    <signal name="PreferenceChanged">
+      <arg type="s" name="key" />
+    </signal>
   </interface>
 </node>`;
 
+/* exported Service */
 var Service = Gio.DBusProxy.makeProxyWrapper(SERVICE_INTERFACE);

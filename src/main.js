@@ -23,6 +23,7 @@ const WebKit = imports.gi.WebKit2;
 const Util = imports.util;
 const Window = imports.window;
 const Service = imports.serviceproxy.Service;
+const PreferenceAction = imports.prefs.PreferenceAction;
 
 function initEnvironment() {
     window.getApp = function() {
@@ -77,6 +78,9 @@ const AlmondApplication = new Lang.Class({
                     if (error)
                         throw error; // die
                     this._service = result;
+
+                    for (let pref of ['enable-voice-input', 'enable-voice-output', 'enable-hotword'])
+                        this.add_action(new PreferenceAction(this._service, pref, 'b'));
 
                     var window = new Window.MainWindow(this, this._service);
                     window.present();

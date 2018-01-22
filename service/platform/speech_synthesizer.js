@@ -67,4 +67,4 @@ module.exports = class SpeechSynthesizer {
             console.error('Failed to speak: ' + e);
         });
     }
-}
+};

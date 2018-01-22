@@ -47,8 +47,7 @@ const DBUS_CONTROL_INTERFACE = {
         SetCloudId: ['ss', 'b'],
         SetServerAddress: ['sus', 'b'],
 
-        SetStringPreference: ['ss', ''],
-        SetBoolPreference: ['ss', ''],
+        SetPreference: ['sv', ''],
         GetPreference: ['s', 'v'],
     },
     signals: {
@@ -292,13 +291,10 @@ class AppControlChannel extends events.EventEmitter {
         let value = prefs.get(key);
         return marshalAny(value === undefined ? '' : value);
     }
-    SetStringPreference(key, value) {
+    SetPreference(key, [signature, [value]]) {
         let prefs = _engine.platform.getSharedPreferences();
         prefs.set(key, value);
-    }
-    SetBoolPreference(key, value) {
-        let prefs = _engine.platform.getSharedPreferences();
-        prefs.set(key, value);
+        return null;
     }
 }
 

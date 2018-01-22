@@ -19,7 +19,7 @@ class DetectorStream extends stream.Transform {
 
         let models = new snowboy.Models();
         for (let m of ['snowboy.umdl', 'almond.pmdl']) {
-	     models.add({
+             models.add({
                  file: path.resolve(module.filename, '../data/' + m),
                  sensitivity: '0.5',
                  hotwords : 'snowboy'
@@ -79,9 +79,14 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         super();
         this._platform = platform;
         this._pulse = platform.getCapability('pulseaudio');
+        this._hotwordEnabled = false;
 
         this._recognizer = new SpeechRecognizer({ locale: this._platform.locale });
         this._recognizer.on('error', (e) => this.emit('error', e));
+    }
+
+    setHotwordEnabled(enabled) {
+        this._hotwordEnabled = enabled;
     }
 
     start() {
@@ -96,6 +101,9 @@ module.exports = class SpeechHandler extends events.EventEmitter {
 
         this._detector = new DetectorStream();
         this._detector.on('hotword', (hotword) => {
+            if (!this._hotwordEnabled)
+                return;
+
             console.log('Hotword ' + hotword + ' detected');
             let req = this._recognizer.request(this._detector);
             req.on('hypothesis', (hypothesis) => this.emit('hypothesis', hypothesis));
