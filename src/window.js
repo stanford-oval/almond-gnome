@@ -6,14 +6,13 @@
 "use strict";
 
 const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
-const Params = imports.params;
+const GObject = imports.gi.GObject;
 
 const Util = imports.util;
 const AssistantModel = imports.chatmodel.AssistantModel;
 const DeviceModel = imports.devicemodel.DeviceModel;
+const { DeviceConfigDialog } = imports.deviceconfig;
 
 /* exported MainWindow */
 var MainWindow = GObject.registerClass({

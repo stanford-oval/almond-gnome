@@ -3,6 +3,7 @@
   <gresource prefix="/edu/stanford/Almond/js">
     <file>chatmodel.js</file>
     <file>config.js</file>
+    <file>deviceconfig.js</file>
     <file>devicemodel.js</file>
     <file>main.js</file>
     <file>params.js</file>

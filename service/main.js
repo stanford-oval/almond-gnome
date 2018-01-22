@@ -11,6 +11,7 @@ console.log('ThingEngine-GNOME starting up...');
 
 const Q = require('q');
 const events = require('events');
+const Url = require('url');
 Q.longStackSupport = true;
 
 const Engine = require('thingengine-core');
@@ -34,12 +35,13 @@ const DBUS_CONTROL_INTERFACE = {
         HandleCommand: ['s', ''],
         HandleParsedCommand: ['ss', ''],
         StartOAuth2: ['s', '(bsa{ss})'],
-        HandleOAuth2Callback: ['sa{sv}', ''],
-        CreateDevice: ['a{sv}', 'b'],
+        HandleOAuth2Callback: ['ssa{ss}', ''],
+        CreateSimpleDevice: ['s', 'b'],
         DeleteDevice: ['s', 'b'],
         UpgradeDevice: ['s', 'b'],
         GetDeviceInfos: ['', 'aa{sv}'],
         GetDeviceInfo: ['s', 'a{sv}'],
+        GetDeviceFactories: ['s', 'aa{sv}'],
         CheckDeviceAvailable: ['s', 'u'],
         GetAppInfos: ['', 'aa{sv}'],
         DeleteApp: ['s', 'b'],
@@ -102,14 +104,29 @@ class AppControlChannel extends events.EventEmitter {
         });
     }
 
-    HandleOAuth2Callback(kind, req) {
-        return _engine.devices.factory.runOAuth2(kind, req).then(() => {
-            return true;
-        });
+    HandleOAuth2Callback(kind, redirectUri, session) {
+        let sessionObj = {};
+        session.forEach(([key, value]) => sessionObj[key] = value);
+
+        // there is no actual http request going on, so the values are fake
+        // oauth modules should not rely on these anyway
+
+        let parsed = Url.parse(redirectUri, { parseQueryString: true });
+        let req = {
+            httpVersion: 1.0,
+            headers: [],
+            rawHeaders: [],
+
+            method: 'GET',
+            url: redirectUri,
+            query: parsed.query,
+            session: sessionObj
+        };
+        return _engine.devices.factory.runOAuth2(kind, req).then(() => null);
     }
 
-    CreateDevice(state) {
-        return _engine.devices.loadOneDevice(state, true).then(() => {
+    CreateSimpleDevice(kind) {
+        return _engine.devices.loadOneDevice({ kind }, true).then(() => {
             return true;
         });
     }
@@ -154,6 +171,28 @@ class AppControlChannel extends events.EventEmitter {
             return devices.map(this._toDeviceInfo, this);
         }, function(e) {
             return [];
+        });
+    }
+
+    GetDeviceFactories(deviceClass) {
+        return _waitReady.then(() => {
+            return _engine.thingpedia.getDeviceFactories(deviceClass);
+        }).then((factories) => {
+            return factories.map((f) => {
+                let factory = [];
+                let value;
+                for (let name in f.factory) {
+                    if (name === 'fields') {
+                        // this extra wrapping of the value seem unnecessary but
+                        // it works around a bug in dbus-native
+                        value = ['aa{ss}', [f.factory.fields.map(marshallASS)]];
+                    } else {
+                        value = [typeof f.factory[name] === 'number' ? 'u' : 's', f.factory[name]];
+                    }
+                    factory.push([name, value]);
+                }
+                return factory;
+            });
         });
     }
 
@@ -238,6 +277,7 @@ class AppControlChannel extends events.EventEmitter {
 
 function main() {
     platform = require('./platform').newInstance();
+    global.platform = platform;
 
     console.log('GNOME platform initialized');
 
@@ -250,7 +290,7 @@ function main() {
     var controlChannel = new AppControlChannel();
 
     var bus = platform.getCapability('dbus-session');
-    bus.exportInterface(controlChannel, '/edu/stanford/Almond/BackgroundService', DBUS_CONTROL_INTERFACE);
+    bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
     Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0).then(function() {
         console.log('Control channel ready');

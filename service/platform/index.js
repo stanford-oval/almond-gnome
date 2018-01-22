@@ -332,13 +332,13 @@ class Platform {
     // Returns true if the change actually happened
     setDeveloperKey(key) {
         return this._prefs.set('developer-key', key);
-        return true;
     }
 
     getOrigin() {
-        // pretend to be a local thingpedia server
-        // the user is expected to copy-paste oauth urls manually
-        return 'http://127.0.0.1:8080';
+        // pretend to be the main webalmond server
+        // the client will intercept the redirect before it happens
+        return 'https://thingengine.stanford.edu';
+        //return 'http://127.0.0.1:8080';
     }
 
     getCloudId() {

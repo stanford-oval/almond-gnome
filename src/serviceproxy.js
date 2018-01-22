@@ -36,11 +36,11 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     </method>
     <method name="HandleOAuth2Callback">
       <arg type="s" name="kind" direction="in" />
-      <arg type="a{sv}" name="request" direction="in" />
-      <arg type="b" name="ok" direction="out" />
+      <arg type="s" name="redirect_uri" direction="in" />
+      <arg type="a{ss}" name="session" direction="in" />
     </method>
-    <method name="CreateDevice">
-      <arg type="a{sv}" name="state" direction="in" />
+    <method name="CreateSimpleDevice">
+      <arg type="s" name="kind" direction="in" />
       <arg type="b" name="ok" direction="out" />
     </method>
     <method name="DeleteDevice">
@@ -53,6 +53,10 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     </method>
     <method name="GetDeviceInfos">
       <arg type="aa{sv}" name="devices" direction="out" />
+    </method>
+    <method name="GetDeviceFactories">
+      <arg type="s" name="device_class" direction="in" />
+      <arg type="aas{sv}" name="factories" direction="out" />
     </method>
     <method name="GetDeviceInfo">
       <arg type="s" name="uniqueId" direction="in" />

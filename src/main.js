@@ -11,12 +11,14 @@ pkg.require({ 'Gdk': '3.0',
               'Gio': '2.0',
               'GLib': '2.0',
               'GObject': '2.0',
-              'Gtk': '3.0' });
+              'Gtk': '3.0',
+              'WebKit2': '4.0' });
 
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
+const WebKit = imports.gi.WebKit2;
 
 const Util = imports.util;
 const Window = imports.window;
@@ -51,6 +53,18 @@ const AlmondApplication = new Lang.Class({
         Util.initActions(this,
                          [{ name: 'quit',
                             activate: this._onQuit }]);
+
+        let webDataManager = new WebKit.WebsiteDataManager({
+            base_cache_directory: GLib.get_user_cache_dir() + '/almond/webview',
+            base_data_directory: GLib.get_user_config_dir() + '/almond/webview'
+        });
+        let webCookieManager = webDataManager.get_cookie_manager();
+        webCookieManager.set_accept_policy(WebKit.CookieAcceptPolicy.NO_THIRD_PARTY);
+        webCookieManager.set_persistent_storage(GLib.get_user_config_dir() + '/almond/webview/cookies.db',
+                                                WebKit.CookiePersistentStorage.SQLITE);
+        this.webContext = new WebKit.WebContext({
+            website_data_manager: webDataManager
+        });
     },
 
     vfunc_activate: function() {
