@@ -3,6 +3,7 @@
 // Copyright 2016 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See LICENSE for details
+"use strict";
 
 pkg.initGettext();
 pkg.initFormat();
@@ -35,6 +36,7 @@ const AlmondApplication = new Lang.Class({
         this.parent({ application_id: pkg.name });
 
         GLib.set_application_name(_("Almond"));
+        this._service = null;
     },
 
     _onQuit: function() {
@@ -53,8 +55,8 @@ const AlmondApplication = new Lang.Class({
 
     vfunc_activate: function() {
         var window = this.get_active_window();
-        if (window == null) {
-            if (this._service == null) {
+        if (window === null) {
+            if (this._service === null) {
                 this.hold();
                 new Service(Gio.DBus.session, 'edu.stanford.Almond.BackgroundService', '/edu/stanford/Almond/BackgroundService', (result, error) => {
                     this.release();
@@ -66,7 +68,7 @@ const AlmondApplication = new Lang.Class({
                     window.present();
                 });
             } else {
-                var window = new Window.MainWindow(this, this._service);
+                window = new Window.MainWindow(this, this._service);
                 window.present();
             }
         } else {
@@ -75,6 +77,7 @@ const AlmondApplication = new Lang.Class({
     }
 });
 
+/* exported main */
 function main(argv) {
     initEnvironment();
 

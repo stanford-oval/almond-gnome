@@ -3,6 +3,7 @@
 // Copyright 2013-2017 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
@@ -18,7 +19,7 @@ const Config = imports.config;
 const Direction = {
     FROM_ALMOND: 0,
     FROM_USER: 1,
-}
+};
 
 const MessageType = {
     TEXT: 0,

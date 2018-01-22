@@ -1,6 +1,6 @@
 // -*- Mode: js; indent-tabs-mode: nil; c-basic-offset: 4; tab-width: 4 -*-
 //
-// Copyright (c) 2013 Giovanni Campagna <scampa.giovanni@gmail.com>
+// Copyright (c) 2013, 2018 Giovanni Campagna <scampa.giovanni@gmail.com>
 //
 // Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"use strict";
 
 const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
@@ -112,4 +113,27 @@ function loadIcon(iconName, size) {
     return theme.load_icon(iconName,
                            size,
                            Gtk.IconLookupFlags.GENERIC_FALLBACK);
+}
+
+function dbusPromiseify(obj, fn, ...args) {
+    return new Promise((resolve, reject) => {
+        return obj[fn](...args, (result, error) => {
+            if (error)
+                reject(error);
+            else
+                resolve(result);
+        });
+    });
+}
+
+function alert(parent, message) {
+    let dialog = new Gtk.MessageDialog({
+        transient_for: parent,
+        modal: true,
+        buttons: Gtk.ButtonsType.OK,
+        message_type: Gtk.MessageType.ERROR,
+        text: message
+    });
+    dialog.connect('response', () => dialog.destroy());
+    dialog.show();
 }

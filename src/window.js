@@ -3,6 +3,7 @@
 // Copyright 2013-2016 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -14,16 +15,15 @@ const Util = imports.util;
 const AssistantModel = imports.chatmodel.AssistantModel;
 const DeviceModel = imports.devicemodel.DeviceModel;
 
-var MainWindow = new Lang.Class({
-    Name: 'MainWindow',
-    Extends: Gtk.ApplicationWindow,
+/* exported MainWindow */
+var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
     InternalChildren: ['main-stack', 'assistant-chat-listbox',
         'assistant-input', 'my-stuff-grid-view'],
-
-    _init: function(app, service) {
-        this.parent({ application: app,
+}, class MainWindow extends Gtk.ApplicationWindow {
+    _init(app, service) {
+        super._init({ application: app,
                       title: GLib.get_application_name(),
                       default_width: 640,
                       default_height: 480 });
@@ -55,31 +55,31 @@ var MainWindow = new Lang.Class({
             text = text.trim();
             if (!text)
                 return;
-            if (text.startsWith('\\r ')) {
+            if (text.startsWith('\\r '))
                 this._service.HandleParsedCommandRemote('', text.substr('\\r '.length));
-            } else {
+            else
                 this._service.HandleCommandRemote(text);
-            }
             this._assistant_input.text = '';
         });
-    },
+    }
 
-    _switchTo: function(action, page) {
-        let [pageName, len] = page.get_string();
+    _switchTo(action, page) {
+        let [pageName,] = page.get_string();
         this._main_stack.visible_child_name = pageName;
-    },
+    }
 
     _configureNewDevice() {
         this._configureNew('physical');
-    },
+    }
     _configureNewAccount() {
         this._configureNew('online');
-    },
+    }
     _configureNew(klass) {
-        // do something
-    },
+        let dialog = new DeviceConfigDialog(this, klass, this._service);
+        dialog.startChooseKind();
+    }
 
-    _about: function() {
+    _about() {
         let aboutDialog = new Gtk.AboutDialog(
             { authors: [ 'Giovanni Campagna <gcampagn@cs.stanford.edu>' ],
               translator_credits: _("translator-credits"),
@@ -99,5 +99,5 @@ var MainWindow = new Lang.Class({
         aboutDialog.connect('response', function() {
             aboutDialog.destroy();
         });
-    },
+    }
 });

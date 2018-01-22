@@ -11,6 +11,7 @@ const Gtk = imports.gi.Gtk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Lang = imports.lang;
 const Params = imports.params;
+const { dbusPromiseify } = imports.util;
 
 const Config = imports.config;
 
@@ -26,17 +27,6 @@ const Device = new Lang.Class({
         version: GObject.ParamSpec.int('version', '', '', GObject.ParamFlags.READWRITE, 0, GLib.MAXINT32, 0),
     }
 });
-
-function dbusPromiseify(obj, fn, ...args) {
-    return new Promise((resolve, reject) => {
-        return obj[fn](...args, (result, error) => {
-            if (error)
-                reject(error);
-            else
-                resolve(result);
-        });
-    });
-}
 
 var DeviceModel = class DeviceModel {
     constructor(window, service, listbox) {
