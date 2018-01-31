@@ -41,6 +41,23 @@ This package depends on various third-party node.js modules. Those
 modules are copyright of their respective authors, and the license
 to each module is included in the module folder.
 
+This package also includes the cmu_us_slt voice file
+(service/data/cmu_us_slt.flitevox)
+This was obtained from the mimic project, which in turn obtained it
+from the flite project.
+This file is copyright 1999-2014 Language Technologies Institute, Carnegie Mellon University
+It is licensed under the flite project license.
+
+This package also includes the snowboy resource file, and the
+snowboy pretrained model for the "snowboy" hotword (files
+service/data/snowboy.res, service/data/snowboy.umdl).
+These files are Copyright 2017 Kitt.AI, and are available under
+the Apache 2.0 license.
+
+This package also includes the snowboy pretrained model for the
+"almond" hotword (file service/data/almond.pmdl). This file is
+under the public domain.
+
 ===================================================================
 
 This product includes software developed by the OpenSSL Project

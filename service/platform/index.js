@@ -2,7 +2,8 @@
 //
 // This file is part of ThingEngine
 //
-// Copyright 2015 Giovanni Campagna <gcampagn@cs.stanford.edu>
+// Copyright 2015-2017 The Board of Trustees of the Leland Stanford Junior University
+//           2017      Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
 "use strict";
