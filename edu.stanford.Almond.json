@@ -225,7 +225,8 @@
             "buildsystem": "meson",
             "build-options": {
                 "env": {
-                    "npm_config_nodedir": "/app"
+                    "npm_config_nodedir": "/app",
+                    "PYTHONDONTWRITEBYTECODE": "1"
                 },
                 "build-args": [
                     "--share=network"
