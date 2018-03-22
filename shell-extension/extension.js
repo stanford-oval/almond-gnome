@@ -44,17 +44,17 @@ const _ = Gettext.gettext;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
-const { AssistantModel, Direction, MessageType } = Me.imports.chatmodel;
-const Config = Me.imports.config;
-const { Service } = Me.imports.serviceproxy;
+const Convenience = Me.imports.convenience;
 
-//const Convenience = Me.imports.convenience;
+const { AssistantModel, Direction, MessageType } = Me.imports.common.chatmodel;
+const Config = Me.imports.common.config;
+const { Service } = Me.imports.common.serviceproxy;
 
 const CHAT_EXPAND_LINES = 12;
 
 /* exported init */
 function init(meta) {
-    //Convenience.initTranslations();
+    Convenience.initTranslations();
 }
 
 let _source;

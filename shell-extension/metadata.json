@@ -1,6 +1,6 @@
 {
     "shell-version": ["3.26" ],
-    "uuid": "thingengine-platform-gnome@almond.stanford.edu",
+    "uuid": "almond@almond.stanford.edu",
     "settings-schema": "edu.stanford.Almond",
     "gettext-domain": "edu.stanford.Almond",
     "name": "Almond",
