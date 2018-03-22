@@ -6,8 +6,8 @@
   <name>Almond</name>
   <summary>The Open Virtual Assistant</summary>
   <description>
-    <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.</p>
-    <p>Almond draws its power from the crowdsourced <a href="https://thingpedia.stanford.edu">Thingpedia</a>, an open collection of Web and Internet of Things APIs.
+    <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.
+    Almond draws its power from the crowdsourced Thingpedia, an open collection of Web and Internet of Things APIs.
     Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
     Thingpedia supports more than 40 different services, accounts and IoT devices.</p>
   </description>
