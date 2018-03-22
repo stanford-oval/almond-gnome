@@ -42,4 +42,4 @@ for (let url of urls) {
     lastModule.sources.push(source);
 }
 
-fs.writeFileSync('../edu.stanford.Almond.json', JSON.stringify(existing, undefined, 2));
+fs.writeFileSync('../edu.stanford.Almond.json', JSON.stringify(existing, undefined, 4));
