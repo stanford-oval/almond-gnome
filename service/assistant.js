@@ -164,7 +164,7 @@ class AssistantDispatcher extends events.EventEmitter {
             });
         }
         this._ensureConversation();
-        return this._conversation.handleParsedCommand(json);
+        return this._conversation.handleParsedCommand(JSON.parse(json));
     }
 
     handleCommand(text) {
@@ -175,6 +175,16 @@ class AssistantDispatcher extends events.EventEmitter {
         });
         this._ensureConversation();
         return this._conversation.handleCommand(text);
+    }
+
+    handleThingTalk(code) {
+        this._speechSynth.clearQueue();
+        this._collapseButtons();
+        this._addMessage(MessageType.TEXT, Direction.FROM_USER, {
+            text: this._engine._("Code: %s").format(code)
+        });
+        this._ensureConversation();
+        return this._conversation.handleThingTalk(code);
     }
 
     getHistory() {
@@ -242,7 +252,7 @@ class AssistantDispatcher extends events.EventEmitter {
             this._speechSynth.say(title);
         this._addMessage(MessageType.BUTTON, Direction.FROM_ALMOND, {
             text: title,
-            json: json
+            json: JSON.stringify(json)
         });
     }
 
@@ -262,6 +272,6 @@ class AssistantDispatcher extends events.EventEmitter {
             icon: icon || ''
         });
     }
-};
+}
 
 module.exports = AssistantDispatcher;

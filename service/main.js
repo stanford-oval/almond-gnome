@@ -33,6 +33,7 @@ const DBUS_CONTROL_INTERFACE = {
         Stop: ['', ''],
         GetHistory: ['', 'a(uuua{ss})'],
         HandleCommand: ['s', ''],
+        HandleThingTalk: ['s', ''],
         HandleParsedCommand: ['ss', ''],
         StartOAuth2: ['s', '(bsa{ss})'],
         HandleOAuth2Callback: ['ssa{ss}', ''],
@@ -122,6 +123,10 @@ class AppControlChannel extends events.EventEmitter {
 
     HandleCommand(command) {
         return _ad.handleCommand(command).then(() => null);
+    }
+
+    HandleThingTalk(code) {
+        return _ad.handleThingTalk(code).then(() => null);
     }
 
     HandleParsedCommand(title, json) {

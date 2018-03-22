@@ -19,6 +19,9 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <method name="HandleCommand">
       <arg type="s" name="command" direction="in" />
     </method>
+    <method name="HandleThingTalk">
+      <arg type="s" name="code" direction="in" />
+    </method>
     <method name="HandleParsedCommand">
       <arg type="s" name="title" direction="in" />
       <arg type="s" name="json" direction="in" />

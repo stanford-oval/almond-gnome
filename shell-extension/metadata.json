@@ -1,0 +1,9 @@
+{
+    "shell-version": ["3.26" ],
+    "uuid": "thingengine-platform-gnome@almond.stanford.edu",
+    "settings-schema": "edu.stanford.Almond",
+    "gettext-domain": "edu.stanford.Almond",
+    "name": "Almond",
+    "description": "Control your Almond virtual assistant from GNOME Shell",
+    "url": "https://almond.stanford.edu"
+}

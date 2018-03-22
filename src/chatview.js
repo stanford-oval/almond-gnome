@@ -10,47 +10,10 @@ const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
-const Lang = imports.lang;
-const Params = imports.params;
 
-const Util = imports.util;
 const Config = imports.config;
-
-const Direction = {
-    FROM_ALMOND: 0,
-    FROM_USER: 1,
-};
-
-const MessageType = {
-    TEXT: 0,
-    PICTURE: 1,
-    CHOICE: 2,
-    LINK: 3,
-    BUTTON: 4,
-    ASK_SPECIAL: 5,
-    RDL: 6,
-    MAX: 6
-};
-
-const Message = new Lang.Class({
-    Name: 'AssistantMessage',
-    Extends: GObject.Object,
-    Properties: {
-        message_id: GObject.ParamSpec.int('message-id', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, GLib.MAXINT32, 0),
-        message_type: GObject.ParamSpec.int('message-type', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, MessageType.MAX, 0),
-        direction: GObject.ParamSpec.int('direction', '','', GObject.ParamFlags.READWRITE, 0, 1, 0),
-
-        ask_special_what: GObject.ParamSpec.string('ask-special-what', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, null),
-        icon: GObject.ParamSpec.string('icon', '','', GObject.ParamFlags.READWRITE, null),
-        text: GObject.ParamSpec.string('text', '','', GObject.ParamFlags.READWRITE, null),
-        picture_url: GObject.ParamSpec.string('picture_url', '','', GObject.ParamFlags.READWRITE, null),
-        choice_idx: GObject.ParamSpec.int('choice-idx', '','', GObject.ParamFlags.READWRITE,-1, 1000, 0),
-        link: GObject.ParamSpec.string('link', '','', GObject.ParamFlags.READWRITE, null),
-        json: GObject.ParamSpec.string('json', '','', GObject.ParamFlags.READWRITE, null),
-        rdl_description: GObject.ParamSpec.string('rdl-description', '','', GObject.ParamFlags.READWRITE, null),
-        rdl_callback: GObject.ParamSpec.string('rdl-callback', '','', GObject.ParamFlags.READWRITE, null)
-    }
-});
+const { AssistantModel, Direction, MessageType } = imports.chatmodel;
+const { ginvoke, dbusPromiseify } = imports.util;
 
 function makeAlmondWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
@@ -64,7 +27,7 @@ function makeAlmondWrapper(msg) {
     box.halign = Gtk.Align.START;
 
     let deviceIcon = msg.icon || 'org.thingpedia.builtin.thingengine.builtin';
-    icon.gicon = new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.S3_CLOUDFRONT_HOST + '/icons/' + deviceIcon + '.png') });
+    icon.gicon = new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + deviceIcon) });
     return box;
 }
 
@@ -73,30 +36,6 @@ function makeGenericWrapper(msg) {
                             spacing: 12 });
     box.get_style_context().add_class('message-container');
     return box;
-}
-
-function ginvoke(obj, fn, fnfinish, ...args) {
-    return new Promise((resolve, reject) => {
-        obj[fn](...args, (_ignored, result) => {
-            try {
-                resolve(obj[fnfinish](result));
-            } catch(e) {
-                reject(e);
-            }
-        });
-    });
-}
-
-function gpromise(fn, fnfinish, ...args) {
-    return new Promise((resolve, reject) => {
-        fn(...args, (_ignored, result) => {
-            try {
-                resolve(fnfinish(result));
-            } catch(e) {
-                reject(e);
-            }
-        });
-    });
 }
 
 const MessageConstructors = {
@@ -242,73 +181,11 @@ const MessageConstructors = {
     }
 }
 
-function dbusPromiseify(obj, fn, ...args) {
-    return new Promise((resolve, reject) => {
-        return obj[fn](...args, (result, error) => {
-            if (error)
-                reject(error);
-            else
-                resolve(result);
-        });
+/* exported bindChatModel */
+function bindChatModel(service, listbox) {
+    let model = new AssistantModel(service);
+    listbox.bind_model(model.store, (msg) => {
+        return MessageConstructors[msg.message_type](msg, service);
     });
+    return model;
 }
-
-var AssistantModel = class AssistantModel {
-    constructor(window, service, listbox) {
-        this._service = service;
-        this._listbox = listbox;
-
-        this._store = new Gio.ListStore();
-        listbox.bind_model(this._store, (msg) => {
-            return MessageConstructors[msg.message_type](msg, service);
-        });
-    }
-
-    start() {
-        this._newMessageId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
-            this._onNewMessage(params);
-        });
-        this._removeMessageId = this._service.connectSignal('RemoveMessage', (signal, sender, [id]) => {
-            this._onRemoveMessage(id);
-        });
-
-        return dbusPromiseify(this._service, 'GetHistoryRemote').then(([history]) => {
-            for (let msg of history)
-                this._onNewMessage(msg);
-        }).catch((e) => {
-            log('Failed to retrieve the assistant history: ' + e);
-        });
-    }
-
-    stop() {
-        this._service.disconnectSignal(this._newMessageId);
-        this._service.disconnectSignal(this._removeMessageId);
-    }
-
-    _onNewMessage([id, type, direction, msg]) {
-        if (type === MessageType.ASK_SPECIAL && msg.ask_special_what !== 'yesno') {
-            // do something about it...
-            return;
-        }
-        if (type === MessageType.CHOICE)
-            msg.choice_idx = parseInt(msg.choice_idx);
-
-        msg.message_id = id;
-        msg.message_type = type;
-        msg.direction = direction;
-        this._store.append(new Message(msg));
-    }
-
-    _onRemoveMessage(id) {
-        let n = this._store.get_n_items();
-
-        // start from the end, for the common case of buttons collapsing
-        for (let i = n-1; i >= 0; i--) {
-            let msg = this._store.get_item(i);
-            if (msg.message_id === id) {
-                this._store.remove(i);
-                break;
-            }
-        }
-    }
-};

@@ -10,7 +10,7 @@ const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
 
 const Util = imports.util;
-const AssistantModel = imports.chatmodel.AssistantModel;
+const { bindChatModel } = imports.chatview;
 const DeviceModel = imports.devicemodel.DeviceModel;
 const { DeviceConfigDialog } = imports.deviceconfig;
 
@@ -39,7 +39,7 @@ var MainWindow = GObject.registerClass({
                             activate: this._configureNewAccount }]);
 
         this._service = service;
-        this._assistantModel = new AssistantModel(this, service, this._assistant_chat_listbox);
+        this._assistantModel = bindChatModel(service, this._assistant_chat_listbox);
         this._assistantModel.start();
         this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
         this._deviceModel.start();

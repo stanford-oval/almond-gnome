@@ -107,7 +107,7 @@ var DeviceModel = class DeviceModel {
 
         let icon = new Gtk.Image({
             pixel_size: 64,
-            gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.S3_CLOUDFRONT_HOST + '/icons/' + device.kind + '.png') }),
+            gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + deviceIcon) }),
             valign: Gtk.Align.CENTER,
             halign: Gtk.Align.CENTER
         });

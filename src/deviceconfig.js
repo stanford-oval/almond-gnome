@@ -89,7 +89,7 @@ var DeviceConfigDialog = GObject.registerClass({
             });
             let icon = new Gtk.Image({
                 pixel_size: 64,
-                gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.S3_CLOUDFRONT_HOST + '/icons/' + item.kind + '.png') }),
+                gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + deviceIcon) }),
                 valign: Gtk.Align.CENTER,
                 halign: Gtk.Align.CENTER,
                 visible: true,

@@ -2,10 +2,12 @@
 //
 // This file is part of ThingEngine
 //
-// Copyright 2016 Giovanni Campagna <gcampagn@cs.stanford.edu>
+// Copyright 2018 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
-var SEMPRE_URL = 'https://sabrina-nl.stanford.edu';
+/* exported SEMPRE_URL */
+var SEMPRE_URL = 'https://almond-nl.stanford.edu';
+/* exported THINGPEDIA_URL */
 var THINGPEDIA_URL = 'https://thingpedia.stanford.edu/thingpedia';
-var S3_CLOUDFRONT_HOST = 'https://d1ge76rambtuys.cloudfront.net';
