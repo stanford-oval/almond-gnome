@@ -1919,10 +1919,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/a9da9756209367eb085b02b7aeb56ef31dbc76fc",
-                    "sha256": "479ac0c08aaa0e3fe8edf07c86fcef7935b90153afbc5c0c7d4e3e989803372e",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4",
+                    "sha256": "e3fec42b14d1e967020373ab0985ee047c7d6489d3f85254817bff0b061d3c7a",
                     "dest": "service/deps",
-                    "dest-filename": "a9da9756209367eb085b02b7aeb56ef31dbc76fc"
+                    "dest-filename": "4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4"
                 },
                 {
                     "type": "file",
@@ -1933,10 +1933,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/d84dc49d7b9ce5fd93380dbeac93d517a296e05e",
-                    "sha256": "165a34390c58b7bd2217eadf8b530f3fb43d280eef8c78da3bc5a8e696e78d72",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/6be607a6dbf57488d3a074d711f6fc63d629a3b1",
+                    "sha256": "a64ca4c8170a47de7c3a7a7706d67268e2f7e89559ad39684e559f1c5689a619",
                     "dest": "service/deps",
-                    "dest-filename": "d84dc49d7b9ce5fd93380dbeac93d517a296e05e"
+                    "dest-filename": "6be607a6dbf57488d3a074d711f6fc63d629a3b1"
                 },
                 {
                     "type": "file",

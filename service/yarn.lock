@@ -1438,7 +1438,7 @@ tar@^2.2.1:
 
 "thingengine-core@github:Stanford-Mobisocial-IoT-Lab/thingengine-core":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/a9da9756209367eb085b02b7aeb56ef31dbc76fc"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4"
   dependencies:
     adt "^0.7.2"
     babel-runtime "^6.26.0"
@@ -1464,7 +1464,7 @@ tar@^2.2.1:
 
 "thingpedia@github:Stanford-Mobisocial-IoT-Lab/thingpedia-api":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/d84dc49d7b9ce5fd93380dbeac93d517a296e05e"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/6be607a6dbf57488d3a074d711f6fc63d629a3b1"
   dependencies:
     ip "~1.1.0"
     oauth "~0.9.14"
