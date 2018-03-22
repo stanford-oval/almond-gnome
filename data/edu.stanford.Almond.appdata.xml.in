@@ -12,7 +12,8 @@
     Thingpedia supports more than 40 different services, accounts and IoT devices.</p>
   </description>
   <screenshots>
-    <screenshot type="default" width="1024" height="768">https://www.example.com/gtk-js-app/screenshots/large.png</screenshot>
+    <screenshot type="default" width="640" height="527">https://crowdie.stanford.edu/flatpak/screenshot-main.png</screenshot>
+    <screenshot width="1418" height="732">https://crowdie.stanford.edu/flatpak/screenshot-cat.png</screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
 </component>
