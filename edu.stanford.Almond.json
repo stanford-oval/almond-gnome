@@ -64,13 +64,13 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "sha256" : "33677c1fcf6a2f35d2718834fd0afdb36166b0cc68349820e05d8f9316b1dafc",
-                    "url" : "https://nodejs.org/download/release/v6.12.2/node-v6.12.2.tar.xz"
+                    "sha256" : "b72d4e71618d6bcbd039b487b51fa7543631a4ac3331d7caf69bdf55b5b2901a",
+                    "url" : "https://nodejs.org/dist/v8.10.0/node-v8.10.0.tar.xz"
                 },
                 {
                     "type" : "archive",
-                    "sha256" : "0c124e7ed7edfc9f942a13126becc2ddd60d2afc3f3b6f7c3c763b49f02f782c",
-                    "url" : "https://ssl.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.zip",
+                    "sha256" : "9542bd97abeaf3ac2f260b6ccaac36eff7dd2d3122e2efe6ca365c3e457489b4",
+                    "url" : "https://ssl.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.zip",
                     "dest" : "deps/icu"
                 }
             ]
