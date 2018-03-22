@@ -9,10 +9,8 @@ const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
-const GdkPixbuf = imports.gi.GdkPixbuf;
 const Lang = imports.lang;
 
-const Params = imports.app.params;
 const { dbusPromiseify } = imports.common.util;
 const Config = imports.common.config;
 
@@ -29,6 +27,7 @@ const Device = new Lang.Class({
     }
 });
 
+/* exported DeviceModel */
 var DeviceModel = class DeviceModel {
     constructor(window, service, listbox) {
         this._service = service;
@@ -108,7 +107,7 @@ var DeviceModel = class DeviceModel {
 
         let icon = new Gtk.Image({
             pixel_size: 64,
-            gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + deviceIcon) }),
+            gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + device.kind) }),
             valign: Gtk.Align.CENTER,
             halign: Gtk.Align.CENTER
         });
@@ -130,4 +129,4 @@ var DeviceModel = class DeviceModel {
 
         return box;
     }
-}
+};
