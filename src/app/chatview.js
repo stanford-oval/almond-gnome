@@ -13,7 +13,7 @@ const GdkPixbuf = imports.gi.GdkPixbuf;
 
 const Config = imports.common.config;
 const { AssistantModel, Direction, MessageType } = imports.common.chatmodel;
-const { ginvoke, dbusPromiseify } = imports.common.util;
+const { ginvoke, gpromise, dbusPromiseify } = imports.common.util;
 
 function makeAlmondWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,

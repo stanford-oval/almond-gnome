@@ -2,15 +2,17 @@
 <component type="desktop">
   <id>edu.stanford.Almond.desktop</id>
   <metadata_license>CC0</metadata_license>
-  <project_license>GPL-2+</project_license>
-  <name>Sabrina</name>
-  <summary>The Extensible Virtual Assistant</summary>
+  <project_license>GPL-3.0</project_license>
+  <name>Almond</name>
+  <summary>The Open Virtual Assistant</summary>
   <description>
-    FINISHME
+    <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.</p>
+    <p>Almond draws its power from the crowdsourced <a href="https://thingpedia.stanford.edu">Thingpedia</a>, an open collection of Web and Internet of Things APIs.
+    Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
+    Thingpedia supports more than 40 different services, accounts and IoT devices.</p>
   </description>
   <screenshots>
     <screenshot type="default" width="1024" height="768">https://www.example.com/gtk-js-app/screenshots/large.png</screenshot>
   </screenshots>
-  <url type="homepage">https://www.example.com/gtk-js-app</url>
-  <updatecontact>gcampagn_at_cs.stanford.edu</updatecontact>
+  <url type="homepage">https://almond.stanford.edu</url>
 </component>
