@@ -9,10 +9,10 @@ const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
 
-const Util = imports.util;
-const { bindChatModel } = imports.chatview;
-const DeviceModel = imports.devicemodel.DeviceModel;
-const { DeviceConfigDialog } = imports.deviceconfig;
+const Util = imports.common.util;
+const { bindChatModel } = imports.app.chatview;
+const DeviceModel = imports.app.devicemodel.DeviceModel;
+const { DeviceConfigDialog } = imports.app.deviceconfig;
 
 /* exported MainWindow */
 var MainWindow = GObject.registerClass({

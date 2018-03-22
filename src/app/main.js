@@ -20,10 +20,10 @@ const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const WebKit = imports.gi.WebKit2;
 
-const Util = imports.util;
-const Window = imports.window;
-const Service = imports.serviceproxy.Service;
-const PreferenceAction = imports.prefs.PreferenceAction;
+const Util = imports.common.util;
+const Window = imports.app.window;
+const Service = imports.common.serviceproxy.Service;
+const PreferenceAction = imports.app.prefs.PreferenceAction;
 
 function initEnvironment() {
     window.getApp = function() {

@@ -3,6 +3,7 @@
 // Copyright 2013-2017 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
+"use strict";
 
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
@@ -10,10 +11,10 @@ const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Lang = imports.lang;
-const Params = imports.params;
-const { dbusPromiseify } = imports.util;
 
-const Config = imports.config;
+const Params = imports.app.params;
+const { dbusPromiseify } = imports.common.util;
+const Config = imports.common.config;
 
 const Device = new Lang.Class({
     Name: 'AlmondDevice',

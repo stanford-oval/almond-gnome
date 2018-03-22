@@ -3,4 +3,4 @@ imports.package.init({ name: "edu.stanford.Almond",
                        version: "@PACKAGE_VERSION@",
                        prefix: "@prefix@",
                        libdir: "@libdir@" });
-imports.package.run(imports.main);
+imports.package.run(imports.app.main);

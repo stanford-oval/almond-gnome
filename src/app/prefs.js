@@ -8,7 +8,8 @@
 const GObject = imports.gi.GObject;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
-const { dbusPromiseify } = imports.util;
+
+const { dbusPromiseify } = imports.common.util;
 
 function defaultForType(type) {
     switch (type) {

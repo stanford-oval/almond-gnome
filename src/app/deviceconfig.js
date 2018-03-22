@@ -11,9 +11,8 @@ const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const WebKit = imports.gi.WebKit2;
 
-const Config = imports.config;
-
-const { dbusPromiseify, alert } = imports.util;
+const Config = imports.common.config;
+const { dbusPromiseify, alert } = imports.common.util;
 
 const DeviceFactory = GObject.registerClass({
     Properties: {

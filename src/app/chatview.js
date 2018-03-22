@@ -11,9 +11,9 @@ const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 
-const Config = imports.config;
-const { AssistantModel, Direction, MessageType } = imports.chatmodel;
-const { ginvoke, dbusPromiseify } = imports.util;
+const Config = imports.common.config;
+const { AssistantModel, Direction, MessageType } = imports.common.chatmodel;
+const { ginvoke, dbusPromiseify } = imports.common.util;
 
 function makeAlmondWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
