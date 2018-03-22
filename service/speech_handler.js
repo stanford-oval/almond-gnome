@@ -1,7 +1,8 @@
 // -*- mode: js; indent-tabs-mode: nil; js-basic-offset: 4 -*-
 //
 // Copyright 2017 The Board of Trustees of the Leland Stanford Junior University
-//           2017 Giovanni Campagna <gcampagn@cs.stanford.edu>
+//
+// Author: Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
 "use strict";
@@ -19,34 +20,25 @@ class DetectorStream extends stream.Transform {
         super();
 
         let models = new snowboy.Models();
-        for (let m of ['snowboy.umdl', 'almond.pmdl']) {
+        /*for (let p of ['silei', 'gcampagn']) {*/
              models.add({
-                 file: path.resolve(module.filename, '../data/' + m),
-                 sensitivity: '0.5',
-                 hotwords : 'snowboy'
+                 file: path.resolve(module.filename, '../data/gcampagn.pmdl'),
+                 sensitivity: '0.4',
+                 hotwords : 'almond'
              });
-        }
+        /*}*/
 
         this._detector = new snowboy.Detector({
             resource: path.resolve(module.filename, '../data/snowboy.res'),
-            models: models
+            models: models,
+            audio_gain: 2
         });
-        this._queuedForDetection = [];
-        this._detectionMinSize = 0.2 * 16000 * 1 * 2; // 2 bytes per sample, 16kHz, 1 channel, 0.2 seconds
-        this._queuedForDetectionSize = 0;
 
-        this._accumulator = [];
         this._detector.on('silence', () => {
-            //console.log('Silence detected');
-            this._accumulator.length = 0;
         });
         this._detected = false;
         this._detector.on('hotword', (index, hotword, buffer) => {
             this._detected = true;
-            let acc = this._accumulator;
-            this._accumulator = [];
-            for (let buf of acc)
-                this.push(buf);
             this.emit('hotword', hotword);
         });
     }
@@ -57,20 +49,10 @@ class DetectorStream extends stream.Transform {
     }
 
     _transform(chunk, encoding, callback) {
-        if (this._detected) {
+        if (!this._detected)
+            this._detector.runDetection(chunk);
+        if (this._detected)
             this.push(chunk);
-        } else {
-            this._accumulator.push(chunk);
-
-            this._queuedForDetection.push(chunk);
-            this._queuedForDetectionSize += chunk.length;
-            if (this._queuedForDetectionSize > 0) {
-                let toDetect = Buffer.concat(this._queuedForDetection, this._queuedForDetectionSize);
-                this._queuedForDetection.length = 0;
-                this._queuedForDetectionSize = 0;
-                this._detector.runDetection(toDetect);
-            }
-        }
         callback();
     }
 }
@@ -80,10 +62,14 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         super();
         this._platform = platform;
         this._pulse = platform.getCapability('pulseaudio');
-        this._hotwordEnabled = false;
 
         this._recognizer = new SpeechRecognizer({ locale: this._platform.locale });
-        this._recognizer.on('error', (e) => this.emit('error', e));
+        this._recognizer.on('error', (e) => {
+            this._detector.finishRequest();
+            this.emit('error', e);
+        });
+
+        this._hotwordEnabled = false;
     }
 
     setHotwordEnabled(enabled) {
@@ -106,6 +92,7 @@ module.exports = class SpeechHandler extends events.EventEmitter {
                 return;
 
             console.log('Hotword ' + hotword + ' detected');
+            this.emit('hotword', hotword);
             let req = this._recognizer.request(this._detector);
             req.on('hypothesis', (hypothesis) => this.emit('hypothesis', hypothesis));
             req.on('done', (status, utterance) => {

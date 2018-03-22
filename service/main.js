@@ -55,6 +55,8 @@ const DBUS_CONTROL_INTERFACE = {
     signals: {
         'NewMessage': ['uuua{ss}'],
         'RemoveMessage': ['u'],
+        'Activate': [],
+        'VoiceHypothesis': ['s'],
         'DeviceAdded': ['a{sv}'],
         'DeviceRemoved': ['s'],
         'PreferenceChanged': ['s']
@@ -83,7 +85,7 @@ function marshalAny(obj) {
 function unmarshalASV(values) {
     let obj = {};
     for (let [name, [signature, value]] of values) {
-        if (signature == 'a{sv}')
+        if (signature === 'a{sv}')
             value = unmarshalASV(value);
 
         obj[name] = value;
@@ -97,6 +99,8 @@ class AppControlChannel extends events.EventEmitter {
 
         _ad.on('NewMessage', (id, type, direction, msg) => this.emit('NewMessage', id, type, direction, marshallASS(msg)));
         _ad.on('RemoveMessage', (id) => this.emit('RemoveMessage', id));
+        _ad.on('VoiceHypothesis', (hyp) => this.emit('VoiceHypothesis', hyp));
+        _ad.on('Activate', () => this.emit('Activate'));
         _engine.devices.on('device-added', (device) => {
             this.emit('DeviceAdded', this._toDeviceInfo(device));
         });

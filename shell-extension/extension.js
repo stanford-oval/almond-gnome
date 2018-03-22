@@ -204,16 +204,16 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
     constructor(notification) {
         super(notification);
 
-        this._responseEntry = new St.Entry({ style_class: 'chat-response',
-                                             x_expand: true,
-                                             can_focus: true });
-        this._responseEntry.clutter_text.connect('activate', this._onEntryActivated.bind(this));
-        this.setActionArea(this._responseEntry);
+        this.responseEntry = new St.Entry({ style_class: 'chat-response',
+                                            x_expand: true,
+                                            can_focus: true });
+        this.responseEntry.clutter_text.connect('activate', this._onEntryActivated.bind(this));
+        this.setActionArea(this.responseEntry);
 
-        this._responseEntry.clutter_text.connect('key-focus-in', () => {
+        this.responseEntry.clutter_text.connect('key-focus-in', () => {
             this.focused = true;
         });
-        this._responseEntry.clutter_text.connect('key-focus-out', () => {
+        this.responseEntry.clutter_text.connect('key-focus-out', () => {
             this.focused = false;
             this.emit('unfocused');
         });
@@ -241,7 +241,7 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
             this._oldMaxScrollValue = Math.max(adjustment.lower, adjustment.upper - adjustment.page_size);
         });
 
-        this._inputHistory = new History.HistoryManager({ entry: this._responseEntry.clutter_text });
+        this._inputHistory = new History.HistoryManager({ entry: this.responseEntry.clutter_text });
 
         this._messages = [];
         this._store = this.notification.model.store;
@@ -325,13 +325,13 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
     }
 
     _onEntryActivated() {
-        let text = this._responseEntry.get_text();
+        let text = this.responseEntry.get_text();
         if (text === '')
             return;
 
         this._inputHistory.addItem(text);
 
-        this._responseEntry.set_text('');
+        this.responseEntry.set_text('');
         this.notification.source.respond(text);
     }
 }
@@ -403,6 +403,14 @@ class AssistantSource extends MessageTray.Source {
 
         this.service.connectSignal('NewMessage', () => {
             this.notify(this._notification);
+        });
+        this.service.connectSignal('Activate', () => {
+            this.notify(this._notification);
+        });
+        this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
+            if (!this._banner)
+                return;
+            this._banner.responseEntry.set_text(hyp);
         });
         this._model = new AssistantModel(this.service);
         this._model.start();

@@ -105,6 +105,11 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <signal name="PreferenceChanged">
       <arg type="s" name="key" />
     </signal>
+    <signal name="Activate">
+    </signal>
+    <signal name="VoiceHypothesis">
+      <arg type="s" name="hypothesis" />
+    </signal>
   </interface>
 </node>`;
 

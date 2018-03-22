@@ -62,7 +62,11 @@ class AssistantDispatcher extends events.EventEmitter {
         this._speechHandler.on('hypothesis', (hypothesis) => {
             this.emit('VoiceHypothesis', hypothesis);
         });
+        this._speechHandler.on('hotword', (hotword) => {
+            this.emit('Activate');
+        });
         this._speechHandler.on('utterance', (utterance) => {
+            this.emit('VoiceHypothesis', '');
             this.handleCommand(utterance).catch((e) => {
                 console.error(e.stack);
             });
