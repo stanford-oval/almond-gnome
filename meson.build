@@ -37,7 +37,7 @@ app_configuration.set('libdir', join_paths(get_option('prefix'), get_option('lib
 app_configuration.set('pkglibdir', pkglibdir)
 app_configuration.set('pkgdatadir', pkgdatadir)
 
-
+subdir('helpers')
 subdir('src')
 subdir('data')
 subdir('po')

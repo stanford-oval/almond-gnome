@@ -1688,10 +1688,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd",
-                    "sha256": "619c4fa7cc5712746fd7ad93f0bf248a27d855c742a21c973a3d4618d90d83a9",
+                    "url": "https://registry.yarnpkg.com/rc/-/rc-1.2.6.tgz#eb18989c6d4f4f162c399f79ddd29f3835568092",
+                    "sha256": "a109ca32e9575b2da6e88342f4d3b5e1bc170e7837695e01e9eceb2a431d772f",
                     "dest": "service/deps",
-                    "dest-filename": "rc-1.2.5.tgz"
+                    "dest-filename": "rc-1.2.6.tgz"
                 },
                 {
                     "type": "file",
@@ -1723,10 +1723,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356",
-                    "sha256": "a1ad0fbbf5f49ab0b7ee917e47d11b86326ee44d2f630dd3e0b9d4f61298148e",
+                    "url": "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa",
+                    "sha256": "eae2593266745aba7c6d56fb01ff143a97a958639d5a0d226e9743e0f2a55d6d",
                     "dest": "service/deps",
-                    "dest-filename": "request-2.83.0.tgz"
+                    "dest-filename": "request-2.85.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1856,10 +1856,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/sshpk/-/sshpk-1.13.1.tgz#512df6da6287144316dc4c18fe1cf1d940739be3",
-                    "sha256": "9f32e58102bd59ea8459d25b76697d7734ded220be55f26ab7dea9b8068e8a7d",
+                    "url": "https://registry.yarnpkg.com/sshpk/-/sshpk-1.14.1.tgz#130f5975eddad963f1d56f92b9ac6c51fa9f83eb",
+                    "sha256": "f977688300749453b55875dd37d1ada68d4c2d6dad06b275530c025af0da7ae4",
                     "dest": "service/deps",
-                    "dest-filename": "sshpk-1.13.1.tgz"
+                    "dest-filename": "sshpk-1.14.1.tgz"
                 },
                 {
                     "type": "file",
@@ -1919,10 +1919,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/c88ecd4301e2f9b5687447c418650dd05f07c5b7",
-                    "sha256": "3caa18e37b099864074e860b86b4301a466630587ba6c9e1db9af251c9a76e59",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/a9da9756209367eb085b02b7aeb56ef31dbc76fc",
+                    "sha256": "479ac0c08aaa0e3fe8edf07c86fcef7935b90153afbc5c0c7d4e3e989803372e",
                     "dest": "service/deps",
-                    "dest-filename": "c88ecd4301e2f9b5687447c418650dd05f07c5b7"
+                    "dest-filename": "a9da9756209367eb085b02b7aeb56ef31dbc76fc"
                 },
                 {
                     "type": "file",

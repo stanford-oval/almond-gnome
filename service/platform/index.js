@@ -15,6 +15,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const child_process = require('child_process');
+const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('cvc4');
@@ -94,6 +95,65 @@ function getFilesDir() {
         return path.resolve(getUserConfigDir(), 'almond');
 }
 
+const _appLauncher = {
+    launchApp(appId, ...files) {
+        child_process.spawn(path.resolve(module.filename, '../../../helpers/spawn-app'), [appId, ...files], {
+            detached: true,
+            stdio: 'inherit'
+        });
+    },
+
+    launchURL(url) {
+        child_process.spawn('xdg-open', [url], {
+            detached: true,
+            stdio: 'inherit'
+        });
+    }
+};
+class SystemLock {
+    constructor(systemBus) {
+        this._bus = systemBus;
+    }
+
+    lock() {
+        return Q.ninvoke(this._bus, 'getInterface',
+                         'org.freedesktop.login1',
+                         '/org/freedesktop/login1/session/_3' + process.env.XDG_SESSION_ID,
+                         'org.freedesktop.login1.Session').then((session) => {
+             return Q.ninvoke(session, 'Lock');
+        });
+    }
+}
+
+
+class SystemSettings {
+    constructor(cacheDir) {
+        this._cacheDir = cacheDir;
+    }
+
+    _downloadURI(url) {
+        safeMkdirSync(this._cacheDir + '/backgrounds');
+
+        let file_name = this._cacheDir + '/backgrounds/' + path.basename(url);
+        let stream = fs.createWriteStream(file_name);
+        return Tp.Helpers.Http.getStream(url).then((download) => {
+            return new Promise((resolve, reject) => {
+                download.pipe(stream);
+                stream.on('error', reject);
+                stream.on('finish', () => resolve('file://' + file_name));
+            });
+        });
+    }
+
+    setBackground(url) {
+        if (!url.startsWith('file:///'))
+            return this._downloadURI(url).then((downloaded) => this.setBackground(downloaded));
+
+        return Q.nfcall(child_process.execFile, 'gsettings',
+            ['set', 'org.gnome.desktop.background', 'picture-uri', url]);
+    }
+}
+
 class Platform {
     // Initialize the platform code
     // Will be called before instantiating the engine
@@ -117,6 +177,8 @@ class Platform {
 
         this._dbusSession = DBus.sessionBus();
         this._dbusSystem = DBus.systemBus();
+        this._systemLock = new SystemLock(this._dbusSystem);
+        this._systemSettings = new SystemSettings(this._cacheDir);
         this._btApi = null;
         this._pulse = new PulseAudio({
             client: "thingengine-platform-gnome"
@@ -154,6 +216,10 @@ class Platform {
         return true;
     }
 
+    getPlatformDevice() {
+        return 'gnome';
+    }
+
     // Check if this platform has the required capability
     // (eg. long running, big storage, reliable connectivity, server
     // connectivity, stable IP, local device discovery, bluetooth, etc.)
@@ -171,6 +237,10 @@ class Platform {
         case 'dbus-system':
         case 'text-to-speech':
         case 'bluetooth':
+        case 'app-launcher':
+        case 'system-lock':
+        case 'system-settings':
+        case 'screenshot':
             return true;
 
 /*
@@ -229,6 +299,13 @@ class Platform {
 
         case 'smt-solver':
             return CVC4Solver;
+
+        case 'app-launcher':
+            return _appLauncher;
+        case 'system-lock':
+            return this._systemLock;
+        case 'system-settings':
+            return this._systemSettings;
 
 /*
         case 'notify-api':

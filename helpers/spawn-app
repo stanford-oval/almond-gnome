@@ -1,0 +1,16 @@
+#!/usr/bin/gjs
+
+const Gio = imports.gi.Gio;
+const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
+
+// init Gtk for startup notification
+Gtk.init(null);
+log('Opening ' + ARGV[0]);
+const app = Gio.DesktopAppInfo.new(ARGV[0] + '.desktop');
+if (!app) {
+    log('No such app');
+} else {
+    const launchContext = Gdk.Display.get_default().get_app_launch_context();
+    app.launch(ARGV.slice(1).map((arg) => Gio.File.new_for_commandline_arg(arg)), launchContext);
+}
