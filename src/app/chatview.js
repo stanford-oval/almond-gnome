@@ -67,8 +67,8 @@ const MessageConstructors = {
     },
 
     [MessageType.PICTURE](msg) {
-        var box = makeAlmondWrapper(msg);
-        var image = new Gtk.Image({ hexpand: true });
+        const box = makeAlmondWrapper(msg);
+        const image = new Gtk.Image({ hexpand: true });
         image.get_style_context().add_class('message');
         image.get_style_context().add_class('from-almond');
 
@@ -86,17 +86,15 @@ const MessageConstructors = {
         return box;
     },
 
-    [MessageType.CHOICE](msg, service) {
-        var box = makeGenericWrapper(msg);
-        var button = new Gtk.Button({
+    [MessageType.CHOICE](msg, service, window) {
+        const box = makeGenericWrapper(msg);
+        const button = new Gtk.Button({
             halign: Gtk.Align.CENTER,
             hexpand: true });
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.show();
         button.connect('clicked', () => {
-            dbusPromiseify(service, 'HandleParsedCommandRemote', msg.text, JSON.stringify({answer:{type:'Choice', value: msg.choice_idx}})).catch((e) => {
-                log('Failed to click on button: ' + e);
-            });
+            window.handleChoice(msg.text, msg.choice_idx);
         });
         box.pack_start(button, true, true, 0);
         return box;
@@ -106,50 +104,46 @@ const MessageConstructors = {
         return null;
     },
 
-    [MessageType.BUTTON](msg, service) {
-        var box = makeGenericWrapper(msg);
-        var button = new Gtk.Button({
+    [MessageType.BUTTON](msg, service, window) {
+        const box = makeGenericWrapper(msg);
+        const button = new Gtk.Button({
             halign: Gtk.Align.CENTER,
             hexpand: true });
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.show();
         button.connect('clicked', () => {
-            dbusPromiseify(service, 'HandleParsedCommandRemote', msg.text, msg.json).catch((e) => {
-                log('Failed to click on button: ' + e);
-            });
+            window.handleParsedCommand(msg.json, msg.text);
         });
         box.pack_start(button, true, true, 0);
         return box;
     },
 
-    [MessageType.ASK_SPECIAL](msg, service) {
+    [MessageType.ASK_SPECIAL](msg, service, window) {
         if (msg.ask_special_what === 'yesno') {
-            var box = makeGenericWrapper(msg);
-            var button_box = new Gtk.ButtonBox({
+            const box = makeGenericWrapper(msg);
+            const button_box = new Gtk.ButtonBox({
                 layout_style: Gtk.ButtonBoxStyle.CENTER,
                 hexpand: true });
 
-            var yes = new Gtk.Button({
+            const yes = new Gtk.Button({
                 label: _("Yes"),
                 halign: Gtk.Align.CENTER,
-                hexpand: true });
+                hexpand: true
+            });
             yes.show();
             yes.connect('clicked', () => {
-                dbusPromiseify(service, 'HandleParsedCommandRemote', _("Yes"), JSON.stringify({"special":"yes"})).catch((e) => {
-                    log('Failed to click on button: ' + e);
-                });
+                window.handleSpecial('yes', _("Yes"));
             });
             button_box.add(yes);
 
-            var no = new Gtk.Button({
+            const no = new Gtk.Button({
                 label: _("No"),
                 halign: Gtk.Align.CENTER,
-                hexpand: true });
+                hexpand: true
+            });
             no.show();
             no.connect('clicked', () => {
-                dbusPromiseify(service, 'HandleParsedCommandRemote', _("No"), JSON.stringify({"special":"no"})).catch((e) => {
-                    log('Failed to click on button: ' + e);
-                });
+                window.handleSpecial('no', _("No"));
             });
             button_box.add(no);
 
@@ -179,13 +173,13 @@ const MessageConstructors = {
         box.pack_start(label, true, true, 0);
         return box;
     }
-}
+};
 
 /* exported bindChatModel */
-function bindChatModel(service, listbox) {
+function bindChatModel(window, service, listbox) {
     let model = new AssistantModel(service);
     listbox.bind_model(model.store, (msg) => {
-        return MessageConstructors[msg.message_type](msg, service);
+        return MessageConstructors[msg.message_type](msg, service, window);
     });
     return model;
 }

@@ -42,7 +42,7 @@ var MainWindow = GObject.registerClass({
                             activate: this._configureNewAccount }]);
 
         this._service = service;
-        this._assistantModel = bindChatModel(service, this._assistant_chat_listbox);
+        this._assistantModel = bindChatModel(this, service, this._assistant_chat_listbox);
         this._assistantModel.start();
         this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
         this._deviceModel.start();
@@ -59,11 +59,33 @@ var MainWindow = GObject.registerClass({
             text = text.trim();
             if (!text)
                 return;
-            if (text.startsWith('\\r '))
-                this._service.HandleParsedCommandRemote('', text.substr('\\r '.length));
-            else
-                this._service.HandleCommandRemote(text);
+
             this._assistant_input.text = '';
+
+            const onerror = (result, error) => {
+                if (error)
+                    log('Failed to handle command: ' + error);
+            };
+
+            function handleSlashR(line) {
+                line = line.trim();
+                if (line.startsWith('{')) {
+                    this._service.HandleParsedCommandRemote('', line, onerror);
+                } else {
+                    this._service.HandleParsedCommandRemote('',
+                        JSON.stringify({ code: line.split(' '), entities: {} }), onerror);
+                }
+            }
+            if (text.startsWith('\\r')) {
+                handleSlashR(text.substring(3));
+                return;
+            }
+            if (text.startsWith('\\t')) {
+                this._service.HandleThingTalkRemote(text.substring(3), onerror);
+                return;
+            }
+
+            this._service.HandleCommandRemote(text, onerror);
         });
     }
 
@@ -77,10 +99,20 @@ var MainWindow = GObject.registerClass({
             code: ['bookkeeping', 'special', 'special:' + special],
             entities: {}
         });
+        this.handleParsedCommand(json, title);
+    }
+    handleParsedCommand(json, title) {
         this._service.HandleParsedCommandRemote(title, json, (result, error) => {
             if (error)
-                log('Handling of special command failed: ' + error);
+                log('Failed to click on button: ' + error);
         });
+    }
+    handleChoice(choiceIdx, title) {
+        let json = JSON.stringify({
+            code: ['bookkeeping', 'choice', String(choiceIdx)],
+            entities: {}
+        });
+        this.handleParsedCommand(json, title);
     }
 
     _makeRule() {
