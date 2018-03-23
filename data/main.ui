@@ -129,16 +129,79 @@
             <property name="position">1</property>
           </packing>
         </child>
-        <!--<child>
-          <object class="GtkScrolledWindow">
+        <child>
+          <object class="GtkGrid">
             <property name="visible">True</property>
-            <property name="hexpand">True</property>
-            <property name="vexpand">True</property>
+            <property name="can_focus">False</property>
             <child>
-              <object class="GtkListBox">
+              <object class="GtkScrolledWindow">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="hscrollbar-policy">never</property>
+                <child>
+                  <object class="GtkListBox" id="my-rules-list-view">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child type="placeholder">
+                      <object class="GtkGrid">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">False</property>
+                        <property name="vexpand">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="orientation">vertical</property>
+                        <property name="row-spacing">12</property>
+                        <property name="margin">6</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon_size">6</property>
+                            <property name="icon_name">action-unavailable-symbolic</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="wrap">True</property>
+                            <property name="justify">center</property>
+                            <property name="label" translatable="True">You have no ongoing rules. You can start one by giving Almond a monitoring command, such as 'monitor the news' or 'notify me when I receive an important email'.</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkActionBar">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkButton" id="make-rule">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="use_underline">True</property>
+                    <property name="label" translatable="yes">Make a New _Rule</property>
+                    <property name="action-name">win.new-rule</property>
+                  </object>
+                  <packing>
+                    <property name="pack_type">start</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -147,7 +210,7 @@
             <property name="position">2</property>
           </packing>
         </child>
-        <child>
+        <!--<child>
           <object class="GtkScrolledWindow">
             <property name="visible">True</property>
             <property name="hexpand">True</property>
@@ -210,11 +273,11 @@
         <attribute name="target">page-my-rules</attribute>
         <attribute name="label" translatable="yes">My Rules</attribute>
       </item>
-      <item>
+      <!--<item>
         <attribute name="action">win.switch-to</attribute>
         <attribute name="target">page-my-permissions</attribute>
         <attribute name="label" translatable="yes">My Permissions</attribute>
-      </item>
+      </item>-->
     </section>
   </menu>
 </interface>

@@ -107,6 +107,12 @@ class AppControlChannel extends events.EventEmitter {
         _engine.devices.on('device-removed', (device) => {
             this.emit('DeviceRemoved', device.uniqueId);
         });
+         _engine.apps.on('app-added', (app) => {
+            this.emit('AppAdded', this._toAppInfo(app));
+        });
+        _engine.devices.on('app-removed', (app) => {
+            this.emit('AppRemoved', app.uniqueId);
+        });
 
         let prefs = _engine.platform.getSharedPreferences();
         prefs.on('changed', (key) => {
@@ -204,7 +210,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceInfos() {
-        var devices = _engine.devices.getAllDevices();
+        const devices = _engine.devices.getAllDevices();
         return devices.map(this._toDeviceInfo, this);
     }
 
@@ -242,23 +248,24 @@ class AppControlChannel extends events.EventEmitter {
         return d.checkAvailable();
     }
 
-    GetAppInfos() {
-        var apps = _engine.apps.getAllApps();
+    _toAppInfo(a) {
+        var app =  [['uniqueId', ['s', a.uniqueId]],
+                    ['name', ['s', a.name || "Some app"]],
+                    ['description', ['s', a.description || a.name || "Some app"]],
+                    ['icon', ['s', a.icon || '']],
+                    ['isRunning', ['b', a.isRunning]],
+                    ['isEnabled', ['b', a.isEnabled]],
+                    ['error', ['s', a.error ? a.error.message : '']]];
+        return app;
+    }
 
-        return apps.map((a) => {
-            var app =  [['uniqueId', ['s', a.uniqueId]],
-                        ['name', ['s', a.name || "Some app"]],
-                        ['description', ['s', a.description || a.name || "Some app"]],
-                        ['icon', ['s', a.icon || '']],
-                        ['isRunning', ['b', a.isRunning]],
-                        ['isEnabled', ['b', a.isEnabled]],
-                        ['error', ['s', a.error ? a.error.message : '']]];
-            return app;
-        });
+    GetAppInfos() {
+        const apps = _engine.apps.getAllApps();
+        return apps.map(this._toAppInfo, this);
     }
 
     DeleteApp(uniqueId) {
-        var app = _engine.apps.getApp(uniqueId);
+        const app = _engine.apps.getApp(uniqueId);
         if (app === undefined)
             return false;
 

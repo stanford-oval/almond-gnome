@@ -30,3 +30,7 @@
   background-color: white;
   background-clip: content-box;
 }
+
+.app-name {
+  font-weight: bold;
+}

@@ -11,7 +11,8 @@ const GObject = imports.gi.GObject;
 
 const Util = imports.common.util;
 const { bindChatModel } = imports.app.chatview;
-const DeviceModel = imports.app.devicemodel.DeviceModel;
+const { DeviceModel } = imports.app.devicemodel;
+const { AppModel } = imports.app.appmodel;
 const { DeviceConfigDialog } = imports.app.deviceconfig;
 
 /* exported MainWindow */
@@ -19,7 +20,7 @@ var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
     InternalChildren: ['main-stack', 'assistant-chat-listbox',
-        'assistant-input', 'my-stuff-grid-view'],
+        'assistant-input', 'my-stuff-grid-view', 'my-rules-list-view'],
 }, class MainWindow extends Gtk.ApplicationWindow {
     _init(app, service) {
         super._init({ application: app,
@@ -33,6 +34,8 @@ var MainWindow = GObject.registerClass({
                           { name: 'switch-to',
                             activate: this._switchTo,
                             parameter_type: new GLib.VariantType('s') },
+                          { name: 'new-rule',
+                            activate: this._makeRule },
                           { name: 'new-device',
                             activate: this._configureNewDevice },
                           { name: 'new-account',
@@ -43,6 +46,8 @@ var MainWindow = GObject.registerClass({
         this._assistantModel.start();
         this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
         this._deviceModel.start();
+        this._appModel = new AppModel(this, service, this._my_rules_list_view);
+        this._appModel.start();
 
         this.connect('destroy', () => {
             this._assistantModel.stop();
@@ -67,6 +72,21 @@ var MainWindow = GObject.registerClass({
         this._main_stack.visible_child_name = pageName;
     }
 
+    handleSpecial(special, title) {
+        let json = JSON.stringify({
+            code: ['bookkeeping', 'special', 'special:' + special],
+            entities: {}
+        });
+        this._service.HandleParsedCommandRemote(title, json, (result, error) => {
+            if (error)
+                log('Handling of special command failed: ' + error);
+        });
+    }
+
+    _makeRule() {
+        this._main_stack.visible_child_name = 'page-chat';
+        this.handleSpecial('makerule', _("Make a Rule"));
+    }
     _configureNewDevice() {
         this._configureNew('physical');
     }

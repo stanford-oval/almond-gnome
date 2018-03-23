@@ -5,6 +5,7 @@
     <file>common/config.js</file>
     <file>common/serviceproxy.js</file>
     <file>common/util.js</file>
+    <file>app/appmodel.js</file>
     <file>app/chatview.js</file>
     <file>app/deviceconfig.js</file>
     <file>app/devicemodel.js</file>
