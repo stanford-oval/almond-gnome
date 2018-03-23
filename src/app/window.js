@@ -120,6 +120,15 @@ var MainWindow = GObject.registerClass({
         });
         this.handleParsedCommand(json, title);
     }
+    handleConfigure(kind, title) {
+        this._main_stack.visible_child_name = 'page-chat';
+        let json = JSON.stringify({
+            code: ["now", "=>", "@org.thingpedia.builtin.thingengine.builtin.configure",
+                   "param:device:Entity(tt:device)", "=", "device:" + kind],
+            entities: {}
+        });
+        this.handleParsedCommand(json, _("Configure %s").format(title));
+    }
 
     _makeRule() {
         this._main_stack.visible_child_name = 'page-chat';

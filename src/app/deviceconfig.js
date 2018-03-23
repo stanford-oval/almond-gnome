@@ -57,7 +57,8 @@ const DeviceFactory = GObject.registerClass({
             this.dialog.startForm(this.text, this.kind, this._factoryMeta.fields.deep_unpack());
             break;
         case 'discovery':
-            alert(this.dialog, _("Sorry, configuring this device is not implemented yet"));
+            this.dialog.transient_for.handleConfigure(this.kind, this.text);
+            this.dialog.destroy();
             break;
         default:
             log('Unrecognized factory type ' + this.type);
