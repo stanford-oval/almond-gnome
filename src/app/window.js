@@ -20,6 +20,7 @@ var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
     InternalChildren: ['main-stack', 'assistant-chat-listbox',
+        'assistant-chat-scrolled-window',
         'assistant-input', 'my-stuff-grid-view', 'my-rules-list-view'],
 }, class MainWindow extends Gtk.ApplicationWindow {
     _init(app, service) {
@@ -48,8 +49,19 @@ var MainWindow = GObject.registerClass({
                             activate: this._configureNewAccount }]);
 
         this._service = service;
+
         this._assistantModel = bindChatModel(this, service, this._assistant_chat_listbox);
         this._assistantModel.start();
+
+        this._scrollAtEnd = true;
+        this._assistant_chat_scrolled_window.vadjustment.connect('value-changed', (adj) => {
+            this._scrollAtEnd = adj.value === adj.upper - adj.page_size;
+        });
+        this._assistant_chat_scrolled_window.vadjustment.connect('changed', (adj) => {
+            if (this._scrollAtEnd)
+                adj.value = adj.upper - adj.page_size;
+        });
+
         this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
         this._deviceModel.start();
         this._appModel = new AppModel(this, service, this._my_rules_list_view);
