@@ -14,6 +14,7 @@
   <screenshots>
     <screenshot type="default" width="640" height="527">https://crowdie.stanford.edu/flatpak/screenshot-main.png</screenshot>
     <screenshot width="1418" height="732">https://crowdie.stanford.edu/flatpak/screenshot-cat.png</screenshot>
+    <screenshot width="1720" height="1232">https://crowdie.stanford.edu/flatpak/screenshot-xkcd.png</screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
 </component>
