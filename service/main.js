@@ -1,4 +1,3 @@
-// -*- mode: js; indent-tabs-mode: nil; js-basic-offset: 4 -*-
 //
 // This file is part of ThingEngine
 //
@@ -207,7 +206,7 @@ class AppControlChannel extends events.EventEmitter {
                 ['name', ['s', d.name || "Unknown device"]],
                 ['description', ['s', d.description || "Description not available"]],
                 ['kind', ['s', d.kind]],
-                ['version', ['u', d.constructor.version || 0]],
+                ['version', ['u', d.constructor.metadata.version || 0]],
                 ['class', ['s', deviceKlass]],
                 ['ownerTier', ['s', d.ownerTier]],
                 ['isTransient', ['b', d.isTransient]]];

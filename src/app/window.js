@@ -1,6 +1,6 @@
 // -*- mode: js; indent-tabs-mode: nil; js-basic-offset: 4 -*-
 //
-// Copyright 2013-2016 Giovanni Campagna <gcampagn@cs.stanford.edu>
+// Copyright 2013-2018 Giovanni Campagna <gcampagn@cs.stanford.edu>
 //
 // See COPYING for details
 "use strict";
@@ -8,26 +8,47 @@
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
+const Gio = imports.gi.Gio;
 
 const Util = imports.common.util;
+const Config = imports.common.config;
 const { bindChatModel } = imports.app.chatview;
 const { DeviceModel } = imports.app.devicemodel;
 const { AppModel } = imports.app.appmodel;
 const { DeviceConfigDialog } = imports.app.deviceconfig;
 
+const { dbusPromiseify, alert } = imports.common.util;
+
+function getGIcon(icon) {
+    if (!icon)
+        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
+    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
+}
+
 /* exported MainWindow */
 var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
-    InternalChildren: ['main-stack', 'assistant-chat-listbox',
+    InternalChildren: [
+        'main-stack',
+        'assistant-chat-listbox',
         'assistant-chat-scrolled-window',
-        'assistant-input', 'my-stuff-grid-view', 'my-rules-list-view'],
+        'assistant-input',
+        'my-stuff-grid-view',
+        'my-rules-list-view',
+        'device-details-icon',
+        'device-details-name',
+        'device-details-description',
+        'device-details-version',
+        'device-details-update',
+        'device-details-examples',
+    ],
 }, class MainWindow extends Gtk.ApplicationWindow {
     _init(app, service) {
         super._init({ application: app,
                       title: GLib.get_application_name(),
-                      default_width: 640,
-                      default_height: 480 });
+                      default_width: 900,
+                      default_height: 500 });
 
         Util.initActions(this,
                          [{ name: 'about',
@@ -45,6 +66,9 @@ var MainWindow = GObject.registerClass({
                           { name: 'configure-device-form',
                             activate: this._configureDeviceForm,
                             parameter_type: new GLib.VariantType('(ssaa{ss})') },
+                          { name: 'show-device-details',
+                            activate: this._showDeviceDetails,
+                            parameter_type: new GLib.VariantType('s') },
                           { name: 'new-account',
                             activate: this._configureNewAccount }]);
 
@@ -63,6 +87,9 @@ var MainWindow = GObject.registerClass({
         });
 
         this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
+        this._my_stuff_grid_view.connect('child-activated', (grid, row) => {
+            this._showDeviceDetailsInternal(row._device.unique_id);
+        });
         this._deviceModel.start();
         this._appModel = new AppModel(this, service, this._my_rules_list_view);
         this._appModel.start();
@@ -166,6 +193,25 @@ var MainWindow = GObject.registerClass({
         let dialog = new DeviceConfigDialog(this, '', this._service);
         dialog.startForm(title, kind, controls);
     }
+    _showDeviceDetails(action, param) {
+        let uniqueId = param.deep_unpack();
+        this._showDeviceDetailsInternal(uniqueId);
+    }
+
+    _showDeviceDetailsInternal(uniqueId) {
+        dbusPromiseify(this._service, 'GetDeviceInfoRemote', uniqueId).then(([deviceInfo]) => {
+            let kind = deviceInfo.kind.deep_unpack();
+            this._device_details_icon.gicon = getGIcon(kind);
+            this._device_details_name.label = deviceInfo.name.deep_unpack();
+            this._device_details_description.label = deviceInfo.description.deep_unpack();
+            this._device_details_version.label = _("Version: %d").format(deviceInfo.version.deep_unpack());
+            this._device_details_update.action_target = new GLib.Variant('s', kind);
+
+            this._main_stack.visible_child_name = 'page-device-details';
+        }).catch((e) => {
+            alert(this, _("Sorry, that did not work: %s").format(e.message));
+        });
+    }
 
     _about() {
         let aboutDialog = new Gtk.AboutDialog(
@@ -173,7 +219,7 @@ var MainWindow = GObject.registerClass({
               translator_credits: _("translator-credits"),
               program_name: _("Almond"),
               comments: _("The Open Virtual Assistant"),
-              copyright: 'Copyright 2016-2017 Stanford University, Mobisocial Computing Lab',
+              copyright: 'Copyright 2016-2018 Stanford University, Mobisocial Computing Lab',
               license_type: Gtk.License.GPL_2_0,
               logo_icon_name: 'edu.stanford.Almond',
               version: pkg.version,

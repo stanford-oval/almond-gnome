@@ -127,6 +127,10 @@ var DeviceModel = class DeviceModel {
         label.show();
         box.show();
 
-        return box;
+        let row = new Gtk.FlowBoxChild({ visible: true });
+        row.add(box);
+        row._device = device;
+
+        return row;
     }
 };

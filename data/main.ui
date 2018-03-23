@@ -79,6 +79,8 @@
                     <property name="selection-mode">none</property>
                     <property name="valign">start</property>
                     <property name="margin">6</property>
+                    <property name="row-spacing">12</property>
+                    <property name="column-spacing">12</property>
                   </object>
                 </child>
               </object>
@@ -228,6 +230,143 @@
             <property name="position">3</property>
           </packing>
         </child>-->
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImage" id="device-details-icon">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="pixel_size">128</property>
+                <property name="margin_top">24</property>
+                <property name="margin_start">50</property>
+                <property name="margin_end">30</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+              </object>
+              <packing>
+                <property name="top_attach">0</property>
+                <property name="left_attach">0</property>
+                <property name="height">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="device-details-name">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">fill</property>
+                <property name="yalign">1.0</property>
+                <property name="halign">start</property>
+                <property name="xalign">0.0</property>
+                <property name="margin_end">50</property>
+                <property name="wrap">True</property>
+                <style>
+                  <class name="device-details-name"/>
+                </style>
+              </object>
+              <packing>
+                <property name="top_attach">0</property>
+                <property name="left_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="device-details-description">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">fill</property>
+                <property name="yalign">0.0</property>
+                <property name="halign">start</property>
+                <property name="xalign">0.0</property>
+                <property name="margin_end">50</property>
+                <property name="wrap">True</property>
+                <property name="justify">fill</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="left_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="spacing">12</property>
+                <property name="orientation">horizontal</property>
+                <property name="margin_start">50</property>
+                <property name="margin_end">50</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">24</property>
+                <child>
+                  <object class="GtkLabel" id="device-details-version">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="device-details-update">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="xalign">0.0</property>
+                    <property name="use_underline">True</property>
+                    <property name="label" translatable="True">Check For _Update</property>
+                    <property name="action-name">win.check-update</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="left_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="label" translatable="True">Examples</property>
+                <style>
+                  <class name="device-details-examples-h2"/>
+                </style>
+              </object>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="left_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="vexpand">True</property>
+                <property name="hexpand">True</property>
+                <property name="hscrollbar_policy">never</property>
+                <child>
+                  <object class="GtkListBox" id="device-details-examples">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="vexpand">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">4</property>
+                <property name="left_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">page-device-details</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
       </object>
     </child>
     <child type="titlebar">

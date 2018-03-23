@@ -34,3 +34,13 @@
 .app-name {
   font-weight: bold;
 }
+
+.device-details-name {
+  font-weight: bold;
+  font-size: 48px;
+}
+
+.device-details-examples-h2 {
+  font-weight: bold;
+  font-size: 1.5em;
+}
