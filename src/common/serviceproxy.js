@@ -39,6 +39,10 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="s" name="kind" direction="in" />
       <arg type="b" name="ok" direction="out" />
     </method>
+    <method name="CreateDevice">
+      <arg type="s" name="data" direction="in" />
+      <arg type="b" name="ok" direction="out" />
+    </method>
     <method name="DeleteDevice">
       <arg type="s" name="uniqueId" direction="in" />
       <arg type="b" name="ok" direction="out" />

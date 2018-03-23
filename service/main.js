@@ -38,6 +38,7 @@ const DBUS_CONTROL_INTERFACE = {
         StartOAuth2: ['s', '(bsa{ss})'],
         HandleOAuth2Callback: ['ssa{ss}', ''],
         CreateSimpleDevice: ['s', 'b'],
+        CreateDevice: ['s', 'b'],
         DeleteDevice: ['s', 'b'],
         UpgradeDevice: ['s', 'b'],
         GetDeviceInfos: ['', 'aa{sv}'],
@@ -175,6 +176,9 @@ class AppControlChannel extends events.EventEmitter {
 
     CreateSimpleDevice(kind) {
         return _engine.devices.loadOneDevice({ kind }, true).then(() => true);
+    }
+    CreateDevice(data) {
+        return _engine.devices.loadOneDevice(JSON.parse(data), true).then(() => true);
     }
 
     DeleteDevice(uniqueId) {

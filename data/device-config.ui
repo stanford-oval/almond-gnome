@@ -55,6 +55,21 @@
               </packing>
             </child>
             <child>
+              <object class="GtkGrid" id="form-grid">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="column_spacing">6</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="margin_start">50</property>
+                <property name="margin_end">50</property>
+              </object>
+              <packing>
+                <property name="name">page-form</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <placeholder/>
             </child>
           </object>

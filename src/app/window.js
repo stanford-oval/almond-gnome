@@ -38,6 +38,12 @@ var MainWindow = GObject.registerClass({
                             activate: this._makeRule },
                           { name: 'new-device',
                             activate: this._configureNewDevice },
+                          { name: 'configure-device-oauth2',
+                            activate: this._configureDeviceOAuth2,
+                            parameter_type: new GLib.VariantType('(ss)') },
+                          { name: 'configure-device-form',
+                            activate: this._configureDeviceForm,
+                            parameter_type: new GLib.VariantType('(ssaa{ss})') },
                           { name: 'new-account',
                             activate: this._configureNewAccount }]);
 
@@ -128,6 +134,16 @@ var MainWindow = GObject.registerClass({
     _configureNew(klass) {
         let dialog = new DeviceConfigDialog(this, klass, this._service);
         dialog.startChooseKind();
+    }
+    _configureDeviceOAuth2(action, param) {
+        let [kind, title] = param.deep_unpack();
+        let dialog = new DeviceConfigDialog(this, '', this._service);
+        dialog.startOAuth2(title, kind);
+    }
+    _configureDeviceForm(action, param) {
+        let [kind, title, controls] = param.deep_unpack();
+        let dialog = new DeviceConfigDialog(this, '', this._service);
+        dialog.startForm(title, kind, controls);
     }
 
     _about() {

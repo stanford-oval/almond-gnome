@@ -43,15 +43,20 @@ const DeviceFactory = GObject.registerClass({
         log('Creating device ' + this.kind);
         switch (this.type) {
         case 'none':
-            dbusPromiseify(this.service, 'CreateSimpleDeviceRemote', this.kind)
-                .then(() => this.dialog.destroy())
-                .catch((e) => alert(this.dialog, _("Sorry, that did not work: %s").format(e.message)));
+            this.service.CreateSimpleDeviceRemote(this.kind, (result, error) => {
+                if (error)
+                    alert(this.dialog, _("Sorry, that did not work: %s").format(error.message));
+                else
+                    this.dialog.destroy();
+            });
             break;
         case 'oauth2':
             this.dialog.startOAuth2(this.text, this.kind);
             break;
-        case 'discovery':
         case 'form':
+            this.dialog.startForm(this.text, this.kind, this._factoryMeta.fields.deep_unpack());
+            break;
+        case 'discovery':
             alert(this.dialog, _("Sorry, configuring this device is not implemented yet"));
             break;
         default:
@@ -71,7 +76,7 @@ function getGIcon(icon) {
 /* exported DeviceConfigDialog */
 var DeviceConfigDialog = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/device-config.ui',
-    Children: ['config-stack', 'choices-listbox', 'oauth2-webview-placeholder'],
+    Children: ['config-stack', 'choices-listbox', 'oauth2-webview-placeholder', 'form-grid'],
 }, class DeviceConfigDialog extends Gtk.Dialog {
     _init(parent, klass, service) {
         // make sure we have loaded WebKit before we try and create the object
@@ -119,9 +124,21 @@ var DeviceConfigDialog = GObject.registerClass({
             let factory = this.model.get_item(row.get_index());
             factory.activate();
         });
+
+        this._button = null;
+    }
+
+    _clearButton() {
+        if (this._button) {
+            this._button.destroy();
+            this._button = null;
+        }
     }
 
     startChooseKind() {
+        this.config_stack.visible_child_name = 'page-choose-kind';
+        this._clearButton();
+
         return dbusPromiseify(this._service, 'GetDeviceFactoriesRemote', this._klass).then(([factories]) => {
             for (let factory of factories)
                 this.model.append(new DeviceFactory(factory, this, this._service));
@@ -132,8 +149,64 @@ var DeviceConfigDialog = GObject.registerClass({
         });
     }
 
+    startForm(title, kind, controls) {
+        this.title = title;
+        this.config_stack.visible_child_name = 'page-form';
+        this._clearButton();
+
+        let controlMap = {};
+        let i = 0;
+        for (let control of controls) {
+            let label = new Gtk.Label({
+                label: control.label,
+                halign: Gtk.Align.END,
+                xalign: 1,
+                visible: true
+            });
+            this.form_grid.attach(label, 0 /*left*/, i /*top*/, 1 /*width*/, 1 /*height*/);
+            let input = new Gtk.Entry({
+                visible: true
+            });
+            if (control.type === 'password') {
+                input.visibility = false;
+                input.input_purpose = Gtk.InputPurpose.PASSWORD;
+            } else if (control.type === 'email') {
+                input.input_purpose = Gtk.InputPurpose.EMAIL;
+            } else if (control.type === 'number') {
+                input.input_purpose = Gtk.InputPurpose.NUMBER;
+            }
+
+            controlMap[control.name] = input;
+            this.form_grid.attach(input, 1 /*left*/, i++ /*top*/, 1 /*width*/, 1 /*height*/);
+        }
+
+        this._button = this.add_button(_("Create"), Gtk.ResponseType.OK);
+        let button = this._button;
+        this.connect('response', (self, responseId) => {
+            if (responseId !== Gtk.ResponseType.OK)
+                return;
+            if (this._button !== button)
+                return;
+
+            let data = {};
+            for (let control of controls)
+                data[control.name] = controlMap[control.name].text;
+
+            data.kind = kind;
+            this._service.CreateDeviceRemote(JSON.stringify(data), (result, error) => {
+                if (error)
+                    alert(this, _("Sorry, that did not work: %s").format(error.message));
+                else
+                    this.destroy();
+            });
+        });
+
+        this.show();
+    }
+
     startOAuth2(title, kind) {
         this.title = title;
+        this._clearButton();
 
         let webView = new WebKit.WebView({
             web_context: window.getApp().webContext,
@@ -176,6 +249,7 @@ var DeviceConfigDialog = GObject.registerClass({
         dbusPromiseify(this._service, 'StartOAuth2Remote', kind).then(([[ok, uri, session]]) => {
             this._oauth2Session = session;
             webView.load_uri(uri);
+            this.show();
         }).catch((e) => {
             logError(e);
             alert(this, _("Sorry, that did not work: %s").format(e.message));

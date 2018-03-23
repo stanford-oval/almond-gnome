@@ -10,24 +10,34 @@ const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
+const Soup = imports.gi.Soup;
 
 const Config = imports.common.config;
 const { AssistantModel, Direction, MessageType } = imports.common.chatmodel;
-const { ginvoke, gpromise, dbusPromiseify } = imports.common.util;
+const { ginvoke, gpromise } = imports.common.util;
+
+function getGIcon(icon) {
+    if (!icon)
+        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
+    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
+}
 
 function makeAlmondWrapper(msg) {
-    var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
-                            spacing: 12 });
+    const box = new Gtk.Box({
+        orientation: Gtk.Orientation.HORIZONTAL,
+        spacing: 12,
+        halign: Gtk.Align.START
+    });
     box.get_style_context().add_class('message-container');
-    var icon = new Gtk.Image({ icon_size: 5 });
-    icon.valign = Gtk.Align.START;
+    const icon = new Gtk.Image({
+        icon_size: 5,
+        gicon: getGIcon(msg.icon),
+        valign: Gtk.Align.START
+    });
     box.show();
     icon.show();
     box.pack_start(icon, false, true, 0);
-    box.halign = Gtk.Align.START;
 
-    let deviceIcon = msg.icon || 'org.thingpedia.builtin.thingengine.builtin';
-    icon.gicon = new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + deviceIcon) });
     return box;
 }
 
@@ -100,8 +110,49 @@ const MessageConstructors = {
         return box;
     },
 
-    [MessageType.LINK]() {
-        return null;
+    [MessageType.LINK](msg, service, window) {
+        // A LINK message is an internal navigation button that is represented
+        // as URL (for ease of implementation in web based UIs)
+        // we remap it to window actions
+
+        const box = makeGenericWrapper(msg);
+        const button = new Gtk.Button({
+            halign: Gtk.Align.CENTER,
+            hexpand: true });
+        msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
+        button.show();
+
+        if (msg.link === '/user/register') {
+            // ??? we are not anonymous, this should never happen
+            throw new Error('Invalid link asking the user to register');
+        } else if (msg.link === '/thingpedia/cheatsheet') {
+            button.on('clicked', () => {
+                Gtk.show_uri_on_window(window, 'https://almond.stanford.edu' + msg.link,
+                                       Gtk.get_current_event_time());
+            });
+        } else if (msg.link === '/apps') {
+            button.set_detailed_action_name('win.switch-to::page-my-goods');
+        } else if (msg.link.startsWith('/devices/oauth2/')) {
+            // "parse" the link in the context of a dummy base URI
+            let uri = Soup.URI.new('https://invalid').new_with_base(msg.link);
+            let kind = uri.get_path().substring('/devices/oauth2/'.length);
+            let query = Soup.form_decode(uri.get_query());
+            button.action_name = 'win.configure-device-oauth2';
+            button.action_target = new GLib.Variant('(ss)', [kind, query.name||'']);
+        } else if (msg.link.startsWith('/devices/configure/')) {
+            // "parse" the link in the context of a dummy base URI
+            let uri = Soup.URI.new('https://invalid').new_with_base(msg.link);
+            let kind = uri.get_path().substring('/devices/configure/'.length);
+            let query = Soup.form_decode(uri.get_query());
+            button.action_name = 'win.configure-device-form';
+            button.action_target = new GLib.Variant('(ssaa{ss})', [kind, query.name||'',
+                JSON.parse(query.controls || '[]')]);
+        } else {
+            throw new Error('Unexpected link to ' + msg.link);
+        }
+
+        box.pack_start(button, true, true, 0);
+        return box;
     },
 
     [MessageType.BUTTON](msg, service, window) {
