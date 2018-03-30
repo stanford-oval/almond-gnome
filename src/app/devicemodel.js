@@ -9,6 +9,7 @@ const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 const Lang = imports.lang;
 
 const { dbusPromiseify } = imports.common.util;
@@ -99,17 +100,30 @@ var DeviceModel = class DeviceModel {
     }
 
     _makeDeviceWidget(device) {
+        let wrapper = new Gtk.EventBox({
+            visible: true,
+            visible_window: false
+        });
+        wrapper.add_events(Gdk.EventMask.POINTER_MOTION_MASK | Gdk.EventMask.ENTER_NOTIFY_MASK | Gdk.EventMask.LEAVE_NOTIFY_MASK);
+        wrapper.connect('enter-notify-event', () => {
+            wrapper.set_state_flags(Gtk.StateFlags.PRELIGHT, false);
+        });
+        wrapper.connect('leave-notify-event', () => {
+            wrapper.unset_state_flags(Gtk.StateFlags.PRELIGHT);
+        });
+        wrapper.get_style_context().add_class('device-compound-icon');
         let box = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
-            spacing: 4
+            spacing: 4,
+            visible: true
         });
-        box.get_style_context().add_class('device');
 
         let icon = new Gtk.Image({
             pixel_size: 64,
             gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + device.kind) }),
             valign: Gtk.Align.CENTER,
-            halign: Gtk.Align.CENTER
+            halign: Gtk.Align.CENTER,
+            visible: true
         });
         box.pack_start(icon, false, false, 0);
 
@@ -118,17 +132,16 @@ var DeviceModel = class DeviceModel {
             max_width_chars: 25,
             hexpand: true,
             justify: Gtk.Justification.CENTER,
-            valign: Gtk.Align.START
+            valign: Gtk.Align.START,
+            visible: true
         });
         box.pack_start(label, true, true, 0);
 
         device.bind_property('name', label, 'label', GObject.BindingFlags.SYNC_CREATE);
-        icon.show();
-        label.show();
-        box.show();
+        wrapper.add(box);
 
         let row = new Gtk.FlowBoxChild({ visible: true });
-        row.add(box);
+        row.add(wrapper);
         row._device = device;
 
         return row;

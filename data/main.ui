@@ -81,6 +81,9 @@
                     <property name="margin">6</property>
                     <property name="row-spacing">12</property>
                     <property name="column-spacing">12</property>
+                    <style>
+                      <class name="my-stuff-grid-view" />
+                    </style>
                   </object>
                 </child>
               </object>

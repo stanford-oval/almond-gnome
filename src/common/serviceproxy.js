@@ -62,6 +62,10 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="s" name="uniqueId" direction="in" />
       <arg type="a{sv}" name="device" direction="out" />
     </method>
+    <method name="GetDeviceExamples">
+      <arg type="s" name="uniqueId" direction="in" />
+      <arg type="a(ssuassa{ss}as)" name="examples" direction="out" />
+    </method>
     <method name="CheckDeviceAvailable">
       <arg type="s" name="uniqueId" direction="in" />
       <arg type="u" name="available" direction="out" />

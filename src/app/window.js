@@ -17,7 +17,7 @@ const { DeviceModel } = imports.app.devicemodel;
 const { AppModel } = imports.app.appmodel;
 const { DeviceConfigDialog } = imports.app.deviceconfig;
 
-const { dbusPromiseify, alert } = imports.common.util;
+const { dbusPromiseify, alert, clean } = imports.common.util;
 
 function getGIcon(icon) {
     if (!icon)
@@ -198,17 +198,146 @@ var MainWindow = GObject.registerClass({
         this._showDeviceDetailsInternal(uniqueId);
     }
 
-    _showDeviceDetailsInternal(uniqueId) {
-        dbusPromiseify(this._service, 'GetDeviceInfoRemote', uniqueId).then(([deviceInfo]) => {
+    _getDeviceDetails(uniqueId) {
+        return dbusPromiseify(this._service, 'GetDeviceInfoRemote', uniqueId).then(([deviceInfo]) => {
             let kind = deviceInfo.kind.deep_unpack();
             this._device_details_icon.gicon = getGIcon(kind);
             this._device_details_name.label = deviceInfo.name.deep_unpack();
             this._device_details_description.label = deviceInfo.description.deep_unpack();
             this._device_details_version.label = _("Version: %d").format(deviceInfo.version.deep_unpack());
             this._device_details_update.action_target = new GLib.Variant('s', kind);
+        });
+    }
 
+    _getDeviceExamples(uniqueId) {
+        return dbusPromiseify(this._service, 'GetDeviceExamplesRemote', uniqueId).then(([examples]) => {
+            const listbox = this._device_details_examples;
+            for (let existing of listbox.get_children())
+                existing.destroy();
+            for (let ex of examples) {
+                const [utterance,,exampleId,code,entities,slotTypes,slots] = ex;
+                const target = {
+                    example_id: exampleId,
+                    code: code,
+                    entities: JSON.parse(entities),
+                    slotTypes: slotTypes,
+                    slots: slots
+                };
+
+                const flowbox = new Gtk.FlowBox({
+                    visible: true,
+                    activate_on_single_click: false,
+                    selection_mode: Gtk.SelectionMode.NONE,
+                    can_focus: false
+                });
+                let chunk = '';
+                const entryMap = {};
+                for (let word of utterance.split(/\s+/g)) {
+                    if (word.startsWith('$') && word !== '$$') {
+                        if (chunk) {
+                            let label = new Gtk.Label({
+                                visible: true,
+                                label: chunk.trim()
+                            });
+                            flowbox.add(label);
+                            chunk = '';
+                        }
+
+                        let slot = word.substring(1);
+                        let slotType = slotTypes[slot];
+                        log(`${exampleId}: slot ${slot} of type ${slotType}`);
+                        if (slotType === 'Entity(tt:picture)') {
+                            let picker = new Gtk.FileChooserButton({
+                                title: _("Select picture…"),
+                                visible: true,
+                                local_only: true,
+                                action: Gtk.FileChooserAction.OPEN,
+                            });
+
+                            entryMap[slot] = picker;
+                            flowbox.add(picker);
+                        } else {
+                            let entry = new Gtk.Entry({
+                                visible: true,
+                                can_focus: true,
+                                placeholder_text: clean(slot)
+                            });
+
+                            switch (slotType) {
+                            case 'Number':
+                                entry.set_purpose(Gtk.InputPurpose.NUMBER);
+                                break;
+                            case 'Entity(tt:phone_number)':
+                                entry.set_purpose(Gtk.InputPurpose.PHONE);
+                                break;
+                            case 'Entity(tt:email_address)':
+                                entry.set_purpose(Gtk.InputPurpose.EMAIL);
+                                break;
+                            case 'Entity(tt:url)':
+                                entry.set_purpose(Gtk.InputPurpose.URL);
+                                break;
+                            case 'Location':
+                            case 'Measure':
+                            case 'Date':
+                            case 'Time':
+                                entry.can_focus = false;
+                                break;
+                            }
+
+                            entryMap[slot] = entry;
+                            flowbox.add(entry);
+                        }
+                    } else {
+                        if (word === '$$')
+                            chunk += ' $';
+                        else
+                            chunk += ' ' + word;
+                    }
+                }
+                if (chunk) {
+                    let label = new Gtk.Label({
+                        visible: true,
+                        label: chunk.trim()
+                    });
+                    flowbox.add(label);
+                    chunk = '';
+                }
+
+                let row = new Gtk.ListBoxRow({
+                    visible: true,
+                    activatable: true,
+                    selectable: false
+                });
+                row.add(flowbox);
+                row.connect('activate', () => {
+                    log(`clicked on example ${exampleId}`);
+                    let utteranceCopy = utterance;
+                    for (let i = 0; i < slots.length; i++) {
+                        let slot = slots[i];
+                        let value;
+                        if (entryMap[slot] instanceof Gtk.FileChooserButton)
+                            value = entryMap[slot].get_uri();
+                        else
+                            value = entryMap[slot].text;
+                        if (value) {
+                            entities[`SLOT_${i}`] = value;
+                            utteranceCopy = utteranceCopy.replace('$' + slot, value);
+                        }
+                    }
+
+                    this.handleParsedCommand(utteranceCopy, JSON.stringify(target));
+                });
+
+                listbox.add(row);
+            }
+        });
+    }
+
+    _showDeviceDetailsInternal(uniqueId) {
+        Promise.all([this._getDeviceDetails(uniqueId), this._getDeviceExamples(uniqueId)]).then(() => {
             this._main_stack.visible_child_name = 'page-device-details';
         }).catch((e) => {
+            logError(e, 'Failed to show device details');
             alert(this, _("Sorry, that did not work: %s").format(e.message));
         });
     }

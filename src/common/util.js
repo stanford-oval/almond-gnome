@@ -175,3 +175,10 @@ function gpromise(fn, fnfinish, ...args) {
         });
     });
 }
+
+/* exported clean */
+function clean(name) {
+    if (/^[vwgp]_/.test(name))
+        name = name.substr(2);
+    return name.replace(/_/g, ' ').replace(/([^A-Z])([A-Z])/g, '$1 $2').toLowerCase();
+}

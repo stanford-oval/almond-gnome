@@ -12,8 +12,11 @@ console.log('ThingEngine-GNOME starting up...');
 const Q = require('q');
 const events = require('events');
 const Url = require('url');
+const assert = require('assert');
 Q.longStackSupport = true;
+process.on('unhandledRejection', (up) => { throw up; });
 
+const ThingTalk = require('thingtalk');
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
 
@@ -42,6 +45,7 @@ const DBUS_CONTROL_INTERFACE = {
         UpgradeDevice: ['s', 'b'],
         GetDeviceInfos: ['', 'aa{sv}'],
         GetDeviceInfo: ['s', 'a{sv}'],
+        GetDeviceExamples: ['s', 'a(ssuassa{ss}as)'],
         GetDeviceFactories: ['s', 'aa{sv}'],
         CheckDeviceAvailable: ['s', 'u'],
         GetAppInfos: ['', 'aa{sv}'],
@@ -78,6 +82,8 @@ function marshalAny(obj) {
         return ['b', obj];
     else if (obj === null || obj === undefined)
         throw new Error('null/undefined cannot be sent over dbus');
+    else if (Array.isArray(obj))
+        return ['av', obj.map(marshalAny)];
     else
         return ['a{sv}', Object.keys(obj).map((key) => [key, marshalAny(obj[key])])];
 }
@@ -90,6 +96,66 @@ function unmarshalASV(values) {
 
         obj[name] = value;
     }
+}
+
+/* FIXME this whole code should be moved somewhere else */
+const SLOT_REGEX = /\$(?:\$|([a-zA-Z0-9_]+(?![a-zA-Z0-9_]))|{([a-zA-Z0-9_]+)(?::([a-zA-Z0-9_]+))?})/;
+function normalizeSlot(t) {
+    let res = SLOT_REGEX.exec(t);
+    if (!res)
+        return t;
+    let [match, param1, param2,] = res;
+    if (match === '$$')
+        return '$';
+    return '$' + (param1 || param2);
+}
+
+function loadOneExample(ex) {
+    return ThingTalk.Grammar.parseAndTypecheck(ex.target_code, _engine.schemas).then((program) => {
+        if (program.declarations.length + program.rules.length !== 1) {
+            console.error(`Confusing example ${ex.id}: more than one rule or declaration`);
+            return null;
+        }
+
+        if (program.rules.length === 1) {
+            // easy case: just emit whatever
+            let code = ThingTalk.NNSyntax.toNN(program, {});
+            return { utterance: ex.utterance,
+                     type: 'rule',
+                     target: { example_id: ex.id, code: code, entities: {},
+                               slotTypes: {}, slots: [] } };
+        } else {
+            // refuse to slot fill pictures
+            for (let name in program.declarations[0].args) {
+                let type = program.declarations[0].args[name];
+                if (type.isEntity && type.type === 'tt:picture')
+                    return null;
+            }
+
+            // turn the declaration into a program
+            let newprogram = ThingTalk.Generate.declarationProgram(program.declarations[0]);
+            let slots = [];
+            let slotTypes = {};
+            for (let name in program.declarations[0].args) {
+                slotTypes[name] = String(program.declarations[0].args[name]);
+                slots.push(name);
+            }
+
+            let utterance = ex.utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
+
+            let code = ThingTalk.NNSyntax.toNN(newprogram, {});
+            return { utterance: utterance,
+                     type: program.declarations[0].type,
+                     target: {
+                        example_id: ex.id, code: code, entities: {}, slotTypes: slotTypes, slots: slots } };
+        }
+    });
+}
+
+function loadAllExamples(kind) {
+    return _engine.thingpedia.getExamplesByKinds([kind]).then((examples) => {
+        return Promise.all(examples.map((ex) => loadOneExample(ex)));
+    }).then((examples) => examples.filter((ex) => ex !== null));
 }
 
 class AppControlChannel extends events.EventEmitter {
@@ -222,13 +288,10 @@ class AppControlChannel extends events.EventEmitter {
             let factory = [];
             let value;
             for (let name in f.factory) {
-                if (name === 'fields') {
-                    // this extra wrapping of the value seem unnecessary but
-                    // it works around a bug in dbus-native
-                    value = ['aa{ss}', [f.factory.fields.map(marshallASS)]];
-                } else {
+                if (name === 'fields')
+                    value = ['aa{ss}', f.factory.fields.map(marshallASS)];
+                else
                     value = [typeof f.factory[name] === 'number' ? 'u' : 's', f.factory[name]];
-                }
                 factory.push([name, value]);
             }
             return factory;
@@ -236,11 +299,24 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceInfo(uniqueId) {
-        var d = _engine.devices.getDevice(uniqueId);
+        const d = _engine.devices.getDevice(uniqueId);
         if (d === undefined)
             throw new Error('Invalid device ' + uniqueId);
 
         return this._toDeviceInfo(d);
+    }
+
+    GetDeviceExamples(uniqueId) {
+        const d = _engine.devices.getDevice(uniqueId);
+        if (d === undefined)
+            return Promise.resolve([]);
+
+        return loadAllExamples(d.kind).then((examples) => examples.map((ex) => {
+                let entities = JSON.stringify(ex.target.entities);
+                let slotTypes = Object.keys(ex.target.slotTypes).map((key) => [key, ex.target.slotTypes[key]]);
+                return [ex.utterance, ex.type, ex.target.example_id,
+                        ex.target.code, entities, slotTypes, ex.target.slots];
+        }));
     }
 
     CheckDeviceAvailable(uniqueId) {
@@ -318,6 +394,9 @@ class AppControlChannel extends events.EventEmitter {
     }
 }
 
+const DBUS_NAME_FLAG_ALLOW_REPLACEMENT = 0x1;
+const DBUS_NAME_FLAG_REPLACE_EXISTING = 0x2;
+
 function main() {
     platform = require('./platform').newInstance();
     global.platform = platform;
@@ -335,9 +414,10 @@ function main() {
     var bus = platform.getCapability('dbus-session');
     bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
-    Q.all([_engine.open(), _ad.start()]).then(() =>
-        Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService', 0)
-    ).then(() => {
+    Q.all([_engine.open(), _ad.start()]).then(() => {
+        return Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService',
+                         DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING);
+    }).then(() => {
         console.log('Ready');
     }).then(() => {
         _ad.startConversation();

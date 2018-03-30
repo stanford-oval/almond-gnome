@@ -44,3 +44,8 @@
   font-weight: bold;
   font-size: 1.5em;
 }
+
+.my-stuff-grid-view .device-compound-icon:hover image {
+/*  -gtk-icon-filter: brightness(1.2); */
+  -gtk-icon-effect: highlight;
+}
