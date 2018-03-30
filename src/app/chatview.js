@@ -9,6 +9,7 @@ const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Soup = imports.gi.Soup;
 
@@ -30,7 +31,7 @@ function makeAlmondWrapper(msg) {
     });
     box.get_style_context().add_class('message-container');
     const icon = new Gtk.Image({
-        icon_size: 5,
+        pixel_size: 48,
         gicon: getGIcon(msg.icon),
         valign: Gtk.Align.START
     });
@@ -48,6 +49,110 @@ function makeGenericWrapper(msg) {
     return box;
 }
 
+const ResizableImage = GObject.registerClass({
+    Properties: {
+        full_size_pixbuf: GObject.ParamSpec.object('full-size-pixbuf', '', '', GObject.ParamFlags.READWRITE,
+            GdkPixbuf.Pixbuf)
+    }
+}, class AlmondResizableImage extends Gtk.Widget {
+    _init(params) {
+        this._percent = 1;
+        this._full_size_pixbuf = null;
+        super._init(params);
+
+        this._cached_pixbuf = null;
+        this.set_has_window(false);
+    }
+
+    get full_size_pixbuf() {
+        return this._full_size_pixbuf;
+    }
+    set full_size_pixbuf(v) {
+        this._full_size_pixbuf = v;
+        this.queue_resize();
+        this.get_toplevel().queue_resize();
+    }
+
+    vfunc_draw(cr) {
+        if (!this._full_size_pixbuf)
+            return;
+        let allocation = this.get_allocation();
+        let availwidth = allocation.width;
+        let availheight = allocation.height;
+
+        let drawwidth, drawheight;
+        let drawx, drawy;
+        if (availwidth < this._full_size_pixbuf.width * availheight / this._full_size_pixbuf.height) {
+            drawwidth = availwidth;
+            drawheight = availwidth / this._full_size_pixbuf.width * this._full_size_pixbuf.height;
+            drawx = 0;
+            drawy = (availheight - drawheight)/2;
+        } else {
+            drawheight = availheight;
+            drawwidth = availheight / this._full_size_pixbuf.height * this._full_size_pixbuf.width;
+            drawy = 0;
+            drawx = (availwidth - drawwidth)/2;
+        }
+        drawwidth = Math.round(drawwidth);
+        drawheight = Math.round(drawheight);
+
+        if (!this._cached_pixbuf || this._cached_pixbuf.width !== drawwidth ||
+            this._cached_pixbuf.height !== drawheight)
+            this._cached_pixbuf = this._full_size_pixbuf.scale_simple(drawwidth, drawheight, GdkPixbuf.InterpType.BILINEAR);
+
+        Gdk.cairo_set_source_pixbuf(cr, this._cached_pixbuf, drawx, drawy);
+        cr.rectangle(drawx, drawy, drawwidth, drawheight);
+        cr.fill();
+    }
+
+    vfunc_get_request_mode() {
+        return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH;
+    }
+    vfunc_get_preferred_width() {
+        if (!this._full_size_pixbuf)
+            return [1,1];
+        const natsize = this._full_size_pixbuf.width;
+        const minsize = Math.min(natsize, 640);
+
+        return [minsize, natsize];
+    }
+    vfunc_get_preferred_height_for_width(forWidth) {
+        if (!this._full_size_pixbuf)
+            return [1,1];
+        const natwidth = this._full_size_pixbuf.width;
+        const rescaleratio = forWidth / natwidth;
+        const natheight = this._full_size_pixbuf.height * rescaleratio;
+
+        const [minwidth, ] = this.vfunc_get_preferred_width();
+        const minheight = this._full_size_pixbuf.height * (minwidth / natwidth);
+
+        return [minheight, natheight];
+    }
+    vfunc_get_preferred_height() {
+        if (!this._full_size_pixbuf)
+            return [1,1];
+        const [minwidth, natwidth] = this.vfunc_get_preferred_width();
+        const natheight = this._full_size_pixbuf.height;
+        const minheight = this._full_size_pixbuf.height * (minwidth / natwidth);
+
+        return [minheight, natheight];
+    }
+    vfunc_get_preferred_width_for_height(forHeight) {
+        if (!this._full_size_pixbuf)
+            return [1,1];
+        const natheight = this._full_size_pixbuf.height;
+        const rescaleratio = forHeight / natheight;
+
+        const [minwidth, ] = this.vfunc_get_preferred_width();
+        const natwidth = Math.max(minwidth, this._full_size_pixbuf.width * rescaleratio);
+        return [minwidth, natwidth];
+    }
+
+    vfunc_size_allocate(alloc) {
+        super.vfunc_size_allocate(alloc);
+    }
+});
+
 const MessageConstructors = {
     [MessageType.TEXT](msg) {
         let label;
@@ -56,6 +161,7 @@ const MessageConstructors = {
             box = makeAlmondWrapper(msg);
             label = new Gtk.Label({
                 wrap: true,
+                selectable: true,
                 hexpand: true,
                 halign: Gtk.Align.START,
                 xalign: 0 });
@@ -64,6 +170,7 @@ const MessageConstructors = {
             box = makeGenericWrapper(msg);
             label = new Gtk.Label({
                 wrap: true,
+                selectable: true,
                 hexpand: true,
                 halign: Gtk.Align.END,
                 xalign: 1 });
@@ -78,21 +185,34 @@ const MessageConstructors = {
 
     [MessageType.PICTURE](msg) {
         const box = makeAlmondWrapper(msg);
-        const image = new Gtk.Image({ hexpand: true });
-        image.get_style_context().add_class('message');
-        image.get_style_context().add_class('from-almond');
+        const frame = new Gtk.Frame({
+            shadow_type: Gtk.ShadowType.NONE,
+            halign: Gtk.Align.START
+        });
+        frame.get_style_context().add_class('message');
+        frame.get_style_context().add_class('from-almond');
+        const spinner = new Gtk.Spinner({
+            visible: true,
+        });
+        spinner.start();
 
         let file = Gio.File.new_for_uri(msg.picture_url);
         ginvoke(file, 'read_async', 'read_finish', GLib.PRIORITY_DEFAULT, null).then((stream) => {
             return gpromise(GdkPixbuf.Pixbuf.new_from_stream_async, GdkPixbuf.Pixbuf.new_from_stream_finish, stream, null);
         }).then((pixbuf) => {
-            image.set_from_pixbuf(pixbuf);
+            const image = new ResizableImage({
+                full_size_pixbuf: pixbuf,
+            });
+            spinner.destroy();
+            frame.add(image);
+            image.show();
         }).catch((e) => {
             log('Failed to load image at ' + msg.picture_url + ': ' + e);
-
+            spinner.stop();
         });
-        image.show();
-        box.pack_start(image, true, true, 0);
+        frame.show();
+        frame.add(spinner);
+        box.pack_start(frame, true, true, 0);
         return box;
     },
 
@@ -213,6 +333,7 @@ const MessageConstructors = {
             text += '\n' + GLib.markup_escape_text(msg.rdl_description, -1);
         var label = new Gtk.Label({
             wrap: true,
+            selectable: true,
             hexpand: true,
             halign: Gtk.Align.START,
             xalign: 0,
@@ -229,8 +350,51 @@ const MessageConstructors = {
 /* exported bindChatModel */
 function bindChatModel(window, service, listbox) {
     let model = new AssistantModel(service);
+
     listbox.bind_model(model.store, (msg) => {
-        return MessageConstructors[msg.message_type](msg, service, window);
+        let widget = MessageConstructors[msg.message_type](msg, service, window);
+        widget.show();
+        let row;
+        if (!(widget instanceof Gtk.ListBoxRow)) {
+            row = new Gtk.ListBoxRow({
+                activatable: false,
+                visible: true
+            });
+            row.add(widget);
+        } else {
+            row = widget;
+        }
+        return row;
     });
     return model;
 }
+/*
+function bindChatModel(window, service, listbox) {
+    let model = new AssistantModel(service);
+
+    function addMessage(msg, position) {
+        let widget = MessageConstructors[msg.message_type](msg, service, window);
+        listbox.pack_start(widget, false, false, 0);
+        listbox.reorder_child(widget, position);
+    }
+    function addMessages(from, to) {
+        for (let i = from; i < to; i++)
+            addMessage(model.store.get_item(i), i);
+    }
+    let messages = [];
+
+    model.store.connect('items-changed', (store, position, removed, added) => {
+        if (removed > 0) {
+            for (let msg of messages.splice(position, removed)) {
+                if (msg.actor)
+                    msg.actor.destroy();
+            }
+        }
+        if (added > 0)
+            addMessages(position, position+added);
+    });
+
+    addMessages(0, model.store.get_n_items());
+    return model;
+}
+*/
