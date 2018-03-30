@@ -49,3 +49,11 @@
 /*  -gtk-icon-filter: brightness(1.2); */
   -gtk-icon-effect: highlight;
 }
+
+.device-details-examples row {
+  min-height: 36px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 30px;
+  padding-right: 30px;
+}

@@ -94,6 +94,33 @@ var MainWindow = GObject.registerClass({
         this._appModel = new AppModel(this, service, this._my_rules_list_view);
         this._appModel.start();
 
+        this._device_details_examples.connect('row-activated', (list, row) => {
+            if (!row._delegate)
+                return;
+            let { utterance, target, entryMap } = row._delegate;
+
+            log(`clicked on example ${target.example_id}`);
+            let { slots, slotTypes } = target;
+            let utteranceCopy = utterance;
+            for (let i = 0; i < slots.length; i++) {
+                let slot = slots[i];
+                let value;
+                if (entryMap[slot] instanceof Gtk.FileChooserButton)
+                    value = entryMap[slot].get_uri();
+                else
+                    value = entryMap[slot].text;
+                if (slotTypes[slot] === 'Number' || slotTypes[slot] === 'Currency')
+                    value = parseFloat(value);
+                if (value) {
+                    target.entities[`SLOT_${i}`] = value;
+                    utteranceCopy = utteranceCopy.replace('$' + slot, value);
+                }
+            }
+
+            log(JSON.stringify(target));
+            this.handleParsedCommand(JSON.stringify(target), utteranceCopy);
+        });
+
         this.connect('destroy', () => {
             this._assistantModel.stop();
             this._deviceModel.stop();
@@ -147,6 +174,7 @@ var MainWindow = GObject.registerClass({
         this.handleParsedCommand(json, title);
     }
     handleParsedCommand(json, title) {
+        this._main_stack.visible_child_name = 'page-chat';
         this._service.HandleParsedCommandRemote(title, json, (result, error) => {
             if (error)
                 log('Failed to click on button: ' + error);
@@ -160,7 +188,6 @@ var MainWindow = GObject.registerClass({
         this.handleParsedCommand(json, title);
     }
     handleConfigure(kind, title) {
-        this._main_stack.visible_child_name = 'page-chat';
         let json = JSON.stringify({
             code: ["now", "=>", "@org.thingpedia.builtin.thingengine.builtin.configure",
                    "param:device:Entity(tt:device)", "=", "device:" + kind],
@@ -209,6 +236,96 @@ var MainWindow = GObject.registerClass({
         });
     }
 
+    _makeSlotFilling(ex) {
+        const [utterance,,,,,slotTypes,] = ex;
+
+        const flowbox = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 6,
+            visible: true,
+            can_focus: false,
+            halign: Gtk.Align.START
+        });
+        let chunk = '';
+        const entryMap = {};
+        for (let word of utterance.split(/\s+/g)) {
+            if (word.startsWith('$') && word !== '$$') {
+                if (chunk) {
+                    let label = new Gtk.Label({
+                        visible: true,
+                        label: chunk.trim(),
+                        xalign: 0,
+                        halign: Gtk.Align.START
+                    });
+                    flowbox.add(label);
+                    chunk = '';
+                }
+
+                let slot = word.substring(1);
+                let slotType = slotTypes[slot];
+                if (slotType === 'Entity(tt:picture)') {
+                    let picker = new Gtk.FileChooserButton({
+                        title: _("Select picture…"),
+                        visible: true,
+                        local_only: true,
+                        action: Gtk.FileChooserAction.OPEN,
+                    });
+
+                    entryMap[slot] = picker;
+                    flowbox.add(picker);
+                } else {
+                    let entry = new Gtk.Entry({
+                        visible: true,
+                        can_focus: true,
+                        placeholder_text: clean(slot)
+                    });
+
+                    switch (slotType) {
+                    case 'Number':
+                    case 'Currency':
+                        entry.input_purpose = Gtk.InputPurpose.NUMBER;
+                        break;
+                    case 'Entity(tt:phone_number)':
+                        entry.input_purpose = Gtk.InputPurpose.PHONE;
+                        break;
+                    case 'Entity(tt:email_address)':
+                        entry.input_purpose = Gtk.InputPurpose.EMAIL;
+                        break;
+                    case 'Entity(tt:url)':
+                        entry.input_purpose = Gtk.InputPurpose.URL;
+                        break;
+                    case 'Location':
+                    case 'Measure':
+                    case 'Date':
+                    case 'Time':
+                        entry.can_focus = false;
+                        break;
+                    }
+
+                    entryMap[slot] = entry;
+                    flowbox.add(entry);
+                }
+            } else {
+                if (word === '$$')
+                    chunk += ' $';
+                else
+                    chunk += ' ' + word;
+            }
+        }
+        if (chunk) {
+            let label = new Gtk.Label({
+                visible: true,
+                label: chunk.trim(),
+                xalign: 0,
+                halign: Gtk.Align.START
+            });
+            flowbox.add(label);
+            chunk = '';
+        }
+
+        return [flowbox, entryMap];
+    }
+
     _getDeviceExamples(uniqueId) {
         return dbusPromiseify(this._service, 'GetDeviceExamplesRemote', uniqueId).then(([examples]) => {
             const listbox = this._device_details_examples;
@@ -224,83 +341,16 @@ var MainWindow = GObject.registerClass({
                     slots: slots
                 };
 
-                const flowbox = new Gtk.FlowBox({
-                    visible: true,
-                    activate_on_single_click: false,
-                    selection_mode: Gtk.SelectionMode.NONE,
-                    can_focus: false
-                });
-                let chunk = '';
-                const entryMap = {};
-                for (let word of utterance.split(/\s+/g)) {
-                    if (word.startsWith('$') && word !== '$$') {
-                        if (chunk) {
-                            let label = new Gtk.Label({
-                                visible: true,
-                                label: chunk.trim()
-                            });
-                            flowbox.add(label);
-                            chunk = '';
-                        }
-
-                        let slot = word.substring(1);
-                        let slotType = slotTypes[slot];
-                        log(`${exampleId}: slot ${slot} of type ${slotType}`);
-                        if (slotType === 'Entity(tt:picture)') {
-                            let picker = new Gtk.FileChooserButton({
-                                title: _("Select picture…"),
-                                visible: true,
-                                local_only: true,
-                                action: Gtk.FileChooserAction.OPEN,
-                            });
-
-                            entryMap[slot] = picker;
-                            flowbox.add(picker);
-                        } else {
-                            let entry = new Gtk.Entry({
-                                visible: true,
-                                can_focus: true,
-                                placeholder_text: clean(slot)
-                            });
-
-                            switch (slotType) {
-                            case 'Number':
-                                entry.set_purpose(Gtk.InputPurpose.NUMBER);
-                                break;
-                            case 'Entity(tt:phone_number)':
-                                entry.set_purpose(Gtk.InputPurpose.PHONE);
-                                break;
-                            case 'Entity(tt:email_address)':
-                                entry.set_purpose(Gtk.InputPurpose.EMAIL);
-                                break;
-                            case 'Entity(tt:url)':
-                                entry.set_purpose(Gtk.InputPurpose.URL);
-                                break;
-                            case 'Location':
-                            case 'Measure':
-                            case 'Date':
-                            case 'Time':
-                                entry.can_focus = false;
-                                break;
-                            }
-
-                            entryMap[slot] = entry;
-                            flowbox.add(entry);
-                        }
-                    } else {
-                        if (word === '$$')
-                            chunk += ' $';
-                        else
-                            chunk += ' ' + word;
-                    }
-                }
-                if (chunk) {
-                    let label = new Gtk.Label({
+                let child, entryMap = {};
+                if (slots.length > 0) {
+                    [child, entryMap] = this._makeSlotFilling(ex);
+                } else {
+                    child = new Gtk.Label({
                         visible: true,
-                        label: chunk.trim()
+                        label: utterance,
+                        xalign: 0,
+                        halign: Gtk.Align.START
                     });
-                    flowbox.add(label);
-                    chunk = '';
                 }
 
                 let row = new Gtk.ListBoxRow({
@@ -308,25 +358,10 @@ var MainWindow = GObject.registerClass({
                     activatable: true,
                     selectable: false
                 });
-                row.add(flowbox);
-                row.connect('activate', () => {
-                    log(`clicked on example ${exampleId}`);
-                    let utteranceCopy = utterance;
-                    for (let i = 0; i < slots.length; i++) {
-                        let slot = slots[i];
-                        let value;
-                        if (entryMap[slot] instanceof Gtk.FileChooserButton)
-                            value = entryMap[slot].get_uri();
-                        else
-                            value = entryMap[slot].text;
-                        if (value) {
-                            entities[`SLOT_${i}`] = value;
-                            utteranceCopy = utteranceCopy.replace('$' + slot, value);
-                        }
-                    }
-
-                    this.handleParsedCommand(utteranceCopy, JSON.stringify(target));
-                });
+                row.add(child);
+                row._delegate = {
+                    utterance, target, entryMap
+                };
 
                 listbox.add(row);
             }

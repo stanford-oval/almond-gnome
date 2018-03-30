@@ -104,7 +104,7 @@ const MessageConstructors = {
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.show();
         button.connect('clicked', () => {
-            window.handleChoice(msg.text, msg.choice_idx);
+            window.handleChoice(msg.choice_idx, msg.text);
         });
         box.pack_start(button, true, true, 0);
         return box;

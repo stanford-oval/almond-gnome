@@ -355,6 +355,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="vexpand">True</property>
+                    <style>
+                      <class name="device-details-examples"/>
+                    </style>
                   </object>
                 </child>
               </object>
