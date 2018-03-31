@@ -2071,10 +2071,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4",
-                    "sha256": "e3fec42b14d1e967020373ab0985ee047c7d6489d3f85254817bff0b061d3c7a",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/d06a7ca1e61432c59a6e2a59be7a43cf43c94482",
+                    "sha256": "9d72f4ff2aced217f6e6976feac1f2a2e0412c8c7908d0ee48004e7a72e75b19",
                     "dest": "service/deps",
-                    "dest-filename": "4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4"
+                    "dest-filename": "d06a7ca1e61432c59a6e2a59be7a43cf43c94482"
                 },
                 {
                     "type": "file",

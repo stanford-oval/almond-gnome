@@ -1558,7 +1558,7 @@ tar@^2.2.1:
 
 "thingengine-core@github:Stanford-Mobisocial-IoT-Lab/thingengine-core":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/4c99f8a970e438c351d8b1d82e3c993ad6f1c9f4"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/d06a7ca1e61432c59a6e2a59be7a43cf43c94482"
   dependencies:
     adt "^0.7.2"
     babel-runtime "^6.26.0"
