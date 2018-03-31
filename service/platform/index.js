@@ -211,7 +211,7 @@ class Platform {
     }
 
     get type() {
-        return 'server';
+        return 'gnome';
     }
 
     get encoding() {
