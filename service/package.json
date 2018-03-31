@@ -6,6 +6,7 @@
     "almond": "github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent",
     "cvc4": "^0.1.1",
     "dbus-native": "github:gcampax/node-dbus",
+    "keytar": "^4.2.1",
     "node-gettext": "^2.0.0",
     "node-mimic": "0.0.1",
     "omlib": "github:Stanford-Mobisocial-IoT-Lab/omclient",

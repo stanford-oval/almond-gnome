@@ -231,8 +231,8 @@
             ],
             "build-options": {
                 "env": {
-                   "CFLAGS":"-g -O2 -DSQLITE_HAS_CODEC",
-                   "LDFLAGS":"-lcrypto"
+                    "CFLAGS": "-g -O2 -DSQLITE_HAS_CODEC",
+                    "LDFLAGS": "-lcrypto"
                 }
             },
             "sources": [
@@ -454,6 +454,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/bl/-/bl-1.2.2.tgz#a160911717103c07410cef63ef51b397c025af9c",
+                    "sha256": "cab3c710500fd5eafb954d3652b3aefe1c55d3fdea21a5378a840fe07c3a8fac",
+                    "dest": "service/deps",
+                    "dest-filename": "bl-1.2.2.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a",
                     "sha256": "d900ce261c297442a61c9791211c622e42d292b5478d9408221e19ff810d717b",
                     "dest": "service/deps",
@@ -535,6 +542,13 @@
                     "sha256": "4d7eb172144890213264deda324bd94a7654302265d18e66bfaa63a351fdae98",
                     "dest": "service/deps",
                     "dest-filename": "caseless-0.12.0.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181",
+                    "sha256": "5d2ecf3af8b7b4068aa4d53507b7e91afa4ea16de46e4f2d69fcbdec003ae8d3",
+                    "dest": "service/deps",
+                    "dest-filename": "chownr-1.0.1.tgz"
                 },
                 {
                     "type": "file",
@@ -664,6 +678,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/decompress-response/-/decompress-response-3.3.0.tgz#80a4dd323748384bfa248083622aedec982adff3",
+                    "sha256": "d9a56b26543e99e9d84048ba99071b11264af16d4efe58d86ad26887955341ff",
+                    "dest": "service/deps",
+                    "dest-filename": "decompress-response-3.3.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5",
                     "sha256": "679226cbc8173a807e1985410f71a06092f25bea729da142d9fda15a8e085ed0",
                     "dest": "service/deps",
@@ -713,6 +734,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.1.tgz#ed29634d19baba463b6ce6b80a37213eab71ec43",
+                    "sha256": "3fccf9867cbecb7a355e43d9c9d5c2cbe216bd7b35532d52b6d9cc12b0ba385e",
+                    "dest": "service/deps",
+                    "dest-filename": "end-of-stream-1.4.1.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/es6-error/-/es6-error-3.2.0.tgz#e567cfdcb324d4e7ae5922a3700ada5de879a0ca",
                     "sha256": "a3dfb9b0891d16d7c92ba501415bfaf686e397a6d711d06fa9f6fe3a94453cbd",
                     "dest": "service/deps",
@@ -731,6 +759,13 @@
                     "sha256": "cd4198c30c9deb0d3c5044b230116305539a45b46174a5e8030a3f2d50deed80",
                     "dest": "service/deps",
                     "dest-filename": "event-stream-3.3.4.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/expand-template/-/expand-template-1.1.0.tgz#e09efba977bf98f9ee0ed25abd0c692e02aec3fc",
+                    "sha256": "feaf8008918c8af0fdb683f61a0c601b6a63630bc0506a9aa169b5c531088196",
+                    "dest": "service/deps",
+                    "dest-filename": "expand-template-1.1.0.tgz"
                 },
                 {
                     "type": "file",
@@ -829,6 +864,13 @@
                     "sha256": "8f0312ba10766d6c13bf71bae5168ca26191f6eed5c47ac5fa7c4df85b3ed445",
                     "dest": "service/deps",
                     "dest-filename": "getpass-0.1.7.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/github-from-package/-/github-from-package-0.0.0.tgz#97fb5d96bfde8973313f20e8288ef9a167fa64ce",
+                    "sha256": "3e46f185e0772ae9b83a3383a2bc7182b9facaef63c247a76b0ffc91114443fa",
+                    "dest": "service/deps",
+                    "dest-filename": "github-from-package-0.0.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1175,6 +1217,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.2.1.tgz#8a06a6577fdf6373e0aa6b112277e63dec77fd12",
+                    "sha256": "e42ff63cc765321a9d22499a921fcd48904badb60d14bc68c28512df6f30d841",
+                    "dest": "service/deps",
+                    "dest-filename": "keytar-4.2.1.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e",
                     "sha256": "b4062624f3304afa27c85620f20566a110e90c27f1118bd0951ab894412f9682",
                     "dest": "service/deps",
@@ -1266,6 +1315,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e",
+                    "sha256": "763dd728ed8c39615523f3b7e25a69110024ec86ecff82fe5c2666c8cc5d67d9",
+                    "dest": "service/deps",
+                    "dest-filename": "mimic-response-1.0.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083",
                     "sha256": "426a24d79bb6f0d3bb133e62cec69021836d254b39d931c104ddd7c464adea71",
                     "dest": "service/deps",
@@ -1322,6 +1378,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a",
+                    "sha256": "ff996fb5ae80b617933e9e68fd67a4aeff445dfaa80ece48ecc9235e142d83d1",
+                    "dest": "service/deps",
+                    "dest-filename": "nan-2.8.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f",
                     "sha256": "600305681aa0bdebcffc5b89529f39bcf2d56f953b8c50f54226d0ca78ba1b84",
                     "dest": "service/deps",
@@ -1333,6 +1396,13 @@
                     "sha256": "745eb03ca51a191bae27022f286ad2392669ce4b242f3bb67973c7f6266a48ab",
                     "dest": "service/deps",
                     "dest-filename": "nan-2.7.0.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.3.0.tgz#f3d554d6ac72a9ee16f0f4dc9548db7c08de4986",
+                    "sha256": "2a26b1a525f5fdea57c6a30b080155c1ce5502a1a8fff0592f477fc482dee9f0",
+                    "dest": "service/deps",
+                    "dest-filename": "node-abi-2.3.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1368,6 +1438,13 @@
                     "sha256": "bd9030c17f5aefe2b7636f1082d170f90eea217204cd22d38416ac340647c30d",
                     "dest": "service/deps",
                     "dest-filename": "noop-fn-1.0.0.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/noop-logger/-/noop-logger-0.1.1.tgz#94a2b1633c4f1317553007d8966fd0e841b6a4c2",
+                    "sha256": "909fd6649ffdc2b2c885680f9a4e30db04eaca80bf26341acfa68e75ef788aeb",
+                    "dest": "service/deps",
+                    "dest-filename": "noop-logger-0.1.1.tgz"
                 },
                 {
                     "type": "file",
@@ -1644,6 +1721,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-2.5.1.tgz#0f234140a73760813657c413cdccdda58296b1da",
+                    "sha256": "07547600fbf0c5bc5fee7a8ea6523f4607c636014401e52a1e88d1903589a5fd",
+                    "dest": "service/deps",
+                    "dest-filename": "prebuild-install-2.5.1.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa",
                     "sha256": "8eec271b7af29443e9bc816d5645a1cf8dd744e4ce9d7d929bbcdc2bd49e9c4e",
                     "dest": "service/deps",
@@ -1662,6 +1746,20 @@
                     "sha256": "e82bf9fce75440d6a983686d3c94c5baea90fa09d4d1327310d4ba7a9101a754",
                     "dest": "service/deps",
                     "dest-filename": "03ea5ac1a6db16d6bae9cec2faf88d154d249b4e.tar.gz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/pump/-/pump-1.0.3.tgz#5dfe8311c33bbf6fc18261f9f34702c47c08a954",
+                    "sha256": "0ae3d4aa9b9d33b3944b045bb038816af354b7bb9e638ae9b1288c3eee0a7a89",
+                    "dest": "service/deps",
+                    "dest-filename": "pump-1.0.3.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/pump/-/pump-2.0.1.tgz#12399add6e4cf7526d973cbc8b5ce2e2908b3909",
+                    "sha256": "550d8a15c10582a099dff1a369081106d7954a5a5f6a8d6f47aa12bc9c4b76ab",
+                    "dest": "service/deps",
+                    "dest-filename": "pump-2.0.1.tgz"
                 },
                 {
                     "type": "file",
@@ -1833,6 +1931,20 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/simple-concat/-/simple-concat-1.0.0.tgz#7344cbb8b6e26fb27d66b2fc86f9f6d5997521c6",
+                    "sha256": "2e467ab880395831e6b731ef4f43fe87a2dd6173471b562323189a11f97361ce",
+                    "dest": "service/deps",
+                    "dest-filename": "simple-concat-1.0.0.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/simple-get/-/simple-get-2.7.0.tgz#ad37f926d08129237ff08c4f2edfd6f10e0380b5",
+                    "sha256": "dfe67e726e9466467be112e923e83c6a5e7985bddea474ce39c5ce973ed3f493",
+                    "dest": "service/deps",
+                    "dest-filename": "simple-get-2.7.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/smtlib/-/smtlib-0.1.1.tgz#7aae56f12d14e3e370ffc8d1c5c8e4fe01bae950",
                     "sha256": "08217e7f0ca199336d920811733e8faac3cac785b24efe2fc3b311f03ee1519b",
                     "dest": "service/deps",
@@ -1931,10 +2043,24 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/tar-fs/-/tar-fs-1.16.0.tgz#e877a25acbcc51d8c790da1c57c9cf439817b896",
+                    "sha256": "f36a1c31c342d6dc921c587b50ca5b0f5ef874a844c8fc88b7231f130d38d6b7",
+                    "dest": "service/deps",
+                    "dest-filename": "tar-fs-1.16.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/tar-pack/-/tar-pack-3.4.1.tgz#e1dbc03a9b9d3ba07e896ad027317eb679a10a1f",
                     "sha256": "ed8e0f05894021c7bfda1a17e5de5ab0eff196f164b2398128c79d51f2b31647",
                     "dest": "service/deps",
                     "dest-filename": "tar-pack-3.4.1.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/tar-stream/-/tar-stream-1.5.5.tgz#5cad84779f45c83b1f2508d96b09d88c7218af55",
+                    "sha256": "bc724d531b92cd6a2ab692852ac5edcc917f9f948a225566bcae2eeca5273b09",
+                    "dest": "service/deps",
+                    "dest-filename": "tar-stream-1.5.5.tgz"
                 },
                 {
                     "type": "file",
@@ -2169,6 +2295,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/which-pm-runs/-/which-pm-runs-1.0.0.tgz#670b3afbc552e0b55df6b7780ca74615f23ad1cb",
+                    "sha256": "6b0bc6154fbe70a30e9d2364eeb13ebbc1ba5f7fd7578351f72b99c91e38dac8",
+                    "dest": "service/deps",
+                    "dest-filename": "which-pm-runs-1.0.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/white-space-x/-/white-space-x-3.0.1.tgz#81a82d5432da725aba5ca671624bb579c9e66d4f",
                     "sha256": "94d24561d53d8d35520649f7c4bd5205efda07deac57ddd7bf92dd5b624e407b",
                     "dest": "service/deps",
@@ -2229,6 +2362,13 @@
                     "sha256": "4a57018577d44b055666ea271939524355579a79df8e5e12b01f8d29c3f281ca",
                     "dest": "service/deps",
                     "dest-filename": "xmlbuilder-9.0.7.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af",
+                    "sha256": "e8cf61040c95fcc1b6b707d76d54365fb646e8e7ac9bdf6e1f794e8790dfa872",
+                    "dest": "service/deps",
+                    "dest-filename": "xtend-4.0.1.tgz"
                 }
             ]
         }
