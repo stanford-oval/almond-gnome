@@ -419,10 +419,10 @@ var MainWindow = GObject.registerClass({
               program_name: _("Almond"),
               comments: _("The Open Virtual Assistant"),
               copyright: 'Copyright 2016-2018 Stanford University, Mobisocial Computing Lab',
-              license_type: Gtk.License.GPL_2_0,
+              license_type: Gtk.License.GPL_3_0,
               logo_icon_name: 'edu.stanford.Almond',
               version: pkg.version,
-              website: 'https://thingpedia.stanford.edu',
+              website: 'https://almond.stanford.edu',
               wrap_license: true,
               modal: true,
               transient_for: this
