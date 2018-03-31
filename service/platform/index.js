@@ -10,6 +10,7 @@
 
 // GNOME platform
 
+const crypto = require('crypto');
 const Q = require('q');
 const fs = require('fs');
 const os = require('os');
@@ -20,6 +21,7 @@ const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('cvc4');
 const PulseAudio = require('pulseaudio');
+const keytar = require('keytar');
 
 const prefs = require('thingengine-core/lib/util/prefs');
 
@@ -27,7 +29,7 @@ var _unzipApi = {
     unzip(zipPath, dir) {
         var args = ['-uo', zipPath, '-d', dir];
         return Q.nfcall(child_process.execFile, '/usr/bin/unzip', args, {
-            maxBuffer: 10 * 1024 * 1024 }).then(function(zipResult) {
+            maxBuffer: 10 * 1024 * 1024 }).then((zipResult) => {
             var stdout = zipResult[0];
             var stderr = zipResult[1];
             console.log('stdout', stdout);
@@ -73,7 +75,7 @@ function safeMkdirSync(dir) {
     try {
         fs.mkdirSync(dir);
     } catch(e) {
-        if (e.code != 'EEXIST')
+        if (e.code !== 'EEXIST')
             throw e;
     }
 }
@@ -93,6 +95,9 @@ function getFilesDir() {
         return path.resolve(process.env.THINGENGINE_HOME);
     else
         return path.resolve(getUserConfigDir(), 'almond');
+}
+function makeRandom() {
+    return crypto.randomBytes(32).toString('hex');
 }
 
 const _appLauncher = {
@@ -167,7 +172,7 @@ class Platform {
         safeMkdirSync(this._filesDir);
         this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
         // normalize this._locale to something that Intl can grok
-        this._locale = this._locale.split(/[-_\.@]/).slice(0,2).join('-');
+        this._locale = this._locale.split(/[-_.@]/).slice(0,2).join('-');
 
         this._gettext.setLocale(this._locale);
         this._timezone = process.env.TZ;
@@ -185,7 +190,20 @@ class Platform {
         });
         this._tts = new SpeechSynthesizer(this._pulse, path.resolve(module.filename, '../../data/cmu_us_slt.flitevox'));
 
-        this._origin = null;
+        this._sqliteKey = null;
+    }
+
+    init() {
+        return keytar.getPassword('edu.stanford.Almond', 'database-key').then((password) => {
+            if (password) {
+                this._sqliteKey = password;
+                return Promise.resolve();
+            }
+
+            console.log('Initializing database key');
+            this._sqliteKey = makeRandom();
+            return keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
+        });
     }
 
     setAssistant(ad) {
@@ -386,7 +404,7 @@ class Platform {
     }
 
     getSqliteKey() {
-        return null;
+        return this._sqliteKey;
     }
 
     getGraphDB() {
@@ -437,10 +455,10 @@ class Platform {
         this._prefs.set('auth-token', authToken);
         return true;
     }
-};
+}
 
 module.exports = {
     newInstance(homedir) {
-        return new Platform(homedir)
+        return new Platform(homedir);
     }
-}
+};

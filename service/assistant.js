@@ -44,7 +44,7 @@ const MessageType = {
 };
 
 class AssistantDispatcher extends events.EventEmitter {
-    constructor(engine, control) {
+    constructor(engine) {
         super();
         this._engine = engine;
         this._conversation = null;

@@ -401,20 +401,22 @@ function main() {
     platform = require('./platform').newInstance();
     global.platform = platform;
 
-    console.log('GNOME platform initialized');
+    let bus;
+    Q(platform.init()).then(() => {
+        console.log('GNOME platform initialized');
 
-    console.log('Creating engine...');
-    _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
+        console.log('Creating engine...');
+        _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
 
-    _ad = new AssistantDispatcher(_engine, controlChannel);
-    platform.setAssistant(_ad);
 
-    var controlChannel = new AppControlChannel();
+        _ad = new AssistantDispatcher(_engine);
+        platform.setAssistant(_ad);
+        const controlChannel = new AppControlChannel();
+        bus = platform.getCapability('dbus-session');
+        bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
-    var bus = platform.getCapability('dbus-session');
-    bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
-
-    Q.all([_engine.open(), _ad.start()]).then(() => {
+        return Promise.all([_engine.open(), _ad.start()]);
+    }).then(() => {
         return Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService',
                          DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING);
     }).then(() => {
@@ -428,9 +430,9 @@ function main() {
     }).catch((error) => {
         console.log('Uncaught exception: ' + error.message);
         console.log(error.stack);
-    }).finally(() =>
-        _engine.close()
-    ).catch((error) => {
+    }).finally(() => {
+        return _engine.close();
+    }).catch((error) => {
         console.log('Exception during stop: ' + error.message);
         console.log(error.stack);
     }).finally(() => {
