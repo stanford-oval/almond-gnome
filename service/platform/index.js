@@ -130,6 +130,35 @@ class SystemLock {
     }
 }
 
+class Screenshot {
+    constructor(sessionBus, gettext) {
+        this._bus = sessionBus;
+        this._ = gettext.dgettext.bind(gettext, 'edu.stanford.Almond');
+    }
+
+    take() {
+        return Q.ninvoke(this._bus, 'getInterface',
+                         'org.gnome.Shell.Screenshot',
+                         '/org/gnome/Shell/Screenshot',
+                         'org.gnome.Shell.Screenshot').then((iface) => {
+            let now = new Date;
+            let filename = this._("Screenshot from %d-%02d-%02d %02d-%02d-%02d").format(
+                now.getFullYear(),
+                now.getMonth()+1,
+                now.getDate(),
+                now.getHours(),
+                now.getMinutes(),
+                now.getSeconds()
+            );
+            return Q.ninvoke(iface, 'Screenshot', false, true, filename);
+        }).then(([ok, path]) => {
+            return 'file://' + path;
+        }).catch((e) => {
+            console.error('failed to take screenshot', e);
+            throw e;
+        });
+    }
+}
 
 class SystemSettings {
     constructor(cacheDir) {
@@ -184,6 +213,7 @@ class Platform {
         this._dbusSystem = DBus.systemBus();
         this._systemLock = new SystemLock(this._dbusSystem);
         this._systemSettings = new SystemSettings(this._cacheDir);
+        this._screenshot = new Screenshot(this._dbusSession, this._gettext);
         this._btApi = null;
         this._pulse = new PulseAudio({
             client: "thingengine-platform-gnome"
@@ -324,6 +354,8 @@ class Platform {
             return this._systemLock;
         case 'system-settings':
             return this._systemSettings;
+        case 'screenshot':
+            return this._screenshot;
 
 /*
         case 'notify-api':
