@@ -12,6 +12,7 @@ const Gio = imports.gi.Gio;
 
 const Util = imports.common.util;
 const Config = imports.common.config;
+const { MessageType, Direction } = imports.common.chatmodel;
 const { bindChatModel } = imports.app.chatview;
 const { DeviceModel } = imports.app.devicemodel;
 const { AppModel } = imports.app.appmodel;
@@ -29,11 +30,12 @@ function getGIcon(icon) {
 var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
     Properties: {},
-    InternalChildren: [
+    Children: [
         'main-stack',
         'assistant-chat-listbox',
         'assistant-chat-scrolled-window',
         'assistant-input',
+        'assistant-cancel',
         'my-stuff-grid-view',
         'my-rules-list-view',
         'device-details-icon',
@@ -56,8 +58,6 @@ var MainWindow = GObject.registerClass({
                           { name: 'switch-to',
                             activate: this._switchTo,
                             parameter_type: new GLib.VariantType('s') },
-                          { name: 'new-rule',
-                            activate: this._makeRule },
                           { name: 'new-device',
                             activate: this._configureNewDevice },
                           { name: 'configure-device-oauth2',
@@ -70,31 +70,42 @@ var MainWindow = GObject.registerClass({
                             activate: this._showDeviceDetails,
                             parameter_type: new GLib.VariantType('s') },
                           { name: 'new-account',
-                            activate: this._configureNewAccount }]);
+                            activate: this._configureNewAccount },
+                          { name: 'assistant-special-message',
+                            activate: (action, param) => this.handleSpecial(param.deep_unpack()),
+                            parameter_type: new GLib.VariantType('s') }
+                            ]);
 
         this._service = service;
 
-        this._assistantModel = bindChatModel(this, service, this._assistant_chat_listbox);
+        this._assistantModel = bindChatModel(this, service, this.assistant_chat_listbox);
         this._assistantModel.start();
 
+        this._newMessageId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
+            let [, type, direction, msg] = params;
+            if (type !== MessageType.ASK_SPECIAL || direction !== Direction.FROM_ALMOND)
+                return;
+            this.assistant_cancel.visible = msg.ask_special_what !== 'null';
+        });
+
         this._scrollAtEnd = true;
-        this._assistant_chat_scrolled_window.vadjustment.connect('value-changed', (adj) => {
+        this.assistant_chat_scrolled_window.vadjustment.connect('value-changed', (adj) => {
             this._scrollAtEnd = adj.value === adj.upper - adj.page_size;
         });
-        this._assistant_chat_scrolled_window.vadjustment.connect('changed', (adj) => {
+        this.assistant_chat_scrolled_window.vadjustment.connect('changed', (adj) => {
             if (this._scrollAtEnd)
                 adj.value = adj.upper - adj.page_size;
         });
 
-        this._deviceModel = new DeviceModel(this, service, this._my_stuff_grid_view);
-        this._my_stuff_grid_view.connect('child-activated', (grid, row) => {
+        this._deviceModel = new DeviceModel(this, service, this.my_stuff_grid_view);
+        this.my_stuff_grid_view.connect('child-activated', (grid, row) => {
             this._showDeviceDetailsInternal(row._device.unique_id);
         });
         this._deviceModel.start();
-        this._appModel = new AppModel(this, service, this._my_rules_list_view);
+        this._appModel = new AppModel(this, service, this.my_rules_list_view);
         this._appModel.start();
 
-        this._device_details_examples.connect('row-activated', (list, row) => {
+        this.device_details_examples.connect('row-activated', (list, row) => {
             if (!row._delegate)
                 return;
             let { utterance, target, entryMap } = row._delegate;
@@ -124,15 +135,19 @@ var MainWindow = GObject.registerClass({
         this.connect('destroy', () => {
             this._assistantModel.stop();
             this._deviceModel.stop();
+            if (this._newMessageId) {
+                this._service.disconnect(this._newMessageId);
+                this._newMessageId = 0;
+            }
         });
 
-        this._assistant_input.connect('activate', () => {
-            var text = this._assistant_input.text || '';
+        this.assistant_input.connect('activate', () => {
+            var text = this.assistant_input.text || '';
             text = text.trim();
             if (!text)
                 return;
 
-            this._assistant_input.text = '';
+            this.assistant_input.text = '';
 
             const onerror = (result, error) => {
                 if (error)
@@ -163,10 +178,34 @@ var MainWindow = GObject.registerClass({
 
     _switchTo(action, page) {
         let [pageName,] = page.get_string();
-        this._main_stack.visible_child_name = pageName;
+        this.main_stack.visible_child_name = pageName;
     }
 
-    handleSpecial(special, title) {
+    handleSpecial(special) {
+        let title;
+        switch (special) {
+        case 'yes':
+            title = _("Yes");
+            break;
+        case 'no':
+            title = _("No");
+            break;
+        case 'makerule':
+            title = _("Make a rule");
+            break;
+        case 'help':
+            title = _("Help");
+            break;
+        case 'train':
+            title = _("Retrain the last command");
+            break;
+        case 'nevermind':
+            title = _("Cancel");
+            break;
+        default:
+            log('Unrecognized special ' + special);
+            title = special;
+        }
         let json = JSON.stringify({
             code: ['bookkeeping', 'special', 'special:' + special],
             entities: {}
@@ -174,7 +213,7 @@ var MainWindow = GObject.registerClass({
         this.handleParsedCommand(json, title);
     }
     handleParsedCommand(json, title) {
-        this._main_stack.visible_child_name = 'page-chat';
+        this.main_stack.visible_child_name = 'page-chat';
         this._service.HandleParsedCommandRemote(title, json, (result, error) => {
             if (error)
                 log('Failed to click on button: ' + error);
@@ -196,10 +235,6 @@ var MainWindow = GObject.registerClass({
         this.handleParsedCommand(json, _("Configure %s").format(title));
     }
 
-    _makeRule() {
-        this._main_stack.visible_child_name = 'page-chat';
-        this.handleSpecial('makerule', _("Make a Rule"));
-    }
     _configureNewDevice() {
         this._configureNew('physical');
     }
@@ -228,11 +263,11 @@ var MainWindow = GObject.registerClass({
     _getDeviceDetails(uniqueId) {
         return dbusPromiseify(this._service, 'GetDeviceInfoRemote', uniqueId).then(([deviceInfo]) => {
             let kind = deviceInfo.kind.deep_unpack();
-            this._device_details_icon.gicon = getGIcon(kind);
-            this._device_details_name.label = deviceInfo.name.deep_unpack();
-            this._device_details_description.label = deviceInfo.description.deep_unpack();
-            this._device_details_version.label = _("Version: %d").format(deviceInfo.version.deep_unpack());
-            this._device_details_update.action_target = new GLib.Variant('s', kind);
+            this.device_details_icon.gicon = getGIcon(kind);
+            this.device_details_name.label = deviceInfo.name.deep_unpack();
+            this.device_details_description.label = deviceInfo.description.deep_unpack();
+            this.device_details_version.label = _("Version: %d").format(deviceInfo.version.deep_unpack());
+            this.device_details_update.action_target = new GLib.Variant('s', kind);
         });
     }
 
@@ -328,7 +363,7 @@ var MainWindow = GObject.registerClass({
 
     _getDeviceExamples(uniqueId) {
         return dbusPromiseify(this._service, 'GetDeviceExamplesRemote', uniqueId).then(([examples]) => {
-            const listbox = this._device_details_examples;
+            const listbox = this.device_details_examples;
             for (let existing of listbox.get_children())
                 existing.destroy();
             for (let ex of examples) {
@@ -370,7 +405,7 @@ var MainWindow = GObject.registerClass({
 
     _showDeviceDetailsInternal(uniqueId) {
         Promise.all([this._getDeviceDetails(uniqueId), this._getDeviceExamples(uniqueId)]).then(() => {
-            this._main_stack.visible_child_name = 'page-device-details';
+            this.main_stack.visible_child_name = 'page-device-details';
         }).catch((e) => {
             logError(e, 'Failed to show device details');
             alert(this, _("Sorry, that did not work: %s").format(e.message));

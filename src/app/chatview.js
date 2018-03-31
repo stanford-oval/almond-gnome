@@ -303,7 +303,7 @@ const MessageConstructors = {
             });
             yes.show();
             yes.connect('clicked', () => {
-                window.handleSpecial('yes', _("Yes"));
+                window.handleSpecial('yes');
             });
             button_box.add(yes);
 
@@ -314,7 +314,7 @@ const MessageConstructors = {
             });
             no.show();
             no.connect('clicked', () => {
-                window.handleSpecial('no', _("No"));
+                window.handleSpecial('no');
             });
             button_box.add(no);
 

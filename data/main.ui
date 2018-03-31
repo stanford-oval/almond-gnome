@@ -50,6 +50,25 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkButton" id="assistant-cancel">
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="action_name">win.assistant-special-message</property>
+                    <property name="action_target">'nevermind'</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon_name">edit-delete-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pack_type">start</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -197,7 +216,8 @@
                     <property name="can_focus">True</property>
                     <property name="use_underline">True</property>
                     <property name="label" translatable="yes">Make a New _Rule</property>
-                    <property name="action-name">win.new-rule</property>
+                    <property name="action-name">win.assistant-special-message</property>
+                    <property name="action-target">'makerule'</property>
                   </object>
                   <packing>
                     <property name="pack_type">start</property>
