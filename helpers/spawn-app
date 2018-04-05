@@ -1,5 +1,6 @@
 #!/usr/bin/gjs
 
+const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
@@ -12,5 +13,10 @@ if (!app) {
     log('No such app');
 } else {
     const launchContext = Gdk.Display.get_default().get_app_launch_context();
-    app.launch(ARGV.slice(1).map((arg) => Gio.File.new_for_commandline_arg(arg)), launchContext);
+
+    let files = ARGV.slice(1).map((arg) => Gio.File.new_for_commandline_arg(arg));
+    app.launch(files, launchContext);
 }
+
+GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => Gtk.main_quit());
+Gtk.main();
