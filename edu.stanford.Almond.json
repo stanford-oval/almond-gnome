@@ -308,10 +308,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/207309f4ecd64211de1ba233a6e74cf45500334b",
-                    "sha256": "5cd37c77ec3591830d87547ec3b9af1ec667bdd7ced7daf424579091e06242ec",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/0883a3b779ee58cad947bcb6aa66834fda5b6154",
+                    "sha256": "522fbdecfff8e7aea46729608a79ea3402ed68cac596923e0cef0b5545f5b5b5",
                     "dest": "service/deps",
-                    "dest-filename": "207309f4ecd64211de1ba233a6e74cf45500334b"
+                    "dest-filename": "0883a3b779ee58cad947bcb6aa66834fda5b6154"
                 },
                 {
                     "type": "file",
@@ -1414,10 +1414,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/node-mimic/-/node-mimic-0.0.1.tgz#07c8f2504f9446fadd132377078f7b962a8767ed",
-                    "sha256": "c7febca3bab9afb17eea4279faff900c240159674975f8df61962b5f77c530f5",
+                    "url": "https://registry.yarnpkg.com/node-mimic/-/node-mimic-1.0.0.tgz#87a6b5fb29c1568ff643d83c8098d8f952ee22c5",
+                    "sha256": "dbb2c2a46444e8f3e08ef50dbe8ba42520afe2a328545818ff32041dad08f8df",
                     "dest": "service/deps",
-                    "dest-filename": "node-mimic-0.0.1.tgz"
+                    "dest-filename": "node-mimic-1.0.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1827,6 +1827,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf",
+                    "sha256": "0f205b60dc0fb300f05bbbf1d1583b3f87cca8cecc0b6a8673910c9519c45c77",
+                    "dest": "service/deps",
+                    "dest-filename": "readable-stream-2.3.6.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9",
                     "sha256": "cdd8985b84b3b6b08fe5dcb39b9506d70ddddffda9f9d703dd33534c60bc373b",
                     "dest": "service/deps",
@@ -2023,6 +2030,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8",
+                    "sha256": "af8262434508fa8292407f7fef4690d19eabb73387ca230b41f2a1155216963a",
+                    "dest": "service/deps",
+                    "dest-filename": "string_decoder-1.1.1.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/stringstream/-/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878",
                     "sha256": "ed686bc9c2641ff7bb002b7c3bf58e2b8193f535490de7d07669ef465b40fcf3",
                     "dest": "service/deps",
@@ -2086,17 +2100,17 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/6be607a6dbf57488d3a074d711f6fc63d629a3b1",
-                    "sha256": "a64ca4c8170a47de7c3a7a7706d67268e2f7e89559ad39684e559f1c5689a619",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/98089ee568db73e82461b97bbe93002548b8a7ff",
+                    "sha256": "28cf4f4373b2fa1ac0878b27593db4ecf61382b2b50d4b8eb1f1b871794739a0",
                     "dest": "service/deps",
-                    "dest-filename": "6be607a6dbf57488d3a074d711f6fc63d629a3b1"
+                    "dest-filename": "98089ee568db73e82461b97bbe93002548b8a7ff"
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/62e4ec1e088f4b0e304b4f1c37d0c5ef555385a6",
-                    "sha256": "69016f97a3c32268782c099a65385311c56e6dc00f33ecd32e64aa05222228d4",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/adcc1219fe720645d329ac4f04cd454a9bfbeaf2",
+                    "sha256": "416c5e400e9ca1e139e50266bc1224e958609a2cd08941cb849009860236e3a8",
                     "dest": "service/deps",
-                    "dest-filename": "62e4ec1e088f4b0e304b4f1c37d0c5ef555385a6"
+                    "dest-filename": "adcc1219fe720645d329ac4f04cd454a9bfbeaf2"
                 },
                 {
                     "type": "file",

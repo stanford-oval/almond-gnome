@@ -8,7 +8,7 @@
     "dbus-native": "github:gcampax/node-dbus",
     "keytar": "^4.2.1",
     "node-gettext": "^2.0.0",
-    "node-mimic": "0.0.1",
+    "node-mimic": "1.0.0",
     "omlib": "github:Stanford-Mobisocial-IoT-Lab/omclient",
     "posix": "^4.1.1",
     "pulseaudio": "bitbucket:gcampax/node-pulseaudio",

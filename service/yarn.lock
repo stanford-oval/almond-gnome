@@ -39,7 +39,7 @@ ajv@^5.1.0:
 
 "almond@github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/207309f4ecd64211de1ba233a6e74cf45500334b"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/0883a3b779ee58cad947bcb6aa66834fda5b6154"
   dependencies:
     adt "~0.7.2"
     thingpedia "github:Stanford-Mobisocial-IoT-Lab/thingpedia-api"
@@ -887,9 +887,9 @@ node-gettext@^2.0.0:
   dependencies:
     lodash.get "^4.4.2"
 
-node-mimic@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/node-mimic/-/node-mimic-0.0.1.tgz#07c8f2504f9446fadd132377078f7b962a8767ed"
+node-mimic@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-mimic/-/node-mimic-1.0.0.tgz#87a6b5fb29c1568ff643d83c8098d8f952ee22c5"
   dependencies:
     bindings "^1.2.1"
 
@@ -1282,7 +1282,7 @@ rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-readable-stream@^2.0.0, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.3.5:
+readable-stream@^2.0.0, readable-stream@^2.3.5:
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.5.tgz#b4f85003a938cbb6ecbce2a124fb1012bd1a838d"
   dependencies:
@@ -1292,6 +1292,18 @@ readable-stream@^2.0.0, readable-stream@^2.0.6, readable-stream@^2.1.4, readable
     process-nextick-args "~2.0.0"
     safe-buffer "~5.1.1"
     string_decoder "~1.0.3"
+    util-deprecate "~1.0.1"
+
+readable-stream@^2.0.6, readable-stream@^2.1.4:
+  version "2.3.6"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf"
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.3"
+    isarray "~1.0.0"
+    process-nextick-args "~2.0.0"
+    safe-buffer "~5.1.1"
+    string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
 regenerator-runtime@^0.11.0:
@@ -1503,6 +1515,12 @@ string_decoder@~1.0.3:
   dependencies:
     safe-buffer "~5.1.0"
 
+string_decoder@~1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
+  dependencies:
+    safe-buffer "~5.1.0"
+
 stringstream@~0.0.4, stringstream@~0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/stringstream/-/stringstream-0.0.5.tgz#4e484cd4de5a0bbbee18e46307710a8a81621878"
@@ -1583,8 +1601,8 @@ tar@^2.2.1:
     node-ssdp "^2.7.2"
 
 "thingpedia@github:Stanford-Mobisocial-IoT-Lab/thingpedia-api":
-  version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/6be607a6dbf57488d3a074d711f6fc63d629a3b1"
+  version "2.1.0"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/98089ee568db73e82461b97bbe93002548b8a7ff"
   dependencies:
     ip "~1.1.0"
     oauth "~0.9.14"
@@ -1595,7 +1613,7 @@ tar@^2.2.1:
 
 "thingtalk@github:Stanford-Mobisocial-IoT-Lab/ThingTalk":
   version "1.0.0"
-  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/62e4ec1e088f4b0e304b4f1c37d0c5ef555385a6"
+  resolved "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/adcc1219fe720645d329ac4f04cd454a9bfbeaf2"
   dependencies:
     adt "~0.7.2"
     byline "^5.0.0"
