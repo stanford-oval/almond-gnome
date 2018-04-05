@@ -37,10 +37,17 @@ class DetectorStream extends stream.Transform {
         this._detector.on('silence', () => {
         });
         this._detected = false;
+        this._detector.on('sound', () => {
+            if (this.autoTrigger)
+                this._detected = true;
+            this.emit('sound');
+        });
         this._detector.on('hotword', (index, hotword, buffer) => {
             this._detected = true;
             this.emit('hotword', hotword);
         });
+
+        this.autoTrigger = false;
     }
 
     finishRequest() {
@@ -70,10 +77,36 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         });
 
         this._hotwordEnabled = false;
+        this._autoTrigger = false;
     }
 
     setHotwordEnabled(enabled) {
         this._hotwordEnabled = enabled;
+    }
+
+    setAutoTrigger(autoTrigger) {
+        console.log('setAutoTrigger', autoTrigger);
+        this._autoTrigger = autoTrigger;
+        this._detector.autoTrigger = autoTrigger;
+    }
+
+    _onDetected() {
+        let req = this._recognizer.request(this._detector);
+        req.on('hypothesis', (hypothesis) => this.emit('hypothesis', hypothesis));
+        req.on('done', (status, utterance) => {
+            if (status === 'Success') {
+                console.log('Recognized as "' + utterance + '"');
+                this._detector.autoTrigger = false;
+                this.emit('utterance', utterance);
+            } else if (status === 'NoMatch') {
+                this.emit('no-match');
+            } else if (status === 'InitialSilenceTimeout') {
+                this.emit('silence');
+            } else {
+                console.log('Recognition error: ' + status);
+            }
+            this._detector.finishRequest();
+        });
     }
 
     start() {
@@ -87,23 +120,17 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         this._stream.on('error', (e) => this.emit('error', e));
 
         this._detector = new DetectorStream();
+        this._detector.on('sound', () => {
+            if (this._detector.autoTrigger)
+                this._onDetected();
+        });
         this._detector.on('hotword', (hotword) => {
             if (!this._hotwordEnabled)
                 return;
 
             console.log('Hotword ' + hotword + ' detected');
             this.emit('hotword', hotword);
-            let req = this._recognizer.request(this._detector);
-            req.on('hypothesis', (hypothesis) => this.emit('hypothesis', hypothesis));
-            req.on('done', (status, utterance) => {
-                if (status === 'Success') {
-                    console.log('Recognized as "' + utterance + '"');
-                    this.emit('utterance', utterance);
-                } else {
-                    console.log('Recognition error: ' + status);
-                }
-                this._detector.finishRequest();
-            });
+            this._onDetected();
         });
         this._stream.pipe(this._detector);
     }
@@ -115,4 +142,4 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         this._stream = null;
         this._recognizer.close();
     }
-}
+};
