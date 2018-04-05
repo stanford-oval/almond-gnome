@@ -87,6 +87,9 @@ var MainWindow = GObject.registerClass({
                 return;
             this.assistant_cancel.visible = msg.ask_special_what !== 'null';
         });
+        this._voiceHypothesisId = this._service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
+            this.assistant_input.set_text(hyp);
+        });
 
         this._scrollAtEnd = true;
         this.assistant_chat_scrolled_window.vadjustment.connect('value-changed', (adj) => {
@@ -136,8 +139,12 @@ var MainWindow = GObject.registerClass({
             this._assistantModel.stop();
             this._deviceModel.stop();
             if (this._newMessageId) {
-                this._service.disconnect(this._newMessageId);
+                this._service.disconnectSignal(this._newMessageId);
                 this._newMessageId = 0;
+            }
+            if (this._voiceHypothesisId) {
+                this._service.disconnectSignal(this._voiceHypothesisId);
+                this._voiceHypothesisId = 0;
             }
         });
 
