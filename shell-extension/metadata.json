@@ -1,5 +1,5 @@
 {
-    "shell-version": ["3.26" ],
+    "shell-version": ["3.26","3.28"],
     "uuid": "almond@almond.stanford.edu",
     "settings-schema": "edu.stanford.Almond",
     "gettext-domain": "edu.stanford.Almond",
