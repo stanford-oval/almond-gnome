@@ -24,7 +24,8 @@
         "--system-talk-name=org.freedesktop.login1",
         "--talk-name=org.gtk.vfs.Daemon",
         "--talk-name=org.gtk.vfs.mountpoint_http",
-        "--talk-name=org.gnome.Shell.Screenshot"
+        "--talk-name=org.gnome.Shell.Screenshot",
+        "--talk-name=org.freedesktop.secrets"
     ],
     "cleanup": [
         "/include",
