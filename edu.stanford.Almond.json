@@ -308,10 +308,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/0883a3b779ee58cad947bcb6aa66834fda5b6154",
-                    "sha256": "522fbdecfff8e7aea46729608a79ea3402ed68cac596923e0cef0b5545f5b5b5",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/a14a297843b93b5be1d5d938f054a01300eec4aa",
+                    "sha256": "c5beb5feaa19e0d13303aaa2037dd8bdf482e3c762fdefac5931fdddae100726",
                     "dest": "service/deps",
-                    "dest-filename": "0883a3b779ee58cad947bcb6aa66834fda5b6154"
+                    "dest-filename": "a14a297843b93b5be1d5d938f054a01300eec4aa"
                 },
                 {
                     "type": "file",
@@ -413,10 +413,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e",
-                    "sha256": "619adba4bec8d6a9df22ff5277abf347d6548e39363d7a57e4137f720dcd82c2",
+                    "url": "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289",
+                    "sha256": "150d1855c0e1f6874569b111e170eb149612390a96601cfdea3e58591d986138",
                     "dest": "service/deps",
-                    "dest-filename": "aws4-1.6.0.tgz"
+                    "dest-filename": "aws4-1.7.0.tgz"
                 },
                 {
                     "type": "file",
@@ -616,10 +616,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/core-js/-/core-js-2.5.4.tgz#f2c8bf181f2a80b92f360121429ce63a2f0aeae0",
-                    "sha256": "5757a88012b7dc1acac82d472a1d78eee0fa388edce2f4b1a01662565eac0b56",
+                    "url": "https://registry.yarnpkg.com/core-js/-/core-js-2.5.5.tgz#b14dde936c640c0579a6b50cabcc132dd6127e3b",
+                    "sha256": "5ccb459ed53adffad264e2512e6495d0214b9a3411008379d54413c741c0c55b",
                     "dest": "service/deps",
-                    "dest-filename": "core-js-2.5.4.tgz"
+                    "dest-filename": "core-js-2.5.5.tgz"
                 },
                 {
                     "type": "file",
@@ -630,10 +630,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/create-hash/-/create-hash-1.1.3.tgz#606042ac8b9262750f483caddab0f5819172d8fd",
-                    "sha256": "c1919da6adedbe366a4bb520431f870e492cf912c2a92cc061a0e63d6c03923c",
+                    "url": "https://registry.yarnpkg.com/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196",
+                    "sha256": "fe4079490bd932ccf1f1530f49a88aaca57dbdb6f337c9144749a225e2014bad",
                     "dest": "service/deps",
-                    "dest-filename": "create-hash-1.1.3.tgz"
+                    "dest-filename": "create-hash-1.2.0.tgz"
                 },
                 {
                     "type": "file",
@@ -945,10 +945,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/hash-base/-/hash-base-2.0.2.tgz#66ea1d856db4e8a5470cadf6fce23ae5244ef2e1",
-                    "sha256": "7fe050fa7fd17ac9f70d5f11c033601c876f86f16db82c327c816085e58b983c",
+                    "url": "https://registry.yarnpkg.com/hash-base/-/hash-base-3.0.4.tgz#5fc8686847ecd73499403319a6b0a3f3f6ae4918",
+                    "sha256": "804df0c49372144dae1deafbac9858c111a681f69b5f4e3aaadb1b0b38986e5f",
                     "dest": "service/deps",
-                    "dest-filename": "hash-base-2.0.2.tgz"
+                    "dest-filename": "hash-base-3.0.4.tgz"
                 },
                 {
                     "type": "file",
@@ -966,10 +966,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/hexy/-/hexy-0.2.10.tgz#eb9504947ad293ede2f554ddb14d0891a07a16b5",
-                    "sha256": "f835fce4d27c48c4a4ab58f2c60322faa2794e5a844fee77a803ff2acbb87dfc",
+                    "url": "https://registry.yarnpkg.com/hexy/-/hexy-0.2.11.tgz#9939c25cb6f86a91302f22b8a8a72573518e25b4",
+                    "sha256": "70d297823f1f03f70ea1fef391de5f6261b1de5b3d4702c7a7b24dfda6122b72",
                     "dest": "service/deps",
-                    "dest-filename": "hexy-0.2.10.tgz"
+                    "dest-filename": "hexy-0.2.11.tgz"
                 },
                 {
                     "type": "file",
@@ -1299,6 +1299,13 @@
                     "sha256": "fc354242587e6fa06b85519775fd1ad4cc9b4384ac8801d7fd538196046394f6",
                     "dest": "service/deps",
                     "dest-filename": "max-safe-integer-1.0.1.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.4.tgz#e9bdbde94a20a5ac18b04340fc5764d5b09d901d",
+                    "sha256": "0aa530da80921df8d83f53360af729ed841fa2f7039ebc80088ed434e4a54bd6",
+                    "dest": "service/deps",
+                    "dest-filename": "md5.js-1.3.4.tgz"
                 },
                 {
                     "type": "file",
@@ -1722,10 +1729,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-2.5.1.tgz#0f234140a73760813657c413cdccdda58296b1da",
-                    "sha256": "07547600fbf0c5bc5fee7a8ea6523f4607c636014401e52a1e88d1903589a5fd",
+                    "url": "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-2.5.3.tgz#9f65f242782d370296353710e9bc843490c19f69",
+                    "sha256": "9f0a7408526806763333ab443af8f9ea5aace8dd050c41117d75250bc19ff4ad",
                     "dest": "service/deps",
-                    "dest-filename": "prebuild-install-2.5.1.tgz"
+                    "dest-filename": "prebuild-install-2.5.3.tgz"
                 },
                 {
                     "type": "file",
@@ -1820,13 +1827,6 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.5.tgz#b4f85003a938cbb6ecbce2a124fb1012bd1a838d",
-                    "sha256": "b4a3e04324c0801381a8fd9aa951e0bfff9634dd8a8d27c53bd717c342de6f10",
-                    "dest": "service/deps",
-                    "dest-filename": "readable-stream-2.3.5.tgz"
-                },
-                {
-                    "type": "file",
                     "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.6.tgz#b11c27d88b8ff1fbe070643cf94b0c79ae1b0aaf",
                     "sha256": "0f205b60dc0fb300f05bbbf1d1583b3f87cca8cecc0b6a8673910c9519c45c77",
                     "dest": "service/deps",
@@ -1883,10 +1883,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.1.tgz#0f4584295c53a3628af7e6d79aca21ce57d1c6e7",
-                    "sha256": "5373d7a43a5a3cd14db64f277b3b9c547dfc4170ea27b1fb5dac77e1e7fd7d09",
+                    "url": "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c",
+                    "sha256": "44493c512eb8157f294dbfc44dfe38757b81f357d53c4030fdab6dc83f6f94ba",
                     "dest": "service/deps",
-                    "dest-filename": "ripemd160-2.0.1.tgz"
+                    "dest-filename": "ripemd160-2.0.2.tgz"
                 },
                 {
                     "type": "file",
@@ -1960,10 +1960,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/snowboy/-/snowboy-1.2.0.tgz#04b69333d15de66b35372c6916a5c4773fbecdf2",
-                    "sha256": "ee01e82bd414a07c20911626f72b0231c8016c9c95b17f22d67dbcec7fa941d0",
+                    "url": "https://registry.yarnpkg.com/snowboy/-/snowboy-1.3.1.tgz#220f23f026096fe5290d7919a9f0da93ccd253f2",
+                    "sha256": "b3554d6e76e3cf166ef22fbf14c1a6d1e3cee514429df7f1b270442df3b1ac4e",
                     "dest": "service/deps",
-                    "dest-filename": "snowboy-1.2.0.tgz"
+                    "dest-filename": "snowboy-1.3.1.tgz"
                 },
                 {
                     "type": "file",
@@ -2023,13 +2023,6 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.0.3.tgz#0fc67d7c141825de94282dd536bec6b9bce860ab",
-                    "sha256": "56c1525e1423067916604f80b89753527c1ee7b43b51373d579676b4b5e36ba8",
-                    "dest": "service/deps",
-                    "dest-filename": "string_decoder-1.0.3.tgz"
-                },
-                {
-                    "type": "file",
                     "url": "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8",
                     "sha256": "af8262434508fa8292407f7fef4690d19eabb73387ca230b41f2a1155216963a",
                     "dest": "service/deps",
@@ -2086,10 +2079,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/d06a7ca1e61432c59a6e2a59be7a43cf43c94482",
-                    "sha256": "9d72f4ff2aced217f6e6976feac1f2a2e0412c8c7908d0ee48004e7a72e75b19",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/462f8bc32d056e4ea7ed3aad5b43f667e9977dab",
+                    "sha256": "e3130703f277f821739c6bb2aef4d4e5232b0da1280819b877baa6aca0d1cbb1",
                     "dest": "service/deps",
-                    "dest-filename": "d06a7ca1e61432c59a6e2a59be7a43cf43c94482"
+                    "dest-filename": "462f8bc32d056e4ea7ed3aad5b43f667e9977dab"
                 },
                 {
                     "type": "file",
@@ -2100,17 +2093,17 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/98089ee568db73e82461b97bbe93002548b8a7ff",
-                    "sha256": "28cf4f4373b2fa1ac0878b27593db4ecf61382b2b50d4b8eb1f1b871794739a0",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingpedia-api/tar.gz/d2e41f6247cb2b8a29ccf9171ea81200ca6c7c28",
+                    "sha256": "05af6204f270fae40ec431787b9ca0fa585b7e2a848dd66ba3e757f0173e95c8",
                     "dest": "service/deps",
-                    "dest-filename": "98089ee568db73e82461b97bbe93002548b8a7ff"
+                    "dest-filename": "d2e41f6247cb2b8a29ccf9171ea81200ca6c7c28"
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/adcc1219fe720645d329ac4f04cd454a9bfbeaf2",
-                    "sha256": "416c5e400e9ca1e139e50266bc1224e958609a2cd08941cb849009860236e3a8",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/4d576069a64317045f3f9c55c53011609b3e2c37",
+                    "sha256": "8486ac8bb03152ace2e00c0cd57560d45516ebfa19bb28fc9eba75df5070b1f1",
                     "dest": "service/deps",
-                    "dest-filename": "adcc1219fe720645d329ac4f04cd454a9bfbeaf2"
+                    "dest-filename": "4d576069a64317045f3f9c55c53011609b3e2c37"
                 },
                 {
                     "type": "file",

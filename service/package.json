@@ -22,5 +22,8 @@
   },
   "devDependencies": {
     "@yarnpkg/lockfile": "^1.0.0"
+  },
+  "scripts": {
+    "update-deps": "yarn upgrade ; node ./tools/update-flatpak-definition.js"
   }
 }
