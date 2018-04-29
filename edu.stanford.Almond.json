@@ -309,10 +309,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/a14a297843b93b5be1d5d938f054a01300eec4aa",
-                    "sha256": "c5beb5feaa19e0d13303aaa2037dd8bdf482e3c762fdefac5931fdddae100726",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/almond-dialog-agent/tar.gz/8056dc2ed0c6a9639551bcfd19aec3004f4dcebf",
+                    "sha256": "11037b2a11917e101d552d6c74f8b7d5a4c70d91760a0621780a016b83a857c8",
                     "dest": "service/deps",
-                    "dest-filename": "a14a297843b93b5be1d5d938f054a01300eec4aa"
+                    "dest-filename": "8056dc2ed0c6a9639551bcfd19aec3004f4dcebf"
                 },
                 {
                     "type": "file",
@@ -512,6 +512,27 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/buffer-alloc-unsafe/-/buffer-alloc-unsafe-0.1.1.tgz#ffe1f67551dd055737de253337bfe853dfab1a6a",
+                    "sha256": "101134ce514df5b422b822a3592016a39ba0437cda6874fbecc4908b3857a962",
+                    "dest": "service/deps",
+                    "dest-filename": "buffer-alloc-unsafe-0.1.1.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/buffer-alloc/-/buffer-alloc-1.1.0.tgz#05514d33bf1656d3540c684f65b1202e90eca303",
+                    "sha256": "1eb385967afa7b4bf1bf40a3ef9cc2cca4485893a162fa7f3aff97d40bd404aa",
+                    "dest": "service/deps",
+                    "dest-filename": "buffer-alloc-1.1.0.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/buffer-fill/-/buffer-fill-0.1.1.tgz#76d825c4d6e50e06b7a31eb520c04d08cc235071",
+                    "sha256": "125298ebf5d8360808817afb2a49ef2c07df47656e38c34dee91b07b6c122b3d",
+                    "dest": "service/deps",
+                    "dest-filename": "buffer-fill-0.1.1.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/buffer-from/-/buffer-from-0.1.1.tgz#57b18b1da0a19ec06f33837a5275a242351bd75e",
                     "sha256": "6825ed832d1e0e9eb291c65923adcb7ff124c6b7fc39cfd63c26dc0f05b649f0",
                     "dest": "service/deps",
@@ -610,6 +631,13 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/consumer-queue/-/consumer-queue-1.0.0.tgz#75f9a0ec3c1891b4dde6cde1e87ffed60cf7d310",
+                    "sha256": "2d5254fc4f1ae1adea0f1ba036916cbdb921a97f527f690217337fa1ad466b04",
+                    "dest": "service/deps",
+                    "dest-filename": "consumer-queue-1.0.0.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b",
                     "sha256": "db3e3f71df10b2b226a4e9abdc95a47aaa725e499dcee72099beddedcf9e1948",
                     "dest": "service/deps",
@@ -694,10 +722,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.2.tgz#48b699c27e334bf89f10892be432f6e4c7d34a7f",
-                    "sha256": "8331745fc15edd48bf5065e21b9f8a0ef1103a449682f94d30621feb100f285d",
+                    "url": "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.5.1.tgz#b894a9dd90d3023fbf1c55a394fb858eb2066f1f",
+                    "sha256": "95f7defc90567447c0fdc03c647f5aece6be77172f53f32b8fc02de0973feb27",
                     "dest": "service/deps",
-                    "dest-filename": "deep-extend-0.4.2.tgz"
+                    "dest-filename": "deep-extend-0.5.1.tgz"
                 },
                 {
                     "type": "file",
@@ -831,6 +859,13 @@
                     "sha256": "ae329ea8fbe235040ad598b3de62aad5e53cc84dc7e2391d9c0edf3726bbc504",
                     "dest": "service/deps",
                     "dest-filename": "from-0.1.7.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad",
+                    "sha256": "e7936d7e1b24475bd59312c4005f30d42539627dfc1c4f5dfe2326d7b7c7c5fa",
+                    "dest": "service/deps",
+                    "dest-filename": "fs-constants-1.0.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1247,10 +1282,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511",
-                    "sha256": "ab20a32e64c8c7f631635460f1874e7dd622abd6c1cb7daef2957daa18bc1afe",
+                    "url": "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7",
+                    "sha256": "b992ade8ab39d224c32ccd7f14196eec3085593a68c3e496896a2e5a8bbeb3da",
                     "dest": "service/deps",
-                    "dest-filename": "lodash-4.17.5.tgz"
+                    "dest-filename": "lodash-4.17.10.tgz"
                 },
                 {
                     "type": "file",
@@ -1289,10 +1324,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/matrix-js-sdk/-/matrix-js-sdk-0.8.5.tgz#d590154f1e77003572670fa9dbcac7e403e76e4f",
-                    "sha256": "be9eeeeb5eb9b75508fcb69b5aad672cc24924f7ab6baa95f3ec2798f33dcbde",
+                    "url": "https://registry.yarnpkg.com/matrix-js-sdk/-/matrix-js-sdk-0.9.2.tgz#2a521bddcf637cbefde9138784e627ea43645b77",
+                    "sha256": "1335136d2f7121ad39523ea10e3d113d598d509d68c90d7210a71e671a209614",
                     "dest": "service/deps",
-                    "dest-filename": "matrix-js-sdk-0.8.5.tgz"
+                    "dest-filename": "matrix-js-sdk-0.9.2.tgz"
                 },
                 {
                     "type": "file",
@@ -1408,10 +1443,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.3.0.tgz#f3d554d6ac72a9ee16f0f4dc9548db7c08de4986",
-                    "sha256": "2a26b1a525f5fdea57c6a30b080155c1ce5502a1a8fff0592f477fc482dee9f0",
+                    "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.4.0.tgz#3c27515cb842f5bbc132a31254f9f1e1c55c7b83",
+                    "sha256": "72be51810dc0ac9bc31342920f5ebec2f4f56b7547de51af1e3093e06097d195",
                     "dest": "service/deps",
-                    "dest-filename": "node-abi-2.3.0.tgz"
+                    "dest-filename": "node-abi-2.4.0.tgz"
                 },
                 {
                     "type": "file",
@@ -1821,10 +1856,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/rc/-/rc-1.2.6.tgz#eb18989c6d4f4f162c399f79ddd29f3835568092",
-                    "sha256": "a109ca32e9575b2da6e88342f4d3b5e1bc170e7837695e01e9eceb2a431d772f",
+                    "url": "https://registry.yarnpkg.com/rc/-/rc-1.2.7.tgz#8a10ca30d588d00464360372b890d06dacd02297",
+                    "sha256": "4addb101f9d44194c270f9abc9857b066c0462901c9d7c7e6d1a03b20435f296",
                     "dest": "service/deps",
-                    "dest-filename": "rc-1.2.6.tgz"
+                    "dest-filename": "rc-1.2.7.tgz"
                 },
                 {
                     "type": "file",
@@ -1891,10 +1926,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853",
-                    "sha256": "0c1447202230c905a611cfbd4c6d834ffcd1f598dadcbc8d5be74826e5e3b171",
+                    "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d",
+                    "sha256": "e09206c60fccafb952c854af7629cbb031a98d6da2e143fb3aa3c8a48402aa22",
                     "dest": "service/deps",
-                    "dest-filename": "safe-buffer-5.1.1.tgz"
+                    "dest-filename": "safe-buffer-5.1.2.tgz"
                 },
                 {
                     "type": "file",
@@ -1947,10 +1982,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/simple-get/-/simple-get-2.7.0.tgz#ad37f926d08129237ff08c4f2edfd6f10e0380b5",
-                    "sha256": "dfe67e726e9466467be112e923e83c6a5e7985bddea474ce39c5ce973ed3f493",
+                    "url": "https://registry.yarnpkg.com/simple-get/-/simple-get-2.8.1.tgz#0e22e91d4575d87620620bc91308d57a77f44b5d",
+                    "sha256": "e026e2c1a94efb361f81151231b7cedaf297421ce581a2da94094817354bc6ab",
                     "dest": "service/deps",
-                    "dest-filename": "simple-get-2.7.0.tgz"
+                    "dest-filename": "simple-get-2.8.1.tgz"
                 },
                 {
                     "type": "file",
@@ -2052,10 +2087,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/tar-fs/-/tar-fs-1.16.0.tgz#e877a25acbcc51d8c790da1c57c9cf439817b896",
-                    "sha256": "f36a1c31c342d6dc921c587b50ca5b0f5ef874a844c8fc88b7231f130d38d6b7",
+                    "url": "https://registry.yarnpkg.com/tar-fs/-/tar-fs-1.16.1.tgz#a8382bf5d5263d50c4902732b5ebfb31007fa819",
+                    "sha256": "af403722a0320567840e62cc4d850ebda1bf8e4b9fc73c2040a2057c59f88c0e",
                     "dest": "service/deps",
-                    "dest-filename": "tar-fs-1.16.0.tgz"
+                    "dest-filename": "tar-fs-1.16.1.tgz"
                 },
                 {
                     "type": "file",
@@ -2066,10 +2101,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/tar-stream/-/tar-stream-1.5.5.tgz#5cad84779f45c83b1f2508d96b09d88c7218af55",
-                    "sha256": "bc724d531b92cd6a2ab692852ac5edcc917f9f948a225566bcae2eeca5273b09",
+                    "url": "https://registry.yarnpkg.com/tar-stream/-/tar-stream-1.6.0.tgz#a50efaa7b17760b82c27b3cae4a301a8254a5715",
+                    "sha256": "e76f58b961d3df007d56986a065897c7a8fb596a2e8f922551423ba7771a989d",
                     "dest": "service/deps",
-                    "dest-filename": "tar-stream-1.5.5.tgz"
+                    "dest-filename": "tar-stream-1.6.0.tgz"
                 },
                 {
                     "type": "file",
@@ -2080,10 +2115,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/462f8bc32d056e4ea7ed3aad5b43f667e9977dab",
-                    "sha256": "e3130703f277f821739c6bb2aef4d4e5232b0da1280819b877baa6aca0d1cbb1",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/thingengine-core/tar.gz/1ddbd436cf6d8c307c7aa56e6df560b8da7dab2a",
+                    "sha256": "e53bd5b69b788c6545f5847d0631a303e3bb05a3c454604d05017bb7ed4888c2",
                     "dest": "service/deps",
-                    "dest-filename": "462f8bc32d056e4ea7ed3aad5b43f667e9977dab"
+                    "dest-filename": "1ddbd436cf6d8c307c7aa56e6df560b8da7dab2a"
                 },
                 {
                     "type": "file",
@@ -2101,10 +2136,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/4d576069a64317045f3f9c55c53011609b3e2c37",
-                    "sha256": "8486ac8bb03152ace2e00c0cd57560d45516ebfa19bb28fc9eba75df5070b1f1",
+                    "url": "https://codeload.github.com/Stanford-Mobisocial-IoT-Lab/ThingTalk/tar.gz/4739b2b419d532d888b56a00d27d9a4ffa233740",
+                    "sha256": "26c8ac836be921a3072c07da70a19552a1ac9d12a9de225ed5f96faa19d8e22a",
                     "dest": "service/deps",
-                    "dest-filename": "4d576069a64317045f3f9c55c53011609b3e2c37"
+                    "dest-filename": "4739b2b419d532d888b56a00d27d9a4ffa233740"
                 },
                 {
                     "type": "file",
@@ -2129,10 +2164,24 @@
                 },
                 {
                     "type": "file",
+                    "url": "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9",
+                    "sha256": "d23b215e6ce454f076e163a3feb7a1b548ddf44be3a41353f74837722b11d6c5",
+                    "dest": "service/deps",
+                    "dest-filename": "tmp-0.0.33.tgz"
+                },
+                {
+                    "type": "file",
                     "url": "https://registry.yarnpkg.com/to-boolean-x/-/to-boolean-x-1.0.3.tgz#cbe15e38a85d09553f29869a9b3e3b54ceef5af0",
                     "sha256": "6e18a9e7ec778bb396c8cd5339b89c384fff0c65798a4232e1015f37f5331a3b",
                     "dest": "service/deps",
                     "dest-filename": "to-boolean-x-1.0.3.tgz"
+                },
+                {
+                    "type": "file",
+                    "url": "https://registry.yarnpkg.com/to-buffer/-/to-buffer-1.1.1.tgz#493bd48f62d7c43fcded313a03dcadb2e1213a80",
+                    "sha256": "8175b2ad900524d5f8a13d92ede85e531b5babfa109e6a6cd58dc57f39e47a54",
+                    "dest": "service/deps",
+                    "dest-filename": "to-buffer-1.1.1.tgz"
                 },
                 {
                     "type": "file",
@@ -2248,13 +2297,6 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c",
-                    "sha256": "47d0626e938b00e1b6620bb8f8bbfaf8a0586ef6efdc14babe898a0027854347",
-                    "dest": "service/deps",
-                    "dest-filename": "ultron-1.1.1.tgz"
-                },
-                {
-                    "type": "file",
                     "url": "https://registry.yarnpkg.com/utf-8-validate/-/utf-8-validate-1.2.2.tgz#8bb871a4741e085c70487ca7acdbd7d6d36029eb",
                     "sha256": "8b1344dce29b0586f2edd2b3e0cbe0c2596cda37b931b00a36eb0b3db3e9cbe3",
                     "dest": "service/deps",
@@ -2346,10 +2388,10 @@
                 },
                 {
                     "type": "file",
-                    "url": "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2",
-                    "sha256": "5a0d25c1495cb49f15f4d80bdaf82c6b33055628e98847d0fba4aa46a7987c1e",
+                    "url": "https://registry.yarnpkg.com/ws/-/ws-5.1.1.tgz#1d43704689711ac1942fd2f283e38f825c4b8b95",
+                    "sha256": "ea3c976bfae6578f052c7db07dac49019136d5b94e8182ce788437b6344d360c",
                     "dest": "service/deps",
-                    "dest-filename": "ws-3.3.3.tgz"
+                    "dest-filename": "ws-5.1.1.tgz"
                 },
                 {
                     "type": "file",
