@@ -262,10 +262,12 @@ class AssistantDispatcher extends events.EventEmitter {
 
     sendAskSpecial(what) {
         this._speechSynth.whenDone(() => {
-            if (what === null)
-                this._speechHandler.setAutoTrigger(false);
-            else
-                this._speechHandler.setAutoTrigger(true);
+            if (this._enableVoiceInput) {
+                if (what === null)
+                    this._speechHandler.setAutoTrigger(false);
+                else
+                    this._speechHandler.setAutoTrigger(true);
+            }
         });
         this._addMessage(MessageType.ASK_SPECIAL, Direction.FROM_ALMOND, {
             ask_special_what: what || 'null'
