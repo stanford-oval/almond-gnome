@@ -9,9 +9,7 @@
 
 const Q = require('q');
 const mimic = require('node-mimic');
-
-// FIXME
-const AsyncQueue = require('thingengine-core/lib/util/async_queue');
+const AsyncQueue = require('consumer-queue');
 
 module.exports = class SpeechSynthesizer {
     constructor(pulseCtx, voiceFile) {

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "almond": "github:Stanford-Mobisocial-IoT-Lab/almond-dialog-agent",
+    "consumer-queue": "^1.0.0",
     "cvc4": "^0.1.1",
     "dbus-native": "github:gcampax/node-dbus",
     "keytar": "^4.2.1",
