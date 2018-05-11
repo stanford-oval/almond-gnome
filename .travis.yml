@@ -3,6 +3,7 @@ sudo: true
 before_install:
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
   - sudo apt-get update -q -y
-  - sudo apt-get install -y flatpak flatpak-builder
+install:
+  - sudo apt-get install -y flatpak-builder
 script:
   - flatpak-builder --force-clean build/ edu.stanford.Almond.json
