@@ -15,7 +15,7 @@ const events = require('events');
 const Config = require('./config');
 const SpeechHandler = require('./speech_handler');
 
-const Almond = require('almond');
+const Almond = require('almond-dialog-agent');
 
 class LocalUser {
     constructor() {

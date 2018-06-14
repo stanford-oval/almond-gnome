@@ -6,13 +6,6 @@ const Url = require('url');
 const path = require('path');
 const crypto = require('crypto');
 
-const existing = JSON.parse(fs.readFileSync('../edu.stanford.Almond.json'));
-
-const lastModule = existing.modules[existing.modules.length-1];
-
-// drop all sources but the first
-lastModule.sources = [lastModule.sources[0]];
-
 // load the yarn.lock files
 const yarnlockfile = fs.readFileSync('./yarn.lock').toString();
 const yarnlock = YarnLock.parse(yarnlockfile);
@@ -22,6 +15,8 @@ for (let name in yarnlock.object) {
     const url = yarnlock.object[name].resolved;
     urls.add(url);
 }
+
+const sources = [];
 for (let url of urls) {
     const parsed = Url.parse(url);
     let basename = path.basename(parsed.pathname);
@@ -39,7 +34,7 @@ for (let url of urls) {
         dest: 'service/deps',
         'dest-filename': basename
     };
-    lastModule.sources.push(source);
+    sources.push(source);
 }
 
-fs.writeFileSync('../edu.stanford.Almond.json', JSON.stringify(existing, undefined, 4));
+fs.writeFileSync('./flatpak.json', JSON.stringify(sources, undefined, 4));
