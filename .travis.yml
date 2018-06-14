@@ -8,7 +8,7 @@ install:
   - sudo apt-get install -y flatpak-builder
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   - flatpak --user install flathub org.gnome.Sdk//3.28
-  - flatpak --user install flathub org.gnome.Runtime//3.28
+  - flatpak --user install flathub org.gnome.Platform//3.28
   - flatpak --user install flathub org.freedesktop.Sdk.Extension.gfortran-62//1.6
 script:
   - flatpak-builder --force-clean build/ edu.stanford.Almond.json
