@@ -9,12 +9,14 @@
     <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.
     Almond draws its power from the crowdsourced Thingpedia, an open collection of Web and Internet of Things APIs.
     Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
-    Thingpedia supports more than 40 different services, accounts and IoT devices.</p>
+    Thingpedia supports more than 50 different services, accounts and IoT devices.</p>
   </description>
   <screenshots>
     <screenshot type="default" width="640" height="527">https://crowdie.stanford.edu/flatpak/screenshot-main.png</screenshot>
-    <screenshot width="1418" height="732">https://crowdie.stanford.edu/flatpak/screenshot-cat.png</screenshot>
     <screenshot width="1720" height="1232">https://crowdie.stanford.edu/flatpak/screenshot-xkcd.png</screenshot>
+    <screenshot width="1800" height="1072">https://crowdie.stanford.edu/flatpak/screenshot-nytimes.png</screenshot>
+    <screenshot width="1800" height="1158">https://crowdie.stanford.edu/flatpak/screenshot-my-goods.png</screenshot>
+    <screenshot width="1984" height="1166">https://crowdie.stanford.edu/flatpak/screenshot-my-rules.png</screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
 </component>
