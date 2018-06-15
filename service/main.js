@@ -63,6 +63,8 @@ const DBUS_CONTROL_INTERFACE = {
         'VoiceHypothesis': ['s'],
         'DeviceAdded': ['a{sv}'],
         'DeviceRemoved': ['s'],
+        'AppAdded': ['a{sv}'],
+        'AppRemoved': ['s'],
         'PreferenceChanged': ['s']
     }
 };
@@ -173,10 +175,10 @@ class AppControlChannel extends events.EventEmitter {
         _engine.devices.on('device-removed', (device) => {
             this.emit('DeviceRemoved', device.uniqueId);
         });
-         _engine.apps.on('app-added', (app) => {
+        _engine.apps.on('app-added', (app) => {
             this.emit('AppAdded', this._toAppInfo(app));
         });
-        _engine.devices.on('app-removed', (app) => {
+        _engine.apps.on('app-removed', (app) => {
             this.emit('AppRemoved', app.uniqueId);
         });
 
