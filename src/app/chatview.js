@@ -13,15 +13,8 @@ const Gdk = imports.gi.Gdk;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Soup = imports.gi.Soup;
 
-const Config = imports.common.config;
 const { AssistantModel, Direction, MessageType } = imports.common.chatmodel;
 const { ginvoke, gpromise } = imports.common.util;
-
-function getGIcon(icon) {
-    if (!icon)
-        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
-    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
-}
 
 function makeAlmondWrapper(msg) {
     const box = new Gtk.Box({
@@ -32,9 +25,9 @@ function makeAlmondWrapper(msg) {
     box.get_style_context().add_class('message-container');
     const icon = new Gtk.Image({
         pixel_size: 48,
-        gicon: getGIcon(msg.icon),
         valign: Gtk.Align.START
     });
+    window.getApp().cache.cacheIcon(msg.icon).then((gicon) => icon.gicon = gicon).catch(logError);
     box.show();
     icon.show();
     box.pack_start(icon, false, true, 0);

@@ -9,6 +9,7 @@
     <file>app/chatview.js</file>
     <file>app/deviceconfig.js</file>
     <file>app/devicemodel.js</file>
+    <file>app/imagecacher.js</file>
     <file>app/main.js</file>
     <file>app/params.js</file>
     <file>app/prefs.js</file>

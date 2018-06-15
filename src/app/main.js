@@ -24,6 +24,7 @@ const Util = imports.common.util;
 const Window = imports.app.window;
 const Service = imports.common.serviceproxy.Service;
 const PreferenceAction = imports.app.prefs.PreferenceAction;
+const { ImageCacher } = imports.app.imagecacher;
 
 function initEnvironment() {
     window.getApp = function() {
@@ -40,6 +41,8 @@ const AlmondApplication = new Lang.Class({
 
         GLib.set_application_name(_("Almond"));
         this._service = null;
+
+        this.cache = new ImageCacher();
     },
 
     _onQuit: function() {

@@ -67,12 +67,6 @@ const DeviceFactory = GObject.registerClass({
 });
 
 
-function getGIcon(icon) {
-    if (!icon)
-        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
-    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
-}
-
 /* exported DeviceConfigDialog */
 var DeviceConfigDialog = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/device-config.ui',
@@ -101,11 +95,11 @@ var DeviceConfigDialog = GObject.registerClass({
             let icon = new Gtk.Image({
                 pixel_size: 48,
                 margin: 6,
-                gicon: getGIcon(item.kind),
                 valign: Gtk.Align.CENTER,
                 halign: Gtk.Align.CENTER,
                 visible: true,
             });
+            window.getApp().cache.cacheIcon(item.kind).then((gicon) => icon.gicon = gicon).catch(logError);
             box.pack_start(icon, false, false, 0);
 
             let label = new Gtk.Label({

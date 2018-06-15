@@ -13,7 +13,6 @@ const Gdk = imports.gi.Gdk;
 const Lang = imports.lang;
 
 const { dbusPromiseify } = imports.common.util;
-const Config = imports.common.config;
 
 const Device = new Lang.Class({
     Name: 'AlmondDevice',
@@ -120,11 +119,11 @@ var DeviceModel = class DeviceModel {
 
         let icon = new Gtk.Image({
             pixel_size: 64,
-            gicon: new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + device.kind) }),
             valign: Gtk.Align.CENTER,
             halign: Gtk.Align.CENTER,
             visible: true
         });
+        window.getApp().cache.cacheIcon(device.kind).then((gicon) => icon.gicon = gicon).catch(logError);
         box.pack_start(icon, false, false, 0);
 
         let label = new Gtk.Label({

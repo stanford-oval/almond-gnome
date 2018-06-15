@@ -1,5 +1,7 @@
 env:
   es6: true
+parserOptions:
+  ecmaVersion: 2017
 extends: 'eslint:recommended'
 globals:
   window: false
@@ -12,7 +14,7 @@ globals:
   logError: false
 rules:
   indent: off
-  no-console: off
+  no-console: error
   no-fallthrough: off
   linebreak-style:
     - error

@@ -8,10 +8,8 @@
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
-const Gio = imports.gi.Gio;
 
 const Util = imports.common.util;
-const Config = imports.common.config;
 const { MessageType, Direction } = imports.common.chatmodel;
 const { bindChatModel } = imports.app.chatview;
 const { DeviceModel } = imports.app.devicemodel;
@@ -20,12 +18,6 @@ const { DeviceConfigDialog } = imports.app.deviceconfig;
 const { SettingsDialog } = imports.app.settings;
 
 const { dbusPromiseify, alert, clean } = imports.common.util;
-
-function getGIcon(icon) {
-    if (!icon)
-        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
-    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
-}
 
 const INPUT_PURPOSES = {
     password: Gtk.InputPurpose.PASSWORD,
@@ -302,7 +294,7 @@ var MainWindow = GObject.registerClass({
     _getDeviceDetails(uniqueId) {
         return dbusPromiseify(this._service, 'GetDeviceInfoRemote', uniqueId).then(([deviceInfo]) => {
             let kind = deviceInfo.kind.deep_unpack();
-            this.device_details_icon.gicon = getGIcon(kind);
+            this.application.cache.cacheIcon(kind).then((gicon) => this.device_details_icon.gicon = gicon).catch(logError);
             this.device_details_name.label = deviceInfo.name.deep_unpack();
             this.device_details_description.label = deviceInfo.description.deep_unpack();
             this.device_details_version.label = _("Version: %d").format(deviceInfo.version.deep_unpack());

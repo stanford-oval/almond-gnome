@@ -5,14 +5,11 @@
 // See COPYING for details
 "use strict";
 
-const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 
 const { dbusPromiseify } = imports.common.util;
-const Config = imports.common.config;
 
 const App = GObject.registerClass({
     Properties: {
@@ -23,12 +20,6 @@ const App = GObject.registerClass({
         error: GObject.ParamSpec.string('error', '','', GObject.ParamFlags.READWRITE, null),
     }
 }, class AlmondApp extends GObject.Object {});
-
-function getGIcon(icon) {
-    if (!icon)
-        return new Gio.ThemedIcon({ name: 'edu.stanford.Almond' });
-    return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
-}
 
 /* exported AppModel */
 var AppModel = class AppModel {
@@ -99,10 +90,10 @@ var AppModel = class AppModel {
 
         let icon = new Gtk.Image({
             pixel_size: 64,
-            gicon: getGIcon(app.icon),
             valign: Gtk.Align.CENTER,
             halign: Gtk.Align.CENTER
         });
+        window.getApp().cache.cacheIcon(app.icon).then((gicon) => icon.gicon = gicon).catch(logError);
         box.attach(icon, 0 /*left*/, 0 /*top*/, 1 /*width*/, 2 /*height*/);
 
         let name = new Gtk.Label({
