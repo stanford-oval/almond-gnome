@@ -19,4 +19,11 @@
     <screenshot width="1984" height="1166">https://crowdie.stanford.edu/flatpak/screenshot-my-rules.png</screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
+  <releases>
+    <release date="2018-06-16" version="1.0.0">
+      <description>
+        <p>First stable release of Almond Desktop.</p>
+      </description>
+    </release>
+  </releases>
 </component>
