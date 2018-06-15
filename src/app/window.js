@@ -26,6 +26,13 @@ function getGIcon(icon) {
     return new Gio.FileIcon({ file: Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon) });
 }
 
+const INPUT_PURPOSES = {
+    password: Gtk.InputPurpose.PASSWORD,
+    number: Gtk.InputPurpose.NUMBER,
+    email_address: Gtk.InputPurpose.EMAIL,
+    phone_number: Gtk.InputPurpose.PHONE,
+};
+
 /* exported MainWindow */
 var MainWindow = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/main.ui',
@@ -76,14 +83,14 @@ var MainWindow = GObject.registerClass({
         this._service = service;
 
         this._assistantModel = bindChatModel(this, service, this.assistant_chat_listbox);
-        this._assistantModel.start();
 
-        this._newMessageId = this._service.connectSignal('NewMessage', (signal, sender, params) => {
-            let [, type, direction, msg] = params;
-            if (type !== MessageType.ASK_SPECIAL || direction !== Direction.FROM_ALMOND)
+        this._newMessageId = this._assistantModel.connect('new-message', (model, msg) => {
+            if (msg.message_type !== MessageType.ASK_SPECIAL || msg.direction !== Direction.FROM_ALMOND)
                 return;
-            this.assistant_cancel.visible = msg.ask_special_what !== 'null';
+            this._syncCancel(msg);
+            this._syncKeyboard(msg);
         });
+        this._assistantModel.start();
         this._voiceHypothesisId = this._service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
             this.assistant_input.set_text(hyp);
         });
@@ -145,39 +152,69 @@ var MainWindow = GObject.registerClass({
             }
         });
 
-        this.assistant_input.connect('activate', () => {
-            var text = this.assistant_input.text || '';
-            text = text.trim();
-            if (!text)
-                return;
+        this.assistant_input.connect('activate', this._onInputActivate.bind(this));
+    }
 
-            this.assistant_input.text = '';
+    _onInputActivate() {
+        var text = this.assistant_input.text || '';
+        text = text.trim();
+        if (!text)
+            return;
 
-            const onerror = (result, error) => {
-                if (error)
-                    log('Failed to handle command: ' + error);
+        this.assistant_input.text = '';
+
+        const onerror = (result, error) => {
+            if (error)
+                log('Failed to handle command: ' + error);
+        };
+
+        if (!this.assistant_input.visibility) {
+            // password
+            const passwordJSON = {
+                code: ['bookkeeping', 'answer', 'QUOTED_STRING_0'],
+                entities: {
+                    QUOTED_STRING_0: text
+                }
             };
 
-            function handleSlashR(line) {
-                line = line.trim();
-                if (line.startsWith('{')) {
-                    this._service.HandleParsedCommandRemote('', line, onerror);
-                } else {
-                    this._service.HandleParsedCommandRemote('',
-                        JSON.stringify({ code: line.split(' '), entities: {} }), onerror);
-                }
-            }
-            if (text.startsWith('\\r')) {
-                handleSlashR(text.substring(3));
-                return;
-            }
-            if (text.startsWith('\\t')) {
-                this._service.HandleThingTalkRemote(text.substring(3), onerror);
-                return;
-            }
+            this._service.HandleParsedCommandRemote('••••••••', JSON.stringify(passwordJSON), onerror);
+            return;
+        }
 
-            this._service.HandleCommandRemote(text, onerror);
-        });
+        function handleSlashR(line) {
+            line = line.trim();
+            if (line.startsWith('{')) {
+                this._service.HandleParsedCommandRemote('', line, onerror);
+            } else {
+                this._service.HandleParsedCommandRemote('',
+                    JSON.stringify({ code: line.split(' '), entities: {} }), onerror);
+            }
+        }
+        if (text.startsWith('\\r')) {
+            handleSlashR(text.substring(3));
+            return;
+        }
+        if (text.startsWith('\\t')) {
+            this._service.HandleThingTalkRemote(text.substring(3), onerror);
+            return;
+        }
+
+        this._service.HandleCommandRemote(text, onerror);
+    }
+
+    _syncCancel(msg) {
+        this.assistant_cancel.visible = msg.ask_special_what !== 'null';
+    }
+
+    _syncKeyboard(msg) {
+        const entry = this.assistant_input;
+
+        entry.set_visibility(msg.ask_special_what !== 'password');
+
+        if (INPUT_PURPOSES[msg.ask_special_what] !== undefined)
+            entry.input_purpose = INPUT_PURPOSES[msg.ask_special_what];
+        else
+            entry.input_purpose = Gtk.InputPurpose.FREE_FORM;
     }
 
     _switchTo(action, page) {

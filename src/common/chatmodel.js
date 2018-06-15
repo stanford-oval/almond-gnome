@@ -8,6 +8,7 @@
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
+const Signals = imports.signals;
 
 /* exported Direction */
 var Direction = {
@@ -104,17 +105,23 @@ var AssistantModel = class AssistantModel {
     }
 
     _onNewMessage([id, type, direction, msg]) {
-        if (type === MessageType.ASK_SPECIAL && msg.ask_special_what !== 'yesno') {
-            // do something about it...
-            return;
-        }
         if (type === MessageType.CHOICE)
             msg.choice_idx = parseInt(msg.choice_idx);
 
         msg.message_id = id;
         msg.message_type = type;
         msg.direction = direction;
-        this.store.append(new Message(msg));
+
+        const obj = new Message(msg);
+        this.emit('new-message', obj);
+
+        if (type === MessageType.ASK_SPECIAL) {
+            if (msg.ask_special_what !== 'yesno') {
+                // do something about it...
+                return;
+            }
+        }
+        this.store.append(obj);
     }
 
     _onRemoveMessage(id) {
@@ -130,3 +137,4 @@ var AssistantModel = class AssistantModel {
         }
     }
 };
+Signals.addSignalMethods(AssistantModel.prototype);
