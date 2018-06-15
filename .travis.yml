@@ -4,6 +4,7 @@ sudo: true
 cache:
   directories:
   - .flatpak-builder
+  timeout: 300
 before_install:
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
   - sudo apt-get update -q -y
