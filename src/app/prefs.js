@@ -25,24 +25,22 @@ function defaultForType(type) {
     return '';
 }
 
-/* exported PreferenceAction */
-var PreferenceAction = GObject.registerClass({
-    Implements: [Gio.Action],
+/* exported PreferenceBinding */
+var PreferenceBinding = GObject.registerClass({
     Properties: {
-        'name': GObject.ParamSpec.override('name', Gio.Action),
-        'parameter-type': GObject.ParamSpec.override('parameter-type', Gio.Action),
-        'enabled': GObject.ParamSpec.override('enabled', Gio.Action),
-        'state-type': GObject.ParamSpec.override('state-type', Gio.Action),
-        'state': GObject.ParamSpec.override('state', Gio.Action),
+        'state': GObject.param_spec_variant('state', '', '', new GLib.VariantType('*'),
+                                            null, GObject.ParamFlags.READWRITE)
     }
-}, class PreferenceAction extends GObject.Object {
-    _init(service, name, type) {
+}, class PreferenceBinding extends GObject.Object {
+    _init(service, name, type, fromjson = (x) => x, tojson = (x) => x) {
         super._init();
 
         this._name = name;
         this._service = service;
         this._type = type;
         this._state = new GLib.Variant(type, defaultForType(type));
+        this._fromjson = fromjson;
+        this._tojson = tojson;
 
         this._signal = service.connectSignal('PreferenceChanged', (sender, [key]) => {
             if (!key || key === this._name)
@@ -51,21 +49,18 @@ var PreferenceAction = GObject.registerClass({
         this._refresh();
     }
 
-    get name() {
-        return this._name;
-    }
-    get state_type() {
-        return new GLib.VariantType(this._type);
-    }
     get state() {
         return this._state;
     }
-    get enabled() {
-        return true;
-    }
-    get parameter_type() {
-        return this._type === 'b' ? null :
-            new GLib.VariantType(this._type);
+
+    set state(value) {
+        log(value);
+        dbusPromiseify(this._service, 'SetPreferenceRemote', this._name, this._tojson(value)).then(() => {
+            this._state = value;
+            this.notify('state');
+        }).catch((e) => {
+            logError(e, 'Failed to set preference ' + this._name);
+        });
     }
 
     destroy() {
@@ -77,11 +72,53 @@ var PreferenceAction = GObject.registerClass({
 
     _refresh() {
         dbusPromiseify(this._service, 'GetPreferenceRemote', this._name).then(([value]) => {
-            this._state = value;
+            this._state = this._fromjson(value);
+            log(this._name + ' = ' + this._state);
             this.notify('state');
         }).catch((e) => {
-            logError(e, 'Failed to refresh preference ' + this._name);
+            logError('Failed to refresh preference ' + this._name, e);
         });
+    }
+});
+
+/* exported PreferenceAction */
+var PreferenceAction = GObject.registerClass({
+    Implements: [Gio.Action],
+    Properties: {
+        'name': GObject.ParamSpec.override('name', Gio.Action),
+        'parameter-type': GObject.ParamSpec.override('parameter-type', Gio.Action),
+        'enabled': GObject.ParamSpec.override('enabled', Gio.Action),
+        'state-type': GObject.ParamSpec.override('state-type', Gio.Action),
+        'state': GObject.ParamSpec.override('state', Gio.Action),
+    }
+}, class PreferenceAction extends GObject.Object {
+    _init(service, name, type, fromjson = (x) => x, tojson = (x) => x) {
+        super._init();
+
+        this._name = name;
+        this._type = type;
+        this._binder = new PreferenceBinding(service, name, type, fromjson, tojson);
+    }
+
+    get name() {
+        return this._name;
+    }
+    get state_type() {
+        return new GLib.VariantType(this._type);
+    }
+    get state() {
+        return this._binder.state;
+    }
+    get enabled() {
+        return true;
+    }
+    get parameter_type() {
+        return this._type === 'b' ? null :
+            new GLib.VariantType(this._type);
+    }
+
+    destroy() {
+        this._binder.destroy();
     }
 
     vfunc_get_name() {
@@ -103,22 +140,11 @@ var PreferenceAction = GObject.registerClass({
         return null;
     }
     vfunc_change_state(value) {
-        dbusPromiseify(this._service, 'SetPreferenceRemote', this._name, value).then(() => {
-            this._state = value;
-            this.notify('state');
-        }).catch((e) => {
-            logError(e, 'Failed to set preference ' + this._name);
-        });
+        this._binder.state = value;
     }
     vfunc_activate(value) {
         if (this._type === 'b')
-            value = new GLib.Variant('b', !this._state.deep_unpack());
-
-        dbusPromiseify(this._service, 'SetPreferenceRemote', this._name, value).then(() => {
-            this._state = value;
-            this.notify('state');
-        }).catch((e) => {
-            logError(e, 'Failed to set preference ' + this._name);
-        });
+            value = new GLib.Variant('b', !this._binder.state.deep_unpack());
+        this._binder.state = value;
     }
 });

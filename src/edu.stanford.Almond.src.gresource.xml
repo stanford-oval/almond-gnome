@@ -12,6 +12,7 @@
     <file>app/main.js</file>
     <file>app/params.js</file>
     <file>app/prefs.js</file>
+    <file>app/settings.js</file>
     <file>app/window.js</file>
   </gresource>
 </gresources>

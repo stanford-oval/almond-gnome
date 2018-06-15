@@ -81,6 +81,11 @@ const AlmondApplication = new Lang.Class({
 
                     for (let pref of ['enable-voice-input', 'enable-voice-output'])
                         this.add_action(new PreferenceAction(this._service, pref, 'b'));
+                    this.add_action(new PreferenceAction(this._service, 'sabrina-store-log', 'b', (fromjson) => {
+                        return new GLib.Variant('b', fromjson.deep_unpack() === 'yes');
+                    }, (tojson) => {
+                        return new GLib.Variant('s', tojson.deep_unpack() ? 'yes' : 'no');
+                    }));
 
                     var window = new Window.MainWindow(this, this._service);
                     window.present();

@@ -17,6 +17,7 @@ const { bindChatModel } = imports.app.chatview;
 const { DeviceModel } = imports.app.devicemodel;
 const { AppModel } = imports.app.appmodel;
 const { DeviceConfigDialog } = imports.app.deviceconfig;
+const { SettingsDialog } = imports.app.settings;
 
 const { dbusPromiseify, alert, clean } = imports.common.util;
 
@@ -62,6 +63,8 @@ var MainWindow = GObject.registerClass({
         Util.initActions(this,
                          [{ name: 'about',
                             activate: this._about },
+                          { name: 'settings',
+                            activate: this._showSettings },
                           { name: 'switch-to',
                             activate: this._switchTo,
                             parameter_type: new GLib.VariantType('s') },
@@ -467,6 +470,14 @@ var MainWindow = GObject.registerClass({
         aboutDialog.show();
         aboutDialog.connect('response', () => {
             aboutDialog.destroy();
+        });
+    }
+
+    _showSettings() {
+        const dialog = new SettingsDialog(this, this._service);
+        dialog.show();
+        dialog.connect('response', () => {
+            dialog.destroy();
         });
     }
 });

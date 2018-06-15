@@ -3,6 +3,7 @@
   <gresource prefix="/edu/stanford/Almond/">
     <file preprocess="xml-stripblanks">device-config.ui</file>
     <file preprocess="xml-stripblanks">main.ui</file>
+    <file preprocess="xml-stripblanks">settings.ui</file>
     <file>application.css</file>
     <file>bubble_almond.png</file>
     <file>bubble_user.png</file>
