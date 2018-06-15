@@ -63,9 +63,6 @@ var MainWindow = GObject.registerClass({
                           { name: 'configure-device-oauth2',
                             activate: this._configureDeviceOAuth2,
                             parameter_type: new GLib.VariantType('(ss)') },
-                          { name: 'configure-device-form',
-                            activate: this._configureDeviceForm,
-                            parameter_type: new GLib.VariantType('(ssaa{ss})') },
                           { name: 'show-device-details',
                             activate: this._showDeviceDetails,
                             parameter_type: new GLib.VariantType('s') },
@@ -257,11 +254,6 @@ var MainWindow = GObject.registerClass({
         let dialog = new DeviceConfigDialog(this, '', this._service);
         dialog.startOAuth2(title, kind);
     }
-    _configureDeviceForm(action, param) {
-        let [kind, title, controls] = param.deep_unpack();
-        let dialog = new DeviceConfigDialog(this, '', this._service);
-        dialog.startForm(title, kind, controls);
-    }
     _showDeviceDetails(action, param) {
         let uniqueId = param.deep_unpack();
         this._showDeviceDetailsInternal(uniqueId);
@@ -436,7 +428,7 @@ var MainWindow = GObject.registerClass({
             });
 
         aboutDialog.show();
-        aboutDialog.connect('response', function() {
+        aboutDialog.connect('response', () => {
             aboutDialog.destroy();
         });
     }

@@ -259,14 +259,6 @@ const MessageConstructors = {
             let query = Soup.form_decode(uri.get_query());
             button.action_name = 'win.configure-device-oauth2';
             button.action_target = new GLib.Variant('(ss)', [kind, query.name||'']);
-        } else if (msg.link.startsWith('/devices/configure/')) {
-            // "parse" the link in the context of a dummy base URI
-            let uri = Soup.URI.new('https://invalid').new_with_base(msg.link);
-            let kind = uri.get_path().substring('/devices/configure/'.length);
-            let query = Soup.form_decode(uri.get_query());
-            button.action_name = 'win.configure-device-form';
-            button.action_target = new GLib.Variant('(ssaa{ss})', [kind, query.name||'',
-                JSON.parse(query.controls || '[]')]);
         } else {
             throw new Error('Unexpected link to ' + msg.link);
         }
