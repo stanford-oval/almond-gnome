@@ -313,8 +313,44 @@ const MessageConstructors = {
             button_box.show();
             box.pack_start(button_box, true, true, 0);
             return box;
+        } else if (msg.ask_special_what === 'picture') {
+            const box = makeGenericWrapper(msg);
+
+            const filter = new Gtk.FileFilter();
+            filter.add_mime_type('image/*');
+
+            const preview = new Gtk.Image();
+            const button = new Gtk.FileChooserButton({
+                filter: filter,
+                local_only: true,
+                title: _("Select a Picture"),
+                preview_widget: preview,
+                halign: Gtk.Align.CENTER,
+                hexpand: true,
+            });
+            button.connect('update-preview', (button) => {
+                let filename = button.get_preview_filename();
+                if (filename) {
+                    preview.file = filename;
+                    button.preview_widget_active = true;
+                } else {
+                    button.preview_widget_active = false;
+                }
+            });
+            button.show();
+            button.connect('file-set', () => {
+                window.handleParsedCommand(JSON.stringify({
+                    code: ['bookkeeping', 'answer', 'PICTURE_0'],
+                    entities: {
+                        PICTURE_0: button.get_uri()
+                    }
+                }), button.get_file().get_basename());
+            });
+            box.pack_start(button, true, true, 0);
+            return box;
         } else {
-            // do something else...
+            // do something else
+            throw new Error('unhandled ask-special type ' + msg.ask_special_what);
         }
     },
 

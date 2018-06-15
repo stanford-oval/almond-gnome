@@ -116,7 +116,7 @@ var AssistantModel = class AssistantModel {
         this.emit('new-message', obj);
 
         if (type === MessageType.ASK_SPECIAL) {
-            if (msg.ask_special_what !== 'yesno') {
+            if (['yesno', 'picture'].indexOf(msg.ask_special_what) < 0) {
                 // do something about it...
                 return;
             }
