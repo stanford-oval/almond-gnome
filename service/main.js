@@ -144,7 +144,10 @@ function loadOneExample(ex) {
                 slots.push(name);
             }
 
-            let utterance = ex.utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
+            let utterance = ex.utterance;
+            if (utterance.startsWith(','))
+                utterance = utterance.substring(1).trim();
+            utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
 
             let code = ThingTalk.NNSyntax.toNN(newprogram, {});
             return { utterance: utterance,
