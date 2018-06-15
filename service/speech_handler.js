@@ -76,12 +76,7 @@ module.exports = class SpeechHandler extends events.EventEmitter {
             this.emit('error', e);
         });
 
-        this._hotwordEnabled = false;
         this._autoTrigger = false;
-    }
-
-    setHotwordEnabled(enabled) {
-        this._hotwordEnabled = enabled;
     }
 
     setAutoTrigger(autoTrigger) {
@@ -125,9 +120,6 @@ module.exports = class SpeechHandler extends events.EventEmitter {
                 this._onDetected();
         });
         this._detector.on('hotword', (hotword) => {
-            if (!this._hotwordEnabled)
-                return;
-
             console.log('Hotword ' + hotword + ' detected');
             this.emit('hotword', hotword);
             this._onDetected();

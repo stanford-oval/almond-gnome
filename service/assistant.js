@@ -105,18 +105,9 @@ class AssistantDispatcher extends events.EventEmitter {
         }
         this._enableSpeech = speech;
 
-        let hotword = prefs.get('enable-hotword');
-        if (hotword === undefined) {
-            // hotword is on by default
-            hotword = true;
-            prefs.set('enable-hotword', true);
-        }
-        this._speechHandler.setHotwordEnabled(hotword);
-
         prefs.on('changed', (key) => {
             this.setVoiceInput(prefs.get('enable-voice-input'));
             this._enableSpeech = prefs.get('enable-voice-output');
-            this._speechHandler.setHotwordEnabled(prefs.get('enable-hotword'));
 
             if (!this._enableSpeech)
                 this._speechSynth.clearQueue();

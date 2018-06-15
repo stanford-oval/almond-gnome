@@ -20,10 +20,6 @@
         <attribute name="label" translatable="yes">Voice Input</attribute>
       </item>
       <item>
-        <attribute name="action">app.enable-hotword</attribute>
-        <attribute name="label" translatable="yes">Hotword Activation</attribute>
-      </item>
-      <item>
         <attribute name="action">app.enable-voice-output</attribute>
         <attribute name="label" translatable="yes">Voice Output</attribute>
       </item>
