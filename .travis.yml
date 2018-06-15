@@ -14,4 +14,6 @@ install:
   - flatpak --user install flathub org.gnome.Platform//3.28
   - flatpak --user install flathub org.freedesktop.Sdk.Extension.gfortran-62//1.6
 script:
-  - flatpak-builder --force-clean build/ edu.stanford.Almond.json
+  # exit with 0 regardless of what happened, so we store the flatpak-builder cache
+  # and make forward progress
+  - timeout -s INT 40m flatpak-builder --force-clean build/ edu.stanford.Almond.json || true

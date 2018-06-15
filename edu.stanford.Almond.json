@@ -1,16 +1,16 @@
 {
-    "app-id": "edu.stanford.Almond",
-    "runtime": "org.gnome.Platform",
-    "runtime-version": "3.28",
-    "sdk": "org.gnome.Sdk",
-    "sdk-extensions": [
+    "app-id" : "edu.stanford.Almond",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "3.28",
+    "sdk" : "org.gnome.Sdk",
+    "sdk-extensions" : [
         "org.freedesktop.Sdk.Extension.gfortran-62"
     ],
-    "command": "/app/bin/edu.stanford.Almond",
-    "tags": [
+    "command" : "/app/bin/edu.stanford.Almond",
+    "tags" : [
         "nightly"
     ],
-    "finish-args": [
+    "finish-args" : [
         "--share=ipc",
         "--socket=x11",
         "--socket=wayland",
@@ -27,7 +27,7 @@
         "--talk-name=org.gnome.Shell.Screenshot",
         "--talk-name=org.freedesktop.secrets"
     ],
-    "cleanup": [
+    "cleanup" : [
         "/include",
         "/lib/pkgconfig",
         "/share/pkgconfig",
@@ -54,93 +54,93 @@
         "*.o",
         "*.d"
     ],
-    "modules": [
+    "modules" : [
         {
-            "name": "node",
-            "config-opts": [
+            "name" : "node",
+            "config-opts" : [
                 "--openssl-use-def-ca-store",
                 "--shared-openssl",
                 "--shared-zlib",
                 "--with-intl=full-icu"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "sha256": "b72d4e71618d6bcbd039b487b51fa7543631a4ac3331d7caf69bdf55b5b2901a",
-                    "url": "https://nodejs.org/dist/v8.10.0/node-v8.10.0.tar.xz"
+                    "type" : "archive",
+                    "sha256" : "b72d4e71618d6bcbd039b487b51fa7543631a4ac3331d7caf69bdf55b5b2901a",
+                    "url" : "https://nodejs.org/dist/v8.10.0/node-v8.10.0.tar.xz"
                 },
                 {
-                    "type": "archive",
-                    "sha256": "9542bd97abeaf3ac2f260b6ccaac36eff7dd2d3122e2efe6ca365c3e457489b4",
-                    "url": "https://ssl.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.zip",
-                    "dest": "deps/icu"
+                    "type" : "archive",
+                    "sha256" : "9542bd97abeaf3ac2f260b6ccaac36eff7dd2d3122e2efe6ca365c3e457489b4",
+                    "url" : "https://ssl.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.zip",
+                    "dest" : "deps/icu"
                 }
             ]
         },
         {
-            "name": "lapack",
-            "buildsystem": "cmake",
-            "builddir": true,
-            "config-opts": [
+            "name" : "lapack",
+            "buildsystem" : "cmake",
+            "builddir" : true,
+            "config-opts" : [
                 "-DBUILD_SHARED_LIBS=ON",
                 "-DCBLAS=ON",
                 "-DCMAKE_INSTALL_LIBDIR=lib"
             ],
-            "build-options": {
-                "env": {
-                    "FC": "/usr/lib/sdk/gfortran-62/bin/gfortran"
+            "build-options" : {
+                "env" : {
+                    "FC" : "/usr/lib/sdk/gfortran-62/bin/gfortran"
                 }
             },
-            "build-commands": [
+            "build-commands" : [
                 "/usr/lib/sdk/gfortran-62/install.sh"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "http://www.netlib.org/lapack/lapack-3.8.0.tar.gz",
-                    "sha256": "deb22cc4a6120bff72621155a9917f485f96ef8319ac074a7afbc68aab88bcf6"
+                    "type" : "archive",
+                    "url" : "http://www.netlib.org/lapack/lapack-3.8.0.tar.gz",
+                    "sha256" : "deb22cc4a6120bff72621155a9917f485f96ef8319ac074a7afbc68aab88bcf6"
                 }
             ]
         },
         {
-            "name": "cln",
-            "sources": [
+            "name" : "cln",
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://www.ginac.de/CLN/cln-1.3.4.tar.bz2",
-                    "sha256": "2d99d7c433fb60db1e28299298a98354339bdc120d31bb9a862cafc5210ab748"
+                    "type" : "archive",
+                    "url" : "https://www.ginac.de/CLN/cln-1.3.4.tar.bz2",
+                    "sha256" : "2d99d7c433fb60db1e28299298a98354339bdc120d31bb9a862cafc5210ab748"
                 }
             ]
         },
         {
-            "name": "antlr3",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "antlr3",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "install -m 0755 -d /app/share/java",
                 "install -m 0644 antlr-3.4-complete.jar /app/share/java",
                 "echo 'java -cp /app/share/java/antlr-3.4-complete.jar org.antlr.Tool \"\\$@\"' > /app/bin/antlr3",
                 "chmod 0755 /app/bin/antlr3"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "file",
-                    "url": "http://www.antlr3.org/download/antlr-3.4-complete.jar",
-                    "sha256": "9d3e866b610460664522520f73b81777b5626fb0a282a5952b9800b751550bf7"
+                    "type" : "file",
+                    "url" : "http://www.antlr3.org/download/antlr-3.4-complete.jar",
+                    "sha256" : "9d3e866b610460664522520f73b81777b5626fb0a282a5952b9800b751550bf7"
                 }
             ]
         },
         {
-            "name": "libantlr3",
-            "config-opts": [
+            "name" : "libantlr3",
+            "config-opts" : [
                 "--disable-static",
                 "--enable-shared",
                 "--disable-antlrdebug",
                 "--with-pic"
             ],
-            "build-options": {
-                "arch": {
-                    "x86_64": {
-                        "config-opts": [
+            "build-options" : {
+                "arch" : {
+                    "x86_64" : {
+                        "config-opts" : [
                             "--enable-64bit",
                             "--disable-static",
                             "--enable-shared",
@@ -150,32 +150,32 @@
                     }
                 }
             },
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "http://www.antlr3.org/download/C/libantlr3c-3.4.tar.gz",
-                    "sha256": "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
+                    "type" : "archive",
+                    "url" : "http://www.antlr3.org/download/C/libantlr3c-3.4.tar.gz",
+                    "sha256" : "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
                 }
             ]
         },
         {
-            "name": "boost",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "boost",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "./bootstrap.sh",
                 "./b2 -j8 link=shared runtime-link=shared threading=multi variant=release --without-math --without-python install --prefix=/app"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2",
-                    "sha256": "5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9"
+                    "type" : "archive",
+                    "url" : "https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2",
+                    "sha256" : "5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9"
                 }
             ]
         },
         {
-            "name": "cvc4",
-            "config-opts": [
+            "name" : "cvc4",
+            "config-opts" : [
                 "--with-build=production",
                 "--enable-optimized",
                 "--with-cln",
@@ -183,93 +183,94 @@
                 "--enable-gpl",
                 "--without-compat"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://cvc4.cs.stanford.edu/downloads/builds/src/cvc4-1.5.tar.gz",
-                    "sha256": "5d6b4f8ee8420f85e3f804181341cedf6ea32342c48f355a5be87754152b14e9"
+                    "type" : "archive",
+                    "url" : "https://cvc4.cs.stanford.edu/downloads/builds/src/cvc4-1.5.tar.gz",
+                    "sha256" : "5d6b4f8ee8420f85e3f804181341cedf6ea32342c48f355a5be87754152b14e9"
                 }
             ]
         },
         {
-            "name": "mimic",
-            "config-opts": [
+            "name" : "mimic",
+            "config-opts" : [
                 "--enable-shared",
                 "--disable-static",
                 "--with-audio=no"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://github.com/MycroftAI/mimic",
-                    "tag": "1.2.0.2",
-                    "commit": "67e43bf0fa56008276b878ec3790aa5f32eb2a16"
+                    "type" : "git",
+                    "url" : "https://github.com/MycroftAI/mimic",
+                    "tag" : "1.2.0.2",
+                    "commit" : "67e43bf0fa56008276b878ec3790aa5f32eb2a16"
                 }
             ]
         },
         {
-            "name": "yarn",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "yarn",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "cp -r . /app/lib/yarn",
                 "ln -s /app/lib/yarn/bin/yarn /app/bin/yarn"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/yarnpkg/yarn/releases/download/v1.3.2/yarn-v1.3.2.tar.gz",
-                    "sha256": "6cfe82e530ef0837212f13e45c1565ba53f5199eec2527b85ecbcd88bf26821d"
+                    "type" : "archive",
+                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.3.2/yarn-v1.3.2.tar.gz",
+                    "sha256" : "6cfe82e530ef0837212f13e45c1565ba53f5199eec2527b85ecbcd88bf26821d"
                 }
             ]
         },
         {
-            "name": "sqlcipher",
-            "config-opts": [
+            "name" : "sqlcipher",
+            "config-opts" : [
                 "--enable-tempstore=yes",
                 "--enable-releasemode",
                 "--disable-static",
                 "--disable-tcl",
                 "--disable-readline"
             ],
-            "build-options": {
-                "env": {
-                    "CFLAGS": "-g -O2 -DSQLITE_HAS_CODEC",
-                    "LDFLAGS": "-lcrypto"
+            "build-options" : {
+                "env" : {
+                    "CFLAGS" : "-g -O2 -DSQLITE_HAS_CODEC",
+                    "LDFLAGS" : "-lcrypto"
                 }
             },
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/sqlcipher/sqlcipher/archive/v3.4.2.tar.gz",
-                    "sha256": "69897a5167f34e8a84c7069f1b283aba88cdfa8ec183165c4a5da2c816cfaadb"
+                    "type" : "archive",
+                    "url" : "https://github.com/sqlcipher/sqlcipher/archive/v3.4.2.tar.gz",
+                    "sha256" : "69897a5167f34e8a84c7069f1b283aba88cdfa8ec183165c4a5da2c816cfaadb"
                 }
             ]
         },
         {
-            "name": "thingengine-platform-gnome",
-            "buildsystem": "meson",
-            "build-options": {
-                "env": {
-                    "npm_config_nodedir": "/app",
-                    "npm_config_sqlite": "/app",
-                    "npm_config_sqlite_libname": "sqlcipher",
-                    "npm_config_build_from_source": "true",
-                    "PYTHONDONTWRITEBYTECODE": "1"
+            "name" : "almond-gnome",
+            "buildsystem" : "meson",
+            "build-options" : {
+                "env" : {
+                    "npm_config_nodedir" : "/app",
+                    "npm_config_sqlite" : "/app",
+                    "npm_config_sqlite_libname" : "sqlcipher",
+                    "npm_config_build_from_source" : "true",
+                    "PYTHONDONTWRITEBYTECODE" : "1"
                 },
-                "build-args": [
+                "build-args" : [
                     "--share=network"
                 ]
             },
-            "sources": [
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://github.com/Stanford-Mobisocial-IoT-Lab/thingengine-platform-gnome"
+                    "type" : "git",
+                    "url" : "https://github.com/Stanford-Mobisocial-IoT-Lab/almond-gnome"
                 },
                 "service/flatpak.json"
             ]
         }
     ],
-    "build-options": {
-        "env": {}
+    "build-options" : {
+        "env" : {
+        }
     }
 }

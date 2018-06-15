@@ -1,5 +1,5 @@
 {
-  "name": "thingengine-gnome",
+  "name": "almond-gnome",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
