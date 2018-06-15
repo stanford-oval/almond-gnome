@@ -12,7 +12,6 @@ console.log('ThingEngine-GNOME starting up...');
 const Q = require('q');
 const events = require('events');
 const Url = require('url');
-const assert = require('assert');
 Q.longStackSupport = true;
 process.on('unhandledRejection', (up) => { throw up; });
 
@@ -90,6 +89,7 @@ function marshalAny(obj) {
         return ['a{sv}', Object.keys(obj).map((key) => [key, marshalAny(obj[key])])];
 }
 
+/*
 function unmarshalASV(values) {
     let obj = {};
     for (let [name, [signature, value]] of values) {
@@ -99,6 +99,7 @@ function unmarshalASV(values) {
         obj[name] = value;
     }
 }
+*/
 
 /* FIXME this whole code should be moved somewhere else */
 const SLOT_REGEX = /\$(?:\$|([a-zA-Z0-9_]+(?![a-zA-Z0-9_]))|{([a-zA-Z0-9_]+)(?::([a-zA-Z0-9_]+))?})/;
@@ -135,7 +136,7 @@ function loadOneExample(ex) {
             }
 
             // turn the declaration into a program
-            let newprogram = ThingTalk.Generate.declarationProgram(program.declarations[0]);
+            let newprogram = program.declarations[0].toProgram();
             let slots = [];
             let slotTypes = {};
             for (let name in program.declarations[0].args) {
