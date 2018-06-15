@@ -1,11 +1,14 @@
 language: c
 dist: xenial
 sudo: true
+cache:
+  directories:
+  - .flatpak-builder
 before_install:
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
   - sudo apt-get update -q -y
 install:
-  - sudo apt-get install -y flatpak-builder
+  - sudo apt-get install -y flatpak-builder elfutls
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   - flatpak --user install flathub org.gnome.Sdk//3.28
   - flatpak --user install flathub org.gnome.Platform//3.28
