@@ -56,28 +56,6 @@
     ],
     "modules" : [
         {
-            "name" : "node",
-            "config-opts" : [
-                "--openssl-use-def-ca-store",
-                "--shared-openssl",
-                "--shared-zlib",
-                "--with-intl=full-icu"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "sha256" : "b72d4e71618d6bcbd039b487b51fa7543631a4ac3331d7caf69bdf55b5b2901a",
-                    "url" : "https://nodejs.org/dist/v8.10.0/node-v8.10.0.tar.xz"
-                },
-                {
-                    "type" : "archive",
-                    "sha256" : "9542bd97abeaf3ac2f260b6ccaac36eff7dd2d3122e2efe6ca365c3e457489b4",
-                    "url" : "https://ssl.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.zip",
-                    "dest" : "deps/icu"
-                }
-            ]
-        },
-        {
             "name" : "lapack",
             "buildsystem" : "cmake",
             "builddir" : true,
@@ -208,6 +186,28 @@
             ]
         },
         {
+            "name" : "node",
+            "config-opts" : [
+                "--openssl-use-def-ca-store",
+                "--shared-openssl",
+                "--shared-zlib",
+                "--with-intl=full-icu"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "sha256" : "577c751fdca91c46c60ffd8352e5b465881373bfdde212c17c3a3c1bd2616ee0",
+                    "url" : "https://nodejs.org/dist/v8.11.3/node-v8.11.3.tar.xz"
+                },
+                {
+                    "type" : "archive",
+                    "sha256" : "9542bd97abeaf3ac2f260b6ccaac36eff7dd2d3122e2efe6ca365c3e457489b4",
+                    "url" : "https://ssl.icu-project.org/files/icu4c/60.2/icu4c-60_2-src.zip",
+                    "dest" : "deps/icu"
+                }
+            ]
+        },
+        {
             "name" : "yarn",
             "buildsystem" : "simple",
             "build-commands" : [
@@ -217,8 +217,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.3.2/yarn-v1.3.2.tar.gz",
-                    "sha256" : "6cfe82e530ef0837212f13e45c1565ba53f5199eec2527b85ecbcd88bf26821d"
+                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.7.0/yarn-v1.7.0.tar.gz",
+                    "sha256" : "e7720ee346b2bd7ec32b7e04517643c38648f5022c7981168321ba1636f2dca3"
                 }
             ]
         },
