@@ -17,7 +17,6 @@
         "--socket=pulseaudio",
         "--share=network",
         "--device=dri",
-        "--filesystem=home",
         "--filesystem=host",
         "--talk-name=ca.desrt.dconf",
         "--system-talk-name=org.bluez",
@@ -137,7 +136,7 @@
         {
             "name" : "cvc4",
             "config-opts" : [
-                "--with-build=produfction",
+                "--with-build=production",
                 "--enable-optimized",
                 "--with-cln",
                 "--without-readline",
