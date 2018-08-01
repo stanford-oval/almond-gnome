@@ -7,3 +7,4 @@ Exec=gapplication launch edu.stanford.Almond
 DBusActivatable=true
 StartupNotify=true
 Keywords=sabrina;assistant;web;search;iot;
+Categories=Utility;
