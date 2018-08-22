@@ -247,5 +247,9 @@
                 "service/flatpak.json"
             ]
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {
+        }
+    }
 }

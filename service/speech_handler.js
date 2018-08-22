@@ -53,6 +53,7 @@ class DetectorStream extends stream.Transform {
     finishRequest() {
         console.log('Request finished');
         this._detected = false;
+        this.autoTrigger = false;
     }
 
     _transform(chunk, encoding, callback) {
