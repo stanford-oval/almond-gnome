@@ -1,5 +1,5 @@
-project('thingengine-platform-gnome', 'c',
-  version: '1.0.0',
+project('almond-gnome', 'c',
+  version: '1.1.0',
   meson_version: '>= 0.36.0',
 )
 

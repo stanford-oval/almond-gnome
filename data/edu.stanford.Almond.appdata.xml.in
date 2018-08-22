@@ -3,6 +3,7 @@
   <id>edu.stanford.Almond.desktop</id>
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0</project_license>
+  <update_contact>mobisocial at lists.stanford.edu</update_contact>
   <name>Almond</name>
   <summary>The Open Virtual Assistant</summary>
   <description>
@@ -21,6 +22,11 @@
   <url type="homepage">https://almond.stanford.edu</url>
   <url type="bugtracker">https://github.com/Stanford-Mobisocial-IoT-Lab/almond-gnome/issues</url>
   <releases>
+    <release date="2018-08-21" version="1.1.0">
+      <description>
+        <p>The ThingTalk language was updated, with new and better natural language support; among other features, it is not necessary to use @-signs and quote marks in commands anymore.</p>
+      </description>
+    </release>
     <release date="2018-06-16" version="1.0.0">
       <description>
         <p>First stable release of Almond Desktop.</p>

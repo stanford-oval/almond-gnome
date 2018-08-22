@@ -1,3 +1,10 @@
+1.1.0
+=====
+
+* Updated dependencies
+* Various metadata fixes [Harald H, #15; Nick Richards, #13]
+* Various build system fixes
+
 1.0.0
 =====
 
