@@ -81,6 +81,7 @@
         },
         {
             "name" : "cln",
+            "skip-arches": ["arm"],
             "sources" : [
                 {
                     "type" : "archive",
@@ -97,11 +98,31 @@
                 "--disable-antlrdebug",
                 "--with-pic"
             ],
+            "rm-configure": true,
             "build-options" : {
                 "arch" : {
                     "x86_64" : {
                         "config-opts" : [
                             "--enable-64bit",
+                            "--disable-static",
+                            "--enable-shared",
+                            "--disable-antlrdebug",
+                            "--with-pic"
+                        ]
+                    },
+                    "aarch64" : {
+                        "config-opts" : [
+                            "--enable-64bit",
+                            "--disable-abiflags",
+                            "--disable-static",
+                            "--enable-shared",
+                            "--disable-antlrdebug",
+                            "--with-pic"
+                        ]
+                    },
+                    "arm": {
+                        "config-opts" : [
+                            "--disable-abiflags",
                             "--disable-static",
                             "--enable-shared",
                             "--disable-antlrdebug",
@@ -115,6 +136,13 @@
                     "type" : "archive",
                     "url" : "http://www.antlr3.org/download/C/libantlr3c-3.4.tar.gz",
                     "sha256" : "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "autogen.sh",
+                    "commands": [
+                        "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
+                    ]
                 }
             ]
         },
@@ -143,6 +171,21 @@
                 "--enable-gpl",
                 "--without-compat"
             ],
+            "build-options" : {
+                "arch" : {
+                    "arm" : {
+                        "config-opts" : [
+                            "--with-build=production",
+                            "--enable-optimized",
+                            "--without-cln",
+                            "--with-gmp",
+                            "--without-readline",
+                            "--enable-gpl",
+                            "--without-compat"
+                        ]
+                    }
+                }
+            },
             "sources" : [
                 {
                     "type" : "archive",
@@ -213,6 +256,7 @@
                 "--disable-tcl",
                 "--disable-readline"
             ],
+            "rm-configure": true,
             "build-options" : {
                 "env" : {
                     "CFLAGS" : "-g -O2 -DSQLITE_HAS_CODEC",
@@ -224,6 +268,13 @@
                     "type" : "archive",
                     "url" : "https://github.com/sqlcipher/sqlcipher/archive/v3.4.2.tar.gz",
                     "sha256" : "69897a5167f34e8a84c7069f1b283aba88cdfa8ec183165c4a5da2c816cfaadb"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "autogen.sh",
+                    "commands": [
+                        "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
+                    ]
                 }
             ]
         },
