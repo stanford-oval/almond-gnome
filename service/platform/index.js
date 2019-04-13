@@ -19,7 +19,7 @@ const child_process = require('child_process');
 const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
-const CVC4Solver = require('cvc4');
+const CVC4Solver = require('smtlib').LocalCVC4Solver;
 const PulseAudio = require('pulseaudio');
 const keytar = require('keytar');
 

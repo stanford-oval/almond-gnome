@@ -288,14 +288,6 @@ cryptiles@2.x.x:
   dependencies:
     boom "2.x.x"
 
-cvc4@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/cvc4/-/cvc4-0.1.2.tgz#ca60bdfac1c4e67dc45825e142b3db8e6ade9272"
-  integrity sha512-EX248s3yC1i5QZ/5aIsMSVSUKRZ3kp79Os4rz2epOzeYfaU7gtuUue8cGoS6A34qa5bylkKhF+iHKNgNvzbhzQ==
-  dependencies:
-    bindings "^1.2.1"
-    smtlib "^0.1.1"
-
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
