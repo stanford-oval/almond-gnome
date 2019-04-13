@@ -1,6 +1,6 @@
 project('almond-gnome', 'c',
   version: '1.1.0',
-  meson_version: '>= 0.36.0',
+  meson_version: '>= 0.38.0',
 )
 
 app_command = 'almond'
