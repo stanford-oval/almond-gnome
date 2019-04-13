@@ -1,0 +1,25 @@
+{
+  "name": "almond-gnome",
+  "version": "1.1.0",
+  "description": "Almond for GNOME",
+  "private": true,
+  "author": "Stanford University Mobile and Social Computing Lab",
+  "license": "GPL-3.0+",
+  "repository": "https://github.com/stanford-oval/almond-cloud",
+  "contributors": [
+    {
+      "name": "Giovanni Campagna",
+      "email": "gcampagn@cs.stanford.edu"
+    },
+    {
+      "name": "Silei Xu",
+      "email": "silei@cs.stanford.edu"
+    }
+  ],
+  "scripts": {
+    "lint": "eslint almond/ browser/ model/ routes/ util/ stanford/ training/ nlp/ scripts/ config.js frontend.js"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}
