@@ -84,7 +84,7 @@
                 "--disable-antlrdebug",
                 "--with-pic"
             ],
-            "rm-configure": true,
+            "rm-configure" : true,
             "build-options" : {
                 "arch" : {
                     "x86_64" : {
@@ -106,7 +106,7 @@
                             "--with-pic"
                         ]
                     },
-                    "arm": {
+                    "arm" : {
                         "config-opts" : [
                             "--disable-abiflags",
                             "--disable-static",
@@ -124,9 +124,9 @@
                     "sha256" : "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
                 },
                 {
-                    "type": "script",
-                    "dest-filename": "autogen.sh",
-                    "commands": [
+                    "type" : "script",
+                    "dest-filename" : "autogen.sh",
+                    "commands" : [
                         "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
                     ]
                 }
@@ -148,11 +148,11 @@
             ]
         },
         {
-            "name": "gmp",
-            "config-opts": [
+            "name" : "gmp",
+            "config-opts" : [
                 "--enable-cxx"
             ],
-            "sources": [
+            "sources" : [
                 {
                     "type" : "archive",
                     "url" : "https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz",
@@ -161,8 +161,8 @@
             ]
         },
         {
-            "name": "antlr3",
-            "buildsystem": "simple",
+            "name" : "antlr3",
+            "buildsystem" : "simple",
             "build-commands" : [
                 "install -m 0644 -D antlr-3.4-complete.jar /app/share/java/antlr-3.4-complete.jar",
                 "install -m 0755 -D antlr3 /app/bin/antlr3"
@@ -185,7 +185,7 @@
         },
         {
             "name" : "cvc4",
-            "buildsystem": "cmake",
+            "buildsystem" : "cmake",
             "config-opts" : [
                 "-DCMAKE_BUILD_TYPE=Production",
                 "-DENABLE_OPTIMIZED=ON",
@@ -251,16 +251,17 @@
         },
         {
             "name" : "tcl",
-            "config-opts" : [],
-            "post-install": [
+            "config-opts" : [
+            ],
+            "post-install" : [
                 "chmod u+w /app/lib/libtcl8.6.so"
             ],
-            "subdir": "unix",
-            "sources": [
+            "subdir" : "unix",
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "http://downloads.sourceforge.net/sourceforge/tcl/tcl-core8.6.8-src.tar.gz",
-                    "sha256": "85d4279d647bb705813c6453fa78040d74753bf707547723b124276749fc077d"
+                    "type" : "archive",
+                    "url" : "http://downloads.sourceforge.net/sourceforge/tcl/tcl-core8.6.8-src.tar.gz",
+                    "sha256" : "85d4279d647bb705813c6453fa78040d74753bf707547723b124276749fc077d"
                 }
             ]
         },
@@ -273,7 +274,7 @@
                 "--disable-tcl",
                 "--disable-readline"
             ],
-            "rm-configure": true,
+            "rm-configure" : true,
             "build-options" : {
                 "env" : {
                     "CFLAGS" : "-g -O2 -DSQLITE_HAS_CODEC",
@@ -287,9 +288,9 @@
                     "sha256" : "65144ca3ba4c0f9cd4bae8c20bb42f2b84424bf29d1ebcf04c44a728903b1faa"
                 },
                 {
-                    "type": "script",
-                    "dest-filename": "autogen.sh",
-                    "commands": [
+                    "type" : "script",
+                    "dest-filename" : "autogen.sh",
+                    "commands" : [
                         "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
                     ]
                 }
@@ -300,11 +301,7 @@
             "buildsystem" : "meson",
             "build-options" : {
                 "env" : {
-                    "npm_config_nodedir" : "/app",
-                    "npm_config_sqlite" : "/app",
-                    "npm_config_sqlite_libname" : "sqlcipher",
-                    "npm_config_build_from_source" : "true",
-                    "PYTHONDONTWRITEBYTECODE" : "1"
+                    "npm_config_nodedir" : "/app"
                 }
             },
             "sources" : [
@@ -318,6 +315,10 @@
     ],
     "build-options" : {
         "env" : {
+            "npm_config_sqlite" : "/app",
+            "npm_config_sqlite_libname" : "sqlcipher",
+            "npm_config_build_from_source" : "true",
+            "PYTHONDONTWRITEBYTECODE" : "1"
         }
     }
 }
