@@ -22,6 +22,7 @@ const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
 const PulseAudio = require('pulseaudio2');
 const keytar = require('keytar');
+const sqlite3 = require('sqlite3');
 
 const prefs = require('thingengine-core/lib/util/prefs');
 
@@ -223,17 +224,37 @@ class Platform {
         this._sqliteKey = null;
     }
 
-    init() {
-        return keytar.getPassword('edu.stanford.Almond', 'database-key').then((password) => {
-            if (password) {
-                this._sqliteKey = password;
-                return Promise.resolve();
+    async init() {
+        const password = await keytar.getPassword('edu.stanford.Almond', 'database-key');
+        if (password) {
+            this._sqliteKey = password;
+
+            const sqlcipherCompat = this._prefs.get('sqlcipher-compatibility') || 3;
+            if (sqlcipherCompat !== 4) {
+                // if the database was created with an older version of sqlcipher, we need
+                // to tell sqlcipher what parameters to use to hash the key and encrypt/decrypt
+                //
+                // we do so with a temporary database to issue a pragma
+                const tmpdb = new sqlite3.Database(':memory:');
+                tmpdb.run('PRAGMA cipher_default_compatibility = ' + sqlcipherCompat);
+
+                await new Promise((resolve, reject) => {
+                    tmpdb.close((err) => {
+                        if (err)
+                            reject(err);
+                        else
+                            resolve();
+                    });
+                });
             }
 
-            console.log('Initializing database key');
-            this._sqliteKey = makeRandom();
-            return keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
-        });
+            return;
+        }
+
+        console.log('Initializing database key');
+        this._sqliteKey = makeRandom();
+        this._prefs.set('sqlcipher-compatibility', 4);
+        await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
     }
 
     setAssistant(ad) {
