@@ -20,7 +20,7 @@ const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
 const CVC4Solver = require('smtlib').LocalCVC4Solver;
-const PulseAudio = require('pulseaudio');
+const PulseAudio = require('pulseaudio2');
 const keytar = require('keytar');
 
 const prefs = require('thingengine-core/lib/util/prefs');
