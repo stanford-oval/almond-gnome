@@ -7,11 +7,8 @@
 // See COPYING for details
 "use strict";
 
-const stream = require('stream');
-const os = require('os');
 const events = require('events');
 const https = require('https');
-const fs = require('fs');
 const Url = require('url');
 
 const uuid = require('uuid');
@@ -33,7 +30,6 @@ function encodeHeaders(path, contentType, requestId) {
     return str;
 }
 
-let i = 0;
 class SpeechRequest extends events.EventEmitter {
     constructor() {
         super();
@@ -126,15 +122,14 @@ class SpeechRequest extends events.EventEmitter {
             this._receivedMessages[path] = [];
         this._receivedMessages[path].push((new Date).toISOString());
 
-        if (path === 'speech.hypothesis') {
+        if (path === 'speech.hypothesis')
             this.emit('hypothesis', json.Text);
-        } else if (path === 'speech.phrase') {
+        else if (path === 'speech.phrase')
             this.emit('done', json.RecognitionStatus, json.DisplayText);
-        } else if (path === 'speech.endDetected') {
+        else if (path === 'speech.endDetected')
             this._endDetected = true;
-        } else if (path === 'turn.end') {
+        else if (path === 'turn.end')
             this._end();
-        }
     }
 
     _sendAudioChunk(chunk) {
@@ -324,4 +319,4 @@ module.exports = class SpeechRecognizer extends events.EventEmitter {
         req.on('error', (e) => this.emit('error', e));
         return req;
     }
-}
+};
