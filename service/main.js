@@ -297,11 +297,11 @@ class AppControlChannel extends events.EventEmitter {
         return _engine.thingpedia.getDeviceFactories(deviceClass).then((factories) => factories.map((f) => {
             let factory = [];
             let value;
-            for (let name in f.factory) {
+            for (let name in f) {
                 if (name === 'fields')
-                    value = ['aa{ss}', f.factory.fields.map(marshallASS)];
+                    value = ['aa{ss}', f.fields.map(marshallASS)];
                 else
-                    value = [typeof f.factory[name] === 'number' ? 'u' : 's', f.factory[name]];
+                    value = [typeof f[name] === 'number' ? 'u' : 's', f[name]];
                 factory.push([name, value]);
             }
             return factory;
