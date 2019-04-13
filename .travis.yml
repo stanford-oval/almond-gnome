@@ -15,4 +15,7 @@ install:
   - flatpak --user install -y flathub org.gnome.Platform//3.32
   - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.openjdk11//18.08
 script:
-  - timeout 35m flatpak-builder --force-clean build/ edu.stanford.Almond.json
+  - timeout 35m flatpak-builder --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
+  - flatpak build --env=npm_config_nodedir=/app _app meson --prefix=/app _build
+  - flatpak build --env=npm_config_nodedir=/app _app ninja -C _build install
+  - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json

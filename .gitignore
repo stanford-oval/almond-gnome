@@ -1,5 +1,7 @@
 *~
 *.shell-extension.zip
 _build/
+_app/
+_repo/
 .flatpak-builder/
 node_modules/
