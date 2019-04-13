@@ -164,6 +164,15 @@ function loadAllExamples(kind) {
     }).then((examples) => examples.filter((ex) => ex !== null));
 }
 
+function handleStop() {
+    if (_running)
+        _engine.stop();
+    else
+        _stopped = true;
+}
+process.on('SIGINT', handleStop);
+process.on('SIGTERM', handleStop);
+
 class AppControlChannel extends events.EventEmitter {
     // handle control methods here...
     constructor() {
@@ -193,10 +202,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     Stop() {
-        if (_running)
-            _engine.stop();
-        else
-            _stopped = true;
+        handleStop();
     }
 
     GetHistory() {
