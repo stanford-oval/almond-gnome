@@ -247,7 +247,7 @@ const MessageConstructors = {
             button.set_detailed_action_name('win.switch-to::page-my-goods');
         } else if (msg.link.startsWith('/devices/oauth2/')) {
             // "parse" the link in the context of a dummy base URI
-            let uri = Soup.URI.new('https://invalid').new_with_base(msg.link);
+            let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
             let kind = uri.get_path().substring('/devices/oauth2/'.length);
             let query = Soup.form_decode(uri.get_query());
             button.action_name = 'win.configure-device-oauth2';
