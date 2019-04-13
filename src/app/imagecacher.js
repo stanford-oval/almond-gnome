@@ -7,8 +7,6 @@
 
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
 
 const Config = imports.common.config;
 const { ginvoke } = imports.common.util;

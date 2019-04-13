@@ -265,7 +265,10 @@ module.exports = class SpeechRecognizer extends events.EventEmitter {
             connection.on('open', () => {
                 //console.log('Connection opened');
                 this._connectionTelemetry.End = (new Date).toISOString();
-                let msg = encodeHeaders('speech.config', 'application/json; charset=utf-8') + '\r\n'
+
+                // connection telemetry confuses the server, and apparently
+                // we don't need it
+                /*let msg = encodeHeaders('speech.config', 'application/json; charset=utf-8') + '\r\n'
                 + JSON.stringify({
                     context: {
                         system: {
@@ -283,8 +286,8 @@ module.exports = class SpeechRecognizer extends events.EventEmitter {
                         }
                     }
                 });
-                //console.log(msg);
-                //this._connection.send(msg);
+                console.log(msg);
+                this._connection.send(msg);*/
 
                 this._connection = connection;
                 callback(connection);
