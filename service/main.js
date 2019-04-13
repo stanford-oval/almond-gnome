@@ -114,54 +114,52 @@ function normalizeSlot(t) {
 }
 
 function loadOneExample(ex) {
-    return ThingTalk.Grammar.parseAndTypecheck(ex.target_code, _engine.schemas).then((program) => {
-        if (program.declarations.length + program.rules.length !== 1) {
-            console.error(`Confusing example ${ex.id}: more than one rule or declaration`);
+    // refuse to slot fill pictures
+    for (let name in ex.args) {
+        let type = ex.args[name];
+        if (type.isEntity && type.type === 'tt:picture')
             return null;
+    }
+
+    // turn the declaration into a program
+    let newprogram = ex.toProgram();
+    let slots = [];
+    let slotTypes = {};
+    for (let name in ex.args) {
+        slotTypes[name] = String(ex.args[name]);
+        slots.push(name);
+    }
+
+    let utterance = ex.utterances[0];
+    if (utterance.startsWith(','))
+        utterance = utterance.substring(1).trim();
+    utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
+
+    let code = ThingTalk.NNSyntax.toNN(newprogram, {});
+    return {
+        utterance: utterance,
+        type: ex.type,
+        target: {
+            example_id: ex.id,
+            code: code,
+            entities: {},
+            slotTypes: slotTypes,
+            slots: slots
         }
-
-        if (program.rules.length === 1) {
-            // easy case: just emit whatever
-            let code = ThingTalk.NNSyntax.toNN(program, {});
-            return { utterance: ex.utterance,
-                     type: 'rule',
-                     target: { example_id: ex.id, code: code, entities: {},
-                               slotTypes: {}, slots: [] } };
-        } else {
-            // refuse to slot fill pictures
-            for (let name in program.declarations[0].args) {
-                let type = program.declarations[0].args[name];
-                if (type.isEntity && type.type === 'tt:picture')
-                    return null;
-            }
-
-            // turn the declaration into a program
-            let newprogram = program.declarations[0].toProgram();
-            let slots = [];
-            let slotTypes = {};
-            for (let name in program.declarations[0].args) {
-                slotTypes[name] = String(program.declarations[0].args[name]);
-                slots.push(name);
-            }
-
-            let utterance = ex.utterance;
-            if (utterance.startsWith(','))
-                utterance = utterance.substring(1).trim();
-            utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
-
-            let code = ThingTalk.NNSyntax.toNN(newprogram, {});
-            return { utterance: utterance,
-                     type: program.declarations[0].type,
-                     target: {
-                        example_id: ex.id, code: code, entities: {}, slotTypes: slotTypes, slots: slots } };
-        }
-    });
+    };
 }
 
-function loadAllExamples(kind) {
-    return _engine.thingpedia.getExamplesByKinds([kind]).then((examples) => {
-        return Promise.all(examples.map((ex) => loadOneExample(ex)));
-    }).then((examples) => examples.filter((ex) => ex !== null));
+async function loadAllExamples(kind) {
+    const datasetCode = await _engine.thingpedia.getExamplesByKinds([kind], true);
+    const parsed = await ThingTalk.Grammar.parseAndTypecheck(datasetCode, _engine.schemas);
+    const dataset = parsed.datasets[0];
+    let output = [];
+    for (let ex of dataset.examples) {
+        const loaded = loadOneExample(ex);
+        if (loaded !== null)
+            output.push(loaded);
+    }
+    return output;
 }
 
 function handleStop() {
