@@ -32,6 +32,47 @@ function initEnvironment() {
     };
 }
 
+function spawnService() {
+    // spawn the service before we do anything else
+    // normally, dbus activation would take care of it,
+    // but if we're running in gnome-builder (uninstalled
+    // flatpak environment) dbus is not set correctly
+
+    const bus = Gio.DBus.session;
+
+    try {
+        bus.call_sync("org.freedesktop.DBus",
+                      "/org/freedesktop/DBus",
+                      "org.freedesktop.DBus",
+                      "StartServiceByName",
+                      new GLib.Variant("(su)", ["edu.stanford.Almond", 0]),
+                      null,
+                      Gio.DBusCallFlags.NONE,
+                      -1, null);
+    } catch(e) {
+        if (e instanceof GLib.Error &&
+            Gio.DBusError.is_remote_error(e) &&
+            Gio.DBusError.get_remote_error(e) === 'org.freedesktop.DBus.Error.ServiceUnknown') {
+
+            let servicedir;
+            if (GLib.getenv('MESON_SOURCE_ROOT'))
+                servicedir = GLib.build_filenamev([GLib.getenv('MESON_SOURCE_ROOT'), 'service']);
+            else
+                servicedir = GLib.build_filenamev([pkg.pkglibdir, 'service']);
+            const serviceentrypoint = GLib.build_filenamev([servicedir, 'main.js']);
+
+            if (GLib.file_test(serviceentrypoint, GLib.FileTest.EXISTS)) {
+                return Gio.Subprocess.new(['node', serviceentrypoint],
+                                          Gio.SubprocessFlags.NONE);
+            }
+        } else {
+            throw e;
+        }
+    }
+
+    return undefined;
+}
+
 const AlmondApplication = new Lang.Class({
     Name: 'AlmondApplication',
     Extends: Gtk.Application,
@@ -105,7 +146,13 @@ const AlmondApplication = new Lang.Class({
 
 /* exported main */
 function main(argv) {
+    const service = spawnService();
     initEnvironment();
 
-    return (new AlmondApplication()).run(argv);
+    const exitCode = (new AlmondApplication()).run(argv);
+
+    if (service)
+        service.send_signal(15 /* sigterm */);
+
+    return exitCode;
 }
