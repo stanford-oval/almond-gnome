@@ -11,7 +11,7 @@ install:
   - curl -O https://crowdie.stanford.edu/flatpak/build-cache.tar.gz
   - tar xf build-cache.tar.gz
 script:
-  - timeout 35m flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
+  - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
   - flatpak build --env=npm_config_nodedir=/app _app meson --prefix=/app _build
   - flatpak build --env=npm_config_nodedir=/app _app ninja -C _build install
   - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json
