@@ -8,7 +8,4 @@
     <file>bubble_almond.png</file>
     <file>bubble_user.png</file>
   </gresource>
-  <gresource prefix="/edu/stanford/Almond/gtk">
-    <file preprocess="xml-stripblanks">menus.ui</file>
-  </gresource>
 </gresources>

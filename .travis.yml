@@ -1,18 +1,18 @@
 language: c
 dist: xenial
 sudo: true
-cache:
-  directories:
-  - .flatpak-builder
-  timeout: 300
 before_install:
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
   - sudo apt-get update -q -y
 install:
   - sudo apt-get install -y flatpak-builder elfutils
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  - flatpak --user install -y flathub org.gnome.Sdk//3.28
-  - flatpak --user install -y flathub org.gnome.Platform//3.28
-  - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.gfortran-62//1.6
+  - flatpak --user install -y flathub org.gnome.Sdk//3.32 org.gnome.Platform//3.32 org.freedesktop.Sdk.Extension.openjdk11//18.08
+  - curl -O https://crowdie.stanford.edu/flatpak/build-cache.tar.gz
+  - tar xf build-cache.tar.gz
+  - ./travis/download-deps.py
 script:
-  - timeout 35m flatpak-builder --force-clean build/ edu.stanford.Almond.json
+  - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
+  - flatpak build --env=npm_config_nodedir=/app _app meson --prefix=/app _build
+  - flatpak build --env=npm_config_nodedir=/app _app ninja -C _build install
+  - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json

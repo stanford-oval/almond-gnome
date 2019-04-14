@@ -11,7 +11,6 @@
     <file>app/devicemodel.js</file>
     <file>app/imagecacher.js</file>
     <file>app/main.js</file>
-    <file>app/params.js</file>
     <file>app/prefs.js</file>
     <file>app/settings.js</file>
     <file>app/window.js</file>

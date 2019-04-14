@@ -19,17 +19,5 @@ if not destdir:
     print('Updating desktop database...')
     subprocess.call(['update-desktop-database', '-q', str(datadir / 'applications')])
 
-sourcedir = os.path.join(os.environ['MESON_SOURCE_ROOT'], 'service')
 servicedir = os.path.join(os.environ.get('MESON_DESTDIR_INSTALL_PREFIX', os.environ['MESON_INSTALL_PREFIX']), 'lib', 'edu.stanford.Almond', 'service')
-
-print('Installing node.js service...')
-try:
-    shutil.rmtree(servicedir)
-except FileNotFoundError:
-    pass
-shutil.copytree(sourcedir, servicedir, symlinks=True)
-
-yarn = os.environ.get('YARN', 'yarn')
-subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile"], cwd=servicedir)
-
 shutil.rmtree(os.path.join(servicedir, "deps"))

@@ -76,7 +76,7 @@ var PreferenceBinding = GObject.registerClass({
             log(this._name + ' = ' + this._state);
             this.notify('state');
         }).catch((e) => {
-            logError('Failed to refresh preference ' + this._name, e);
+            logError(e, 'Failed to refresh preference ' + this._name);
         });
     }
 });

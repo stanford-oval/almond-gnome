@@ -1,6 +1,6 @@
 project('almond-gnome', 'c',
   version: '1.1.0',
-  meson_version: '>= 0.36.0',
+  meson_version: '>= 0.48.0',
 )
 
 app_command = 'almond'
@@ -42,4 +42,15 @@ subdir('src')
 subdir('data')
 subdir('po')
 subdir('shell-extension')
+
+# spawn our custom script for service directory (that copies and calls yarn)
+custom_target('service',
+  output: 'service',
+  input: files('service/package.json'),
+  command: [files('meson/copy_service_to_builddir.py'), '@INPUT@', '@OUTPUT@'],
+  console: true,
+  build_always_stale: true,
+  install: true,
+  install_dir: pkglibdir)
+
 meson.add_install_script('meson/meson_post_install.py')
