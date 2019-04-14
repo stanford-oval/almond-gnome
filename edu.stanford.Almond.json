@@ -51,7 +51,6 @@
         "/bin/tclsh",
         "/bin/tclsh8.6",
         "/bin/sqlcipher",
-        "/lib/libboost_*",
         "/lib/tcl*",
         "/lib/libtcl*",
         "*.la",
@@ -136,21 +135,6 @@
             ]
         },
         {
-            "name" : "boost",
-            "buildsystem" : "simple",
-            "build-commands" : [
-                "./bootstrap.sh",
-                "./b2 -j $FLATPAK_BUILDER_N_JOBS link=shared runtime-link=shared threading=multi variant=release --without-math --without-python install --prefix=/app"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2",
-                    "sha256" : "430ae8354789de4fd19ee52f3b1f739e1fba576f0aded0897c3c2bc00fb38778"
-                }
-            ]
-        },
-        {
             "name" : "gmp",
             "config-opts" : [
                 "--enable-cxx"
@@ -195,6 +179,7 @@
                 "-DUSE_CLN=OFF",
                 "-DUSE_READLINE=OFF",
                 "-DENABLE_GPL=OFF",
+                "-DENABLE_PORTFOLIO=OFF",
                 "-DJAVA_HOME=/usr/lib/sdk/openjdk11/jvm/openjdk-11"
             ],
             "sources" : [
