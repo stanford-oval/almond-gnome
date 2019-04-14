@@ -2,6 +2,7 @@ language: c
 dist: xenial
 sudo: true
 before_install:
+  - test "$TRAVIS_REPO_SLUG" != "stanford-oval/almond-gnome" || (openssl aes-256-cbc -K $encrypted_9ed9bade8d25_key -iv $encrypted_9ed9bade8d25_iv -in travis/id_rsa.autodeploy.enc -out travis/id_rsa.autodeploy -d)
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
   - sudo apt-get update -q -y
 install:
@@ -16,3 +17,10 @@ script:
   - flatpak build --env=npm_config_nodedir=/app _app meson --prefix=/app _build
   - flatpak build --env=npm_config_nodedir=/app _app ninja -C _build install
   - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ssh -i ./travis/id_rsa.autodeploy flatpak-builder@almond-dev.stanford.edu
+  on:
+    branch: master
+    repo: stanford-oval/almond-gnome
