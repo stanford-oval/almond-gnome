@@ -1,0 +1,19 @@
+{
+    "name": "python3-h5py",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} h5py"
+    ],
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
+            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/43/27/a6e7dcb8ae20a4dbf3725321058923fec262b6f7835179d78ccc8d98deec/h5py-2.9.0.tar.gz",
+            "sha256": "9d41ca62daf36d6b6515ab8765e4c8c4388ee18e2a665701fef2b41563821002"
+        }
+    ]
+}

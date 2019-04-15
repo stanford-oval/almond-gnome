@@ -1,0 +1,21 @@
+{
+    "name": "python3-scipy",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} scipy"
+    ],
+    "build-options": {
+        "env": {
+            "BLAS": "/app/lib/libblas.so",
+            "LAPACK": "/app/lib/liblapack.so",
+            "NPY_DISTUTILS_APPEND_FLAGS": "1"
+        }
+    },
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/a9/b4/5598a706697d1e2929eaf7fe68898ef4bea76e4950b9efbe1ef396b8813a/scipy-1.2.1.tar.gz",
+            "sha256": "e085d1babcb419bbe58e2e805ac61924dac4ca45a07c9fa081144739e500aa3c"
+        }
+    ]
+}
