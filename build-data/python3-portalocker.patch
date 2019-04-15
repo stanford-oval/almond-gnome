@@ -1,0 +1,18 @@
+--- portalocker-1.4.0/setup.py.orig	2019-04-14 21:39:47.306145871 -0700
++++ portalocker-1.4.0/setup.py	2019-04-14 21:39:55.617898982 -0700
+@@ -7,15 +7,6 @@
+ from distutils.version import StrictVersion
+ from setuptools import __version__ as setuptools_version
+
+-
+-if StrictVersion(setuptools_version) < StrictVersion('38.3.0'):
+-    raise SystemExit(
+-        'Your `setuptools` version is old. '
+-        'Please upgrade setuptools by running `pip install -U setuptools` '
+-        'and try again.'
+-    )
+-
+-
+ # To prevent importing about and thereby breaking the coverage info we use this
+ # exec hack
+ about = {}

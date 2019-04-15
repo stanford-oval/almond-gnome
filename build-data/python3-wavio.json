@@ -1,0 +1,19 @@
+{
+    "name": "python3-wavio",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} wavio"
+    ],
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
+            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/84/62/c60fbc42aa7cc1adb023fe8fbe52bb12da9eceddaad5cfa807730771d219/wavio-0.0.4.tar.gz",
+            "sha256": "66d8f05e60e2c371364d537c25abf9ffbf4d8475e440ee2fbe73e000e9775fc8"
+        }
+    ]
+}

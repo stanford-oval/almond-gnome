@@ -8,6 +8,7 @@
 "use strict";
 
 const events = require('events');
+const Stream = require('stream');
 const https = require('https');
 const Url = require('url');
 
@@ -30,32 +31,39 @@ function encodeHeaders(path, contentType, requestId) {
     return str;
 }
 
-class SpeechRequest extends events.EventEmitter {
-    constructor() {
-        super();
+class SpeechRequest extends Stream.Writable {
+    constructor(stream) {
+        // this is important, as the protocol does not allow chunks larger than 8192 bytes
+        super({ highWaterMark: 8192 });
+
+        this._stream = stream;
 
         this._requestId = uuid.v4().replace(/-/g, '');
         this._endDetected = false;
         this._ended = false;
+        this._started = false;
         this._sentRIFFHeader = false;
 
         //this._debugFile = fs.createWriteStream('out_' + process.pid + '_' + (i++) + '.wav');
-    }
-
-    start(stream, connection, connectionTelemetry) {
-        this._connection = connection;
 
         this._startTime = (new Date).toISOString();
-        this._stream = stream;
-        this._dataListener = this._sendAudioChunk.bind(this);
-        this._stream.on('data', this._dataListener);
-        this._endListener = () => {
-            if (this._ended)
+        this._stream.pipe(this);
+        this._piped = true;
+
+        // all chunks received before the connection is ready are buffered here
+        this._bufferedMessages = [];
+
+        this.on('error', () => {
+            if (!this._piped)
                 return;
-            this._sendAudioChunk(Buffer.alloc(0));
-            this._end();
-        };
-        this._stream.on('end', this._endListener);
+            this._piped = false;
+            this._stream.unpipe(this);
+        });
+    }
+
+    start(connection, connectionTelemetry) {
+        this._started = true;
+        this._connection = connection;
         setTimeout(() => this._end(), 150000);
 
         this._listener = this._handleMessage.bind(this);
@@ -63,15 +71,35 @@ class SpeechRequest extends events.EventEmitter {
 
         this._receivedMessages = {};
         this._connectionTelemetry = connectionTelemetry;
+
+        for (let message of this._bufferedMessages)
+            this._connection.send(message, { binary: true });
+        this._bufferedMessages = [];
     }
 
-    _end() {
+    _finish(callback) {
+        // readable stream ended
+        this._piped = false;
+        this.end();
+        callback();
+    }
+
+    end() {
+        if (this._piped) {
+            this._piped = false;
+            this._stream.unpipe(this);
+        }
+
         if (this._ended)
             return;
 
-        this._stream.removeListener('data', this._dataListener);
-        this._stream.removeListener('end', this._endListener);
-        this._connection.removeListener('message', this._listener);
+        // end() before start() indicates an error connecting to the server (e.g.
+        // access token error)
+        if (!this._started) {
+            this._ended = true;
+            return;
+        }
+
         this._endTime = (new Date).toISOString();
 
         let receivedMessages = [];
@@ -129,15 +157,12 @@ class SpeechRequest extends events.EventEmitter {
         else if (path === 'speech.endDetected')
             this._endDetected = true;
         else if (path === 'turn.end')
-            this._end();
+            this.end();
     }
 
-    _sendAudioChunk(chunk) {
-        if (this._ended || this._endDetected)
-            return;
-        if (chunk.length > 8192) {
-            for (let i = 0; i < chunk.length; i += 8192)
-                this._sendAudioChunk(chunk.slice(i, Math.min(chunk.length, i+8192)));
+    _write(chunk, encoding, callback) {
+        if (this._ended || this._endDetected) {
+            callback();
             return;
         }
         //console.log('Sending chunk of length ' + chunk.length);
@@ -175,8 +200,11 @@ class SpeechRequest extends events.EventEmitter {
             //this._debugFile.write(chunk);
             chunk.copy(message, 2 + header.length);
         }
+
         if (this._connection.readyState === 1) // OPEN
-            this._connection.send(message, { binary: true });
+            this._connection.send(message, { binary: true }, (err) => callback(err));
+        else
+            this._bufferedMessages.push(message);
     }
 
     _sendTextMessage(path, contentType, body) {
@@ -315,10 +343,13 @@ module.exports = class SpeechRecognizer extends events.EventEmitter {
     }
 
     request(stream) {
-        let req = new SpeechRequest();
+        let req = new SpeechRequest(stream);
         this._ensureConnection().then((connection) => {
-            req.start(stream, connection, this._connectionTelemetry);
-        }).catch((e) => this.emit('error', e));
+            req.start(connection, this._connectionTelemetry);
+        }).catch((e) => {
+            req.end();
+            this.emit('error', e);
+        });
         req.on('error', (e) => this.emit('error', e));
         return req;
     }

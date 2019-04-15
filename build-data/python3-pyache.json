@@ -1,0 +1,19 @@
+{
+    "name": "python3-pyache",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} pyache"
+    ],
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
+            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/fe/87/e223cb6c004f0373f866861bb4df74cea4917457dd865151b403a6d9d091/pyache-0.1.0.tar.gz",
+            "sha256": "f6b5137714e0c8dc73bcde79f67be7b29a41809543603095a234136442bdd1d4"
+        }
+    ]
+}
