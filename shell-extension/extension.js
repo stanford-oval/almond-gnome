@@ -405,9 +405,6 @@ class AssistantSource extends MessageTray.Source {
             this.notify(this._notification);
         });
         this.service.connectSignal('Activate', () => {
-            global.play_theme_sound_full(0, 'message-new-instant',
-                                         this.title, null,
-                                         'edu.stanford.Almond', _("Almond"));
             this.notify(this._notification);
         });
         this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {

@@ -11,6 +11,7 @@
 const Q = require('q');
 const posix = require('posix');
 const events = require('events');
+const canberra = require('canberra');
 
 const Config = require('./config');
 const SpeechHandler = require('./speech_handler');
@@ -43,6 +44,8 @@ const MessageType = {
     MAX: 6
 };
 
+const HOTWORD_DETECTED_ID = 1;
+
 class AssistantDispatcher extends events.EventEmitter {
     constructor(engine) {
         super();
@@ -58,12 +61,33 @@ class AssistantDispatcher extends events.EventEmitter {
         this._enableSpeech = false;
         this._speechHandler = new SpeechHandler(engine.platform);
         this._speechSynth = engine.platform.getCapability('text-to-speech');
+        try {
+            this._eventSoundCtx = new canberra.Context({
+                [canberra.Property.APPLICATION_ID]: 'edu.stanford.Almond',
+            });
+            this._eventSoundCtx.cache({
+                [canberra.Property.EVENT_ID]: 'message-new-instant'
+            });
+        } catch(e) {
+            this._eventSoundCtx = null;
+            console.error(`Failed to initialize libcanberra: ${e.message}`);
+        }
 
         this._speechHandler.on('hypothesis', (hypothesis) => {
             this.emit('VoiceHypothesis', hypothesis);
         });
-        this._speechHandler.on('hotword', (hotword) => {
+        this._speechHandler.on('hotword', async (hotword) => {
             this.emit('Activate');
+
+            if (!this._eventSoundCtx)
+                return;
+            try {
+                await this._eventSoundCtx.play(HOTWORD_DETECTED_ID, {
+                    [canberra.Property.EVENT_ID]: 'message-new-instant'
+                });
+            } catch(e) {
+                console.error(`Failed to play hotword detection sound: ${e.message}`);
+            }
         });
         this._speechHandler.on('utterance', (utterance) => {
             this.emit('VoiceHypothesis', '');
