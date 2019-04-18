@@ -16,7 +16,8 @@ install:
 script:
   - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
   - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app meson --prefix=/app _build
-  - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install
+  - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build
+  - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install >/dev/null 2>&1
   - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json
 deploy:
   provider: script
