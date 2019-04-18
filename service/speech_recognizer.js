@@ -64,7 +64,7 @@ class SpeechRequest extends Stream.Writable {
     start(connection, connectionTelemetry) {
         this._started = true;
         this._connection = connection;
-        setTimeout(() => this._end(), 150000);
+        this._endTimeout = setTimeout(() => this.end(), 150000);
 
         this._listener = this._handleMessage.bind(this);
         this._connection.on('message', this._listener);
@@ -100,6 +100,7 @@ class SpeechRequest extends Stream.Writable {
             return;
         }
 
+        clearTimeout(this._endTimeout);
         this._endTime = (new Date).toISOString();
 
         let receivedMessages = [];
