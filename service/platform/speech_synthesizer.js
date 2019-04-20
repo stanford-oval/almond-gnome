@@ -71,6 +71,9 @@ module.exports = class SpeechSynthesizer {
                         channels: result.numChannels,
                         stream: 'thingengine-voice-output',
                         latency: 100000, // us (= 0.1 s)
+                        properties: {
+                            'filter.want': 'echo-cancel',
+                        }
                     });
                     this._sampleRate = result.sampleRate;
                     this._numChannels = result.numChannels;

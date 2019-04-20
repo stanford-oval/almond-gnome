@@ -217,7 +217,11 @@ class Platform {
         this._screenshot = new Screenshot(this._dbusSession, this._gettext);
         this._btApi = null;
         this._pulse = new PulseAudio({
-            client: "thingengine-platform-gnome"
+            client: "Almond",
+            properties: {
+                'application.id': 'edu.stanford.Almond',
+                'application.language': this._locale,
+            }
         });
         this._tts = new SpeechSynthesizer(this._pulse, path.resolve(module.filename, '../../data/cmu_us_slt.flitevox'));
 

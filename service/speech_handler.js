@@ -51,7 +51,14 @@ module.exports = class SpeechHandler extends events.EventEmitter {
     }
 
     start() {
-        this._stream = this._pulse.createRecordStream({ format: 'S16LE', rate: 16000, channels: 1 });
+        this._stream = this._pulse.createRecordStream({
+            format: 'S16LE',
+            rate: 16000,
+            channels: 1,
+            properties: {
+                'filter.want': 'echo-cancel',
+            }
+        });
 
         this._stream.on('state', (state) => {
             console.log('Record stream is now ' + state);
