@@ -139,7 +139,10 @@ class AssistantDispatcher extends events.EventEmitter {
 
         return this._speechSynth.start();
     }
-    stop() {}
+    stop() {
+        if (this._enableVoiceInput)
+            this._speechHandler.stop();
+    }
 
     startConversation() {
         this._ensureConversation();

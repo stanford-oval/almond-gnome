@@ -202,7 +202,7 @@ class SpeechRequest extends Stream.Writable {
             chunk.copy(message, 2 + header.length);
         }
 
-        if (this._connection.readyState === 1) // OPEN
+        if (this._connection && this._connection.readyState === 1) // OPEN
             this._connection.send(message, { binary: true }, (err) => callback(err));
         else
             this._bufferedMessages.push(message);

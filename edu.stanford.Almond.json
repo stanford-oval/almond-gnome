@@ -289,8 +289,8 @@
         "./build-data/python3-pbr.json",
         "./build-data/python3-Cython.json",
         {
-            "name": "hdf5",
-            "config-opts": [
+            "name" : "hdf5",
+            "config-opts" : [
                 "--enable-fortran",
                 "--enable-fortran2003",
                 "--enable-cxx",
@@ -299,11 +299,11 @@
                 "--disable-static",
                 "--disable-java"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.bz2",
-                    "sha256": "68d6ea8843d2a106ec6a7828564c1689c7a85714a35d8efafa2fee20ca366f44"
+                    "type" : "archive",
+                    "url" : "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.bz2",
+                    "sha256" : "68d6ea8843d2a106ec6a7828564c1689c7a85714a35d8efafa2fee20ca366f44"
                 }
             ]
         },
@@ -317,21 +317,21 @@
         "./build-data/python3-typing.json",
         "./build-data/python3-attrs.json",
         {
-            "name": "mycroft-precise",
-            "buildsystem": "simple",
-            "build-commands": [
+            "name" : "mycroft-precise",
+            "buildsystem" : "simple",
+            "build-commands" : [
                 "pip3 install . --prefix=/app"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://github.com/MycroftAI/mycroft-precise",
-                    "tag": "v0.3.0",
-                    "commit": "e06f92bf3119837cf314ba63b957277116ef1e6b"
+                    "type" : "git",
+                    "url" : "https://github.com/MycroftAI/mycroft-precise",
+                    "tag" : "v0.3.0",
+                    "commit" : "e06f92bf3119837cf314ba63b957277116ef1e6b"
                 },
                 {
-                    "type": "patch",
-                    "path": "build-data/mycroft-precise.patch"
+                    "type" : "patch",
+                    "path" : "build-data/mycroft-precise.patch"
                 }
             ]
         },
@@ -354,10 +354,11 @@
     ],
     "build-options" : {
         "env" : {
+            "npm_config_build_from_source" : "true",
             "npm_config_sqlite" : "/app",
             "npm_config_sqlite_libname" : "sqlcipher",
-            "npm_config_build_from_source" : "true",
-            "PYTHONDONTWRITEBYTECODE" : "1"
+            "PYTHONDONTWRITEBYTECODE" : "1",
+            "ALMOND_SPAWN_SERVICE_MANUALLY" : "1"
         }
     }
 }

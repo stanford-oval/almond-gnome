@@ -1037,10 +1037,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/pulseaudio2/-/pulseaudio2-0.2.0.tgz#01ff3acc2ca50bdf256ce9e0df683b01e4527b40",
-        "sha256": "76459c4de319c744a06369beb3036bb32f148fce40f1cd1ab9dd73df50838b6d",
+        "url": "https://codeload.github.com/stanford-oval/node-pulseaudio/tar.gz/138e5f47a793d839d5c8984dc2b9eee54a62fc22",
+        "sha256": "43a0b0c999a4474fb70761817e7ab62f56f826be917050c6dcff70c3cccd6078",
         "dest": "service/deps",
-        "dest-filename": "pulseaudio2-0.2.0.tgz"
+        "dest-filename": "138e5f47a793d839d5c8984dc2b9eee54a62fc22"
     },
     {
         "type": "file",
