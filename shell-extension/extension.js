@@ -46,7 +46,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 
-const { AssistantModel, Direction, MessageType } = Me.imports.common.chatmodel;
+const { AssistantModel, Direction, MessageType, Message } = Me.imports.common.chatmodel;
 const Config = Me.imports.common.config;
 const { Service } = Me.imports.common.serviceproxy;
 
@@ -70,12 +70,8 @@ class AssistantNotification extends MessageTray.Notification {
     }
 
     activate() {
-        // override the default behavior: close the calendar and open Almond
-        Main.panel.closeCalendar();
-        this.source.notify(this);
-
-        // do not chain up: the default implementation emits "activated"
-        // which triggers a number of undesirable behaviors
+        this.source.open();
+        super.activate();
     }
 
     destroy(reason) {
@@ -119,7 +115,7 @@ const MessageConstructors = {
         let textureCache = St.TextureCache.get_default();
         let file = Gio.File.new_for_uri(msg.picture_url);
         let scaleFactor = St.ThemeContext.get_for_stage(window.global.stage).scale_factor;
-        let texture = textureCache.load_file_async(file, -1, 300, scaleFactor);
+        let texture = textureCache.load_file_async(file, -1, 300, scaleFactor, 1.0);
         return new St.Bin({ child: texture });
     },
 
@@ -311,17 +307,6 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
         lineBox.add(body);
         msgObject.actor = lineBox;
         this._contentArea.insert_child_at_index(lineBox, position);
-
-        if (message.direction === Direction.FROM_ALMOND) {
-            if (position === this._contentArea.get_n_children()-1)
-                this.notification.source.setMessageIcon(message.icon);
-            let msgBody = message.toNotification();
-            if (msgBody) {
-                this.notification.update(this.notification.source.title, msgBody, {
-                    secondaryGIcon: this.notification.source.getSecondaryIcon()
-                });
-            }
-        }
     }
 
     _onEntryActivated() {
@@ -397,15 +382,41 @@ class AssistantSource extends MessageTray.Source {
         this.service.HandleCommandRemote(text, onerror);
     }
 
+    _activateIfAlmondUnfocused() {
+        const focus_app = Shell.WindowTracker.get_default().focus_app;
+        if (focus_app && focus_app.get_id() === 'edu.stanford.Almond.desktop')
+            return;
+
+        this.notify(this._notification);
+    }
+
     _continueInit() {
         // Add ourselves as a source.
         Main.messageTray.add(this);
 
-        this.service.connectSignal('NewMessage', () => {
-            this.notify(this._notification);
+        this.service.connectSignal('NewMessage', (signal, sender, [id, type, direction, msg]) => {
+            if (direction !== Direction.FROM_ALMOND)
+                return;
+
+            msg.message_id = id;
+            msg.message_type = type;
+            msg.direction = direction;
+            const message = new Message(msg);
+
+            this.setMessageIcon(message.icon);
+            let msgBody = message.toNotification();
+            log('msgBody: ' + msgBody);
+            
+            if (msgBody && this._notification) {
+                this._notification.update(this.title, msgBody, {
+                    secondaryGIcon: this.getSecondaryIcon()
+                });
+            }
+        
+            this._activateIfAlmondUnfocused();
         });
         this.service.connectSignal('Activate', () => {
-            this.notify(this._notification);
+            this._activateIfAlmondUnfocused();
         });
         this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
             if (!this._banner)
@@ -460,8 +471,8 @@ class AssistantSource extends MessageTray.Source {
         Main.overview.hide();
         Main.panel.closeCalendar();
 
-        let app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond');
-        app.launch();
+        let app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond.desktop');
+        app.activate();
     }
 }
 
