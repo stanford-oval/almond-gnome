@@ -210,10 +210,10 @@ const MessageConstructors = {
     [MessageType.ASK_SPECIAL](msg, service) {
         if (msg.ask_special_what === 'yesno') {
             let box = new St.BoxLayout();
-            yes.add_style_class_name('button');
             let yes = new St.Button({
                 label: _("Yes")
             });
+            yes.add_style_class_name('button');
             yes.connect('clicked', () => {
                 handleSpecial(service, _("Yes"), 'yes');
             });
