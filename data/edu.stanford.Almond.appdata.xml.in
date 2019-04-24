@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <id>edu.stanford.Almond.desktop</id>
-  <metadata_license>CC0</metadata_license>
+  <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0</project_license>
-  <update_contact>mobisocial at lists.stanford.edu</update_contact>
+  <update_contact>thingpedia-admins at lists.stanford.edu</update_contact>
   <name>Almond</name>
   <summary>The Open Virtual Assistant</summary>
+  <developer_name>Stanford Open Virtual Assistant Lab</developer_name>
   <description>
     <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.
     Almond draws its power from the crowdsourced Thingpedia, an open collection of Web and Internet of Things APIs.
     Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
     Thingpedia supports more than 50 different services, accounts and IoT devices.</p>
   </description>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-location">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <translation type="gettext">edu.stanford.Almond</translation>
   <screenshots>
-    <screenshot type="default"><image width="640" height="527">https://crowdie.stanford.edu/flatpak/screenshot-main.png</image></screenshot>
-    <screenshot><image width="1720" height="1232">https://crowdie.stanford.edu/flatpak/screenshot-xkcd.png</image></screenshot>
-    <screenshot><image width="1800" height="1072">https://crowdie.stanford.edu/flatpak/screenshot-nytimes.png</image></screenshot>
-    <screenshot><image width="1800" height="1158">https://crowdie.stanford.edu/flatpak/screenshot-my-goods.png</image></screenshot>
-    <screenshot><image width="1984" height="1166">https://crowdie.stanford.edu/flatpak/screenshot-my-rules.png</image></screenshot>
+    <screenshot type="default">
+      <image height="527" width="640">https://crowdie.stanford.edu/flatpak/screenshot-main.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="1232" width="1720">https://crowdie.stanford.edu/flatpak/screenshot-xkcd.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="1072" width="1800">https://crowdie.stanford.edu/flatpak/screenshot-nytimes.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="1158" width="1800">https://crowdie.stanford.edu/flatpak/screenshot-my-goods.png</image>
+    </screenshot>
+    <screenshot>
+      <image height="1166" width="1984">https://crowdie.stanford.edu/flatpak/screenshot-my-rules.png</image>
+    </screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
-  <url type="bugtracker">https://github.com/Stanford-Mobisocial-IoT-Lab/almond-gnome/issues</url>
+  <url type="bugtracker">https://github.com/stanford-oval/almond-gnome/issues</url>
+  <!--<url type="donation">http://www.homepage.com/donation.html</url>-->
+  <url type="help">https://almond.stanford.edu/thingpedia/developers/thingpedia-intro.md</url>
+  <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
     <release date="2018-08-21" version="1.1.0">
       <description>

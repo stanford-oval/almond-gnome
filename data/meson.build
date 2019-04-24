@@ -20,7 +20,7 @@ desktop = intl.merge_file(
 gsettingsdir = join_paths(get_option('datadir'), 'glib-2.0', 'schemas')
 install_data(app_id + '.gschema.xml', install_dir : gsettingsdir)
 
-appdatadir = join_paths(get_option('datadir'), 'appdata')
+appdatadir = join_paths(get_option('datadir'), 'metainfo')
 appdata = intl.merge_file(
   input : app_id + '.appdata.xml.in',
   output : app_id + '.appdata.xml',
