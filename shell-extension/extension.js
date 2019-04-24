@@ -31,12 +31,13 @@ const MessageTray = imports.ui.messageTray;
 //const Params = imports.misc.params;
 //const Util = imports.misc.util;
 const Gio = imports.gi.Gio;
-//const GLib = imports.gi.GLib;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const St = imports.gi.St;
 const Shell = imports.gi.Shell;
 const Pango = imports.gi.Pango;
+const Soup = imports.gi.Soup;
 //const Clutter = imports.gi.Clutter;
 
 const Gettext = imports.gettext.domain('edu.stanford.Almond');
@@ -46,7 +47,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 
-const { AssistantModel, Direction, MessageType } = Me.imports.common.chatmodel;
+const { AssistantModel, Direction, MessageType, Message } = Me.imports.common.chatmodel;
 const Config = Me.imports.common.config;
 const { Service } = Me.imports.common.serviceproxy;
 
@@ -70,12 +71,8 @@ class AssistantNotification extends MessageTray.Notification {
     }
 
     activate() {
-        // override the default behavior: close the calendar and open Almond
-        Main.panel.closeCalendar();
-        this.source.notify(this);
-
-        // do not chain up: the default implementation emits "activated"
-        // which triggers a number of undesirable behaviors
+        this.source.open();
+        super.activate();
     }
 
     destroy(reason) {
@@ -106,6 +103,29 @@ function handleSpecial(service, title, special) {
     });
 }
 
+function activateGtkAction(actionName, actionParameter) {
+    const app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond.desktop');
+    
+    let attempts = 0;
+    function _continue() {
+        attempts ++;
+        if (attempts >= 10)
+            return GLib.SOURCE_REMOVE;
+        const actionGroup = app.action_group;
+        if (actionGroup === null)
+            return GLib.SOURCE_CONTINUE;
+        actionGroup.activate_action(actionName, actionParameter);
+        return GLib.SOURCE_REMOVE;
+    }
+    
+    if (app.action_group) {
+        _continue();
+    } else {
+        app.activate();
+        GLib.timeout_add(GLib.PRIORITY_DEFAULT, _continue, 500);
+    }
+}
+
 const MessageConstructors = {
     [MessageType.TEXT](msg) {
         let label = new St.Label();
@@ -119,12 +139,14 @@ const MessageConstructors = {
         let textureCache = St.TextureCache.get_default();
         let file = Gio.File.new_for_uri(msg.picture_url);
         let scaleFactor = St.ThemeContext.get_for_stage(window.global.stage).scale_factor;
-        let texture = textureCache.load_file_async(file, -1, 300, scaleFactor);
+        let texture = textureCache.load_file_async(file, -1, 300, scaleFactor, 1.0);
         return new St.Bin({ child: texture });
     },
 
     [MessageType.CHOICE](msg, service) {
         let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.connect('clicked', () => {
             let choiceJSON = JSON.stringify({ code: ['bookkeeping', 'choice', String(msg.choice_idx)], entities: {} });
@@ -136,13 +158,45 @@ const MessageConstructors = {
         return button;
     },
 
-    [MessageType.LINK]() {
+    [MessageType.LINK](msg, service) {
         // recognize what kind of link this is, and spawn the app in the right way
-        return null;
+        let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
+        msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
+        
+        if (msg.link === '/user/register') {
+            // ??? we are not anonymous, this should never happen
+            throw new Error('Invalid link asking the user to register');
+        } else if (msg.link === '/thingpedia/cheatsheet') {
+            button.connect('clicked', () => {
+                const url = 'https://thingpedia.stanford.edu' + msg.link
+                Gio.app_info_launch_default_for_uri(url, global.create_app_launch_context(0, -1));
+            });
+        } else if (msg.link === '/apps') {
+            button.connect('clicked', () => {
+                activateGtkAction('win.switch-to', new GLib.Variant('s', 'page-my-stuff'));
+            });
+            button.set_detailed_action_name('win.switch-to::page-my-stuff');
+        } else if (msg.link.startsWith('/devices/oauth2/')) {
+            // "parse" the link in the context of a dummy base URI
+            let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
+            let kind = uri.get_path().substring('/devices/oauth2/'.length);
+            let query = Soup.form_decode(uri.get_query());
+            button.connect('clicked', () => {
+                activateGtkAction('win.configure-device-oauth2', new GLib.Variant('(ss)', [kind, query.name||'']));
+            });
+        } else {
+            throw new Error('Unexpected link to ' + msg.link);
+        }
+        
+        return button;
     },
 
     [MessageType.BUTTON](msg, service) {
         let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.connect('clicked', () => {
             service.HandleParsedCommandRemote(msg.text, msg.json, (error) => {
@@ -156,6 +210,7 @@ const MessageConstructors = {
     [MessageType.ASK_SPECIAL](msg, service) {
         if (msg.ask_special_what === 'yesno') {
             let box = new St.BoxLayout();
+            yes.add_style_class_name('button');
             let yes = new St.Button({
                 label: _("Yes")
             });
@@ -167,6 +222,7 @@ const MessageConstructors = {
             let no = new St.Button({
                 label: _("No")
             });
+            no.add_style_class_name('button');
             no.connect('clicked', () => {
                 handleSpecial(service, _("No"), 'no');
             });
@@ -188,6 +244,7 @@ const MessageConstructors = {
         });
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.add_style_class_name('almond-rdl-title');
+        button.add_style_class_name('shell-link');
         box.add_actor(button);
 
         let description = new St.Label();
@@ -222,7 +279,7 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
                                                vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                visible: this.expanded });
-        this._contentArea = new St.BoxLayout({ style_class: 'chat-body',
+        this._contentArea = new St.BoxLayout({ style_class: 'chat-body almond-chatview',
                                                vertical: true });
         this._scrollArea.add_actor(this._contentArea);
 
@@ -308,20 +365,9 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
         }
 
         let lineBox = new AssistantLineBox();
-        lineBox.add(body);
+        lineBox.add(body, { expand: true, x_fill: true, y_fill: true });
         msgObject.actor = lineBox;
         this._contentArea.insert_child_at_index(lineBox, position);
-
-        if (message.direction === Direction.FROM_ALMOND) {
-            if (position === this._contentArea.get_n_children()-1)
-                this.notification.source.setMessageIcon(message.icon);
-            let msgBody = message.toNotification();
-            if (msgBody) {
-                this.notification.update(this.notification.source.title, msgBody, {
-                    secondaryGIcon: this.notification.source.getSecondaryIcon()
-                });
-            }
-        }
     }
 
     _onEntryActivated() {
@@ -397,15 +443,41 @@ class AssistantSource extends MessageTray.Source {
         this.service.HandleCommandRemote(text, onerror);
     }
 
+    _activateIfAlmondUnfocused() {
+        const focus_app = Shell.WindowTracker.get_default().focus_app;
+        if (focus_app && focus_app.get_id() === 'edu.stanford.Almond.desktop')
+            return;
+
+        this.notify(this._notification);
+    }
+
     _continueInit() {
         // Add ourselves as a source.
         Main.messageTray.add(this);
 
-        this.service.connectSignal('NewMessage', () => {
-            this.notify(this._notification);
+        this.service.connectSignal('NewMessage', (signal, sender, [id, type, direction, msg]) => {
+            if (direction !== Direction.FROM_ALMOND)
+                return;
+
+            msg.message_id = id;
+            msg.message_type = type;
+            msg.direction = direction;
+            const message = new Message(msg);
+
+            this.setMessageIcon(message.icon);
+            let msgBody = message.toNotification();
+            log('msgBody: ' + msgBody);
+            
+            if (msgBody && this._notification) {
+                this._notification.update(this.title, msgBody, {
+                    secondaryGIcon: this.getSecondaryIcon()
+                });
+            }
+        
+            this._activateIfAlmondUnfocused();
         });
         this.service.connectSignal('Activate', () => {
-            this.notify(this._notification);
+            this._activateIfAlmondUnfocused();
         });
         this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
             if (!this._banner)
@@ -460,8 +532,8 @@ class AssistantSource extends MessageTray.Source {
         Main.overview.hide();
         Main.panel.closeCalendar();
 
-        let app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond');
-        app.launch();
+        let app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond.desktop');
+        app.activate();
     }
 }
 

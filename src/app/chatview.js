@@ -244,7 +244,7 @@ const MessageConstructors = {
                                        Gtk.get_current_event_time());
             });
         } else if (msg.link === '/apps') {
-            button.set_detailed_action_name('win.switch-to::page-my-goods');
+            button.set_detailed_action_name('win.switch-to::page-my-stuff');
         } else if (msg.link.startsWith('/devices/oauth2/')) {
             // "parse" the link in the context of a dummy base URI
             let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
