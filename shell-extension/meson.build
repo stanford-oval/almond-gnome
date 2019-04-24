@@ -4,6 +4,7 @@ install_data(
   files('extension.js'),
   files('convenience.js'),
   files('metadata.json'),
+  files('stylesheet.css'),
 
   install_dir: shell_extension_dir
 )

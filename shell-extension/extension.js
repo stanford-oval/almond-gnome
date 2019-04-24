@@ -139,6 +139,8 @@ const MessageConstructors = {
 
     [MessageType.BUTTON](msg, service) {
         let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.connect('clicked', () => {
             service.HandleParsedCommandRemote(msg.text, msg.json, (error) => {
@@ -184,6 +186,7 @@ const MessageConstructors = {
         });
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.add_style_class_name('almond-rdl-title');
+        button.add_style_class_name('shell-link');
         box.add_actor(button);
 
         let description = new St.Label();
@@ -218,7 +221,7 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
                                                vscrollbar_policy: Gtk.PolicyType.AUTOMATIC,
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                visible: this.expanded });
-        this._contentArea = new St.BoxLayout({ style_class: 'chat-body',
+        this._contentArea = new St.BoxLayout({ style_class: 'chat-body almond-chatview',
                                                vertical: true });
         this._scrollArea.add_actor(this._contentArea);
 
@@ -304,7 +307,7 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
         }
 
         let lineBox = new AssistantLineBox();
-        lineBox.add(body);
+        lineBox.add(body, { expand: true, x_fill: true, y_fill: true });
         msgObject.actor = lineBox;
         this._contentArea.insert_child_at_index(lineBox, position);
     }

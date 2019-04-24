@@ -28,7 +28,7 @@ var MessageType = {
     MAX: 6
 };
 
-const Message = GObject.registerClass({
+var Message = GObject.registerClass({
     Properties: {
         message_id: GObject.ParamSpec.int('message-id', '', '', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, GLib.MAXINT32, 0),
         message_type: GObject.ParamSpec.int('message-type', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, 0, MessageType.MAX, 0),
