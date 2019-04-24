@@ -31,12 +31,13 @@ const MessageTray = imports.ui.messageTray;
 //const Params = imports.misc.params;
 //const Util = imports.misc.util;
 const Gio = imports.gi.Gio;
-//const GLib = imports.gi.GLib;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const St = imports.gi.St;
 const Shell = imports.gi.Shell;
 const Pango = imports.gi.Pango;
+const Soup = imports.gi.Soup;
 //const Clutter = imports.gi.Clutter;
 
 const Gettext = imports.gettext.domain('edu.stanford.Almond');
@@ -102,6 +103,29 @@ function handleSpecial(service, title, special) {
     });
 }
 
+function activateGtkAction(actionName, actionParameter) {
+    const app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond.desktop');
+    
+    let attempts = 0;
+    function _continue() {
+        attempts ++;
+        if (attempts >= 10)
+            return GLib.SOURCE_REMOVE;
+        const actionGroup = app.action_group;
+        if (actionGroup === null)
+            return GLib.SOURCE_CONTINUE;
+        actionGroup.activate_action(actionName, actionParameter);
+        return GLib.SOURCE_REMOVE;
+    }
+    
+    if (app.action_group) {
+        _continue();
+    } else {
+        app.activate();
+        GLib.timeout_add(GLib.PRIORITY_DEFAULT, _continue, 500);
+    }
+}
+
 const MessageConstructors = {
     [MessageType.TEXT](msg) {
         let label = new St.Label();
@@ -121,6 +145,8 @@ const MessageConstructors = {
 
     [MessageType.CHOICE](msg, service) {
         let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
         msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
         button.connect('clicked', () => {
             let choiceJSON = JSON.stringify({ code: ['bookkeeping', 'choice', String(msg.choice_idx)], entities: {} });
@@ -132,9 +158,39 @@ const MessageConstructors = {
         return button;
     },
 
-    [MessageType.LINK]() {
+    [MessageType.LINK](msg, service) {
         // recognize what kind of link this is, and spawn the app in the right way
-        return null;
+        let button = new St.Button();
+        button.add_style_class_name('button');
+        button.add_style_class_name('almond-button');
+        msg.bind_property('text', button, 'label', GObject.BindingFlags.SYNC_CREATE);
+        
+        if (msg.link === '/user/register') {
+            // ??? we are not anonymous, this should never happen
+            throw new Error('Invalid link asking the user to register');
+        } else if (msg.link === '/thingpedia/cheatsheet') {
+            button.connect('clicked', () => {
+                const url = 'https://thingpedia.stanford.edu' + msg.link
+                Gio.app_info_launch_default_for_uri(url, global.create_app_launch_context(0, -1));
+            });
+        } else if (msg.link === '/apps') {
+            button.connect('clicked', () => {
+                activateGtkAction('win.switch-to', new GLib.Variant('s', 'page-my-stuff'));
+            });
+            button.set_detailed_action_name('win.switch-to::page-my-stuff');
+        } else if (msg.link.startsWith('/devices/oauth2/')) {
+            // "parse" the link in the context of a dummy base URI
+            let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
+            let kind = uri.get_path().substring('/devices/oauth2/'.length);
+            let query = Soup.form_decode(uri.get_query());
+            button.connect('clicked', () => {
+                activateGtkAction('win.configure-device-oauth2', new GLib.Variant('(ss)', [kind, query.name||'']));
+            });
+        } else {
+            throw new Error('Unexpected link to ' + msg.link);
+        }
+        
+        return button;
     },
 
     [MessageType.BUTTON](msg, service) {
@@ -154,6 +210,7 @@ const MessageConstructors = {
     [MessageType.ASK_SPECIAL](msg, service) {
         if (msg.ask_special_what === 'yesno') {
             let box = new St.BoxLayout();
+            yes.add_style_class_name('button');
             let yes = new St.Button({
                 label: _("Yes")
             });
@@ -165,6 +222,7 @@ const MessageConstructors = {
             let no = new St.Button({
                 label: _("No")
             });
+            no.add_style_class_name('button');
             no.connect('clicked', () => {
                 handleSpecial(service, _("No"), 'no');
             });
