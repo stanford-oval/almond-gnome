@@ -3,7 +3,7 @@
   <id>edu.stanford.Almond.desktop</id>
   <metadata_license>CC0</metadata_license>
   <project_license>GPL-3.0</project_license>
-  <update_contact>mobisocial at lists.stanford.edu</update_contact>
+  <update_contact>thingpedia-admins at lists.stanford.edu</update_contact>
   <name>Almond</name>
   <summary>The Open Virtual Assistant</summary>
   <description>
@@ -12,6 +12,13 @@
     Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
     Thingpedia supports more than 50 different services, accounts and IoT devices.</p>
   </description>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-location">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
   <screenshots>
     <screenshot type="default"><image width="640" height="527">https://crowdie.stanford.edu/flatpak/screenshot-main.png</image></screenshot>
     <screenshot><image width="1720" height="1232">https://crowdie.stanford.edu/flatpak/screenshot-xkcd.png</image></screenshot>
@@ -20,7 +27,7 @@
     <screenshot><image width="1984" height="1166">https://crowdie.stanford.edu/flatpak/screenshot-my-rules.png</image></screenshot>
   </screenshots>
   <url type="homepage">https://almond.stanford.edu</url>
-  <url type="bugtracker">https://github.com/Stanford-Mobisocial-IoT-Lab/almond-gnome/issues</url>
+  <url type="bugtracker">https://github.com/stanford-oval/almond-gnome/issues</url>
   <releases>
     <release date="2018-08-21" version="1.1.0">
       <description>
