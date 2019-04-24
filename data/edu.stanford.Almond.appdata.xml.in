@@ -20,6 +20,7 @@
     <content_attribute id="social-location">intense</content_attribute>
     <content_attribute id="social-contacts">intense</content_attribute>
   </content_rating>
+  <translation type="gettext">edu.stanford.Almond</translation>
   <screenshots>
     <screenshot type="default">
       <image height="527" width="640">https://crowdie.stanford.edu/flatpak/screenshot-main.png</image>
