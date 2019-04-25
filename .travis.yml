@@ -17,10 +17,11 @@ install:
   - flatpak --user install -y flathub org.gnome.Sdk//3.32 org.gnome.Platform//3.32 org.freedesktop.Sdk.Extension.openjdk11//18.08
   - curl -O https://crowdie.stanford.edu/flatpak/build-cache.tar.gz
   - tar xf build-cache.tar.gz
-  - yarn
+  - ./travis/download-deps.py
 script:
-  - yarn lint
   - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
+  - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app yarn
+  - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app yarn lint
   - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app meson --prefix=/app _build
   - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build
   - flatpak build --env=npm_config_nodedir=/app --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install >/dev/null 2>&1
