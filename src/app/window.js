@@ -43,6 +43,7 @@ var MainWindow = GObject.registerClass({
         'device-details-description',
         'device-details-version',
         'device-details-update',
+        'device-details-update-spinner',
         'device-details-examples',
     ],
 }, class MainWindow extends Gtk.ApplicationWindow {
@@ -70,6 +71,9 @@ var MainWindow = GObject.registerClass({
                             parameter_type: new GLib.VariantType('s') },
                           { name: 'new-account',
                             activate: this._configureNewAccount },
+                          { name: 'check-update',
+                            activate: this._checkDeviceUpdate,
+                            parameter_type: new GLib.VariantType('s') },
                           { name: 'assistant-special-message',
                             activate: (action, param) => this.handleSpecial(param.deep_unpack()),
                             parameter_type: new GLib.VariantType('s') }
@@ -148,6 +152,8 @@ var MainWindow = GObject.registerClass({
         });
 
         this.assistant_input.connect('activate', this._onInputActivate.bind(this));
+
+        this._currentDeviceDetailsUniqueId = null;
     }
 
     _onInputActivate() {
@@ -434,10 +440,27 @@ var MainWindow = GObject.registerClass({
     }
 
     _showDeviceDetailsInternal(uniqueId) {
+        this._currentDeviceDetailsUniqueId = uniqueId;
         Promise.all([this._getDeviceDetails(uniqueId), this._getDeviceExamples(uniqueId)]).then(() => {
             this.main_stack.visible_child_name = 'page-device-details';
         }).catch((e) => {
             logError(e, 'Failed to show device details');
+            alert(this, _("Sorry, that did not work: %s").format(e.message));
+        });
+    }
+
+    _checkDeviceUpdate(action, param) {
+        let kind = param.deep_unpack();
+
+        this.device_details_update_spinner.show();
+        this.device_details_update_spinner.start();
+        dbusPromiseify(this._service, 'UpgradeDeviceRemote', kind).then(() => {
+            // refresh the view to show the new version
+            return this._getDeviceDetails(this._currentDeviceDetailsUniqueId);
+        }).then(() => {
+            this.device_details_update_spinner.hide();
+        }).catch((e) => {
+            logError(e, 'Failed to upgrade device');
             alert(this, _("Sorry, that did not work: %s").format(e.message));
         });
     }

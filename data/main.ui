@@ -313,12 +313,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkGrid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="spacing">12</property>
-                <property name="orientation">horizontal</property>
+                <property name="row_spacing">12</property>
+                <property name="column_spacing">12</property>
                 <property name="margin_start">50</property>
                 <property name="margin_end">50</property>
                 <property name="margin_top">12</property>
@@ -330,6 +330,11 @@
                     <property name="halign">start</property>
                     <property name="xalign">0.0</property>
                   </object>
+                  <packing>
+                    <property name="top_attach">0</property>
+                    <property name="left_attach">0</property>
+                    <property name="width">2</property>
+                  </packing>
                 </child>
                 <child>
                   <object class="GtkButton" id="device-details-update">
@@ -340,7 +345,22 @@
                     <property name="use_underline">True</property>
                     <property name="label" translatable="True">Check For _Update</property>
                     <property name="action-name">win.check-update</property>
+                    <property name="action-target">''</property>
                   </object>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="left_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinner" id="device-details-update-spinner">
+                    <property name="visible">False</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="left_attach">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
