@@ -118,7 +118,6 @@ class AssistantDispatcher extends events.EventEmitter {
         let voiceInput = prefs.get('enable-voice-input');
         if (voiceInput === undefined) {
             // voice input is on by default
-            voiceInput = true;
             prefs.set('enable-voice-input', true);
         }
 

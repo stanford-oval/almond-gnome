@@ -386,7 +386,6 @@ var MainWindow = GObject.registerClass({
                 halign: Gtk.Align.START
             });
             flowbox.add(label);
-            chunk = '';
         }
 
         return [flowbox, entryMap];
