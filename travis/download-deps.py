@@ -2,7 +2,6 @@
 
 import json
 import os
-import subprocess
 import urllib.request
 import urllib.parse
 import ssl
