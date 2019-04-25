@@ -70,7 +70,6 @@ const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
 const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
 */
 const BluezBluetooth = require('./bluez');
-const SpeechSynthesizer = require('./speech_synthesizer');
 
 function safeMkdirSync(dir) {
     try {
@@ -223,8 +222,6 @@ class Platform {
                 'application.language': this._locale,
             }
         });
-        this._tts = new SpeechSynthesizer(this._pulse, path.resolve(module.filename, '../../data/cmu_us_slt.flitevox'));
-
         this._sqliteKey = null;
     }
 
@@ -308,7 +305,6 @@ class Platform {
         // We can use the capabilities of a desktop assistant
         case 'dbus-session':
         case 'dbus-system':
-        case 'text-to-speech':
         case 'bluetooth':
         case 'app-launcher':
         case 'system-lock':
@@ -361,8 +357,6 @@ class Platform {
             return this._dbusSession;
         case 'dbus-system':
             return this._dbusSystem;
-        case 'text-to-speech':
-            return this._tts;
         case 'bluetooth':
             if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);

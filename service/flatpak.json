@@ -666,10 +666,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.4.1.tgz#156af8a9b016bf118ee9948b02418c81d760a5ba",
-        "sha256": "cc8a7b136669fe040b80bcd16dd7a67bfe9668c9508f31b4c108986fc3df0077",
+        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.5.0.tgz#0cb0e9e48c64dde9fdde3815fe2ebfe3f2fda944",
+        "sha256": "47a4dc5299d500d2d869ece04d39c92774b72996a79fc726654b885eeba450e0",
         "dest": "service/deps",
-        "dest-filename": "keytar-4.4.1.tgz"
+        "dest-filename": "keytar-4.5.0.tgz"
     },
     {
         "type": "file",
@@ -722,17 +722,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/mime-db/-/mime-db-1.38.0.tgz#1a2aab16da9eb167b49c6e4df2d9c68d63d8e2ad",
-        "sha256": "899c6f3cac1c5251c99b360b51866c94fc4d7fcb581bcada1cd55f50c33104c7",
+        "url": "https://registry.yarnpkg.com/mime-db/-/mime-db-1.40.0.tgz#a65057e998db090f732a68f6c276d387d4126c32",
+        "sha256": "c5c595c2f59c98b9d18b2a9b4896788e79950c8948b3b6c209cbb54056d825ce",
         "dest": "service/deps",
-        "dest-filename": "mime-db-1.38.0.tgz"
+        "dest-filename": "mime-db-1.40.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.22.tgz#fe6b355a190926ab7698c9a0556a11199b2199bd",
-        "sha256": "a81ab95d97bee24455b67401020ab4988f444f8fe1dff567df224ebfb8693caf",
+        "url": "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.24.tgz#b6f8d0b3e951efb77dedeca194cff6d16f676f81",
+        "sha256": "c16bb65431ce422b3b69b6bb45a7d2cb9a54a6771868d67a1b41dc3e42d4eed8",
         "dest": "service/deps",
-        "dest-filename": "mime-types-2.1.22.tgz"
+        "dest-filename": "mime-types-2.1.24.tgz"
     },
     {
         "type": "file",
@@ -813,13 +813,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552",
-        "sha256": "8f0a4acd53cb3791bb7110bcae4feadb272f599c982d5e98fed870108261b4cf",
-        "dest": "service/deps",
-        "dest-filename": "nan-2.12.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/nan/-/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7",
         "sha256": "0520c55a378526746425feb92335e1b3a911a0f0197a20f8a78eb8b9ad60150f",
         "dest": "service/deps",
@@ -841,10 +834,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/needle/-/needle-2.3.0.tgz#ce3fea21197267bacb310705a7bbe24f2a3a3492",
-        "sha256": "c13b80772740ca7d22e5dc3d12174f25f21c578e661b7e9b3c9a8e27434fa956",
+        "url": "https://registry.yarnpkg.com/needle/-/needle-2.3.1.tgz#d272f2f4034afb9c4c9ab1379aabc17fc85c9388",
+        "sha256": "7cf804d3df0e56240006a22f42a90efbf50ea396d7062eb428e0e1f0d411768e",
         "dest": "service/deps",
-        "dest-filename": "needle-2.3.0.tgz"
+        "dest-filename": "needle-2.3.1.tgz"
     },
     {
         "type": "file",
@@ -1016,10 +1009,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.4.tgz#8cc41a217ef778a31d3a876fe6668d05406db750",
-        "sha256": "9960ad1a51813ac77f354dc8e37cf1fdd6f5ad0a1bdb9448bd562b4cd82affe5",
+        "url": "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.3.0.tgz#58b4d8344e03590990931ee088dd5401b03004c8",
+        "sha256": "6944294d31633696d3a6a87b73c4ee47b065be43c07ca8140598f20bd51fe940",
         "dest": "service/deps",
-        "dest-filename": "prebuild-install-5.2.4.tgz"
+        "dest-filename": "prebuild-install-5.3.0.tgz"
     },
     {
         "type": "file",
@@ -1037,10 +1030,10 @@
     },
     {
         "type": "file",
-        "url": "https://codeload.github.com/stanford-oval/node-pulseaudio/tar.gz/138e5f47a793d839d5c8984dc2b9eee54a62fc22",
-        "sha256": "43a0b0c999a4474fb70761817e7ab62f56f826be917050c6dcff70c3cccd6078",
+        "url": "https://codeload.github.com/stanford-oval/node-pulseaudio/tar.gz/adf18db529b0f55792ad32be3125ea7f7b320444",
+        "sha256": "10c97e04fbe5fe0eadc2a1d1bf37cc707df4bdae531980ec73bbc71519d8e22c",
         "dest": "service/deps",
-        "dest-filename": "138e5f47a793d839d5c8984dc2b9eee54a62fc22"
+        "dest-filename": "adf18db529b0f55792ad32be3125ea7f7b320444"
     },
     {
         "type": "file",

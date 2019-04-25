@@ -15,6 +15,7 @@ const canberra = require('canberra');
 
 const Config = require('./config');
 const SpeechHandler = require('./speech_handler');
+const SpeechSynthesizer = require('./speech_synthesizer');
 
 const Almond = require('almond-dialog-agent');
 
@@ -60,7 +61,7 @@ class AssistantDispatcher extends events.EventEmitter {
         this._enableVoiceInput = false;
         this._enableSpeech = false;
         this._speechHandler = new SpeechHandler(engine.platform);
-        this._speechSynth = engine.platform.getCapability('text-to-speech');
+        this._speechSynth = new SpeechSynthesizer(engine.platform);
         try {
             this._eventSoundCtx = new canberra.Context({
                 [canberra.Property.APPLICATION_ID]: 'edu.stanford.Almond',
@@ -279,16 +280,23 @@ class AssistantDispatcher extends events.EventEmitter {
     }
 
     sendAskSpecial(what) {
-        this._speechSynth.whenDone(() => {
-            if (this._enableVoiceInput) {
-                if (what === null)
-                    this._speechHandler.setAutoTrigger(false);
-                else
-                    this._speechHandler.setAutoTrigger(true);
-            }
-        });
+
         this._addMessage(MessageType.ASK_SPECIAL, Direction.FROM_ALMOND, {
             ask_special_what: what || 'null'
+        });
+
+        if (what === null && this._enableVoiceInput) {
+            this._speechHandler.setAutoTrigger(false);
+            return;
+        }
+
+        this._speechSynth.endFrame().then(() => {
+            if (what !== null && this._enableVoiceInput)
+                this._speechHandler.setAutoTrigger(true);
+        }).catch((err) => {
+            if (err.code === 'ECANCELLED')
+                return;
+            console.error('Failed to set auto trigger at the end of the queue', err);
         });
     }
 
