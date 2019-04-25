@@ -46,7 +46,7 @@ subdir('shell-extension')
 # spawn our custom script for service directory (that copies and calls yarn)
 custom_target('service',
   output: 'service',
-  input: files('service/package.json'),
+  input: files('yarn.lock'),
   command: [files('meson/copy_service_to_builddir.py'), '@INPUT@', '@OUTPUT@'],
   console: true,
   build_always_stale: true,

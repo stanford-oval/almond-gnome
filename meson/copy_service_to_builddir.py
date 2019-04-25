@@ -13,7 +13,8 @@ import sys
 import shutil
 import subprocess
 
-srcdir = os.path.dirname(sys.argv[1])
+rootsrcdir = os.path.dirname(sys.argv[1])
+srcdir = os.path.join(rootsrcdir, 'service')
 builddir = sys.argv[2]
 
 os.makedirs(builddir, exist_ok=True)
@@ -46,6 +47,15 @@ def recurse(path):
         shutil.copy2(entry.path, dest)
 
 recurse('.')
+shutil.copy2(os.path.join(rootsrcdir, 'package.json'), os.path.join(builddir, 'package.json'))
+shutil.copy2(os.path.join(rootsrcdir, 'yarn.lock'), os.path.join(builddir, 'yarn.lock'))
+shutil.copy2(os.path.join(rootsrcdir, '.yarnrc'), os.path.join(builddir, '.yarnrc'))
+try:
+    os.unlink(os.path.join(builddir, 'deps'))
+except FileNotFoundError:
+    pass
+os.symlink(os.path.relpath(os.path.join(rootsrcdir, 'deps'), builddir), os.path.join(builddir, 'deps'))
+
 yarn = os.environ.get('YARN', 'yarn')
 subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile"], cwd=builddir)
 
