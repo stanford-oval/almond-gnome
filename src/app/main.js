@@ -42,6 +42,8 @@ class AlmondApplication extends Gtk.Application {
         this._service = null;
 
         this.cache = new ImageCacher();
+
+        this._activating = false;
     }
 
     _onQuit() {
@@ -74,9 +76,14 @@ class AlmondApplication extends Gtk.Application {
         var window = this.get_active_window();
         if (window === null) {
             if (this._service === null) {
+                if (this._activating)
+                    return;
+
+                this._activating = true;
                 this.hold();
                 new Service(Gio.DBus.session, 'edu.stanford.Almond.BackgroundService', '/edu/stanford/Almond/BackgroundService', (result, error) => {
                     this.release();
+                    this._activating = false;
                     if (error)
                         throw error; // die
                     this._service = result;
