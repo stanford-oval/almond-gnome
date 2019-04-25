@@ -51,7 +51,7 @@ class AlmondApplication extends Gtk.Application {
     }
 
     vfunc_startup() {
-        this.parent();
+        super.vfunc_startup();
 
         Util.loadStyleSheet('/edu/stanford/Almond/application.css');
 
