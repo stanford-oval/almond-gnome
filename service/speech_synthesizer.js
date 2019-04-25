@@ -38,6 +38,9 @@ module.exports = class SpeechSynthesizer {
     }
 
     clearQueue() {
+        if (this._outputStream)
+            this._outputStream.discard();
+
         const err = new CancelledError();
         for (const q of this._queue) {
             if (typeof q.reject === 'function')
@@ -77,11 +80,10 @@ module.exports = class SpeechSynthesizer {
     }
 
     _silence() {
-        if (!this._outputStream)
-            return 0;
-
-        // force flush the buffer with 0.2 second of silence
-        let bufferLength = 0.2 * this._sampleRate * this._numChannels * 2;
+        // force flush the buffer with 0.15 second of silence
+        // this also causes a pause between the utterances, which sounds natural
+        // and slows down the pace
+        let bufferLength = 0.15 * this._sampleRate * this._numChannels * 2;
         this._outputStream.write(Buffer.alloc(bufferLength));
         return 1000;
     }
@@ -96,7 +98,7 @@ module.exports = class SpeechSynthesizer {
         }, 60000);
 
         if (this._outputStream && this._sampleRate === result.sampleRate
-            && this._numChannels === result.sampleRate)
+            && this._numChannels === result.numChannels)
             return;
         if (this._outputStream)
             this._outputStream.end();
@@ -134,7 +136,6 @@ module.exports = class SpeechSynthesizer {
                 console.log('outputstream write for ' + result.text + ', delay of ' + duration);
                 this._outputStream.write(result.buffer);
                 duration += this._silence();
-                await Q.delay(duration);
             }
         } catch (e) {
             console.error('Failed to speak: ' + e);
