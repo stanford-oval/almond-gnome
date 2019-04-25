@@ -890,10 +890,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.2.tgz#46941176f65c9eb20804627149b743a218f25406",
-        "sha256": "5aba9f3e8c6d0c3b828bf8841b072b0508d2eda582594466314f1b0fc8636ec4",
+        "url": "https://registry.yarnpkg.com/inquirer/-/inquirer-6.3.1.tgz#7a413b5e7950811013a3db491c61d1f3b776e8e7",
+        "sha256": "b649b16bb6de0bed4346c22bfdfe5f4868ad7e9296e5c8220b9f3a965be31644",
         "dest": "deps",
-        "dest-filename": "inquirer-6.2.2.tgz"
+        "dest-filename": "inquirer-6.3.1.tgz"
     },
     {
         "type": "file",
@@ -1009,10 +1009,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.5.0.tgz#0cb0e9e48c64dde9fdde3815fe2ebfe3f2fda944",
-        "sha256": "47a4dc5299d500d2d869ece04d39c92774b72996a79fc726654b885eeba450e0",
+        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.6.0.tgz#18b2e9d6ba68ed32e30ccc78b209b4f6cdc1cbbb",
+        "sha256": "963b0f4a40ca79f93bf810d19b9a32c336085209de38f11612a9d4cab9d54759",
         "dest": "deps",
-        "dest-filename": "keytar-4.5.0.tgz"
+        "dest-filename": "keytar-4.6.0.tgz"
     },
     {
         "type": "file",
@@ -1226,10 +1226,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.7.1.tgz#a8997ae91176a5fbaa455b194976e32683cda643",
-        "sha256": "b21fc14cf112904abc138e9c2437d68f8dfe9ccb8bd5a05bc7bebb2e6fd7c0d7",
+        "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.8.0.tgz#bd2e88dbe6a6871e6dd08553e0605779325737ec",
+        "sha256": "e2564ec5fe65704f1b11f70541a3ea62510b676584b25a462c55d32dec375f42",
         "dest": "deps",
-        "dest-filename": "node-abi-2.7.1.tgz"
+        "dest-filename": "node-abi-2.8.0.tgz"
     },
     {
         "type": "file",
@@ -1464,10 +1464,10 @@
     },
     {
         "type": "file",
-        "url": "https://codeload.github.com/stanford-oval/node-pulseaudio/tar.gz/adf18db529b0f55792ad32be3125ea7f7b320444",
-        "sha256": "10c97e04fbe5fe0eadc2a1d1bf37cc707df4bdae531980ec73bbc71519d8e22c",
+        "url": "https://registry.yarnpkg.com/pulseaudio2/-/pulseaudio2-0.2.1.tgz#958d2d54b77422cdcbb65af2539b213ec1287436",
+        "sha256": "f789d4b55c05c2705893030969ffaf04ec4934902e969537bc6c719c24c74029",
         "dest": "deps",
-        "dest-filename": "adf18db529b0f55792ad32be3125ea7f7b320444"
+        "dest-filename": "pulseaudio2-0.2.1.tgz"
     },
     {
         "type": "file",
@@ -1590,10 +1590,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/rxjs/-/rxjs-6.4.0.tgz#f3bb0fe7bda7fb69deac0c16f17b50b0b8790504",
-        "sha256": "52b63515ad38287e9c437df80576ca6b7433358cd8c4095e1b1bece65596cb94",
+        "url": "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.1.tgz#f7a005a9386361921b8524f38f54cbf80e5d08f4",
+        "sha256": "748cbe74d300bad400b079b9dec71a1aea7072c5c1cd2861081bfb4454b04ae8",
         "dest": "deps",
-        "dest-filename": "rxjs-6.4.0.tgz"
+        "dest-filename": "rxjs-6.5.1.tgz"
     },
     {
         "type": "file",

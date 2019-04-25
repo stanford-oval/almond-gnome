@@ -14,10 +14,10 @@ pkg.require({ 'Gdk': '3.0',
               'Gtk': '3.0',
               'WebKit2': '4.0' });
 
+const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
 const WebKit = imports.gi.WebKit2;
 
 const Util = imports.common.util;
@@ -33,27 +33,25 @@ function initEnvironment() {
     };
 }
 
-
-
-const AlmondApplication = new Lang.Class({
-    Name: 'AlmondApplication',
-    Extends: Gtk.Application,
-
-    _init: function() {
-        this.parent({ application_id: pkg.name });
+const AlmondApplication = GObject.registerClass(
+class AlmondApplication extends Gtk.Application {
+    _init() {
+        super._init({ application_id: pkg.name });
 
         GLib.set_application_name(_("Almond"));
         this._service = null;
 
         this.cache = new ImageCacher();
-    },
 
-    _onQuit: function() {
+        this._activating = false;
+    }
+
+    _onQuit() {
         this.quit();
-    },
+    }
 
-    vfunc_startup: function() {
-        this.parent();
+    vfunc_startup() {
+        super.vfunc_startup();
 
         Util.loadStyleSheet('/edu/stanford/Almond/application.css');
 
@@ -72,15 +70,20 @@ const AlmondApplication = new Lang.Class({
         this.webContext = new WebKit.WebContext({
             website_data_manager: webDataManager
         });
-    },
+    }
 
-    vfunc_activate: function() {
+    vfunc_activate() {
         var window = this.get_active_window();
         if (window === null) {
             if (this._service === null) {
+                if (this._activating)
+                    return;
+
+                this._activating = true;
                 this.hold();
                 new Service(Gio.DBus.session, 'edu.stanford.Almond.BackgroundService', '/edu/stanford/Almond/BackgroundService', (result, error) => {
                     this.release();
+                    this._activating = false;
                     if (error)
                         throw error; // die
                     this._service = result;

@@ -10,13 +10,10 @@ const Gio = imports.gi.Gio;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
-const Lang = imports.lang;
 
 const { dbusPromiseify } = imports.common.util;
 
-const Device = new Lang.Class({
-    Name: 'AlmondDevice',
-    Extends: GObject.Object,
+const Device = GObject.registerClass({
     Properties: {
         unique_id: GObject.ParamSpec.string('unique-id', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, null),
         kind: GObject.ParamSpec.string('kind', '','', GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY, null),
@@ -25,7 +22,9 @@ const Device = new Lang.Class({
         device_class: GObject.ParamSpec.string('device-class', '','', GObject.ParamFlags.READWRITE, null),
         version: GObject.ParamSpec.int('version', '', '', GObject.ParamFlags.READWRITE, 0, GLib.MAXINT32, 0),
     }
-});
+},
+class AlmondDevice extends GObject.Object {}
+);
 
 /* exported DeviceModel */
 var DeviceModel = class DeviceModel {

@@ -266,7 +266,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     UpgradeDevice(kind) {
-        return _engine.devices.factory.updateFactory(kind).then(() => true);
+        return _engine.devices.updateDevicesOfKind(kind).then(() => true);
     }
 
     _toDeviceInfo(d) {
