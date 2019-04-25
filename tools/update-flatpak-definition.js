@@ -23,6 +23,8 @@ for (let url of urls) {
 
     if (basename.startsWith('lockfile'))
         basename = '@yarnpkg-' + basename;
+    if (basename.startsWith('code-frame') || basename.startsWith('highlight'))
+        basename = '@babel-' + basename;
 
     const sha256 = crypto.createHash('sha256');
     sha256.update(fs.readFileSync(path.resolve('deps', basename)));
@@ -31,10 +33,10 @@ for (let url of urls) {
         type: 'file',
         url: url,
         sha256: sha256.digest('hex'),
-        dest: 'service/deps',
+        dest: 'deps',
         'dest-filename': basename
     };
     sources.push(source);
 }
 
-fs.writeFileSync('./flatpak.json', JSON.stringify(sources, undefined, 4));
+fs.writeFileSync('./build-data/yarn.json', JSON.stringify(sources, undefined, 4));

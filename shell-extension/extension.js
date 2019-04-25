@@ -170,7 +170,7 @@ const MessageConstructors = {
             throw new Error('Invalid link asking the user to register');
         } else if (msg.link === '/thingpedia/cheatsheet') {
             button.connect('clicked', () => {
-                const url = 'https://thingpedia.stanford.edu' + msg.link
+                const url = 'https://thingpedia.stanford.edu' + msg.link;
                 Gio.app_info_launch_default_for_uri(url, global.create_app_launch_context(0, -1));
             });
         } else if (msg.link === '/apps') {

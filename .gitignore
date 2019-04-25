@@ -5,3 +5,4 @@ _app/
 _repo/
 .flatpak-builder/
 node_modules/
+/deps
