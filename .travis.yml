@@ -1,3 +1,6 @@
+branches:
+  except:
+  - "/^wip/"
 language: c
 dist: xenial
 sudo: true
