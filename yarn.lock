@@ -1800,9 +1800,9 @@ thingpedia@^2.2.1, thingpedia@^2.3.0, thingpedia@^2.3.4:
     xml2js "^0.4.17"
 
 thingtalk@^1.4.1, thingtalk@~1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.0.tgz#6fc3f0aa366e8363ce6df5a5093535589e3e180b"
-  integrity sha512-qscKk+ZLSzhRpQiSkE5khfpW5R8ZbqzNW62HtDC9GJ6GlSIAcBSY0FFs5DWV/vYcDRnQHYVlo2r9r8Vt9AozQA==
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.1.tgz#1320ade20ffe576c399499a7ae68bab186f151a4"
+  integrity sha512-Hl0Vy+hGWrPMsJvNgomtBzBPYUnKxtDdKP0p9GiFioZ/2JanqpaB0cEQmZMEQqUAM2l1Fegx02hNIcvO8TP/9A==
   dependencies:
     adt "~0.7.2"
     byline "^5.0.0"

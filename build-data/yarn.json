@@ -1513,13 +1513,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e",
-        "sha256": "545b428eb6dbb457148564b3c033b5e7f3f8495b785cd7f1ddc4813926e84115",
-        "dest": "deps",
-        "dest-filename": "q-1.4.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36",
         "sha256": "539349384f28c64d970ee897379839967dcc2a9c5b03a4db49cb1c0e5e2e16f0",
         "dest": "deps",
@@ -1842,10 +1835,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.0.tgz#6fc3f0aa366e8363ce6df5a5093535589e3e180b",
-        "sha256": "e7067e2809e27d37e118031477e243a2b1d8540b50f0fc74c3458a9f2b576cf2",
+        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.1.tgz#1320ade20ffe576c399499a7ae68bab186f151a4",
+        "sha256": "eae3ea9ab1cf645448fcca5fcc3480f224d4fb8b05936bbdbb7070a6ab4cf799",
         "dest": "deps",
-        "dest-filename": "thingtalk-1.6.0.tgz"
+        "dest-filename": "thingtalk-1.6.1.tgz"
     },
     {
         "type": "file",
