@@ -150,7 +150,7 @@
           </object>
           <packing>
             <property name="name">page-my-stuff</property>
-            <property name="title" translatable="yes">My Goods</property>
+            <property name="title" translatable="yes">My Skills</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -421,7 +421,7 @@
       <object class="GtkHeaderBar" id="main-header">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="title">Sabrina</property>
+        <property name="title">Almond</property>
         <property name="has_subtitle">False</property>
         <property name="show_close_button">True</property>
         <child>
@@ -453,7 +453,7 @@
       <item>
         <attribute name="action">win.switch-to</attribute>
         <attribute name="target">page-my-stuff</attribute>
-        <attribute name="label" translatable="yes">My Goods</attribute>
+        <attribute name="label" translatable="yes">My Skills</attribute>
       </item>
       <item>
         <attribute name="action">win.switch-to</attribute>
