@@ -313,22 +313,41 @@
             "name" : "bazel",
             "buildsystem": "simple",
             "build-commands": [
-                "bash ./compile.sh",
+                "./compile.sh",
                 "install -m 0755 -D output/bazel /app/bin/bazel"
             ],
             "build-options": {
                 "env" : {
-                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk"
+                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk",
+                    "JAVA_HOME": "/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
                 }
             },
             "sources": [
                 {
                     "type" : "archive",
                     "url": "https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel-0.24.1-dist.zip",
-                    "sha256": "56ea1b199003ad832813621744178e42b39e6206d34fbae342562c287da0cd54"
+                    "sha256": "56ea1b199003ad832813621744178e42b39e6206d34fbae342562c287da0cd54",
+                    "strip-components": 0
                 }
             ],
             "cleanup": ["/"]
+        },
+        {
+            "name": "tensorflow",
+            "buildsystem": "simple",
+            "build-commands": [
+                "./configure",
+                "bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package",
+                "./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/tensorflow/tensorflow",
+                    "commit": "6612da89516247503f03ef76e974b51a434fb52e",
+                    "tag": "v1.13.1"
+                }
+            ]
         },
         "./build-data/python3-scipy.json",
         "./build-data/python3-speechpy-fast.json",
