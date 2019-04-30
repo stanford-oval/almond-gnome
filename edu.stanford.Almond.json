@@ -308,7 +308,28 @@
             ]
         },
         "./build-data/python3-h5py.json",
-        "./build-data/python3-tensorflow.json",
+        "./build-data/python3-tensorflow-deps.json",
+        {
+            "name" : "bazel",
+            "buildsystem": "simple",
+            "build-commands": [
+                "bash ./compile.sh",
+                "install -m 0755 -D output/bazel /app/bin/bazel"
+            ],
+            "build-options": {
+                "env" : {
+                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk"
+                }
+            },
+            "sources": [
+                {
+                    "type" : "archive",
+                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel-0.24.1-dist.zip",
+                    "sha256": "56ea1b199003ad832813621744178e42b39e6206d34fbae342562c287da0cd54"
+                }
+            ],
+            "cleanup": "/"
+        },
         "./build-data/python3-scipy.json",
         "./build-data/python3-speechpy-fast.json",
         "./build-data/python3-sonopy.json",

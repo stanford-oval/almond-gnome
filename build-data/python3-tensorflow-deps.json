@@ -2,9 +2,16 @@
     "name": "python3-tensorflow",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} tensorflow"
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing protobuf tensorboard tensorflow_estimator termcolor grpcio wheel"
     ],
-    "only-arches": ["x86_64", "arm"],
+    "build-options": {
+        "env": {
+            "GRPC_PYTHON_BUILD_SYSTEM_OPENSSL": "1",
+            "GRPC_PYTHON_BUILD_SYSTEM_ZLIB": "1",
+            "GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY": "1",
+            "GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS": "8"
+        }
+    },
     "sources": [
         {
             "type": "file",
@@ -20,11 +27,6 @@
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/51/3f/92f9d2f4a1d5da51e7808a469ab40c6cfdf3ba1013f56abb1f46677a655c/Markdown-3.1.tar.gz",
             "sha256": "fc4a6f69a656b8d858d7503bda633f4dd63c2d70cf80abdc6eafa64c4ae8c250"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/43/27/a6e7dcb8ae20a4dbf3725321058923fec262b6f7835179d78ccc8d98deec/h5py-2.9.0.tar.gz",
-            "sha256": "9d41ca62daf36d6b6515ab8765e4c8c4388ee18e2a665701fef2b41563821002"
         },
         {
             "type": "file",
@@ -58,11 +60,6 @@
         },
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
-            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
-        },
-        {
-            "type": "file",
             "url": "https://files.pythonhosted.org/packages/59/ed/0119d5a5d02731f8532544dc341bb07a2ab9a0e9873ad6051a180f7076e2/Keras_Preprocessing-1.0.9.tar.gz",
             "sha256": "5e3700117981c2db762e512ed6586638124fac5842170701628088a11aeb51ac"
         },
@@ -85,18 +82,6 @@
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/cf/72/8c1ed9148ded82adbb76c30f958c6d456a2abc08f092b62a586bdf973b80/protobuf-3.7.1.tar.gz",
             "sha256": "21e395d7959551e759d604940a115c51c6347d90a475c9baf471a1a86b5604a9"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/d4/29/6b4f1e02417c3a1ccc85380f093556ffd0b35dc354078074c5195c8447f2/tensorflow-1.13.1-cp37-cp37m-manylinux1_x86_64.whl",
-            "sha256": "c41862c65628261229db22e33f9e570d845eeb5cea66dcbaebe404405edaa69b",
-            "only-arches": ["x86_64"]
-        },
-        {
-            "type": "file",
-            "url": "https://www.piwheels.org/simple/tensorflow/tensorflow-1.13.1-cp37-none-linux_armv7l.whl",
-            "sha256": "6c00dd13db0791e83cb08d532f007cc7fd44c8d7b52662a4a0065ac4fe7ca18a",
-            "only-arches": ["arm"]
         }
     ]
 }
