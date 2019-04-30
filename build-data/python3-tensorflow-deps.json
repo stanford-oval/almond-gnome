@@ -1,5 +1,5 @@
 {
-    "name": "python3-tensorflow",
+    "name": "python3-tensorflow-deps",
     "buildsystem": "simple",
     "build-commands": [
         "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing protobuf tensorboard tensorflow_estimator termcolor grpcio wheel"

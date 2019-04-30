@@ -4,7 +4,7 @@
     "runtime-version" : "3.32",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.openjdk11"
+        "org.freedesktop.Sdk.Extension.openjdk8"
     ],
     "command" : "/app/bin/edu.stanford.Almond",
     "tags" : [
@@ -165,7 +165,7 @@
                     "dest-filename" : "antlr3",
                     "commands" : [
                         "export CLASSPATH=/app/share/java/antlr-3.4-complete.jar:$CLASSPATH",
-                        "exec /usr/lib/sdk/openjdk11/jvm/openjdk-11/bin/java org.antlr.Tool \"$@\""
+                        "exec /usr/lib/sdk/openjdk8/jvm/java-8-openjdk/bin/java org.antlr.Tool \"$@\""
                     ]
                 }
             ]
@@ -180,7 +180,7 @@
                 "-DUSE_READLINE=OFF",
                 "-DENABLE_GPL=OFF",
                 "-DENABLE_PORTFOLIO=OFF",
-                "-DJAVA_HOME=/usr/lib/sdk/openjdk11/jvm/openjdk-11"
+                "-DJAVA_HOME=/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
             ],
             "sources" : [
                 {
@@ -328,7 +328,7 @@
                     "sha256": "56ea1b199003ad832813621744178e42b39e6206d34fbae342562c287da0cd54"
                 }
             ],
-            "cleanup": "/"
+            "cleanup": ["/"]
         },
         "./build-data/python3-scipy.json",
         "./build-data/python3-speechpy-fast.json",
