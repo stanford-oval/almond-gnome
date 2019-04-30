@@ -331,7 +331,11 @@
                 },
                 {
                     "type" : "patch",
-                    "path" : "build-data/mycroft-precise.patch"
+                    "path" : "build-data/mycroft-precise-deps.patch"
+                },
+                {
+                    "type" : "patch",
+                    "path" : "build-data/mycroft-precise-model.patch"
                 }
             ]
         },
