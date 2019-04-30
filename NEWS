@@ -1,3 +1,26 @@
+1.4.0
+=====
+
+* The version was bumped to 1.4.0 to align with the 1.4 release of the Almond platform.
+* The flatpak runtime was updated to the latest version (18.08).
+* All dependencies in the Almond platform were updated [#20].
+* The wake word detection module now uses mycroft-precise; this brings a much more
+  accurate model, with hopefully fewer false negatives across different speakers. It
+  also removes a proprietary component from Almond, which is now fully open source.
+* Voice support was improved more generally, including through the use of echo cancellation
+  (where provided by the host's PulseAudio).
+* Almond now correctly stops speaking when the user says so.
+* The app now plays a sound when the wake word is detected, even if the Shell Extension
+  is not installed.
+* It is now easier to test Almond Desktop in GNOME Builder, without installing.
+* The app layout was updated to comply with GNOME 3.32 HIG guidelines, including the
+  removal of the app menu.
+* It is now possible to update devices from the My Goods page [#34].
+* The build system changed to make more use of the CI infrastructure [#33].
+* The Almond Shell Extension was improved in its appearance and functionality. It is now stable and
+  available on extensions.gnome.org [#30].
+* Appstream metadata was updated and now includes OARS ratings [#28].
+
 1.1.0
 =====
 

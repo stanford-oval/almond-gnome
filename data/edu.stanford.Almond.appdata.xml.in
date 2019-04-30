@@ -44,6 +44,14 @@
   <url type="help">https://almond.stanford.edu/thingpedia/developers/thingpedia-intro.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2019-04-29" version="1.4.0">
+      <description>
+        <p>The Almond platform was updated; this brings in several bug fixes and improvements in natural language understanding.</p>
+        <p>The UI was updated to comply with the latest version of the Human Interface Guidelines. In particular, the app no longer features an app menu.</p>
+        <p>Voice support was revamped and significantly improved, with a brand new wake-word model that should have fewer spurious activations. Almond now emits a sound when the wake word is detected, and correctly stops speaking if so instructed (e.g. by saying “cancel”).</p>
+        <p>It is now possible to update skills from the My Skills page (formerly My Goods).</p>
+      </description>
+    </release>
     <release date="2018-08-21" version="1.1.0">
       <description>
         <p>The ThingTalk language was updated, with new and better natural language support; among other features, it is not necessary to use @-signs and quote marks in commands anymore.</p>
