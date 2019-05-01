@@ -43,6 +43,7 @@
         "/lib/yarn",
         "/bin/antlr3",
         "/share/java/antlr-3.4-complete.jar",
+        "/bin/bazel",
         "/bin/yarn",
         "/bin/mimic*",
         "/bin/lfsc-checker",
@@ -317,6 +318,9 @@
                 "install -m 0755 -D output/bazel /app/bin/bazel"
             ],
             "build-options": {
+                "strip": false,
+                "no-debuginfo": true,
+                "no-debuginfo-compression": true,
                 "env" : {
                     "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk",
                     "JAVA_HOME": "/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
@@ -325,12 +329,11 @@
             "sources": [
                 {
                     "type" : "archive",
-                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel-0.24.1-dist.zip",
-                    "sha256": "56ea1b199003ad832813621744178e42b39e6206d34fbae342562c287da0cd54",
+                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.21.0/bazel-0.21.0-dist.zip",
+                    "sha256": "6ccb831e683179e0cfb351cb11ea297b4db48f9eab987601c038aa0f83037db4",
                     "strip-components": 0
                 }
-            ],
-            "cleanup": ["/"]
+            ]
         },
         {
             "name": "tensorflow",
@@ -340,6 +343,11 @@
                 "bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package",
                 "./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg"
             ],
+            "build-options": {
+                "env" : {
+                    "JAVA_HOME": "/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
+                }
+            },
             "sources": [
                 {
                     "type": "git",
