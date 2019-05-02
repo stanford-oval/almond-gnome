@@ -309,6 +309,13 @@
             ]
         },
         "./build-data/python3-h5py.json",
+        "./build-data/python3-scipy.json",
+        "./build-data/python3-speechpy-fast.json",
+        "./build-data/python3-sonopy.json",
+        "./build-data/python3-wavio.json",
+        "./build-data/python3-prettyparse.json",
+        "./build-data/python3-typing.json",
+        "./build-data/python3-attrs.json",
         "./build-data/python3-tensorflow-deps.json",
         {
             "name" : "bazel",
@@ -339,9 +346,11 @@
             "name": "tensorflow",
             "buildsystem": "simple",
             "build-commands": [
-                "./configure",
-                "bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package",
-                "./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg"
+                "mkdir -p tensorflow_pkg",
+                "mkdir -p /run/ccache/bazel",
+                "bazel --output_user_root=/run/ccache/bazel build --distdir=\"${PWD}/bazel-distdir\" --config=opt --config=nogcp --config=noaws --config=nohdfs --config=noignite --config=nokafka //tensorflow/tools/pip_package:build_pip_package",
+                "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package tensorflow_pkg/",
+                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_pkg/tensorflow-*.whl"
             ],
             "build-options": {
                 "env" : {
@@ -354,16 +363,15 @@
                     "url": "https://github.com/tensorflow/tensorflow",
                     "commit": "6612da89516247503f03ef76e974b51a434fb52e",
                     "tag": "v1.13.1"
-                }
+                },
+                {
+                    "type": "file",
+                    "path": "build-data/tensorflow.bazelrc",
+                    "dest-filename": ".tf_configure.bazelrc"
+                },
+                "./build-data/tensorflow-bazel-deps.json"
             ]
         },
-        "./build-data/python3-scipy.json",
-        "./build-data/python3-speechpy-fast.json",
-        "./build-data/python3-sonopy.json",
-        "./build-data/python3-wavio.json",
-        "./build-data/python3-prettyparse.json",
-        "./build-data/python3-typing.json",
-        "./build-data/python3-attrs.json",
         {
             "name" : "mycroft-precise",
             "buildsystem" : "simple",
@@ -400,7 +408,7 @@
                     "type" : "git",
                     "url" : "https://github.com/stanford-oval/almond-gnome"
                 },
-                "build-data/yarn.json"
+                "../build-data/yarn.json"
             ]
         }
     ],
