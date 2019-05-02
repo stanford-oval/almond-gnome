@@ -47,6 +47,10 @@ Alternatively, you can use [GNOME Builder](https://flathub.org/apps/details/org.
 GNOME Builder has native support for flatpaks. Opening the cloned repository with GNOME Builder will allow
 you to build and run Almond by pressing "play".
 
+NOTE: the first build of the app can be very long, as it needs to build all the dependencies (in particular
+cvc4, nodejs, scipy and tensorflow). For the master branch, we provide cached binaries at <https://flatpak.almond.stanford.edu/build-cache.tar.gz>; unpack these in the checkout directory (it will create a single directory called `.flatpak-builder`)
+before invoking `flatpak-builder`. 
+
 ## Usage
 
 Almond is a virtual assistant: it takes natural language commands, interprets them, and displays the result.
