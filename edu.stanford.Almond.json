@@ -342,6 +342,7 @@
                 }
             ]
         },
+        "./build-data/python3-keras.json",
         {
             "name": "tensorflow",
             "buildsystem": "simple",
