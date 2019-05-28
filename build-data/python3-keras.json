@@ -1,0 +1,19 @@
+{
+    "name": "python3-keras",
+    "buildsystem": "simple",
+    "build-commands": [
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} keras"
+    ],
+    "sources": [
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/9f/2c/9417b5c774792634834e730932745bc09a7d36754ca00acf1ccd1ac2594d/PyYAML-5.1.tar.gz",
+            "sha256": "436bc774ecf7c103814098159fbb84c2715d25980175292c648f2da143909f95"
+        },
+        {
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/13/5c/11b1d1e709cfb680cf5cc592f8e37d3db19871ee5c5cc0d9ddbae4e911c7/Keras-2.2.4.tar.gz",
+            "sha256": "90b610a3dbbf6d257b20a079eba3fdf2eed2158f64066a7c6f7227023fd60bc9"
+        }
+    ]
+}

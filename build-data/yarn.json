@@ -778,17 +778,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1",
-        "sha256": "deddc4cfaf4dac3c1e26486746680e9130ad90e116b3b2fc13d8b0961c25a5e1",
+        "url": "https://registry.yarnpkg.com/glob/-/glob-7.1.4.tgz#aa608a2f6c577ad357e1ae5a5c26d9a8d1969255",
+        "sha256": "7d4205e8034c97261af6626a96a6d64954dbc9e1ec0107e63886977fc25094a3",
         "dest": "deps",
-        "dest-filename": "glob-7.1.3.tgz"
+        "dest-filename": "glob-7.1.4.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/globals/-/globals-11.11.0.tgz#dcf93757fa2de5486fbeed7118538adf789e9c2e",
-        "sha256": "84cd8e062095663c206dff4a25df7cc1e6636677d2d6a4afc1fb8adf13c296bb",
+        "url": "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e",
+        "sha256": "38a58c45c2857fdca4db807682e46ad9da6b59ed2080c308b84bcfbdf7eb5af6",
         "dest": "deps",
-        "dest-filename": "globals-11.11.0.tgz"
+        "dest-filename": "globals-11.12.0.tgz"
     },
     {
         "type": "file",
@@ -1191,13 +1191,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f",
-        "sha256": "600305681aa0bdebcffc5b89529f39bcf2d56f953b8c50f54226d0ca78ba1b84",
-        "dest": "deps",
-        "dest-filename": "nan-2.10.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.1.tgz#1381a0f92c39d66bf19852e7873432fc2123e508",
         "sha256": "bfb8cd69f1c3448c99c9412db9cd42033b7c5e19330e71e5fb0b71add5daa289",
         "dest": "deps",
@@ -1583,10 +1576,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.1.tgz#f7a005a9386361921b8524f38f54cbf80e5d08f4",
-        "sha256": "748cbe74d300bad400b079b9dec71a1aea7072c5c1cd2861081bfb4454b04ae8",
+        "url": "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7",
+        "sha256": "0987c582949febb44e68a037930610e6ad45a19544177c35a1ba35774983d6f8",
         "dest": "deps",
-        "dest-filename": "rxjs-6.5.1.tgz"
+        "dest-filename": "rxjs-6.5.2.tgz"
     },
     {
         "type": "file",
@@ -1688,10 +1681,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.0.6.tgz#e587b583b5acc6cb38d4437dedb2572359c080ad",
-        "sha256": "9ec04923a56d9c95a06d9187267ab70020542bb3fb069b4b0d50178552db75e8",
+        "url": "https://registry.yarnpkg.com/sqlite3/-/sqlite3-4.0.8.tgz#81ee60d54befaa52f5421fe6337050bd43d4bb95",
+        "sha256": "47065743f5b457b047e3c8b3660aae29578e2bf1cd6fba378b8e1f680d2cfb40",
         "dest": "deps",
-        "dest-filename": "sqlite3-4.0.6.tgz"
+        "dest-filename": "sqlite3-4.0.8.tgz"
     },
     {
         "type": "file",
@@ -1772,10 +1765,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/table/-/table-5.2.3.tgz#cde0cc6eb06751c009efab27e8c820ca5b67b7f2",
-        "sha256": "36ceca483b5bdff48c50979c37572b6c82d405fac4f7e227297c5b83e424445a",
+        "url": "https://registry.yarnpkg.com/table/-/table-5.3.3.tgz#eae560c90437331b74200e011487a33442bd28b4",
+        "sha256": "c63d484aa3521963116ea31d1a20519c7deec987eb6350fe5a7d5f1643b25b4c",
         "dest": "deps",
-        "dest-filename": "table-5.2.3.tgz"
+        "dest-filename": "table-5.3.3.tgz"
     },
     {
         "type": "file",
@@ -1814,10 +1807,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.2.tgz#0ae332f6240b5ee0380c54a9d6c02750711d2f89",
-        "sha256": "9fc0ebb14e3cff3e1a8e182843ed5d3435a8f35cd343ee5b7cb00bd09bab8f6c",
+        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.3.tgz#e7b930a68f3d78ed75a017d6a8dceab0c2641d09",
+        "sha256": "27c4ef6b8849f97163f3fd7b10838fc9ab4e38a5bb4d92e2830618a1322dc91a",
         "dest": "deps",
-        "dest-filename": "thingpedia-client-0.2.2.tgz"
+        "dest-filename": "thingpedia-client-0.2.3.tgz"
     },
     {
         "type": "file",
