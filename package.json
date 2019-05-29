@@ -33,6 +33,7 @@
     "q": "^1.4.0",
     "smtlib": "^0.1.1",
     "thingengine-core": "~1.4.1",
+    "thingpedia-client": "0.2.2",
     "thingpedia": "^2.3.4",
     "thingpedia-discovery": "^1.0.0",
     "thingtalk": "~1.6.0"

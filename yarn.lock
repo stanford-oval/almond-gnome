@@ -1766,13 +1766,13 @@ thingengine-core@~1.4.1:
     uuid "^3.1.0"
     ws "^6.0.0"
 
-thingpedia-client@^0.2.0:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.3.tgz#e7b930a68f3d78ed75a017d6a8dceab0c2641d09"
-  integrity sha512-SMMFx0V7V5pbyPm1nL25/vSWP8NXoUs2rAwLtq5vUKh4mVe+wstu9r5LTqcAv0WYrDpJ1PM251Nh5bW5aYUgTQ==
+thingpedia-client@0.2.2, thingpedia-client@^0.2.0:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.2.tgz#0ae332f6240b5ee0380c54a9d6c02750711d2f89"
+  integrity sha512-qi/zxsFeIfyX5vOBxJxyASTsd3KyEv1YcmMtHA0WlylYMKNNfkQWl78qQc2E92l8+aC5q6MvS1/YrBcrZOfocQ==
   dependencies:
     thingpedia "^2.3.0"
-    thingtalk "~1.6.1"
+    thingtalk "~1.6.0"
     tmp "^0.1.0"
 
 thingpedia-discovery@^1.0.0:
@@ -1794,7 +1794,7 @@ thingpedia@^2.2.1, thingpedia@^2.3.0, thingpedia@^2.3.4:
     thingtalk "^1.4.1"
     xml2js "^0.4.17"
 
-thingtalk@^1.4.1, thingtalk@~1.6.0, thingtalk@~1.6.1:
+thingtalk@^1.4.1, thingtalk@~1.6.0:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.1.tgz#1320ade20ffe576c399499a7ae68bab186f151a4"
   integrity sha512-Hl0Vy+hGWrPMsJvNgomtBzBPYUnKxtDdKP0p9GiFioZ/2JanqpaB0cEQmZMEQqUAM2l1Fegx02hNIcvO8TP/9A==
