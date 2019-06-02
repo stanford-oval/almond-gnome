@@ -9,10 +9,8 @@
 
 console.log('ThingEngine-GNOME starting up...');
 
-const Q = require('q');
 const events = require('events');
 const Url = require('url');
-Q.longStackSupport = true;
 process.on('unhandledRejection', (up) => { throw up; });
 
 const ThingTalk = require('thingtalk');
@@ -361,7 +359,7 @@ class AppControlChannel extends events.EventEmitter {
         return _engine.apps.removeApp(app).then(() => true);
     }
 
-    SetCloudId(cloudId, authToken) {
+    async SetCloudId(cloudId, authToken) {
         if (_engine.devices.hasDevice('thingengine-own-cloud'))
             return false;
         if (!platform.setAuthToken(authToken))
@@ -372,11 +370,11 @@ class AppControlChannel extends events.EventEmitter {
         // spurious device database writes)
         // instead we set the platform state and reopen the connection
         platform.getSharedPreferences().set('cloud-id', cloudId);
-        _engine.tiers.reopenOne('cloud').done();
+        await _engine.tiers.reopenOne('cloud');
         return true;
     }
 
-    SetServerAddress(serverHost, serverPort, authToken) {
+    async SetServerAddress(serverHost, serverPort, authToken) {
         if (_engine.devices.hasDevice('thingengine-own-server'))
             return false;
         if (authToken !== null) {
@@ -384,11 +382,13 @@ class AppControlChannel extends events.EventEmitter {
                 return false;
         }
 
-        _engine.devices.loadOneDevice({ kind: 'org.thingpedia.builtin.thingengine',
-                                        tier: 'server',
-                                        host: serverHost,
-                                        port: serverPort,
-                                        own: true }, true).done();
+        await _engine.devices.loadOneDevice({
+            kind: 'org.thingpedia.builtin.thingengine',
+            tier: 'server',
+            host: serverHost,
+            port: serverPort,
+            own: true
+        }, true);
         return true;
     }
 
@@ -407,17 +407,17 @@ class AppControlChannel extends events.EventEmitter {
 const DBUS_NAME_FLAG_ALLOW_REPLACEMENT = 0x1;
 const DBUS_NAME_FLAG_REPLACE_EXISTING = 0x2;
 
-function main() {
+async function main() {
     platform = require('./platform').newInstance();
     global.platform = platform;
 
     let bus;
-    Q(platform.init()).then(() => {
+    await platform.init();
+    try {
         console.log('GNOME platform initialized');
 
         console.log('Creating engine...');
         _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
-
 
         _ad = new AssistantDispatcher(_engine);
         platform.setAssistant(_ad);
@@ -425,30 +425,38 @@ function main() {
         bus = platform.getCapability('dbus-session');
         bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
-        return Promise.all([_engine.open(), _ad.start()]);
-    }).then(() => {
-        return Q.ninvoke(bus, 'requestName', 'edu.stanford.Almond.BackgroundService',
-                         DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING);
-    }).then(() => {
-        console.log('Ready');
-    }).then(() => {
-        _ad.startConversation();
-        _running = true;
-        if (_stopped)
-            return Promise.resolve();
-        return _engine.run();
-    }).catch((error) => {
-        console.log('Uncaught exception: ' + error.message);
-        console.log(error.stack);
-    }).finally(() => {
-        return _engine.close();
-    }).catch((error) => {
-        console.log('Exception during stop: ' + error.message);
-        console.log(error.stack);
-    }).finally(() => {
+        await Promise.all([_engine.open(), _ad.start()]);
+        try {
+            await new Promise((resolve, reject) => {
+                const flags = DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING;
+                bus.requestName('edu.stanford.Almond.BackgroundService', flags, (err) => {
+                    if (err)
+                        reject(err);
+                    else
+                        resolve();
+                });
+            });
+            console.log('Ready');
+
+            _ad.startConversation();
+            _running = true;
+            if (!_stopped)
+                await _engine.run();
+        } finally {
+            try {
+                await _engine.close();
+            } catch(error) {
+                console.log('Exception during stop: ' + error.message);
+                console.log(error.stack);
+            }
+        }
+    } catch(error) {
+        console.error('Uncaught exception: ' + error.message);
+        console.error(error.stack);
+    } finally {
         console.log('Cleaning up');
         platform.exit();
-    }).done();
+    }
 }
 
 main();

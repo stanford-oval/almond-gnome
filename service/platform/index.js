@@ -11,8 +11,8 @@
 // GNOME platform
 
 const crypto = require('crypto');
-const Q = require('q');
 const fs = require('fs');
+const util = require('util');
 const os = require('os');
 const path = require('path');
 const child_process = require('child_process');
@@ -23,16 +23,16 @@ const CVC4Solver = require('smtlib').LocalCVC4Solver;
 const PulseAudio = require('pulseaudio2');
 const keytar = require('keytar');
 const sqlite3 = require('sqlite3');
+const { ninvoke } = require('./utils');
 
 const prefs = require('thingengine-core/lib/util/prefs');
+const Builtins = require('thingengine-core/lib/devices/builtins');
 
 var _unzipApi = {
     unzip(zipPath, dir) {
         var args = ['-uo', zipPath, '-d', dir];
-        return Q.nfcall(child_process.execFile, '/usr/bin/unzip', args, {
-            maxBuffer: 10 * 1024 * 1024 }).then((zipResult) => {
-            var stdout = zipResult[0];
-            var stderr = zipResult[1];
+        return util.promisify(child_process.execFile)('/usr/bin/unzip', args, {
+            maxBuffer: 10 * 1024 * 1024 }).then(({ stdout, stderr }) => {
             console.log('stdout', stdout);
             console.log('stderr', stderr);
         });
@@ -120,13 +120,12 @@ class SystemLock {
         this._bus = systemBus;
     }
 
-    lock() {
-        return Q.ninvoke(this._bus, 'getInterface',
-                         'org.freedesktop.login1',
-                         '/org/freedesktop/login1/session/_3' + process.env.XDG_SESSION_ID,
-                         'org.freedesktop.login1.Session').then((session) => {
-             return Q.ninvoke(session, 'Lock');
-        });
+    async lock() {
+        const session = await ninvoke(this._bus, 'getInterface',
+             'org.freedesktop.login1',
+             '/org/freedesktop/login1/session/_3' + process.env.XDG_SESSION_ID,
+             'org.freedesktop.login1.Session');
+        await ninvoke(session, 'Lock');
     }
 }
 
@@ -136,27 +135,22 @@ class Screenshot {
         this._ = gettext.dgettext.bind(gettext, 'edu.stanford.Almond');
     }
 
-    take() {
-        return Q.ninvoke(this._bus, 'getInterface',
-                         'org.gnome.Shell.Screenshot',
-                         '/org/gnome/Shell/Screenshot',
-                         'org.gnome.Shell.Screenshot').then((iface) => {
-            let now = new Date;
-            let filename = this._("Screenshot from %d-%02d-%02d %02d-%02d-%02d").format(
-                now.getFullYear(),
-                now.getMonth()+1,
-                now.getDate(),
-                now.getHours(),
-                now.getMinutes(),
-                now.getSeconds()
-            );
-            return Q.ninvoke(iface, 'Screenshot', false, true, filename);
-        }).then(([ok, path]) => {
-            return 'file://' + path;
-        }).catch((e) => {
-            console.error('failed to take screenshot', e);
-            throw e;
-        });
+    async take() {
+        const iface = await ninvoke(this._bus, 'getInterface',
+             'org.gnome.Shell.Screenshot',
+             '/org/gnome/Shell/Screenshot',
+             'org.gnome.Shell.Screenshot');
+        let now = new Date;
+        let filename = this._("Screenshot from %d-%02d-%02d %02d-%02d-%02d").format(
+            now.getFullYear(),
+            now.getMonth()+1,
+            now.getDate(),
+            now.getHours(),
+            now.getMinutes(),
+            now.getSeconds()
+        );
+        const [, path] = await ninvoke(iface, 'Screenshot', false, true, filename);
+        return 'file://' + path;
     }
 }
 
@@ -183,7 +177,7 @@ class SystemSettings {
         if (!url.startsWith('file:///'))
             return this._downloadURI(url).then((downloaded) => this.setBackground(downloaded));
 
-        return Q.nfcall(child_process.execFile, 'gsettings',
+        return util.promisify(child_process.execFile)('gsettings',
             ['set', 'org.gnome.desktop.background', 'picture-uri', url]);
     }
 }
@@ -248,14 +242,24 @@ class Platform {
                     });
                 });
             }
-
-            return;
+        } else {
+            console.log('Initializing database key');
+            this._sqliteKey = makeRandom();
+            this._prefs.set('sqlcipher-compatibility', 4);
+            await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
         }
 
-        console.log('Initializing database key');
-        this._sqliteKey = makeRandom();
-        this._prefs.set('sqlcipher-compatibility', 4);
-        await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
+        this._gnomeDev = {
+            kind: 'org.thingpedia.builtin.thingengine.gnome',
+            class: (await util.promisify(fs.readFile)(path.resolve(__dirname, '../data/thingengine.gnome.tt'))).toString(),
+            module: require('./thingengine.gnome')
+        };
+
+        // HACK: thingengine-core will try to load thingengine-own-desktop from the db
+        // before PairedEngineManager calls getPlatformDevice(), which can result in loading
+        // the device as unsupported (and that would be bad)
+        // to avoid that, we inject it eagerly here
+        Builtins[this._gnomeDev.kind] = this._gnomeDev;
     }
 
     setAssistant(ad) {
@@ -287,7 +291,7 @@ class Platform {
     }
 
     getPlatformDevice() {
-        return 'gnome';
+        return this._gnomeDev;
     }
 
     // Check if this platform has the required capability
