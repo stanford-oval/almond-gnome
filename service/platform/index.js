@@ -26,6 +26,7 @@ const sqlite3 = require('sqlite3');
 const { ninvoke } = require('./utils');
 
 const prefs = require('thingengine-core/lib/util/prefs');
+const Builtins = require('thingengine-core/lib/devices/builtins');
 
 var _unzipApi = {
     unzip(zipPath, dir) {
@@ -241,14 +242,24 @@ class Platform {
                     });
                 });
             }
-
-            return;
+        } else {
+            console.log('Initializing database key');
+            this._sqliteKey = makeRandom();
+            this._prefs.set('sqlcipher-compatibility', 4);
+            await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
         }
 
-        console.log('Initializing database key');
-        this._sqliteKey = makeRandom();
-        this._prefs.set('sqlcipher-compatibility', 4);
-        await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
+        this._gnomeDev = {
+            kind: 'org.thingpedia.builtin.thingengine.gnome',
+            class: (await util.promisify(fs.readFile)(path.resolve(__dirname, '../data/thingengine.gnome.tt'))).toString(),
+            module: require('./thingengine.gnome')
+        };
+
+        // HACK: thingengine-core will try to load thingengine-own-desktop from the db
+        // before PairedEngineManager calls getPlatformDevice(), which can result in loading
+        // the device as unsupported (and that would be bad)
+        // to avoid that, we inject it eagerly here
+        Builtins[this._gnomeDev.kind] = this._gnomeDev;
     }
 
     setAssistant(ad) {
@@ -280,7 +291,7 @@ class Platform {
     }
 
     getPlatformDevice() {
-        return 'gnome';
+        return this._gnomeDev;
     }
 
     // Check if this platform has the required capability
