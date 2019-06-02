@@ -29,10 +29,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-2.0.0.tgz#d83c93e7df30d27e23f3e82a763e7f5e78d916f9",
-        "sha256": "da48f8e58382d95cde46a141765f64f391fe6ba67adc9b2b902bb4b68d075edc",
+        "url": "https://registry.yarnpkg.com/abstract-socket/-/abstract-socket-2.1.0.tgz#a57193dbbf585991b0dc811d7b18e053ff846f8a",
+        "sha256": "d11d5b770c57e6cf4e347ce6bf4d52b7f5be6259e5e404f9ffc6d0ecd215e6db",
         "dest": "deps",
-        "dest-filename": "abstract-socket-2.0.0.tgz"
+        "dest-filename": "abstract-socket-2.1.0.tgz"
     },
     {
         "type": "file",
@@ -71,10 +71,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.3.1.tgz#c92d0358a5b88a9b97d45a7dc93eb602acd6b4b0",
-        "sha256": "45a450eaecb74e442429ee65900e93d55f3648300dc16a64c82704b898da7d62",
+        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.4.0.tgz#5fa2a713e045a5dfd05378fff2835a7459758105",
+        "sha256": "7434660be0ed5b88bd0cf2ce70b7043d9a3e1a9e2b5edf7f98784707fcca51f2",
         "dest": "deps",
-        "dest-filename": "almond-dialog-agent-1.3.1.tgz"
+        "dest-filename": "almond-dialog-agent-1.4.0.tgz"
     },
     {
         "type": "file",
@@ -232,10 +232,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714",
-        "sha256": "c731f275dfa41c0b11904d143551e0c0baa2488991d3c32ebeb810c0f357342a",
+        "url": "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f",
+        "sha256": "63584420d10d83443c7e012d6a85dd1dcf107e948610d9afd0377c878d28cb4a",
         "dest": "deps",
-        "dest-filename": "bluebird-3.5.4.tgz"
+        "dest-filename": "bluebird-3.5.5.tgz"
     },
     {
         "type": "file",
@@ -358,10 +358,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.7.tgz#2d1d24317afb8abe95d6d2c0b07b57813539d828",
-        "sha256": "fe0b19b9d1b297f36350c2087e9139c5b2acf3692ac620ec03cb9bb392f8a099",
+        "url": "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f",
+        "sha256": "b6be5aabe53e90635beb77cd0e0ba7ae6a25c8cf903b15fcc342353e732e1512",
         "dest": "deps",
-        "dest-filename": "combined-stream-1.0.7.tgz"
+        "dest-filename": "combined-stream-1.0.8.tgz"
     },
     {
         "type": "file",
@@ -393,10 +393,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895",
-        "sha256": "d435fe14c14fc8439a67af9b83caa82fe6dcc0d3e0631f7e6576064c10137905",
+        "url": "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2",
+        "sha256": "bf21340cebff14168f2192aa1a341734b41f4cde9d30e93bee281399f5f32a96",
         "dest": "deps",
-        "dest-filename": "core-js-2.6.5.tgz"
+        "dest-filename": "core-js-2.6.9.tgz"
     },
     {
         "type": "file",
@@ -432,6 +432,13 @@
         "sha256": "34ae48c66698f1f81e2a2e6e322f34e8a88b0986a3fa7b74bb5ea14c0edb1c98",
         "dest": "deps",
         "dest-filename": "debug-2.6.9.tgz"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b",
+        "sha256": "3928f8b1072a00434de09b98e7b4d2a469b391d22202715cccee3daf87372b51",
+        "dest": "deps",
+        "dest-filename": "debug-3.2.6.tgz"
     },
     {
         "type": "file",
@@ -736,10 +743,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.5.tgz#06c277218454ec288df77ada54a03b8702aacb9d",
-        "sha256": "a61cb2564b4e7608dddc7c2d9d8a4c0296c242daa508023bb778890ec9ce6982",
+        "url": "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.6.tgz#2c5cc30ded81282bfe8a0d7c7c1853ddeb102c07",
+        "sha256": "341854c0588401255d902e61bf9707ba072fc6a9919a9996e15bbd646f73b821",
         "dest": "deps",
-        "dest-filename": "fs-minipass-1.2.5.tgz"
+        "dest-filename": "fs-minipass-1.2.6.tgz"
     },
     {
         "type": "file",
@@ -1009,10 +1016,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.6.0.tgz#18b2e9d6ba68ed32e30ccc78b209b4f6cdc1cbbb",
-        "sha256": "963b0f4a40ca79f93bf810d19b9a32c336085209de38f11612a9d4cab9d54759",
+        "url": "https://registry.yarnpkg.com/keytar/-/keytar-4.9.0.tgz#c7c91b11ef9e7a66886b8bc0dc3a9fc481696d4f",
+        "sha256": "e283481a90b44dc2f86f108f1d1abcba436cee68cd3cef04f94de76a12f41d41",
         "dest": "deps",
-        "dest-filename": "keytar-4.6.0.tgz"
+        "dest-filename": "keytar-4.9.0.tgz"
     },
     {
         "type": "file",
@@ -1184,10 +1191,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.13.2.tgz#f51dc7ae66ba7d5d55e1e6d4d8092e802c9aefe7",
-        "sha256": "0520c55a378526746425feb92335e1b3a911a0f0197a20f8a78eb8b9ad60150f",
+        "url": "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c",
+        "sha256": "0e28fb43c5d9e7a9d8a48dec46d39fca697b4c42ceb5ba024aff51d678134fa0",
         "dest": "deps",
-        "dest-filename": "nan-2.13.2.tgz"
+        "dest-filename": "nan-2.14.0.tgz"
     },
     {
         "type": "file",
@@ -1205,10 +1212,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/needle/-/needle-2.3.1.tgz#d272f2f4034afb9c4c9ab1379aabc17fc85c9388",
-        "sha256": "7cf804d3df0e56240006a22f42a90efbf50ea396d7062eb428e0e1f0d411768e",
+        "url": "https://registry.yarnpkg.com/needle/-/needle-2.4.0.tgz#6833e74975c444642590e15a750288c5f939b57c",
+        "sha256": "5b4b9faac540ad8121d9f505fba86498b9c7a1f86fb91a8550e1ac6b5dc1c56a",
         "dest": "deps",
-        "dest-filename": "needle-2.3.1.tgz"
+        "dest-filename": "needle-2.4.0.tgz"
     },
     {
         "type": "file",
@@ -1450,10 +1457,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/psl/-/psl-1.1.31.tgz#e9aa86d0101b5b105cbe93ac6b784cd547276184",
-        "sha256": "4274ae95c6e58b5764deeaabf73ee439f2640cd3f0f4b1b9d653737f05920ff0",
+        "url": "https://registry.yarnpkg.com/psl/-/psl-1.1.32.tgz#3f132717cf2f9c169724b2b6caf373cf694198db",
+        "sha256": "b7e6dc59cc0521c15b9a28ea54a8b4761cf5a683414a46a6c48e286f957cbcc6",
         "dest": "deps",
-        "dest-filename": "psl-1.1.31.tgz"
+        "dest-filename": "psl-1.1.32.tgz"
     },
     {
         "type": "file",
@@ -1765,10 +1772,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/table/-/table-5.3.3.tgz#eae560c90437331b74200e011487a33442bd28b4",
-        "sha256": "c63d484aa3521963116ea31d1a20519c7deec987eb6350fe5a7d5f1643b25b4c",
+        "url": "https://registry.yarnpkg.com/table/-/table-5.4.0.tgz#d772a3216e68829920a41a32c18eda286c95d780",
+        "sha256": "36094687e83a8b179b5a2f76b9d7eeb5f57a4a73f53c811cb38308dde1c51904",
         "dest": "deps",
-        "dest-filename": "table-5.3.3.tgz"
+        "dest-filename": "table-5.4.0.tgz"
     },
     {
         "type": "file",
@@ -1786,10 +1793,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/tar/-/tar-4.4.8.tgz#b19eec3fde2a96e64666df9fdb40c5ca1bc3747d",
-        "sha256": "36529f4a6bdfc7dcb2f712a58580308926c52b221458d2c2eaf1761dc9822493",
+        "url": "https://registry.yarnpkg.com/tar/-/tar-4.4.9.tgz#058fbb152f6fc45733e84585a40c39e59302e1b3",
+        "sha256": "8c6c3d075e48ecf715531d072da908e7e92283fcfc9853f514c5087eaf83fd19",
         "dest": "deps",
-        "dest-filename": "tar-4.4.8.tgz"
+        "dest-filename": "tar-4.4.9.tgz"
     },
     {
         "type": "file",
@@ -1800,17 +1807,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.4.1.tgz#55207fe833df63af86fbf1f61ee3efb76edcb9fb",
-        "sha256": "4d0531150944eddffaa6a0298df2d49e3920a86f7bcb5c20b4448a8dcf8c575f",
+        "url": "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.5.0.tgz#9230ca7e5e3103f90ea0dfb7068f3335e6a3a079",
+        "sha256": "044816b209fc3005b043756203722935349b5c92c757e664f4225248598094b4",
         "dest": "deps",
-        "dest-filename": "thingengine-core-1.4.1.tgz"
+        "dest-filename": "thingengine-core-1.5.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.2.tgz#0ae332f6240b5ee0380c54a9d6c02750711d2f89",
-        "sha256": "9fc0ebb14e3cff3e1a8e182843ed5d3435a8f35cd343ee5b7cb00bd09bab8f6c",
+        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.4.tgz#72c5e6e568dbee91fb3db981d66255987a5fde33",
+        "sha256": "269400e163d6cae4bc2e75331c690db0f3b808cc16bbf04ba40c721f462f42ae",
         "dest": "deps",
-        "dest-filename": "thingpedia-client-0.2.2.tgz"
+        "dest-filename": "thingpedia-client-0.2.4.tgz"
     },
     {
         "type": "file",
@@ -1821,17 +1828,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.3.4.tgz#57829d9c66b8b8cf8e6a4a68896e9c4bf89f7cb6",
-        "sha256": "8d5838d0168c69f5a631568210a765b17fac6599246735c97b3b901d5053ecd4",
+        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.4.0.tgz#a4bd953848e87fb55dfcdc56e231810c22b58bcc",
+        "sha256": "262ff23bbbffa494c414f98654958ca697509cc252742e0b0e121b071b687468",
         "dest": "deps",
-        "dest-filename": "thingpedia-2.3.4.tgz"
+        "dest-filename": "thingpedia-2.4.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.6.1.tgz#1320ade20ffe576c399499a7ae68bab186f151a4",
-        "sha256": "eae3ea9ab1cf645448fcca5fcc3480f224d4fb8b05936bbdbb7070a6ab4cf799",
+        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.7.2.tgz#cbe63961cea371a319d6768aef4a615a66c7da0a",
+        "sha256": "8b9ba7ad5ab7e14eaa524f433f59f88750d33dddd28ab2a6be73b0ec47dd4a23",
         "dest": "deps",
-        "dest-filename": "thingtalk-1.6.1.tgz"
+        "dest-filename": "thingtalk-1.7.2.tgz"
     },
     {
         "type": "file",
@@ -1975,10 +1982,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/ws/-/ws-6.2.1.tgz#442fdf0a47ed64f59b6a5d8ff130f4748ed524fb",
-        "sha256": "ce1f04900c2f6d7525d596029dcfd39848dbfc234983e0f3b37d19ab9f1948ab",
+        "url": "https://registry.yarnpkg.com/ws/-/ws-7.0.0.tgz#79351cbc3f784b3c20d0821baf4b4ff809ffbf51",
+        "sha256": "f9868b9f9e139b68bd97a51779c6f929dcc2e9efa02952f13e9227aafdb893aa",
         "dest": "deps",
-        "dest-filename": "ws-6.2.1.tgz"
+        "dest-filename": "ws-7.0.0.tgz"
     },
     {
         "type": "file",
