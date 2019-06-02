@@ -45,6 +45,7 @@ const MessageType = {
 };
 
 const HOTWORD_DETECTED_ID = 1;
+const SOUND_EFFECT_ID = 2;
 
 class AssistantDispatcher extends events.EventEmitter {
     constructor(engine) {
@@ -307,6 +308,32 @@ class AssistantDispatcher extends events.EventEmitter {
             rdl_callback: rdl.callback || rdl.webCallback,
             icon: icon || ''
         });
+    }
+
+    async _playSoundEffect(name) {
+        // no sound effect if the user told us to be quiet
+        if (!this._enableSpeech)
+            return;
+        // also no sound effect if libcanberra failed to load
+        if (!this._eventSoundCtx)
+            return;
+        try {
+            await this._eventSoundCtx.play(SOUND_EFFECT_ID, {
+                [canberra.Property.EVENT_ID]: name
+            });
+        } catch(e) {
+            console.error(`Failed to play sound effect: ${e.message}`);
+        }
+    }
+
+    sendResult(message, icon) {
+        // FIXME pass the right locale here...
+        // FIXME do something better for more type of messages
+
+        if (message.type === 'sound')
+            this._playSoundEffect(message.name);
+        else
+            this.send(message.toLocaleString(), icon);
     }
 }
 
