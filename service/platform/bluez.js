@@ -9,11 +9,11 @@
 // See COPYING for details
 "use strict";
 
-// Server platform implementation of Bluetooth API, using BlueZ
+// Linux platform implementation of Bluetooth API, using BlueZ
 // over DBus
 
-const Q = require('q');
 const events = require('events');
+const { ninvoke } = require('./utils');
 
 const BLUEZ_SERVICE = 'org.bluez';
 const BLUEZ_MANAGER_PATH = '/';
@@ -49,29 +49,27 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
         this.ondevicechanged = null;
     }
 
-    start() {
-        return Q.ninvoke(this._systemBus, 'getInterface',
-                         BLUEZ_SERVICE, BLUEZ_MANAGER_PATH, OBJECT_MANAGER_INTERFACE)
-            .then((objmanager) => {
-                console.log('Obtained BlueZ object manager');
+    async start() {
+        try {
+            const objmanager = await ninvoke(this._systemBus,
+                'getInterface', BLUEZ_SERVICE, BLUEZ_MANAGER_PATH, OBJECT_MANAGER_INTERFACE);
+            console.log('Obtained BlueZ object manager');
 
-                this._objectManager = objmanager;
+            this._objectManager = objmanager;
 
-                this._objectManager.on('InterfacesAdded', this._interfacesAdded.bind(this));
-                this._objectManager.on('InterfacesRemoved', this._interfacesRemoved.bind(this));
+            this._objectManager.on('InterfacesAdded', this._interfacesAdded.bind(this));
+            this._objectManager.on('InterfacesRemoved', this._interfacesRemoved.bind(this));
 
-                return Q.ninvoke(objmanager, 'GetManagedObjects');
-            }).then((objects) => {
-                objects.forEach(function(object) {
-                    this._interfacesAdded(object[0], object[1]);
-                }, this);
-            }).catch((e) => {
-                console.log('Failed to start BlueZ service: ' + e.message);
+            const objects = await ninvoke(objmanager, 'GetManagedObjects');
+            objects.forEach((object) => {
+                this._interfacesAdded(object[0], object[1]);
             });
+        } catch (e) {
+            console.error('Failed to start BlueZ service: ' + e.message);
+        }
     }
 
-    stop() {
-        return Q();
+    async stop() {
     }
 
     async startDiscovery() {
@@ -82,7 +80,7 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
             return;
 
         this._discovering = true;
-        await Q.ninvoke(this._defaultAdapter.as(BLUEZ_ADAPTER_INTERFACE), 'StartDiscovery');
+        await ninvoke(this._defaultAdapter.as(BLUEZ_ADAPTER_INTERFACE), 'StartDiscovery');
     }
 
     async stopDiscovery() {
@@ -90,7 +88,7 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
             return;
 
         this._discovering = false;
-        await Q.ninvoke(this._defaultAdapter.as(BLUEZ_ADAPTER_INTERFACE), 'StopDiscovery');
+        await ninvoke(this._defaultAdapter.as(BLUEZ_ADAPTER_INTERFACE), 'StopDiscovery');
     }
 
     _interfacesAdded(objectpath, interfaces) {
@@ -120,46 +118,42 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
         }
     }
 
-    readUUIDs(address) {
-        return Q();
+    async readUUIDs(address) {
     }
 
-    _deviceAdded(objectpath) {
+    async _deviceAdded(objectpath) {
         console.log('Found BlueZ device at ' + objectpath);
 
-        Q.ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath)
-            .then((object) => {
-                object.as(PROPERTY_INTERFACE).on('PropertiesChanged', () => {
-                    this._reloadDeviceProperties(object).then(() => {
-                        if (this.ondevicechanged)
-                            this.ondevicechanged(null, this._devices[objectpath]);
-                        //this.emit('device-changed', objectpath, this._devices[objectpath]);
-                    });
+        try {
+            const object = await ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath);
+            object.as(PROPERTY_INTERFACE).on('PropertiesChanged', () => {
+                this._reloadDeviceProperties(object).then(() => {
+                    if (this.ondevicechanged)
+                        this.ondevicechanged(null, this._devices[objectpath]);
+                    //this.emit('device-changed', objectpath, this._devices[objectpath]);
                 });
-
-                return this._reloadDeviceProperties(object);
-            }).then(() => {
-                if (this.ondeviceadded)
-                    this.ondeviceadded(null, this._devices[objectpath]);
-                //this.emit('device-added', objectpath, this._devices[objectpath]);
-            }).catch((e) => {
-                console.error('Error while processing new Bluez device: ' + e.message);
             });
+
+            await this._reloadDeviceProperties(object);
+            if (this.ondeviceadded)
+                this.ondeviceadded(null, this._devices[objectpath]);
+                //this.emit('device-added', objectpath, this._devices[objectpath]);
+        } catch (e) {
+            console.error('Error while processing new Bluez device: ' + e.message);
+        }
     }
 
-    _reloadDeviceProperties(object) {
-        return Q.ninvoke(object.as(PROPERTY_INTERFACE), 'GetAll', BLUEZ_DEVICE_INTERFACE)
-            .then((props) => {
-                this._devices[object.name] = {};
-                props.forEach(function(prop) {
-                    var name = prop[0];
-                    // prop[1] is a variant, so prop[1][0] is the signature and
-                    // prop[1][1] is a tuple with one element, the actual value
-                    var value = prop[1][1][0];
-                    this._devices[object.name][name] = value;
-                }, this);
-                this._devices[object.name] = normalizeDevice(this._devices[object.name]);
-            });
+    async _reloadDeviceProperties(object) {
+        const props = await ninvoke(object.as(PROPERTY_INTERFACE), 'GetAll', BLUEZ_DEVICE_INTERFACE);
+        this._devices[object.name] = {};
+        props.forEach((prop) => {
+            var name = prop[0];
+            // prop[1] is a variant, so prop[1][0] is the signature and
+            // prop[1][1] is a tuple with one element, the actual value
+            var value = prop[1][1][0];
+            this._devices[object.name][name] = value;
+        });
+        this._devices[object.name] = normalizeDevice(this._devices[object.name]);
     }
 
     _adapterAdded(objectpath) {
@@ -168,39 +162,34 @@ module.exports = class BluezBluetooth extends events.EventEmitter {
         if (this._defaultAdapter !== null)
             return;
 
-        this._tryGetDefaultAdapter(objectpath).done();
+        this._tryGetDefaultAdapter(objectpath);
     }
 
-    _tryGetDefaultAdapter(objectpath) {
-        return Q.ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath)
-            .then((object) => {
-                console.log('Obtained default BlueZ adapter at ' + objectpath);
+    async _tryGetDefaultAdapter(objectpath) {
+        const object = await ninvoke(this._systemBus, 'getObject', BLUEZ_SERVICE, objectpath);
+        console.log('Obtained default BlueZ adapter at ' + objectpath);
 
-                this._defaultAdapter = object;
+        this._defaultAdapter = object;
 
-                object.as(PROPERTY_INTERFACE).on('PropertiesChanged', () => {
-                    this._reloadAdapterProperties().then(() => {
-                        this.emit('default-adapter-changed');
-                    }).done();
-                });
-
-                return this._reloadAdapterProperties();
-            }).then(() => {
+        object.as(PROPERTY_INTERFACE).on('PropertiesChanged', () => {
+            this._reloadAdapterProperties().then(() => {
                 this.emit('default-adapter-changed');
             });
+        });
+
+        await this._reloadAdapterProperties();
+        this.emit('default-adapter-changed');
     }
 
-    _reloadAdapterProperties() {
-        return Q.ninvoke(this._defaultAdapter.as(PROPERTY_INTERFACE), 'GetAll', BLUEZ_ADAPTER_INTERFACE)
-            .then((props) => {
-                this._defaultAdapterProperties = {};
-                props.forEach(function(prop) {
-                    var name = prop[0];
-                    // prop[1] is a variant, so prop[1][0] is the signature and
-                    // prop[1][1] is a tuple with one element, the actual value
-                    var value = prop[1][1][0];
-                    this._defaultAdapterProperties[name] = value;
-                }, this);
-            });
+    async _reloadAdapterProperties() {
+        const props = await ninvoke(this._defaultAdapter.as(PROPERTY_INTERFACE), 'GetAll', BLUEZ_ADAPTER_INTERFACE);
+        this._defaultAdapterProperties = {};
+        props.forEach((prop) => {
+            var name = prop[0];
+            // prop[1] is a variant, so prop[1][0] is the signature and
+            // prop[1][1] is a tuple with one element, the actual value
+            var value = prop[1][1][0];
+            this._defaultAdapterProperties[name] = value;
+        });
     }
 };

@@ -1418,7 +1418,7 @@ put@0.0.6:
   resolved "https://registry.yarnpkg.com/put/-/put-0.0.6.tgz#30f5f60bd6e4389bd329e16a25386cbb2e4a00a3"
   integrity sha1-MPX2C9bkOJvTKeFqJThsuy5KAKM=
 
-q@^1.4.0, q@^1.5.0:
+q@^1.5.0:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=

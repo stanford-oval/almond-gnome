@@ -7,9 +7,10 @@
 // See COPYING for details
 "use strict";
 
-const Q = require('q');
 const mimic = require('node-mimic');
 const path = require('path');
+const util = require('util');
+const { ninvoke } = require('./platform/utils');
 
 class CancelledError extends Error {
     constructor() {
@@ -32,7 +33,7 @@ module.exports = class SpeechSynthesizer {
     }
 
     async start() {
-        this._voice = await Q.nfcall(mimic.loadVoice, this._voiceFile);
+        this._voice = await util.promisify(mimic.loadVoice)(this._voiceFile);
     }
     stop() {
     }
@@ -50,7 +51,7 @@ module.exports = class SpeechSynthesizer {
     }
 
     async _synth(text) {
-        const result = await Q.ninvoke(this._voice, 'textToSpeech', text);
+        const result = await ninvoke(this._voice, 'textToSpeech', text);
         result.text = text;
         return result;
     }

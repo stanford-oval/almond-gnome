@@ -30,7 +30,6 @@
     "node-mimic": "^1.0.1",
     "posix": "^4.1.1",
     "pulseaudio2": "~0.2.1",
-    "q": "^1.4.0",
     "smtlib": "^0.1.1",
     "thingengine-core": "~1.5.0",
     "thingpedia": "^2.3.4",

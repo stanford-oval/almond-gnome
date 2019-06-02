@@ -8,7 +8,6 @@
 // See COPYING for details
 "use strict";
 
-const Q = require('q');
 const posix = require('posix');
 const events = require('events');
 const canberra = require('canberra');
@@ -212,7 +211,7 @@ class AssistantDispatcher extends events.EventEmitter {
     getHistory() {
         let history = this._history.slice();
         this._ensureConversation();
-        return Q(history);
+        return Promise.resolve(history);
     }
 
     _collapseButtons() {
