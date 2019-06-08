@@ -71,10 +71,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.4.0.tgz#5fa2a713e045a5dfd05378fff2835a7459758105",
-        "sha256": "7434660be0ed5b88bd0cf2ce70b7043d9a3e1a9e2b5edf7f98784707fcca51f2",
+        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.4.1.tgz#4bc3a42ab908855e151990d7665883c601573794",
+        "sha256": "2a841cfecc2392d258255bd9121fd5ae5d9a3168b22752a741ab4e9c421a2448",
         "dest": "deps",
-        "dest-filename": "almond-dialog-agent-1.4.0.tgz"
+        "dest-filename": "almond-dialog-agent-1.4.1.tgz"
     },
     {
         "type": "file",
@@ -1177,10 +1177,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a",
-        "sha256": "1b56f7c22498e0b2a4c2e5dce2656948a3180b2e01feaa64ba027daa3b3118fa",
+        "url": "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009",
+        "sha256": "1157a6e30d3ffe1b9fcaf3a39caf159f8dc981199a3380c78ddd89f73bcefb48",
         "dest": "deps",
-        "dest-filename": "ms-2.1.1.tgz"
+        "dest-filename": "ms-2.1.2.tgz"
     },
     {
         "type": "file",
@@ -1793,10 +1793,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/tar/-/tar-4.4.9.tgz#058fbb152f6fc45733e84585a40c39e59302e1b3",
-        "sha256": "8c6c3d075e48ecf715531d072da908e7e92283fcfc9853f514c5087eaf83fd19",
+        "url": "https://registry.yarnpkg.com/tar/-/tar-4.4.10.tgz#946b2810b9a5e0b26140cf78bea6b0b0d689eba1",
+        "sha256": "922dc777cb0089275fd94479c0a588fdc35fc6c9aaf76a398f2f95f46b333f00",
         "dest": "deps",
-        "dest-filename": "tar-4.4.9.tgz"
+        "dest-filename": "tar-4.4.10.tgz"
     },
     {
         "type": "file",
@@ -1814,10 +1814,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.4.tgz#72c5e6e568dbee91fb3db981d66255987a5fde33",
-        "sha256": "269400e163d6cae4bc2e75331c690db0f3b808cc16bbf04ba40c721f462f42ae",
+        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.5.tgz#f7b68a60fa5b6a4f44f310d88b5d66aa32752c4f",
+        "sha256": "e9057019967bcc19e61ff88d4e7949e3f125086163ace899a9a395f4d0cde3a2",
         "dest": "deps",
-        "dest-filename": "thingpedia-client-0.2.4.tgz"
+        "dest-filename": "thingpedia-client-0.2.5.tgz"
     },
     {
         "type": "file",
