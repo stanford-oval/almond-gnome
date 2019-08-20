@@ -10,7 +10,6 @@
 console.log('ThingEngine-GNOME starting up...');
 
 const events = require('events');
-const Url = require('url');
 process.on('unhandledRejection', (up) => { throw up; });
 
 const ThingTalk = require('thingtalk');
@@ -201,70 +200,58 @@ class AppControlChannel extends events.EventEmitter {
         handleStop();
     }
 
-    GetHistory() {
-        return _ad.getHistory().then((history) => history.map(([id, type, direction, message]) => [id, type, direction, marshallASS(message)]));
+    async GetHistory() {
+        const history = await _ad.getHistory();
+        return history.map(([id, type, direction, message]) => [id, type, direction, marshallASS(message)]);
     }
 
-    HandleCommand(command) {
-        return _ad.handleCommand(command).then(() => null);
+    async HandleCommand(command) {
+        await _ad.handleCommand(command);
+        return null;
     }
 
-    HandleThingTalk(code) {
-        return _ad.handleThingTalk(code).then(() => null);
+    async HandleThingTalk(code) {
+        await _ad.handleThingTalk(code);
+        return null;
     }
 
-    HandleParsedCommand(title, json) {
-        return _ad.handleParsedCommand(title, json).then(() => null);
+    async HandleParsedCommand(title, json) {
+        await _ad.handleParsedCommand(title, json);
+        return null;
     }
 
-    StartOAuth2(kind) {
-        return _engine.devices.factory.runOAuth2(kind, null).then((result) => {
-            if (result === null)
-                return [false, '', []];
-            else
-                return [true, result[0], marshallASS(result[1])];
-        });
+    async StartOAuth2(kind) {
+        const result = await _engine.startOAuth(kind);
+        if (result === null)
+            return [false, '', []];
+        else
+            return [true, result[0], marshallASS(result[1])];
     }
 
-    HandleOAuth2Callback(kind, redirectUri, session) {
+    async HandleOAuth2Callback(kind, redirectUri, session) {
         let sessionObj = {};
         session.forEach(([key, value]) => sessionObj[key] = value);
 
-        // there is no actual http request going on, so the values are fake
-        // oauth modules should not rely on these anyway
-
-        let parsed = Url.parse(redirectUri, { parseQueryString: true });
-        let req = {
-            httpVersion: 1.0,
-            headers: [],
-            rawHeaders: [],
-
-            method: 'GET',
-            url: redirectUri,
-            query: parsed.query,
-            session: sessionObj
-        };
-        return _engine.devices.factory.runOAuth2(kind, req).then(() => null);
+        await _engine.completeOAuth(kind, redirectUri, session);
+        return null;
     }
 
-    CreateSimpleDevice(kind) {
-        return _engine.devices.loadOneDevice({ kind }, true).then(() => true);
+    async CreateSimpleDevice(kind) {
+        await _engine.createSimpleDevice(kind);
+        return true;
     }
-    CreateDevice(data) {
-        return _engine.devices.loadOneDevice(JSON.parse(data), true).then(() => true);
-    }
-
-    DeleteDevice(uniqueId) {
-        var device = _engine.devices.getDevice(uniqueId);
-        if (device === undefined)
-            return false;
-
-        _engine.devices.removeDevice(device);
+    async CreateDevice(data) {
+        await _engine.createDevice(JSON.parse(data));
         return true;
     }
 
-    UpgradeDevice(kind) {
-        return _engine.devices.updateDevicesOfKind(kind).then(() => true);
+    async DeleteDevice(uniqueId) {
+        return _engine.deleteDevice(uniqueId);
+    }
+
+    async UpgradeDevice(kind) {
+        await _engine.upgradeDevice(kind);
+        return true;
     }
 
     _toDeviceInfo(d) {
@@ -328,11 +315,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     CheckDeviceAvailable(uniqueId) {
-        var d = _engine.devices.getDevice(uniqueId);
-        if (d === undefined)
-            return -1;
-
-        return d.checkAvailable();
+        return _engine.checkDeviceAvailable(uniqueId);
     }
 
     _toAppInfo(a) {
@@ -352,44 +335,15 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     DeleteApp(uniqueId) {
-        const app = _engine.apps.getApp(uniqueId);
-        if (app === undefined)
-            return false;
-
-        return _engine.apps.removeApp(app).then(() => true);
+        return _engine.deleteApp(uniqueId);
     }
 
     async SetCloudId(cloudId, authToken) {
-        if (_engine.devices.hasDevice('thingengine-own-cloud'))
-            return false;
-        if (!platform.setAuthToken(authToken))
-            return false;
-
-        // we used to call loadOneDevice() with thingengine kind, tier: cloud here
-        // but is incompatible with syncing the developer key (and causes
-        // spurious device database writes)
-        // instead we set the platform state and reopen the connection
-        platform.getSharedPreferences().set('cloud-id', cloudId);
-        await _engine.tiers.reopenOne('cloud');
-        return true;
+        return _engine.setCloudId(cloudId, authToken);
     }
 
     async SetServerAddress(serverHost, serverPort, authToken) {
-        if (_engine.devices.hasDevice('thingengine-own-server'))
-            return false;
-        if (authToken !== null) {
-            if (!platform.setAuthToken(authToken))
-                return false;
-        }
-
-        await _engine.devices.loadOneDevice({
-            kind: 'org.thingpedia.builtin.thingengine',
-            tier: 'server',
-            host: serverHost,
-            port: serverPort,
-            own: true
-        }, true);
-        return true;
+        return _engine.addServerAddress(serverHost, serverPort, authToken);
     }
 
     GetPreference(key) {
