@@ -44,6 +44,11 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2019-08-20" version="1.6.0">
+      <description>
+        <p>The Almond platform was updated to version 1.6; this brings in further improvements in robustness and natural language understanding.</p>
+      </description>
+    </release>
     <release date="2019-06-07" version="1.5.0">
       <description>
         <p>The Almond platform was updated to version 1.5; this brings in several bug fixes and improvements in natural language understanding.</p>
