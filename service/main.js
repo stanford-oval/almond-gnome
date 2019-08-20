@@ -221,18 +221,17 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     async StartOAuth2(kind) {
-        const result = await _engine.startOAuth(kind);
+        const result = await _engine.devices.addFromOAuth(kind);
         if (result === null)
             return [false, '', []];
         else
             return [true, result[0], marshallASS(result[1])];
     }
 
-    async HandleOAuth2Callback(kind, redirectUri, session) {
+    async HandleOAuth2Callback(kind, redirectUri, sessionArray) {
         let sessionObj = {};
-        session.forEach(([key, value]) => sessionObj[key] = value);
-
-        await _engine.completeOAuth(kind, redirectUri, session);
+        sessionArray.forEach(([key, value]) => sessionObj[key] = value);
+        await _engine.completeOAuth(kind, redirectUri, sessionObj);
         return null;
     }
 
