@@ -71,10 +71,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.4.1.tgz#4bc3a42ab908855e151990d7665883c601573794",
-        "sha256": "2a841cfecc2392d258255bd9121fd5ae5d9a3168b22752a741ab4e9c421a2448",
+        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.6.0.tgz#7b38811d9c4a773272c76d0cdfb88eeafd4e1935",
+        "sha256": "6fab6b32388b2056c83b301188edcbf50b62a8a1cbd6fa2cb1d6d4bb1a0350bc",
         "dest": "deps",
-        "dest-filename": "almond-dialog-agent-1.4.1.tgz"
+        "dest-filename": "almond-dialog-agent-1.6.0.tgz"
     },
     {
         "type": "file",
@@ -1373,13 +1373,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae",
-        "sha256": "effd84e09e1330542a84a243f1f4da21a700d459b83761eaca16070eb1fb8841",
-        "dest": "deps",
-        "dest-filename": "p-finally-1.0.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2",
         "sha256": "607e83127ea471fdf079c501148a17936cb4137ec779ce6ec52f083f149ae407",
         "dest": "deps",
@@ -1510,6 +1503,13 @@
         "sha256": "757b4915ac02f13b4c450a517892518bd84e170d52f627798b5577af00cd15f2",
         "dest": "deps",
         "dest-filename": "q-1.5.1.tgz"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/qs/-/qs-6.8.0.tgz#87b763f0d37ca54200334cd57bb2ef8f68a1d081",
+        "sha256": "508c6d9563dee90b3099474a144129f74b34a00411a5134ecfe7f8dce828ccc4",
+        "dest": "deps",
+        "dest-filename": "qs-6.8.0.tgz"
     },
     {
         "type": "file",
@@ -1807,17 +1807,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.5.0.tgz#9230ca7e5e3103f90ea0dfb7068f3335e6a3a079",
-        "sha256": "044816b209fc3005b043756203722935349b5c92c757e664f4225248598094b4",
+        "url": "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.6.0.tgz#fde75f367cd52abddf86cfb8a4a3262e0f8d3dcf",
+        "sha256": "3a0b3184cc345700641fcd95ba3a289d0e279e473a78df1fc5de7c4d4d9b0de6",
         "dest": "deps",
-        "dest-filename": "thingengine-core-1.5.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia-client/-/thingpedia-client-0.2.5.tgz#f7b68a60fa5b6a4f44f310d88b5d66aa32752c4f",
-        "sha256": "e9057019967bcc19e61ff88d4e7949e3f125086163ace899a9a395f4d0cde3a2",
-        "dest": "deps",
-        "dest-filename": "thingpedia-client-0.2.5.tgz"
+        "dest-filename": "thingengine-core-1.6.0.tgz"
     },
     {
         "type": "file",
@@ -1828,17 +1821,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.4.0.tgz#a4bd953848e87fb55dfcdc56e231810c22b58bcc",
-        "sha256": "262ff23bbbffa494c414f98654958ca697509cc252742e0b0e121b071b687468",
+        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.5.0.tgz#7ff8ffea9d5d06099a2390ca438ce6abf2c1bb9a",
+        "sha256": "669fbf9e4dc04b3791b6099286a248af2bdac0b9b9dc6a8d17d9c489a91ecf7e",
         "dest": "deps",
-        "dest-filename": "thingpedia-2.4.0.tgz"
+        "dest-filename": "thingpedia-2.5.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.7.2.tgz#cbe63961cea371a319d6768aef4a615a66c7da0a",
-        "sha256": "8b9ba7ad5ab7e14eaa524f433f59f88750d33dddd28ab2a6be73b0ec47dd4a23",
+        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.8.0.tgz#fb62e486cffa607328664e4886af9e9b4cfb34ef",
+        "sha256": "8f2cc21639298936e379da955add01dd081f6cf4b9aede663f62e56ac78970eb",
         "dest": "deps",
-        "dest-filename": "thingtalk-1.7.2.tgz"
+        "dest-filename": "thingtalk-1.8.0.tgz"
     },
     {
         "type": "file",
