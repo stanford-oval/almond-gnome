@@ -10,7 +10,6 @@
 console.log('ThingEngine-GNOME starting up...');
 
 const events = require('events');
-const Url = require('url');
 process.on('unhandledRejection', (up) => { throw up; });
 
 const ThingTalk = require('thingtalk');
