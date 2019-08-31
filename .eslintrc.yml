@@ -22,7 +22,7 @@ rules:
   semi:
     - error
     - always
-  consistent-return: warn
+  consistent-return: error
   curly:
     - error
     - multi-or-nest
@@ -56,3 +56,4 @@ rules:
     - always
   prefer-arrow-callback: warn
   prefer-numeric-literals: error
+  require-atomic-updates: off

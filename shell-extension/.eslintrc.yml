@@ -6,8 +6,10 @@ extends: 'eslint:recommended'
 globals:
   window: false
   imports: false
-  _: false
   global: false
+  log: false
+  logError: false
+  _: off
 rules:
   indent: off
   no-console: error
@@ -18,7 +20,7 @@ rules:
   semi:
     - error
     - always
-  consistent-return: warn
+  consistent-return: error
   curly:
     - error
     - multi-or-nest
@@ -52,3 +54,4 @@ rules:
     - always
   prefer-arrow-callback: warn
   prefer-numeric-literals: error
+  require-atomic-updates: off
