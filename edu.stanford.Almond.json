@@ -218,8 +218,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "sha256" : "3515e8e01568a5dc4dff3d91a76ebc6724f5fa2fbb58b4b0c5da7b178a2f7340",
-                    "url" : "https://nodejs.org/dist/v8.16.0/node-v8.16.0.tar.xz"
+                    "sha256" : "d8c190acdf2d967faf49c22df883d31a8d4e249d67852dae3c2d8a0f756b0512",
+                    "url" : "https://nodejs.org/dist/v8.16.1/node-v8.16.1.tar.xz"
                 }
             ]
         },
@@ -233,8 +233,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.15.2/yarn-v1.15.2.tar.gz",
-                    "sha256" : "c4feca9ba5d6bf1e820e8828609d3de733edf0e4722d17ed7ce493ed39f61abd"
+                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.17.3/yarn-v1.17.3.tar.gz",
+                    "sha256" : "e3835194409f1b3afa1c62ca82f561f1c29d26580c9e220c36866317e043c6f3"
                 }
             ]
         },
@@ -273,8 +273,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/sqlcipher/sqlcipher/archive/v4.1.0.tar.gz",
-                    "sha256" : "65144ca3ba4c0f9cd4bae8c20bb42f2b84424bf29d1ebcf04c44a728903b1faa"
+                    "url" : "https://github.com/sqlcipher/sqlcipher/archive/v4.2.0.tar.gz",
+                    "sha256" : "105c1b813f848da038c03647a8bfc9d42fb46865e6aaf4edfd46ff3b18cdccfc"
                 },
                 {
                     "type" : "script",
@@ -285,10 +285,6 @@
                 }
             ]
         },
-        "./build-data/python3-numpy.json",
-        "./build-data/python3-pkgconfig.json",
-        "./build-data/python3-pbr.json",
-        "./build-data/python3-Cython.json",
         {
             "name" : "hdf5",
             "config-opts" : [
@@ -308,15 +304,6 @@
                 }
             ]
         },
-        "./build-data/python3-h5py.json",
-        "./build-data/python3-scipy.json",
-        "./build-data/python3-speechpy-fast.json",
-        "./build-data/python3-sonopy.json",
-        "./build-data/python3-wavio.json",
-        "./build-data/python3-prettyparse.json",
-        "./build-data/python3-typing.json",
-        "./build-data/python3-attrs.json",
-        "./build-data/python3-tensorflow-deps.json",
         {
             "name" : "bazel",
             "buildsystem": "simple",
@@ -342,6 +329,20 @@
                 }
             ]
         },
+
+        "./build-data/python3-numpy.json",
+        "./build-data/python3-pkgconfig.json",
+        "./build-data/python3-pbr.json",
+        "./build-data/python3-Cython.json",
+        "./build-data/python3-h5py.json",
+        "./build-data/python3-scipy.json",
+        "./build-data/python3-speechpy-fast.json",
+        "./build-data/python3-sonopy.json",
+        "./build-data/python3-wavio.json",
+        "./build-data/python3-prettyparse.json",
+        "./build-data/python3-typing.json",
+        "./build-data/python3-attrs.json",
+        "./build-data/python3-tensorflow-deps.json",
         "./build-data/python3-keras.json",
         {
             "name": "tensorflow",
@@ -362,8 +363,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/tensorflow/tensorflow",
-                    "commit": "6612da89516247503f03ef76e974b51a434fb52e",
-                    "tag": "v1.13.1"
+                    "commit": "04256c89d8783c5cfd7e550f9512e9478beb6454",
+                    "tag": "v1.13.2"
                 },
                 {
                     "type": "file",

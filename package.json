@@ -20,7 +20,7 @@
     "lint": "eslint service/ src/ shell-extension/"
   },
   "dependencies": {
-    "almond-dialog-agent": "~1.6.0",
+    "almond-dialog-agent": "~1.6.1",
     "byline": "^5.0.0",
     "canberra": "^0.1.0",
     "consumer-queue": "^1.0.0",
@@ -32,8 +32,8 @@
     "pulseaudio2": "~0.2.1",
     "smtlib": "^0.1.1",
     "thingengine-core": "~1.6.0",
-    "thingpedia": "~2.5.0",
-    "thingpedia-discovery": "^1.0.0",
+    "thingpedia": "~2.5.1",
+    "thingpedia-discovery": "^1.0.1",
     "thingtalk": "~1.8.0"
   },
   "devDependencies": {
