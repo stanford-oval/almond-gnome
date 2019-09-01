@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2019 The Board of Trustees of the Leland Stanford Junior University -->
 <component type="desktop">
   <id>edu.stanford.Almond.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
@@ -44,6 +45,12 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2019-09-01" version="1.6.1">
+      <description>
+        <p>The Almond platform was updated to version 1.6.1; this brings in further improvements in robustness and natural language understanding.</p>
+        <p>Questions from Almond that ask for an entity value (such as a language, country, company name, etc.) can now be answered with the entity name instead of ID.</p>
+      </description>
+    </release>
     <release date="2019-08-20" version="1.6.0">
       <description>
         <p>The Almond platform was updated to version 1.6; this brings in further improvements in robustness and natural language understanding.</p>

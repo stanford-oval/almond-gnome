@@ -1,3 +1,10 @@
+1.6.1
+=====
+
+* The Almond platform was updated to 1.6.1
+* Fixed displaying the version of devices in My Skills [#46]
+* Misc bug fixes [#45]
+
 1.6.0
 =====
 
