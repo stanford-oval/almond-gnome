@@ -218,8 +218,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "sha256" : "d8c190acdf2d967faf49c22df883d31a8d4e249d67852dae3c2d8a0f756b0512",
-                    "url" : "https://nodejs.org/dist/v8.16.1/node-v8.16.1.tar.xz"
+                    "sha256" : "7bf1123d7415964775b8f81fe6ec6dd5c3c08abb42bb71dfe4409dbeeba26bbd",
+                    "url" : "https://nodejs.org/dist/v10.16.3/node-v10.16.3.tar.xz"
                 }
             ]
         },
