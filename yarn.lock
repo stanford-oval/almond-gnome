@@ -67,9 +67,9 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     uri-js "^4.2.2"
 
 almond-dialog-agent@~1.7.0-beta.1:
-  version "1.7.0-beta.1"
-  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.0-beta.1.tgz#b2ca06fd1929bce25e6e5fe5b0d94cfaf3267053"
-  integrity sha512-VK66p5QVTlhQPXfcQ7J4ZS75iM5mqBXjP9z7wpj0kaNHtQcFnmp/P/zOnSF9cq5NXReRDuT1BXg+il8eaxBd9g==
+  version "1.7.0-beta.2"
+  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.0-beta.2.tgz#92472c7c132e551b3193ab2703d92c907b39d185"
+  integrity sha512-adU7Lem34CwL+xwJFJjfwccUqDeQkK4xp+r7CxfMLdx5lfkYfMa6QMzz5Y1Jk0hFO5BQxwr7KYYJCYvObLQB3A==
   dependencies:
     adt "~0.7.2"
     consumer-queue "^1.0.0"
@@ -1947,9 +1947,9 @@ text-table@^0.2.0:
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
 thingengine-core@~1.7.0-alpha.1:
-  version "1.7.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.7.0-alpha.1.tgz#a5b8aa3424bacd67e69588e821be7b1dea8a8a05"
-  integrity sha512-qaHQUZacwb0vIvwNLJYpXZkRm99TDlWg8LasXOHEd+sqyYyHNP6zHuTbMP1SkvRd3QUvuP+VH/6Hi/ywkpml4Q==
+  version "1.7.0-beta.1"
+  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.7.0-beta.1.tgz#97ba9e2431b8847e3af6b823698623a2ef429a60"
+  integrity sha512-L33u9BcszjztCK3QHzZziTVCstkBLH8jOMDqHbXTv4nC62wSssx3tuAXeiyjt6N7Sg/k4NiNlEqbmE90inO7Ag==
   dependencies:
     adt "^0.7.2"
     consumer-queue "^1.0.1"
