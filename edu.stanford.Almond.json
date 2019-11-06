@@ -4,7 +4,7 @@
     "runtime-version" : "3.32",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.openjdk8"
+        "org.freedesktop.Sdk.Extension.openjdk11"
     ],
     "command" : "/app/bin/edu.stanford.Almond",
     "tags" : [
@@ -166,7 +166,7 @@
                     "dest-filename" : "antlr3",
                     "commands" : [
                         "export CLASSPATH=/app/share/java/antlr-3.4-complete.jar:$CLASSPATH",
-                        "exec /usr/lib/sdk/openjdk8/jvm/java-8-openjdk/bin/java org.antlr.Tool \"$@\""
+                        "exec /usr/lib/sdk/openjdk11/jvm/openjdk-11/bin/java org.antlr.Tool \"$@\""
                     ]
                 }
             ]
@@ -181,7 +181,7 @@
                 "-DUSE_READLINE=OFF",
                 "-DENABLE_GPL=OFF",
                 "-DENABLE_PORTFOLIO=OFF",
-                "-DJAVA_HOME=/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
+                "-DJAVA_HOME=/usr/lib/sdk/openjdk11/jvm/openjdk-11"
             ],
             "sources" : [
                 {
@@ -218,8 +218,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "sha256" : "d8c190acdf2d967faf49c22df883d31a8d4e249d67852dae3c2d8a0f756b0512",
-                    "url" : "https://nodejs.org/dist/v8.16.1/node-v8.16.1.tar.xz"
+                    "sha256" : "7bf1123d7415964775b8f81fe6ec6dd5c3c08abb42bb71dfe4409dbeeba26bbd",
+                    "url" : "https://nodejs.org/dist/v10.16.3/node-v10.16.3.tar.xz"
                 }
             ]
         },
@@ -317,14 +317,14 @@
                 "no-debuginfo-compression": true,
                 "env" : {
                     "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk",
-                    "JAVA_HOME": "/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
+                    "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
                 }
             },
             "sources": [
                 {
                     "type" : "archive",
-                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.21.0/bazel-0.21.0-dist.zip",
-                    "sha256": "6ccb831e683179e0cfb351cb11ea297b4db48f9eab987601c038aa0f83037db4",
+                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.29.1/bazel-0.29.1-dist.zip",
+                    "sha256": "872a52cff208676e1169b3e1cae71b1fe572c4109cbd66eab107d8607c378de5",
                     "strip-components": 0
                 }
             ]
@@ -344,27 +344,28 @@
         "./build-data/python3-attrs.json",
         "./build-data/python3-tensorflow-deps.json",
         "./build-data/python3-keras.json",
+        "./build-data/python3-wrapt.json",
         {
             "name": "tensorflow",
             "buildsystem": "simple",
             "build-commands": [
                 "mkdir -p tensorflow_pkg",
                 "mkdir -p /run/ccache/bazel",
-                "bazel --output_user_root=/run/ccache/bazel build --distdir=\"${PWD}/bazel-distdir\" --config=opt --config=nogcp --config=noaws --config=nohdfs --config=noignite --config=nokafka //tensorflow/tools/pip_package:build_pip_package",
+                "bazel --output_user_root=/run/ccache/bazel build --incompatible_no_support_tools_in_action_inputs=false --distdir=\"${PWD}/bazel-distdir\" --config=opt --config=nogcp --config=noaws --config=nohdfs --config=noignite --config=nokafka //tensorflow/tools/pip_package:build_pip_package",
                 "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package tensorflow_pkg/",
-                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_pkg/tensorflow-*.whl"
+                "pip3 install --no-index --no-build-isolation --prefix=/app --no-deps tensorflow_pkg/tensorflow-*.whl"
             ],
             "build-options": {
                 "env" : {
-                    "JAVA_HOME": "/usr/lib/sdk/openjdk8/jvm/java-8-openjdk"
+                    "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
                 }
             },
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/tensorflow/tensorflow",
-                    "commit": "04256c89d8783c5cfd7e550f9512e9478beb6454",
-                    "tag": "v1.13.2"
+                    "commit": "87989f69597d6b2d60de8f112e1e3cea23be7298",
+                    "tag": "v1.14.0"
                 },
                 {
                     "type": "file",
@@ -372,6 +373,30 @@
                     "dest-filename": ".tf_configure.bazelrc"
                 },
                 "./build-data/tensorflow-bazel-deps.json"
+            ]
+        },
+        {
+            "name": "tensorflow-estimator",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p tensorflow_estimator_pkg",
+                "mkdir -p /run/ccache/bazel",
+                "bazel --output_user_root=/run/ccache/bazel build --incompatible_no_support_tools_in_action_inputs=false --distdir=\"${PWD}/bazel-distdir\" //tensorflow_estimator/tools/pip_package:build_pip_package",
+                "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow_estimator/tools/pip_package/build_pip_package tensorflow_estimator_pkg/",
+                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_estimator_pkg/tensorflow_estimator-*.whl"
+            ],
+            "build-options": {
+                "env" : {
+                    "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
+                }
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/tensorflow/estimator",
+                    "commit": "a031b455a0f0665c12746abf4e076cfd7d00f2ca",
+                    "tag": "v1.14.0"
+                }
             ]
         },
         {

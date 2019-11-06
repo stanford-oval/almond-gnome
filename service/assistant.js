@@ -306,6 +306,7 @@ class AssistantDispatcher extends events.EventEmitter {
             text: rdl.displayTitle,
             rdl_description: rdl.displayText || '',
             rdl_callback: rdl.callback || rdl.webCallback,
+            picture_url: rdl.pictureUrl || '',
             icon: icon || ''
         });
     }

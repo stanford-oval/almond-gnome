@@ -348,11 +348,18 @@ const MessageConstructors = {
     },
 
     [MessageType.RDL](msg) {
-        var box = makeAlmondWrapper(msg);
+        const box = makeAlmondWrapper(msg);
+        const vbox = new Gtk.Box({
+            halign: Gtk.Align.START,
+            orientation: Gtk.Orientation.VERTICAL,
+        });
+        vbox.get_style_context().add_class('message');
+        vbox.get_style_context().add_class('from-almond');
+
         let text = `<a href="${GLib.markup_escape_text(msg.rdl_callback, -1)}">${GLib.markup_escape_text(msg.text, -1)}</a>`;
         if (msg.rdl_description)
             text += '\n' + GLib.markup_escape_text(msg.rdl_description, -1);
-        var label = new Gtk.Label({
+        const label = new Gtk.Label({
             wrap: true,
             selectable: true,
             hexpand: true,
@@ -360,10 +367,33 @@ const MessageConstructors = {
             xalign: 0,
             label: text,
             use_markup: true });
-        label.get_style_context().add_class('message');
-        label.get_style_context().add_class('from-almond');
         label.show();
-        box.pack_start(label, true, true, 0);
+        vbox.add(label);
+
+        if (msg.picture_url) {
+            const spinner = new Gtk.Spinner({
+                visible: true,
+            });
+            spinner.start();
+
+            let file = Gio.File.new_for_uri(msg.picture_url);
+            ginvoke(file, 'read_async', 'read_finish', GLib.PRIORITY_DEFAULT, null).then((stream) => {
+                return gpromise(GdkPixbuf.Pixbuf.new_from_stream_async, GdkPixbuf.Pixbuf.new_from_stream_finish, stream, null);
+            }).then((pixbuf) => {
+                const image = new ResizableImage({
+                    full_size_pixbuf: pixbuf,
+                });
+                spinner.destroy();
+                vbox.add(image);
+                image.show();
+            }).catch((e) => {
+                log('Failed to load image at ' + msg.picture_url + ': ' + e);
+                spinner.stop();
+            });
+            vbox.add(spinner);
+        }
+        vbox.show();
+        box.pack_start(vbox, true, true, 0);
         return box;
     }
 };

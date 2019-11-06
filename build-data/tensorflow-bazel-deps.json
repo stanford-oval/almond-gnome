@@ -1,27 +1,51 @@
 [
     {
         "type": "file",
-        "url": "https://github.com/bazelbuild/rules_closure/archive/dbb96841cc0a5fb2664c37822803b06dab20c7d1.tar.gz",
+        "url": "https://github.com/bazelbuild/rules_closure/archive/cf1e44edb908e9616030cc83d085989b8e6cd6df.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "a38539c5b5c358548e75b44141b4ab637bba7c4dc02b46b1f62a96d6433f56ae"
+        "sha256": "e0a111000aeed2051f29fcc7a3f83be3ad8c6c93c186e64beb1ad313f0c7f9f9"
     },
     {
         "type": "file",
-        "url": "https://github.com/nlopezgi/bazel-toolchains/archive/3f8c58fe530fedc446de04673bc1e32985887dea.tar.gz",
+        "url": "https://github.com/bazelbuild/bazel-toolchains/archive/94d31935a2c94fe7e7c7379a0f3393e181928ff7.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "41c48a189be489e2d15dec40e0057ea15b95ee5b39cc2a7e6cf663e31432c75e"
+        "sha256": "109a99384f9d08f9e75136d218ebaebc68cc810c56897aea2224c57932052d30"
     },
     {
         "type": "file",
-        "url": "https://github.com/bazelbuild/rules_docker/archive/a9bb1dab84cdf46e34d1b34b53a17bda129b5eba.tar.gz",
+        "url": "https://github.com/bazelbuild/rules_docker/archive/b8ff6a85ec359db3fd5657accd3e524daf12016d.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "f3e5c0500533d58be079db1a24ac909f2e0cd98c9d760f5e506e4d05b56c42dd"
+        "sha256": "4abb48f56b838957c9c72ac511b44f79612fcf39d08338fad14a8e3f6b0572ea"
     },
     {
         "type": "file",
-        "url": "https://github.com/protocolbuffers/protobuf/archive/v3.6.1.2.tar.gz",
+        "url": "https://mirror.bazel.build/github.com/bazelbuild/rules_cc/archive/0d5f3f2768c6ca2faca0079a997a97ce22997a0c.zip",
         "dest": "bazel-distdir",
-        "sha256": "2244b0308846bb22b4ff0bcc675e99290ff9f1115553ae9671eba1030af31bc0"
+        "sha256": "36fa66d4d49debd71d05fba55c1353b522e8caef4a20f8080a3d17cdda001d89"
+    },
+    {
+        "type": "file",
+        "url": "https://mirror.bazel.build/github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip",
+        "dest": "bazel-distdir",
+        "sha256": "bc81f1ba47ef5cc68ad32225c3d0e70b8c6f6077663835438da8d5733f917598"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/bazelbuild/bazel-skylib/archive/0.6.0.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "eb5c57e4c12e68c0c20bc774bfbc60a568e800d025557bc4ea022c6479acc867"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/bazelbuild/rules_swift/releases/download/0.9.0/rules_swift.0.9.0.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "9efe9699e9765e6b4a5e063e4a08f6b163cccaf0443f775d935baf5c3cd6ed0e"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/protocolbuffers/protobuf/archive/5902e759108d14ee8e6b0b07653dac2f4e70ac73.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "1c020fafc84acd235ec81c6aac22d73f23e85a700871466052ff231d69c1b17a"
     },
     {
         "type": "file",
@@ -43,9 +67,15 @@
     },
     {
         "type": "file",
-        "url": "https://github.com/abseil/abseil-py/archive/pypi-v0.2.2.tar.gz",
+        "url": "https://github.com/abseil/abseil-py/archive/pypi-v0.7.1.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "95160f778a62c7a60ddeadc7bf2d83f85a23a27359814aca12cf949e896fa82c"
+        "sha256": "3d0f39e0920379ff1393de04b573bca3484d82a5f8b939e9e83b20b6106c9bbe"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/GrahamDumpleton/wrapt/archive/1.11.1.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "8a6fb40e8f8b6a66b4ba81a4044c68e6a7b1782f21cfabc06fb765332b4c3e51"
     },
     {
         "type": "file",
@@ -67,9 +97,9 @@
     },
     {
         "type": "file",
-        "url": "https://github.com/google/nsync/archive/1.20.1.tar.gz",
+        "url": "https://github.com/google/nsync/archive/1.20.2.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "692f9b30e219f71a6371b98edd39cef3cbda35ac3abc4cd99ce19db430a5591a"
+        "sha256": "704be7f58afa47b99476bbac7aafd1a9db4357cef519db361716f13538547ffd"
     },
     {
         "type": "file",
@@ -79,15 +109,15 @@
     },
     {
         "type": "file",
-        "url": "https://github.com/abseil/abseil-cpp/archive/389ec3f906f018661a5308458d623d01f96d7b23.tar.gz",
+        "url": "https://github.com/abseil/abseil-cpp/archive/daf381e8535a1f1f1b8a75966a74e7cca63dee89.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "ab499df1dc1ee5f9bf95f327adc22a7bd327ae5e7c023309cddccd0763ba1043"
+        "sha256": "56cd3fbbbd94468a5fff58f5df2b6f9de7a0272870c61f6ca05b869934f4802a"
     },
     {
         "type": "file",
-        "url": "https://github.com/grpc/grpc/archive/69b6c047bc767b4d80e7af4d00ccb7c45b683dae.tar.gz",
+        "url": "https://github.com/grpc/grpc/archive/4566c2a29ebec0835643b972eb99f4306c4234a3.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "1aa84387232dda273ea8fdfe722622084f72c16f7b84bfc519ac7759b71cdc91"
+        "sha256": "67a6c26db56f345f7cee846e681db2c23f919eba46dd639b09462d1b6203d28c"
     },
     {
         "type": "file",
@@ -121,9 +151,9 @@
     },
     {
         "type": "file",
-        "url": "https://bitbucket.org/eigen/eigen/get/9f48e814419e.tar.gz",
+        "url": "https://bitbucket.org/eigen/eigen/get/a0d250e79c79.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "753fbb58d0a49b6bcbcfb126ebfa2e21fc97f7471529ba835a096008ce588d8a"
+        "sha256": "0dde8fb87f5dad2e409c9f4ea1bebc54e694cf4f3b633081b0d51a55c00f9c9f"
     },
     {
         "type": "file",
@@ -139,9 +169,9 @@
     },
     {
         "type": "file",
-        "url": "https://github.com/llvm-mirror/llvm/archive/2ba3294845dedcbb27dc49287bfbcdb49aa1e6b7.tar.gz",
+        "url": "https://github.com/llvm-mirror/llvm/archive/558b52b517b8c989dc2d7fffb5c580fa45aece34.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "55769c91b9f5b5255d58a1ecd88e690a4e192dc8cbdf8f984596649abe3b5433"
+        "sha256": "54c715a4aba9a337d5c44b04153f75fc196045b213ea8ee5e79b58465d700532"
     },
     {
         "type": "file",
@@ -151,15 +181,21 @@
     },
     {
         "type": "file",
-        "url": "https://github.com/google/flatbuffers/archive/1f5eae5d6a135ff6811724f6c57f911d1f46bb15.tar.gz",
+        "url": "https://github.com/google/flatbuffers/archive/v1.11.0.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "b2bb0311ca40b12ebe36671bdda350b10c7728caf0cfe2d432ea3b6e409016f3"
+        "sha256": "3f4a286642094f45b1b77228656fbd7ea123964f19502f9ecfd29933fd23a50b"
     },
     {
         "type": "file",
-        "url": "https://github.com/google/gemmlowp/archive/38ebac7b059e84692f53e5938f97a9943c120d98.zip",
+        "url": "https://github.com/google/pasta/archive/v0.1.2.tar.gz",
         "dest": "bazel-distdir",
-        "sha256": "b87faa7294dfcc5d678f22a59d2c01ca94ea1e2a3b488c38a95a67889ed0a658"
+        "sha256": "53e4c009a5eac38e942deb48bfc2d3cfca62cd457255fa86ffedb7e40f726a0c"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/google/gemmlowp/archive/12fed0cd7cfcd9e169bf1925bc3a7a58725fdcc3.zip",
+        "dest": "bazel-distdir",
+        "sha256": "6678b484d929f2d0d3229d8ac4e3b815a950c86bb9f17851471d143f6d4f7834"
     },
     {
         "type": "file",
@@ -190,12 +226,30 @@
         "path": "build-data/python27-license.rst.txt",
         "dest": "bazel-distdir",
         "dest-filename": "license.rst.txt",
-        "sha256": "7ca8f169368827781684f7f20876d17b4415bbc5cb28baa4ca4652f0dda05e9f"
+        "sha256": "e76cacdf0bdd265ff074ccca03671c33126f597f39d0ed97bc3e5673d9170cf6"
     },
     {
         "type": "file",
         "url": "https://github.com/cython/cython/archive/0.28.4.tar.gz",
         "dest": "bazel-distdir",
         "sha256": "bccc9aa050ea02595b2440188813b936eaf345e85fb9692790cecfe095cf91aa"
+    },
+    {
+        "type": "file",
+        "url": "https://pypi.python.org/packages/bf/3e/31d502c25302814a7c2f1d3959d2a3b3f78e509002ba91aea64993936876/enum34-1.1.6.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"
+    },
+    {
+        "type": "file",
+        "url": "https://github.com/intel/mkl-dnn/archive/v0.18.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "38a1c02104ee9f630c1ad68164119cd58ad0aaf59e04ccbe7bd5781add7bfbea"
+    },
+    {
+        "type": "file",
+        "url": "https://download.open-mpi.org/release/hwloc/v2.0/hwloc-2.0.3.tar.gz",
+        "dest": "bazel-distdir",
+        "sha256": "64def246aaa5b3a6e411ce10932a22e2146c3031b735c8f94739534f06ad071c"
     }
 ]
