@@ -18,6 +18,3 @@ if not destdir:
 
     print('Updating desktop database...')
     subprocess.call(['update-desktop-database', '-q', str(datadir / 'applications')])
-
-servicedir = os.path.join(os.environ.get('MESON_DESTDIR_INSTALL_PREFIX', os.environ['MESON_INSTALL_PREFIX']), 'lib', 'edu.stanford.Almond', 'service')
-shutil.rmtree(os.path.join(servicedir, "deps"))
