@@ -71,10 +71,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.0.tgz#4646a2e8f0db3d9e30bc2027cff8abe6153c9e7d",
-        "sha256": "bdca2fc95d957e64f6058437a085ecf3ea4a914b77d818db8b2d0411370b37df",
+        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.7.1.tgz#269723812c1f04b8bc669db8b8618cbe24f2a50a",
+        "sha256": "217046ecca5b255f9b4c3e18cbccbbf80e2c340cd177b0ed4a566b2ef36568ca",
         "dest": "deps",
-        "dest-filename": "almond-dialog-agent-1.7.0.tgz"
+        "dest-filename": "almond-dialog-agent-1.7.1.tgz"
     },
     {
         "type": "file",
@@ -1639,10 +1639,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/qs/-/qs-6.9.0.tgz#d1297e2a049c53119cb49cca366adbbacc80b409",
-        "sha256": "86a2c7b05a0559004218c6a96f26f4a914364cec702da06ee72ec1d87f3fc1b0",
+        "url": "https://registry.yarnpkg.com/qs/-/qs-6.9.1.tgz#20082c65cb78223635ab1a9eaca8875a29bf8ec9",
+        "sha256": "b0a32730ebfd01c76687940a0faf8e23aa4e8bfa5358d97062fe21e513ea74a2",
         "dest": "deps",
-        "dest-filename": "qs-6.9.0.tgz"
+        "dest-filename": "qs-6.9.1.tgz"
     },
     {
         "type": "file",
