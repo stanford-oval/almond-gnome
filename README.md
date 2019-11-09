@@ -1,6 +1,6 @@
 # Almond for GNOME
 
-[![Build Status](https://travis-ci.org/stanford-oval/almond-gnome.svg?branch=master)](https://travis-ci.org/stanford-oval/almond-gnome) [![Gitter](https://img.shields.io/gitter/room/Stanford-Mobisocial-IoT-Lab/Lobby.svg)](https://gitter.im/Stanford-Mobisocial-IoT-Lab/Lobby) [![Discourse status](https://img.shields.io/discourse/https/community.almond.stanford.edu/status.svg)](https://community.almond.stanford.edu)
+[![Build Status](https://travis-ci.org/stanford-oval/almond-gnome.svg?branch=master)](https://travis-ci.org/stanford-oval/almond-gnome) [![Discord](https://img.shields.io/discord/642041264208085014)](https://discord.gg/anthtR4) [![Discourse status](https://img.shields.io/discourse/https/community.almond.stanford.edu/status.svg)](https://community.almond.stanford.edu)
 
 ## An Open Virtual Assistant
 
