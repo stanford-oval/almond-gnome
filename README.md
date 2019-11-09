@@ -1,6 +1,6 @@
 # Almond for GNOME
 
-[![Build Status](https://travis-ci.com/stanford-oval/almond-gnome.svg?branch=master)](https://travis-ci.com/stanford-oval/almond-gnome) ![Dependency Status](https://david-dm.org/stanford-oval/almond-gnome/status.svg)](https://david-dm.org/stanford-oval/almond-gnome) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/stanford-oval/almond-gnome.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/stanford-oval/almond-gnome/context:javascript) [![Discord](https://img.shields.io/discord/642041264208085014)](https://discord.gg/anthtR4) [![Discourse status](https://img.shields.io/discourse/https/community.almond.stanford.edu/status.svg)](https://community.almond.stanford.edu)
+[![Build Status](https://travis-ci.com/stanford-oval/almond-gnome.svg?branch=master)](https://travis-ci.com/stanford-oval/almond-gnome) [![Dependency Status](https://david-dm.org/stanford-oval/almond-gnome/status.svg)](https://david-dm.org/stanford-oval/almond-gnome) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/stanford-oval/almond-gnome.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/stanford-oval/almond-gnome/context:javascript) [![Discord](https://img.shields.io/discord/642041264208085014)](https://discord.gg/anthtR4) [![Discourse status](https://img.shields.io/discourse/https/community.almond.stanford.edu/status.svg)](https://community.almond.stanford.edu)
 
 ## An Open Virtual Assistant
 
