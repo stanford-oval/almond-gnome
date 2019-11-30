@@ -4,7 +4,8 @@
     "runtime-version" : "3.32",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.openjdk11"
+        "org.freedesktop.Sdk.Extension.openjdk11",
+        "org.freedesktop.Sdk.Extension.node10"
     ],
     "command" : "/app/bin/edu.stanford.Almond",
     "tags" : [
@@ -209,19 +210,8 @@
         },
         {
             "name" : "node",
-            "config-opts" : [
-                "--openssl-use-def-ca-store",
-                "--shared-openssl",
-                "--shared-zlib",
-                "--with-intl=system-icu"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "sha256" : "7bf1123d7415964775b8f81fe6ec6dd5c3c08abb42bb71dfe4409dbeeba26bbd",
-                    "url" : "https://nodejs.org/dist/v10.16.3/node-v10.16.3.tar.xz"
-                }
-            ]
+            "buildsystem" : "simple",
+            "build-commands" : [ "/usr/lib/sdk/node10/install.sh" ]
         },
         {
             "name" : "yarn",
@@ -426,8 +416,10 @@
             "name" : "almond-gnome",
             "buildsystem" : "meson",
             "build-options" : {
+                "append-path": "/usr/lib/sdk/node10/bin",
+                "append-ld-library-path": "/usr/lib/sdk/node10/lib",
                 "env" : {
-                    "npm_config_nodedir" : "/app"
+                    "npm_config_nodedir" : "/usr/lib/sdk/node10"
                 }
             },
             "sources" : [
