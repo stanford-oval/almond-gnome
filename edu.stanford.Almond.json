@@ -211,7 +211,9 @@
         {
             "name" : "node",
             "buildsystem" : "simple",
-            "build-commands" : [ "/usr/lib/sdk/node10/install.sh" ]
+            "build-commands" : [
+                "install -Dm 755 /usr/lib/sdk/node10/bin/node /app/bin/node"
+            ]
         },
         {
             "name" : "yarn",
@@ -416,8 +418,6 @@
             "name" : "almond-gnome",
             "buildsystem" : "meson",
             "build-options" : {
-                "append-path": "/usr/lib/sdk/node10/bin",
-                "append-ld-library-path": "/usr/lib/sdk/node10/lib",
                 "env" : {
                     "npm_config_nodedir" : "/usr/lib/sdk/node10"
                 }
