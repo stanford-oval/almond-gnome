@@ -14,7 +14,7 @@ before_install:
 install:
   - sudo apt-get install -y flatpak-builder elfutils
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  - flatpak --user install -y flathub org.gnome.Sdk//3.32 org.gnome.Platform//3.32 org.freedesktop.Sdk.Extension.openjdk11//18.08
+  - flatpak --user install -y flathub org.gnome.Sdk//3.32 org.gnome.Platform//3.32 org.freedesktop.Sdk.Extension.openjdk11//18.08 org.freedesktop.Sdk.Extension.node10//18.08
   - curl -O https://crowdie.stanford.edu/flatpak/build-cache.tar.gz
   - tar xf build-cache.tar.gz
   - ./travis/download-deps.py
