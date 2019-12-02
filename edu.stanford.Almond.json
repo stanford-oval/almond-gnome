@@ -1,10 +1,11 @@
 {
     "app-id" : "edu.stanford.Almond",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "3.32",
+    "runtime-version" : "3.34",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.openjdk11"
+        "org.freedesktop.Sdk.Extension.openjdk11",
+        "org.freedesktop.Sdk.Extension.node10"
     ],
     "command" : "/app/bin/edu.stanford.Almond",
     "tags" : [
@@ -209,18 +210,9 @@
         },
         {
             "name" : "node",
-            "config-opts" : [
-                "--openssl-use-def-ca-store",
-                "--shared-openssl",
-                "--shared-zlib",
-                "--with-intl=system-icu"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "sha256" : "7bf1123d7415964775b8f81fe6ec6dd5c3c08abb42bb71dfe4409dbeeba26bbd",
-                    "url" : "https://nodejs.org/dist/v10.16.3/node-v10.16.3.tar.xz"
-                }
+            "buildsystem" : "simple",
+            "build-commands" : [
+                "install -Dm 755 /usr/lib/sdk/node10/bin/node /app/bin/node"
             ]
         },
         {
@@ -308,15 +300,17 @@
             "name" : "bazel",
             "buildsystem": "simple",
             "build-commands": [
+                "ln -s /usr/bin/python3 /app/bin/python",
                 "./compile.sh",
-                "install -m 0755 -D output/bazel /app/bin/bazel"
+                "install -m 0755 -D output/bazel /app/bin/bazel",
+                "rm /app/bin/python"
             ],
             "build-options": {
                 "strip": false,
                 "no-debuginfo": true,
                 "no-debuginfo-compression": true,
                 "env" : {
-                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk",
+                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk --python_path=/usr/bin/python3",
                     "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
                 }
             },
@@ -326,6 +320,12 @@
                     "url": "https://github.com/bazelbuild/bazel/releases/download/0.29.1/bazel-0.29.1-dist.zip",
                     "sha256": "872a52cff208676e1169b3e1cae71b1fe572c4109cbd66eab107d8607c378de5",
                     "strip-components": 0
+                },
+                {
+                    "type": "patch",
+                    "path": "build-data/grpc_rename_gettid.patch",
+                    "strip-components": 0,
+                    "options": [ "-d", "third_party/grpc" ]
                 }
             ]
         },
@@ -342,6 +342,38 @@
         "./build-data/python3-prettyparse.json",
         "./build-data/python3-typing.json",
         "./build-data/python3-attrs.json",
+        {
+            "name": "grpc",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make prefix=/app",
+                "make prefix=/app install",
+                "python3 setup.py install --prefix=/app",
+                "rm /app/lib/libgrpc*.a",
+                "rm /app/lib/python3.7/site-packages/easy-install.pth"
+            ],
+            "build-options" : {
+                "env" : {
+                    "CFLAGS" : "-g -O2 -Wno-error",
+                    "CXXFLAGS" : "-g -O2 -Wno-error",
+                    "GRPC_PYTHON_BUILD_WITH_CYTHON": "True",
+                    "GRPC_PYTHON_BUILD_SYSTEM_OPENSSL": "True",
+                    "GRPC_PYTHON_BUILD_SYSTEM_ZLIB": "True"
+                }
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/grpc/grpc",
+                    "commit": "4566c2a29ebec0835643b972eb99f4306c4234a3"
+                },
+                {
+                    "type": "patch",
+                    "path": "build-data/grpc_rename_gettid.patch",
+                    "strip-components": 0
+                }
+            ]
+        },
         "./build-data/python3-tensorflow-deps.json",
         "./build-data/python3-keras.json",
         "./build-data/python3-wrapt.json",
@@ -351,9 +383,11 @@
             "build-commands": [
                 "mkdir -p tensorflow_pkg",
                 "mkdir -p /run/ccache/bazel",
+                "ln -s /usr/bin/python3 /app/bin/python",
                 "bazel --output_user_root=/run/ccache/bazel build --incompatible_no_support_tools_in_action_inputs=false --distdir=\"${PWD}/bazel-distdir\" --config=opt --config=nogcp --config=noaws --config=nohdfs --config=noignite --config=nokafka //tensorflow/tools/pip_package:build_pip_package",
                 "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package tensorflow_pkg/",
-                "pip3 install --no-index --no-build-isolation --prefix=/app --no-deps tensorflow_pkg/tensorflow-*.whl"
+                "pip3 install --no-index --no-build-isolation --prefix=/app --no-deps tensorflow_pkg/tensorflow-*.whl",
+                "rm /app/bin/python"
             ],
             "build-options": {
                 "env" : {
@@ -381,9 +415,11 @@
             "build-commands": [
                 "mkdir -p tensorflow_estimator_pkg",
                 "mkdir -p /run/ccache/bazel",
+                "ln -s /usr/bin/python3 /app/bin/python",
                 "bazel --output_user_root=/run/ccache/bazel build --incompatible_no_support_tools_in_action_inputs=false --distdir=\"${PWD}/bazel-distdir\" //tensorflow_estimator/tools/pip_package:build_pip_package",
                 "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow_estimator/tools/pip_package/build_pip_package tensorflow_estimator_pkg/",
-                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_estimator_pkg/tensorflow_estimator-*.whl"
+                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_estimator_pkg/tensorflow_estimator-*.whl",
+                "rm /app/bin/python"
             ],
             "build-options": {
                 "env" : {
@@ -427,7 +463,7 @@
             "buildsystem" : "meson",
             "build-options" : {
                 "env" : {
-                    "npm_config_nodedir" : "/app"
+                    "npm_config_nodedir" : "/usr/lib/sdk/node10"
                 }
             },
             "sources" : [

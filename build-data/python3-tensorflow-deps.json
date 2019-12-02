@@ -2,7 +2,7 @@
     "name": "python3-tensorflow-deps",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing protobuf tensorboard tensorflow_estimator termcolor grpcio wheel"
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing protobuf tensorboard tensorflow_estimator termcolor wheel"
     ],
     "build-options": {
         "env": {
@@ -52,11 +52,6 @@
             "type": "file",
             "url": "https://files.pythonhosted.org/packages/da/3f/9b0355080b81b15ba6a9ffcf1f5ea39e307a2778b2f2dc8694724e8abd5b/absl-py-0.7.1.tar.gz",
             "sha256": "b943d1c567743ed0455878fcd60bc28ac9fae38d129d1ccfad58079da00b8951"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/e3/aa/6ee1f1c0b35d270725abff07f8d807c0413154af14cd019fd3aa3ab69d64/grpcio-1.19.0.tar.gz",
-            "sha256": "2ddbca16c2e7b3f2ffc6e34c7cfa6886fb01de9f156ad3f77b72ad652d632097"
         },
         {
             "type": "file",

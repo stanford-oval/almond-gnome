@@ -7,7 +7,9 @@ build --action_env TF_NEED_OPENCL_SYCL="0"
 build --action_env TF_NEED_ROCM="0"
 build --action_env TF_NEED_CUDA="0"
 build --action_env TF_DOWNLOAD_CLANG="0"
-build --action_env TF_SYSTEM_LIBS="boringssl,icu,pcre,zlib_archive,gif_archive,png_archive,jpeg,curl"
+build --action_env TF_SYSTEM_LIBS="boringssl,icu,pcre,zlib_archive,gif_archive,png_archive,jpeg,curl,grpc,cython"
+build --linkopt=-L/app/lib
+build --host_linkopt=-L/app/lib
 build:opt --copt=-Wno-sign-compare
 build:opt --host_copt=-march=native
 build:opt --define with_default_optimizations=true

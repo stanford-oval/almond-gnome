@@ -2,7 +2,8 @@
     "name": "python3-attrs",
     "buildsystem": "simple",
     "build-commands": [
-        "python3 ./setup.py install --prefix=${FLATPAK_DEST}"
+        "python3 ./setup.py install --prefix=${FLATPAK_DEST}",
+        "rm /app/lib/python3.7/site-packages/easy-install.pth"
     ],
     "sources": [
         {
