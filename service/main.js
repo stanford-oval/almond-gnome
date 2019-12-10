@@ -262,14 +262,14 @@ class AppControlChannel extends events.EventEmitter {
         else if (d.hasKind('thingengine-system'))
             deviceKlass = 'system';
 
-        return [['uniqueId', ['s', d.uniqueId]],
+        return [['uniqueId', ['s', d.uniqueId || '']],
                 ['name', ['s', d.name || "Unknown device"]],
                 ['description', ['s', d.description || "Description not available"]],
-                ['kind', ['s', d.kind]],
+                ['kind', ['s', d.kind || '']],
                 ['version', ['u', d.constructor.metadata.version || 0]],
                 ['class', ['s', deviceKlass]],
-                ['ownerTier', ['s', d.ownerTier]],
-                ['isTransient', ['b', d.isTransient]]];
+                ['ownerTier', ['s', d.ownerTier || _engine.ownTier]],
+                ['isTransient', ['b', d.isTransient || false]]];
     }
 
     GetDeviceInfos() {
@@ -318,12 +318,12 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     _toAppInfo(a) {
-        var app =  [['uniqueId', ['s', a.uniqueId]],
+        var app =  [['uniqueId', ['s', a.uniqueId || '']],
                     ['name', ['s', a.name || "Some app"]],
                     ['description', ['s', a.description || a.name || "Some app"]],
                     ['icon', ['s', a.icon || '']],
-                    ['isRunning', ['b', a.isRunning]],
-                    ['isEnabled', ['b', a.isEnabled]],
+                    ['isRunning', ['b', a.isRunning || false]],
+                    ['isEnabled', ['b', a.isEnabled || false]],
                     ['error', ['s', a.error ? a.error.message : '']]];
         return app;
     }
