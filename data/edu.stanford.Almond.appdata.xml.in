@@ -45,9 +45,15 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2019-12-10" version="1.7.1">
+      <description>
+        <p>The Almond platform was updated to version 1.7.1, bringing a various bug fixes across the app.</p>
+        <p>The GNOME runtime was updated to the latest version; this ensures that Almond receives all the latest security updates.</p>
+      </description>
+    </release>
     <release date="2019-11-08" version="1.7.0">
       <description>
-        <p>The Almond platform was updated to version 1.6.1; this brings in further improvements in robustness and natural language understanding.</p>
+        <p>The Almond platform was updated to version 1.7.0; this brings in further improvements in robustness and natural language understanding.</p>
         <p>Devices can now be referred to by name: users can ask to “turn on the kitchen lights” or “turn on the patio lights”.</p>
         <p>Timers have been expanded, with a new frequency based timer: “twice a week”, “three times an hour”.</p>
         <p>Users can now refer to data with the highest or lower value of a certain attribute, for example to ask for the “the largest files”.</p>

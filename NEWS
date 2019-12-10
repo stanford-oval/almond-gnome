@@ -1,3 +1,9 @@
+1.7.1
+=====
+
+* The app now depends on the latest version of the GNOME runtime (3.34),
+  and uses the flathub-provided builds of node [#54]
+
 1.7.0
 =====
 
