@@ -2,16 +2,8 @@
     "name": "python3-tensorflow-deps",
     "buildsystem": "simple",
     "build-commands": [
-        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing protobuf tensorboard tensorflow_estimator termcolor wheel"
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} absl-py astor gast keras_applications keras_preprocessing tensorboard tensorflow_estimator termcolor wheel google-pasta"
     ],
-    "build-options": {
-        "env": {
-            "GRPC_PYTHON_BUILD_SYSTEM_OPENSSL": "1",
-            "GRPC_PYTHON_BUILD_SYSTEM_ZLIB": "1",
-            "GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY": "1",
-            "GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS": "8"
-        }
-    },
     "sources": [
         {
             "type": "file",
@@ -30,8 +22,8 @@
         },
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/bb/48/13f49fc3fa0fdf916aa1419013bb8f2ad09674c275b4046d5ee669a46873/tensorflow_estimator-1.13.0-py2.py3-none-any.whl",
-            "sha256": "7cfdaa3e83e3532f31713713feb98be7ea9f3065722be4267e49b6c301271419"
+            "url": "https://files.pythonhosted.org/packages/3c/d5/21860a5b11caf0678fbc8319341b0ae21a07156911132e0e71bffed0510d/tensorflow_estimator-1.14.0-py2.py3-none-any.whl",
+            "sha256": "ca073f66063407a091d610ec1b22e39ea30248710198cc6f13769320bdbe3992"
         },
         {
             "type": "file",
@@ -45,8 +37,8 @@
         },
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/0f/39/bdd75b08a6fba41f098b6cb091b9e8c7a80e1b4d679a581a0ccd17b10373/tensorboard-1.13.1-py3-none-any.whl",
-            "sha256": "b664fe7772be5670d8b04200342e681af7795a12cd752709aed565c06c0cc196"
+            "url": "https://files.pythonhosted.org/packages/91/2d/2ed263449a078cd9c8a9ba50ebd50123adf1f8cfbea1492f9084169b89d9/tensorboard-1.14.0-py3-none-any.whl",
+            "sha256": "50e0b1bdcd488dbe39fd9416976e089b2ff4df18d9f1fab47abf4c498209c3fc"
         },
         {
             "type": "file",
@@ -75,8 +67,8 @@
         },
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/cf/72/8c1ed9148ded82adbb76c30f958c6d456a2abc08f092b62a586bdf973b80/protobuf-3.7.1.tar.gz",
-            "sha256": "21e395d7959551e759d604940a115c51c6347d90a475c9baf471a1a86b5604a9"
+            "url": "https://files.pythonhosted.org/packages/57/ac/aebe06c6a3154ce21fe82d42f31511ababe87dc30c1b041716493e061633/google-pasta-0.1.8.tar.gz",
+            "sha256": "713813a9f7d6589e5defdaf21e80e4392eb124662f8bd829acd51a4f8735c0cb"
         }
     ]
 }
