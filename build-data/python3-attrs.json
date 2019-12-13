@@ -2,14 +2,13 @@
     "name": "python3-attrs",
     "buildsystem": "simple",
     "build-commands": [
-        "python3 ./setup.py install --prefix=${FLATPAK_DEST}",
-        "rm /app/lib/python3.7/site-packages/easy-install.pth"
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} attrs"
     ],
     "sources": [
         {
-            "type": "archive",
-            "url": "https://files.pythonhosted.org/packages/cc/d9/931a24cc5394f19383fbbe3e1147a0291276afa43a0dc3ed0d6cd9fda813/attrs-19.1.0.tar.gz",
-            "sha256": "f0b870f674851ecbfbbbd364d6b5cbdff9dcedbc7f3f5e18a6891057f21fe399"
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/a2/db/4313ab3be961f7a763066401fb77f7748373b6094076ae2bda2806988af6/attrs-19.3.0-py2.py3-none-any.whl",
+            "sha256": "08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c"
         }
     ]
 }

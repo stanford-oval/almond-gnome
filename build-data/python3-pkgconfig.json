@@ -2,13 +2,13 @@
     "name": "python3-pkgconfig",
     "buildsystem": "simple",
     "build-commands": [
-        "python3 setup.py install --prefix=/app"
+        "pip3 install --no-index --no-build-isolation --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} pkgconfig"
     ],
     "sources": [
         {
-            "type": "archive",
-            "url": "https://files.pythonhosted.org/packages/6e/a9/ff67ef67217dfdf2aca847685fe789f82b931a6957a3deac861297585db6/pkgconfig-1.5.1.tar.gz",
-            "sha256": "97bfe3d981bab675d5ea3ef259045d7919c93897db7d3b59d4e8593cba8d354f"
+            "type": "file",
+            "url": "https://files.pythonhosted.org/packages/b4/2c/bf434cb5a6590417e1d4468050ec317ea17fd6231c2a256df4646c11e588/pkgconfig-1.5.1-py2.py3-none-any.whl",
+            "sha256": "cddf2d7ecadb272178a942eb852a9dee46bda2adcc36c3416b0fef47a4ed9f38"
         }
     ]
 }

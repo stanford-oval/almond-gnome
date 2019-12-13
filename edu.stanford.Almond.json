@@ -329,7 +329,7 @@
                 }
             ]
         },
-
+        "./build-data/python3-wheel.json",
         "./build-data/python3-numpy.json",
         "./build-data/python3-pkgconfig.json",
         "./build-data/python3-pbr.json",
@@ -368,9 +368,8 @@
                 }
             ],
             "post-install": [
-                "cd python; python3 setup.py install --prefix=/app",
-                "rm /app/lib/libprotobuf*.a",
-                "rm /app/lib/python3.7/site-packages/easy-install.pth"
+                "cd python; python3 ./setup.py bdist_wheel; pip3 install --prefix=/app dist/*.whl",
+                "rm /app/lib/libprotobuf*.a"
             ]
         },
         {
@@ -379,9 +378,8 @@
             "build-commands": [
                 "make prefix=/app",
                 "make prefix=/app install",
-                "python3 setup.py install --prefix=/app",
-                "rm /app/lib/libgrpc*.a",
-                "rm /app/lib/python3.7/site-packages/easy-install.pth"
+                "python3 ./setup.py bdist_wheel; pip3 install --prefix=/app dist/*.whl",
+                "rm /app/lib/libgrpc*.a"
             ],
             "build-options" : {
                 "env" : {
