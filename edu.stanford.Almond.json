@@ -470,7 +470,8 @@
             "build-options" : {
                 "env" : {
                     "npm_config_nodedir" : "/usr/lib/sdk/node10"
-                }
+                },
+                "prepend-path": "/usr/lib/sdk/node10/bin"
             },
             "sources" : [
                 {
