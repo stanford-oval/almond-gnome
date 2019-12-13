@@ -471,14 +471,23 @@
                 "env" : {
                     "npm_config_nodedir" : "/usr/lib/sdk/node10"
                 },
-                "prepend-path": "/usr/lib/sdk/node10/bin"
+                "append-path": "/usr/lib/sdk/node10/bin"
             },
+            "cleanup": [
+                "/lib/node_modules"
+            ],
             "sources" : [
                 {
                     "type" : "git",
                     "url" : "https://github.com/stanford-oval/almond-gnome"
                 },
-                "../build-data/yarn.json"
+                "../build-data/yarn.json",
+                {
+                    "type": "shell",
+                    "commands": [
+                        "ln -sT /usr/lib/sdk/node10/lib/node_modules /app/lib/node_modules"
+                    ]
+                }
             ]
         }
     ],
