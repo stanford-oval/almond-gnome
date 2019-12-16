@@ -193,9 +193,11 @@ class Platform {
 
         this._filesDir = homedir;
         safeMkdirSync(this._filesDir);
-        this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
+        //this._locale = process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || 'en-US';
         // normalize this._locale to something that Intl can grok
-        this._locale = this._locale.split(/[-_.@]/).slice(0,2).join('-');
+        //this._locale = this._locale.split(/[-_.@]/).slice(0,2).join('-');
+        // FIXME only English is available for now
+        this._locale = 'en-US';
 
         this._gettext.setLocale(this._locale);
         this._timezone = process.env.TZ;
