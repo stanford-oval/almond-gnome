@@ -13,18 +13,19 @@ const yarnlock = YarnLock.parse(yarnlockfile);
 const urls = new Set;
 for (let name in yarnlock.object) {
     const url = yarnlock.object[name].resolved;
-    urls.add(url);
+
+    const parsed = Url.parse(url);
+    let basename = path.basename(parsed.pathname);
+    if (name.startsWith('@')) {
+        const namespace = name.substring(0, name.indexOf('/'));
+        basename = namespace + '-' + basename;
+    }
+
+    urls.add([url, basename]);
 }
 
 const sources = [];
-for (let url of urls) {
-    const parsed = Url.parse(url);
-    let basename = path.basename(parsed.pathname);
-
-    if (basename.startsWith('lockfile'))
-        basename = '@yarnpkg-' + basename;
-    if (basename.startsWith('code-frame') || basename.startsWith('highlight'))
-        basename = '@babel-' + basename;
+for (let [url, basename] of urls) {
 
     const sha256 = crypto.createHash('sha256');
     sha256.update(fs.readFileSync(path.resolve('deps', basename)));
