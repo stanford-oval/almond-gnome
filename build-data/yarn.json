@@ -1982,13 +1982,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/node-mimic/-/node-mimic-1.0.1.tgz#3f482062301d72b4baf9b7785ab0f8a2662a6152",
-        "sha256": "7b5a228861f4533ccd05df2ecfc547625ae00b24e47d26eb2748e681beab988f",
-        "dest": "deps",
-        "dest-filename": "node-mimic-1.0.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.11.0.tgz#db1f33215272f692cd38f03238e3e9b47c5dd054",
         "sha256": "df702f004932b5ec9f6acf656c7d6c68927717936e196376fc67a06d4d024cac",
         "dest": "deps",

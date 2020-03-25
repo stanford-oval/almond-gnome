@@ -47,7 +47,6 @@
         "/share/java/antlr-3.4-complete.jar",
         "/bin/bazel",
         "/bin/yarn",
-        "/bin/mimic*",
         "/bin/lfsc-checker",
         "/bin/compile_regexes",
         "/bin/t2p",
@@ -190,22 +189,6 @@
                     "type" : "archive",
                     "url" : "https://github.com/CVC4/CVC4/archive/1.7.tar.gz",
                     "sha256" : "9864a364a0076ef7ff63a46cdbc69cbe6568604149626338598d4df7788f8c2e"
-                }
-            ]
-        },
-        {
-            "name" : "mimic",
-            "config-opts" : [
-                "--enable-shared",
-                "--disable-static",
-                "--with-audio=no"
-            ],
-            "sources" : [
-                {
-                    "type" : "git",
-                    "url" : "https://github.com/MycroftAI/mimic",
-                    "tag" : "1.2.0.2",
-                    "commit" : "67e43bf0fa56008276b878ec3790aa5f32eb2a16"
                 }
             ]
         },
