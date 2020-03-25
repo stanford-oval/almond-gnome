@@ -42,6 +42,7 @@
         "/bin/antlr3",
         "/bin/pi",
         "/lib/yarn",
+        "/bin/python2",
         "/bin/antlr3",
         "/share/java/antlr-3.4-complete.jar",
         "/bin/bazel",
@@ -212,7 +213,9 @@
             "name" : "node",
             "buildsystem" : "simple",
             "build-commands" : [
-                "install -Dm 755 /usr/lib/sdk/node10/bin/node /app/bin/node"
+                "install -Dm 755 /usr/lib/sdk/node10/bin/node /app/bin/node",
+                "ln -s /usr/lib/sdk/node10/bin/python2 /app/bin/python2",
+                "ln -sT /usr/lib/sdk/node10/lib/node_modules /app/lib/node_modules"
             ]
         },
         {
@@ -278,192 +281,6 @@
             ]
         },
         {
-            "name" : "hdf5",
-            "config-opts" : [
-                "--enable-fortran",
-                "--enable-fortran2003",
-                "--enable-cxx",
-                "--enable-hl",
-                "--enable-shared",
-                "--disable-static",
-                "--disable-java"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.bz2",
-                    "sha256" : "09d6301901685201bb272a73e21c98f2bf7e044765107200b01089104a47c3bd"
-                }
-            ]
-        },
-        {
-            "name" : "bazel",
-            "buildsystem": "simple",
-            "build-commands": [
-                "ln -s /usr/bin/python3 /app/bin/python",
-                "./compile.sh",
-                "install -m 0755 -D output/bazel /app/bin/bazel",
-                "rm /app/bin/python"
-            ],
-            "build-options": {
-                "strip": false,
-                "no-debuginfo": true,
-                "no-debuginfo-compression": true,
-                "env" : {
-                    "EXTRA_BAZEL_ARGS": "--host_javabase=@local_jdk//:jdk --python_path=/usr/bin/python3",
-                    "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
-                }
-            },
-            "sources": [
-                {
-                    "type" : "archive",
-                    "url": "https://github.com/bazelbuild/bazel/releases/download/0.29.1/bazel-0.29.1-dist.zip",
-                    "sha256": "872a52cff208676e1169b3e1cae71b1fe572c4109cbd66eab107d8607c378de5",
-                    "strip-components": 0
-                },
-                {
-                    "type": "patch",
-                    "path": "build-data/grpc_rename_gettid.patch",
-                    "strip-components": 0,
-                    "options": [ "-d", "third_party/grpc" ]
-                }
-            ]
-        },
-        "./build-data/python3-wheel.json",
-        "./build-data/python3-Cython.json",
-        "./build-data/python3-numpy.json",
-        "./build-data/python3-pkgconfig.json",
-        "./build-data/python3-pbr.json",
-        "./build-data/python3-h5py.json",
-        "./build-data/python3-pybind11.json",
-        "./build-data/python3-scipy.json",
-        "./build-data/python3-speechpy-fast.json",
-        "./build-data/python3-sonopy.json",
-        "./build-data/python3-wavio.json",
-        "./build-data/python3-prettyparse.json",
-        "./build-data/python3-typing.json",
-        "./build-data/python3-attrs.json",
-        {
-            "name": "c-ares",
-            "buildsystem": "cmake",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz",
-                    "sha256": "6cdb97871f2930530c97deb7cf5c8fa4be5a0b02c7cea6e7c7667672a39d6852"
-                }
-            ],
-            "config-opts": [
-                "-DCMAKE_INSTALL_LIBDIR:PATH=/app/lib",
-                "-DCARES_BUILD_TOOLS:BOOL=OFF"
-            ]
-        },
-        {
-            "name": "protobuf",
-            "buildsystem": "autotools",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/protocolbuffers/protobuf/archive/v3.7.1/protobuf-3.7.1-all.tar.gz",
-                    "sha256": "f1748989842b46fa208b2a6e4e2785133cfcc3e4d43c17fecb023733f0f5443f"
-                }
-            ],
-            "post-install": [
-                "cd python; python3 ./setup.py bdist_wheel; pip3 install --prefix=/app dist/*.whl",
-                "rm /app/lib/libprotobuf*.a"
-            ]
-        },
-        {
-            "name": "grpc",
-            "buildsystem": "simple",
-            "build-commands": [
-                "make prefix=/app",
-                "make prefix=/app install",
-                "python3 ./setup.py bdist_wheel; pip3 install --prefix=/app dist/*.whl",
-                "rm /app/lib/libgrpc*.a"
-            ],
-            "build-options" : {
-                "env" : {
-                    "CFLAGS" : "-g -O2 -Wno-error",
-                    "CXXFLAGS" : "-g -O2 -Wno-error",
-                    "GRPC_PYTHON_BUILD_WITH_CYTHON": "True",
-                    "GRPC_PYTHON_BUILD_SYSTEM_OPENSSL": "True",
-                    "GRPC_PYTHON_BUILD_SYSTEM_ZLIB": "True",
-                    "GRPC_PYTHON_BUILD_SYSTEM_CARES": "True",
-                    "GRPC_PYTHON_DISABLE_LIBC_COMPATIBILITY": "True"
-                }
-            },
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/grpc/grpc/archive/4566c2a29ebec0835643b972eb99f4306c4234a3.tar.gz",
-                    "sha256": "67a6c26db56f345f7cee846e681db2c23f919eba46dd639b09462d1b6203d28c"
-                },
-                {
-                    "type": "patch",
-                    "path": "build-data/grpc_rename_gettid.patch",
-                    "strip-components": 0
-                }
-            ]
-        },
-        "./build-data/python3-tensorflow-deps.json",
-        "./build-data/python3-keras.json",
-        "./build-data/python3-wrapt.json",
-        {
-            "name": "tensorflow",
-            "buildsystem": "simple",
-            "build-commands": [
-                "mkdir -p tensorflow_pkg",
-                "mkdir -p /run/ccache/bazel",
-                "ln -s /usr/bin/python3 /app/bin/python",
-                "bazel --output_user_root=/run/ccache/bazel build --incompatible_no_support_tools_in_action_inputs=false --distdir=\"${PWD}/bazel-distdir\" --config=opt --config=nogcp --config=noaws --config=nohdfs --config=noignite --config=nokafka //tensorflow/tools/pip_package:build_pip_package",
-                "PYTHON_BIN_PATH=/usr/bin/python3 ./bazel-bin/tensorflow/tools/pip_package/build_pip_package tensorflow_pkg/",
-                "pip3 install --no-index --no-build-isolation --prefix=/app tensorflow_pkg/tensorflow-*.whl",
-                "rm /app/bin/python"
-            ],
-            "build-options": {
-                "env" : {
-                    "JAVA_HOME": "/usr/lib/sdk/openjdk11/jvm/openjdk-11"
-                }
-            },
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/tensorflow/tensorflow/archive/87989f69597d6b2d60de8f112e1e3cea23be7298.tar.gz",
-                    "sha256": "c4da79385dfbfb30c1aaf73fae236bc6e208c3171851dfbe0e1facf7ca127a6a"
-                },
-                {
-                    "type": "file",
-                    "path": "build-data/tensorflow.bazelrc",
-                    "dest-filename": ".tf_configure.bazelrc"
-                },
-                "./build-data/tensorflow-bazel-deps.json"
-            ]
-        },
-        {
-            "name" : "mycroft-precise",
-            "buildsystem" : "simple",
-            "build-commands" : [
-                "pip3 install . --prefix=/app"
-            ],
-            "sources" : [
-                {
-                    "type" : "git",
-                    "url" : "https://github.com/MycroftAI/mycroft-precise",
-                    "tag" : "v0.3.0",
-                    "commit" : "e06f92bf3119837cf314ba63b957277116ef1e6b"
-                },
-                {
-                    "type" : "patch",
-                    "path" : "build-data/mycroft-precise-deps.patch"
-                },
-                {
-                    "type" : "patch",
-                    "path" : "build-data/mycroft-precise-model.patch"
-                }
-            ]
-        },
-        {
             "name" : "intltool",
             "sources": [
                 {
@@ -503,13 +320,7 @@
                     "type" : "git",
                     "url" : "https://github.com/stanford-oval/almond-gnome"
                 },
-                "../build-data/yarn.json",
-                {
-                    "type": "shell",
-                    "commands": [
-                        "ln -sT /usr/lib/sdk/node10/lib/node_modules /app/lib/node_modules"
-                    ]
-                }
+                "../build-data/yarn.json"
             ]
         }
     ],
