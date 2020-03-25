@@ -7,16 +7,6 @@
     "sources": [
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
-            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/a9/b4/5598a706697d1e2929eaf7fe68898ef4bea76e4950b9efbe1ef396b8813a/scipy-1.2.1.tar.gz",
-            "sha256": "e085d1babcb419bbe58e2e805ac61924dac4ca45a07c9fa081144739e500aa3c"
-        },
-        {
-            "type": "file",
             "url": "https://files.pythonhosted.org/packages/87/df/cb115b4a470d89ac8845af95fcaec104a640a7ccd7f3e5816d1a2082bb5b/speechpy-fast-2.4.tar.gz",
             "sha256": "36f8a56581fca0334ddb5488a840be73572b766b668de7b19c2863cd7c479577"
         }

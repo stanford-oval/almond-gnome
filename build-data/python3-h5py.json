@@ -7,13 +7,8 @@
     "sources": [
         {
             "type": "file",
-            "url": "https://files.pythonhosted.org/packages/cf/8d/6345b4f32b37945fedc1e027e83970005fc9c699068d2f566b82826515f2/numpy-1.16.2.zip",
-            "sha256": "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0"
-        },
-        {
-            "type": "file",
-            "url": "https://files.pythonhosted.org/packages/43/27/a6e7dcb8ae20a4dbf3725321058923fec262b6f7835179d78ccc8d98deec/h5py-2.9.0.tar.gz",
-            "sha256": "9d41ca62daf36d6b6515ab8765e4c8c4388ee18e2a665701fef2b41563821002"
+            "url": "https://files.pythonhosted.org/packages/5f/97/a58afbcf40e8abecededd9512978b4e4915374e5b80049af082f49cebe9a/h5py-2.10.0.tar.gz",
+            "sha256": "84412798925dc870ffd7107f045d7659e60f5d46d1c70c700375248bf6bf512d"
         }
     ]
 }

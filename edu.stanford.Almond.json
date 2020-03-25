@@ -225,8 +225,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.17.3/yarn-v1.17.3.tar.gz",
-                    "sha256" : "e3835194409f1b3afa1c62ca82f561f1c29d26580c9e220c36866317e043c6f3"
+                    "url" : "https://github.com/yarnpkg/yarn/releases/download/v1.22.4/yarn-v1.22.4.tar.gz",
+                    "sha256" : "bc5316aa110b2f564a71a3d6e235be55b98714660870c5b6b2d2d3f12587fb58"
                 }
             ]
         },
@@ -265,8 +265,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://github.com/sqlcipher/sqlcipher/archive/v4.2.0.tar.gz",
-                    "sha256" : "105c1b813f848da038c03647a8bfc9d42fb46865e6aaf4edfd46ff3b18cdccfc"
+                    "url" : "https://github.com/sqlcipher/sqlcipher/archive/v4.3.0.tar.gz",
+                    "sha256" : "fccb37e440ada898902b294d02cde7af9e8706b185d77ed9f6f4d5b18b4c305f"
                 },
                 {
                     "type" : "script",
@@ -291,8 +291,8 @@
             "sources" : [
                 {
                     "type" : "archive",
-                    "url" : "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.bz2",
-                    "sha256" : "68d6ea8843d2a106ec6a7828564c1689c7a85714a35d8efafa2fee20ca366f44"
+                    "url" : "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.6/src/hdf5-1.10.6.tar.bz2",
+                    "sha256" : "09d6301901685201bb272a73e21c98f2bf7e044765107200b01089104a47c3bd"
                 }
             ]
         },
@@ -330,11 +330,12 @@
             ]
         },
         "./build-data/python3-wheel.json",
+        "./build-data/python3-Cython.json",
         "./build-data/python3-numpy.json",
         "./build-data/python3-pkgconfig.json",
         "./build-data/python3-pbr.json",
-        "./build-data/python3-Cython.json",
         "./build-data/python3-h5py.json",
+        "./build-data/python3-pybind11.json",
         "./build-data/python3-scipy.json",
         "./build-data/python3-speechpy-fast.json",
         "./build-data/python3-sonopy.json",
