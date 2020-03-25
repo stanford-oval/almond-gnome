@@ -10,7 +10,7 @@
 const events = require('events');
 
 const SpeechRecognizer = require('./speech_recognizer');
-const DetectorStream = require('./wake-word/mycroft_precise');
+const WakeWordDetector = require('./wake-word/porcupine');
 
 module.exports = class SpeechHandler extends events.EventEmitter {
     constructor(platform) {
@@ -50,10 +50,18 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         });
     }
 
-    start() {
+    async start() {
+        console.log('speech handler start');
+        this._detector = new WakeWordDetector();
+        await this._detector.init();
+        console.log('Wake word detector initialized');
+
+        if (this._detector.sampleRate !== 16000)
+            console.error('WARNING: porcupine reports unexpected sample rate ' + this._detector.sampleRate + ', hoping for the best...');
+
         this._stream = this._pulse.createRecordStream({
             format: 'S16LE',
-            rate: 16000,
+            rate: this._detector.sampleRate,
             channels: 1,
             properties: {
                 'filter.want': 'echo-cancel',
@@ -67,7 +75,6 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         });
         this._stream.on('error', (e) => this.emit('error', e));
 
-        this._detector = new DetectorStream();
         this._detector.on('sound', () => {
             if (this._autoTrigger)
                 this._onDetected();

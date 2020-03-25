@@ -80,6 +80,12 @@ module.exports = class DetectorStream extends stream.Writable {
         this._chunkLength = 0;
     }
 
+    async init() {}
+
+    get sampleRate() {
+        return 16000;
+    }
+
     _write(buffer, encoding, callback) {
         this._chunkBuffers.push(buffer);
         this._chunkLength += buffer.length;
