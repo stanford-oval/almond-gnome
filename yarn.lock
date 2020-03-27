@@ -84,18 +84,18 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-almond-dialog-agent@~1.8.0-alpha.1:
-  version "1.8.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.8.0-alpha.1.tgz#236ffaba122a4e85c96ea6e02dc5042e8a81513f"
-  integrity sha512-/ltv35GymFOkYdJ2JOAeljbZO1b5Dbk0fQ5+oyHemvbbQSgn5B0CcJNUnMDr69VQugQy7Cvvl4ejnQGJWZCdRQ==
+almond-dialog-agent@~1.8.0-beta.1:
+  version "1.8.0-beta.1"
+  resolved "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.8.0-beta.1.tgz#bf7e98f2b35d6e9d1d1138c590b89aadcf771dd8"
+  integrity sha512-ZbLGcC7KO0vHNFzvrFJ57rEOz2/zzNjMPQqOMmGQHuHtWp4GMg+zXza0wnTpXXVbjA9GHxqjWr+1Jc7MDFJ0bw==
   dependencies:
     adt "^0.7.2"
     consumer-queue "^1.0.0"
     qs "^6.7.0"
     string-interp "^0.1.0"
     thingpedia "~2.7.0-alpha.2"
-    thingtalk "~1.10.0-alpha.2"
-    uuid "^3.1.0"
+    thingtalk "~1.10.0-alpha.5"
+    uuid "^7.0.0"
 
 another-json@^0.2.0:
   version "0.2.0"
@@ -1793,9 +1793,9 @@ progress@^2.0.0:
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
 psl@^1.1.28:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/psl/-/psl-1.7.0.tgz#f1c4c47a8ef97167dea5d6bbf4816d736e884a3c"
-  integrity sha512-5NsSEDv8zY70ScRnOTn7bK7eanl2MvFrOrS/R6x+dBt5g1ghnj9Zv90kO8GwT8gxcu2ANyFprnFYB85IogIJOQ==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
+  integrity sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==
 
 pulseaudio2@^0.2.1:
   version "0.2.2"
@@ -1841,9 +1841,9 @@ q@^1.5.0:
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
 qs@^6.7.0:
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.2.tgz#a27b695006544a04bf0e6c6a7e8120778926d5bd"
-  integrity sha512-2eQ6zajpK7HwqrY1rRtGw5IZvjgtELXzJECaEDuzDFo2jjnIXpJSimzd4qflWZq6bLLi+Zgfj5eDrAzl/lptyg==
+  version "6.9.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.3.tgz#bfadcd296c2d549f1dffa560619132c977f5008e"
+  integrity sha512-EbZYNarm6138UKKq46tdx08Yo/q9ZhFoAXAI1meAFd2GtbRDhbZY2WQSICskT0c5q99aFzLG1D4nvTk9tqfXIw==
 
 qs@~6.4.0:
   version "6.4.0"
@@ -2056,9 +2056,9 @@ side-channel@^1.0.1:
     object-inspect "^1.7.0"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
-  integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
+  integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
 simple-concat@^1.0.0:
   version "1.0.0"
@@ -2351,10 +2351,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thingengine-core@~1.8.0-alpha.1:
-  version "1.8.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.8.0-alpha.2.tgz#f01afa88d870bc380ef8719c9577b6f01047e2f7"
-  integrity sha512-HkCuQqyybmxLWMRwCz0e6j6nX84f5urPQgXo2ht9cpfURD+7H5IHIzY9a5o9qKUjsV/zXwcHE15xjWQWZ2eN5g==
+thingengine-core@~1.8.0-beta.1:
+  version "1.8.0-beta.1"
+  resolved "https://registry.yarnpkg.com/thingengine-core/-/thingengine-core-1.8.0-beta.1.tgz#ed3c7fdc406e9c5d9713d3ade99a05d4eafd4c64"
+  integrity sha512-L/xB9Rf2yKrLQ6L2tRIvvLdnCFpWGydDMtpia+RXhf6WdqdNh/0NwhDoBlyk1d5AiJdGNhrUBRNek+6ljavWPg==
   dependencies:
     adt "^0.7.2"
     consumer-queue "^1.0.1"
@@ -2364,10 +2364,10 @@ thingengine-core@~1.8.0-alpha.1:
     q "^1.5.0"
     sqlite3 "^4.0.2"
     string-interp "^0.1.0"
-    thingpedia "~2.7.0-alpha.3"
+    thingpedia "~2.7.0-beta.1"
     thingpedia-discovery "^1.0.0"
-    thingtalk "~1.10.0-alpha.5"
-    uuid "^3.1.0"
+    thingtalk "~1.10.0-beta.1"
+    uuid "^7.0.0"
     ws "^7.0.0"
 
 thingpedia-discovery@^1.0.0, thingpedia-discovery@^1.0.1:
@@ -2377,17 +2377,17 @@ thingpedia-discovery@^1.0.0, thingpedia-discovery@^1.0.1:
   dependencies:
     node-ssdp "^2.7.2"
 
-thingpedia@~2.7.0-alpha.1, thingpedia@~2.7.0-alpha.2, thingpedia@~2.7.0-alpha.3:
-  version "2.7.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.7.0-alpha.4.tgz#9de074293af9510876b1f156c003ca4a64553401"
-  integrity sha512-O5RNdYSbmtsIV92Uc8L+3H6FwQW1e8+5tE6Xr6TlZpunzD+TWowHQPC652tx5WfPjWeZ7SrIbS/JuT6pfFqLYw==
+thingpedia@~2.7.0-alpha.2, thingpedia@~2.7.0-beta.1:
+  version "2.7.0-beta.1"
+  resolved "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.7.0-beta.1.tgz#0b9d8fc72e4c4f659dacc137a9a473c4806327a2"
+  integrity sha512-EwLco6C0BY5hF+e+V4Im/uMo8R5SBawntuZL9/NOv0WLi0PPgtvFhGlhUcnr5DMb8fAJ/6W1hVbKZ03EESz6Jg==
   dependencies:
     feedparser "^2.2.9"
     gettext-parser "^4.0.2"
     ip "^1.1.0"
     oauth "^0.9.14"
     string-interp "^0.1.0"
-    thingtalk "~1.10.0-alpha.5"
+    thingtalk "~1.10.0-beta.1"
     tmp "^0.1.0"
     xml2js "^0.4.17"
 
@@ -2396,10 +2396,10 @@ thingtalk-units@^0.1.0:
   resolved "https://registry.yarnpkg.com/thingtalk-units/-/thingtalk-units-0.1.0.tgz#c3b69bc0c7d0a3ba5bfad3ccf02dc1c291d1abc8"
   integrity sha512-rV5/jZw9fBk3OgYi/HrA1LsTmD5w0gYDlsc1US3/ePR5szaUxwMUtN8UAPYaUorOiW0Qcjm1plvssOC97EkedQ==
 
-thingtalk@~1.10.0-alpha.1, thingtalk@~1.10.0-alpha.2, thingtalk@~1.10.0-alpha.5:
-  version "1.10.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.10.0-alpha.5.tgz#3e01c7933c7c2dc66131e99aaeed8e410b5cb959"
-  integrity sha512-sO9VabvlNfHYYsUCAKM6Or/7b35JstivTTucM/eteVj/dCPdC1GtetXCqR1u1lq4fT5EKeJS83TFo2ICk63NwQ==
+thingtalk@~1.10.0-alpha.5, thingtalk@~1.10.0-beta.1:
+  version "1.10.0-beta.1"
+  resolved "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.10.0-beta.1.tgz#4bf8d3773bad95787372e9c935f3b5f4d2083328"
+  integrity sha512-itiyGssHX7vPx+xulPmRk4qMotJdyNsQsu2KqEFnmqR3Bbj3wFcBgw4J9ecImxfICMusx7BZO/1bgylVhF9EKw==
   dependencies:
     adt "~0.7.2"
     byline "^5.0.0"
@@ -2498,10 +2498,15 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
-uuid@^3.0.0, uuid@^3.1.0, uuid@^3.3.2:
+uuid@^3.0.0, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^7.0.0:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+  integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
 
 v8-compile-cache@^2.0.3:
   version "2.1.0"
