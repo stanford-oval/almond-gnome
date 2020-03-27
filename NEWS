@@ -1,3 +1,16 @@
+1.8.0-beta.1
+============
+
+* The Almond platform was updated to the 1.8 series [#61].
+* The app now forces the English locale, as that is the only supported locale
+  at the moment [#58].
+* The wake word implementation was changed to snowboy. This reduced the app
+  on-disk footprint, and made the app easier to install. As part of this
+  change, the wake word is now "computer" [#62].
+* The speech-to-text backend was changed and now uses Microsoft Speech API,
+  significantly improving the voice quality [#62].
+* Updated dependencies [#60].
+
 1.7.1
 =====
 
