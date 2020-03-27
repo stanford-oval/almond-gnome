@@ -60,31 +60,6 @@ function init(meta) {
 
 let _source;
 
-class AssistantNotification extends MessageTray.Notification {
-    constructor(source, model) {
-        super(source, source.title, null,
-              { secondaryGIcon: source.getSecondaryIcon() });
-        this.setUrgency(MessageTray.Urgency.HIGH);
-        this.setResident(true);
-
-        this.model = model;
-    }
-
-    activate() {
-        this.source.open();
-        super.activate();
-    }
-
-    destroy(reason) {
-        // Keep notification alive while the extension is enabled
-        if (reason !== MessageTray.NotificationDestroyedReason.SOURCE_CLOSED) {
-            this.emit('done-displaying');
-            return;
-        }
-        super.destroy(reason);
-    }
-}
-
 const AssistantLineBox = GObject.registerClass(class AlmondAssistantLineBox extends St.BoxLayout {
     vfunc_get_preferred_height(forWidth) {
         let [, natHeight] = super.vfunc_get_preferred_height(forWidth);
@@ -257,9 +232,9 @@ const MessageConstructors = {
     }
 };
 
-class AssistantNotificationBanner extends MessageTray.NotificationBanner {
-    constructor(notification) {
-        super(notification);
+const AssistantNotificationBanner = GObject.registerClass(class AlmondAssistantNotificationBanner extends MessageTray.NotificationBanner {
+    _init(notification) {
+        super._init(notification);
 
         this.responseEntry = new St.Entry({ style_class: 'chat-response',
                                             x_expand: true,
@@ -380,11 +355,11 @@ class AssistantNotificationBanner extends MessageTray.NotificationBanner {
         this.responseEntry.set_text('');
         this.notification.source.respond(text);
     }
-}
+});
 
-class AssistantSource extends MessageTray.Source {
-    constructor() {
-        super(_("Almond"), 'edu.stanford.Almond');
+const AssistantSource = GObject.registerClass(class AssistantSource extends MessageTray.Source {
+    _init() {
+        super._init(_("Almond"), 'edu.stanford.Almond');
 
         this.isChat = true;
 
@@ -489,7 +464,12 @@ class AssistantSource extends MessageTray.Source {
 
         this._icon = null;
 
-        this._notification = new AssistantNotification(this, this._model);
+        this._notification = new MessageTray.Notification(this, this.title, null,
+              { secondaryGIcon: this.getSecondaryIcon() });
+        this._notification.setUrgency(MessageTray.Urgency.HIGH);
+        this._notification.setResident(true);
+
+        this._notification.model = model;
         this._notification.connect('activated', this.open.bind(this));
         this._notification.connect('updated', () => {
             //if (this._banner && this._banner.expanded)
@@ -535,7 +515,7 @@ class AssistantSource extends MessageTray.Source {
         let app = Shell.AppSystem.get_default().lookup_app('edu.stanford.Almond.desktop');
         app.activate();
     }
-}
+});
 
 /* exported enable */
 function enable() {
