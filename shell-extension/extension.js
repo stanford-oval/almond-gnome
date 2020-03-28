@@ -469,7 +469,7 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
         this._notification.setUrgency(MessageTray.Urgency.HIGH);
         this._notification.setResident(true);
 
-        this._notification.model = model;
+        this._notification.model = this._model;
         this._notification.connect('activated', this.open.bind(this));
         this._notification.connect('updated', () => {
             //if (this._banner && this._banner.expanded)
