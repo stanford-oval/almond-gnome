@@ -291,13 +291,11 @@
             "buildsystem" : "meson",
             "build-options" : {
                 "env" : {
-                    "npm_config_nodedir" : "/usr/lib/sdk/node10"
+                    "npm_config_nodedir" : "/usr/lib/sdk/node10",
+                    "LDFLAGS": "-L/app/lib -Wl,-z,relro,-z,now -Wl,--no-as-needed"
                 },
                 "append-path": "/usr/lib/sdk/node10/bin"
             },
-            "cleanup": [
-                "/lib/node_modules"
-            ],
             "sources" : [
                 {
                     "type" : "git",

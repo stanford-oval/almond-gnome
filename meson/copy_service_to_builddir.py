@@ -56,5 +56,4 @@ with open(os.path.join(builddir, '.yarnrc'), 'a') as fp:
 
 yarn = os.environ.get('YARN', 'yarn')
 print(os.path.abspath(builddir))
-subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile"], cwd=builddir)
-
+subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile", "--noprogress"], cwd=builddir)
