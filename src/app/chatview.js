@@ -245,6 +245,8 @@ const MessageConstructors = {
             });
         } else if (msg.link === '/apps') {
             button.set_detailed_action_name('win.switch-to::page-my-stuff');
+        } else if (msg.link === '/devices/create') {
+            button.action_name = 'win.new-device';
         } else if (msg.link.startsWith('/devices/oauth2/')) {
             // "parse" the link in the context of a dummy base URI
             let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
@@ -253,7 +255,7 @@ const MessageConstructors = {
             button.action_name = 'win.configure-device-oauth2';
             button.action_target = new GLib.Variant('(ss)', [kind, query.name||'']);
         } else {
-            throw new Error('Unexpected link to ' + msg.link);
+            log('WARNING: unexpected link to ' + msg.link);
         }
 
         box.pack_start(button, true, true, 0);
