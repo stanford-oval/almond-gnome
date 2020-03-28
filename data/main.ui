@@ -116,29 +116,16 @@
               <object class="GtkActionBar">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkButton" id="configure-new-device">
+                  <object class="GtkButton" id="configure-new-skill">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="use_underline">True</property>
-                    <property name="label" translatable="yes">Configure New _Device</property>
+                    <property name="label" translatable="yes">Configure _New Skill</property>
                     <property name="action-name">win.new-device</property>
                   </object>
                   <packing>
                     <property name="pack_type">start</property>
                     <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="configure-new-account">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="use_underline">True</property>
-                    <property name="label" translatable="yes">Configure New _Account</property>
-                    <property name="action-name">win.new-account</property>
-                  </object>
-                  <packing>
-                    <property name="pack_type">start</property>
-                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>

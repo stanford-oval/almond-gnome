@@ -42,7 +42,7 @@ const DBUS_CONTROL_INTERFACE = {
         GetDeviceInfos: ['', 'aa{sv}'],
         GetDeviceInfo: ['s', 'a{sv}'],
         GetDeviceExamples: ['s', 'a(ssuassa{ss}as)'],
-        GetDeviceFactories: ['s', 'aa{sv}'],
+        GetDeviceFactories: ['', 'aa{sv}'],
         CheckDeviceAvailable: ['s', 'u'],
         GetAppInfos: ['', 'aa{sv}'],
         DeleteApp: ['s', 'b'],
@@ -278,7 +278,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceFactories(deviceClass) {
-        return _engine.thingpedia.getDeviceFactories(deviceClass).then((factories) => factories.map((f) => {
+        return _engine.thingpedia.getDeviceFactories().then((factories) => factories.map((f) => {
             let factory = [];
             let value;
             for (let name in f) {

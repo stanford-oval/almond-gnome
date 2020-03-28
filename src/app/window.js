@@ -69,8 +69,6 @@ var MainWindow = GObject.registerClass({
                           { name: 'show-device-details',
                             activate: this._showDeviceDetails,
                             parameter_type: new GLib.VariantType('s') },
-                          { name: 'new-account',
-                            activate: this._configureNewAccount },
                           { name: 'check-update',
                             activate: this._checkDeviceUpdate,
                             parameter_type: new GLib.VariantType('s') },
@@ -278,18 +276,12 @@ var MainWindow = GObject.registerClass({
     }
 
     _configureNewDevice() {
-        this._configureNew('physical');
-    }
-    _configureNewAccount() {
-        this._configureNew('online');
-    }
-    _configureNew(klass) {
-        let dialog = new DeviceConfigDialog(this, klass, this._service);
+        let dialog = new DeviceConfigDialog(this, this._service);
         dialog.startChooseKind();
     }
     _configureDeviceOAuth2(action, param) {
         let [kind, title] = param.deep_unpack();
-        let dialog = new DeviceConfigDialog(this, '', this._service);
+        let dialog = new DeviceConfigDialog(this, this._service);
         dialog.startOAuth2(title, kind);
     }
     _showDeviceDetails(action, param) {
