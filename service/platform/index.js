@@ -70,7 +70,7 @@ const _contentApi = {
 const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
 const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
 */
-const BluezBluetooth = require('./bluez');
+//const BluezBluetooth = require('./bluez');
 
 function safeMkdirSync(dir) {
     try {
