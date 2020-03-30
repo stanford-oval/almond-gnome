@@ -465,8 +465,11 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
         Main.messageTray.add(this);
 
         this.service.connectSignal('NewMessage', (signal, sender, [id, type, direction, msg]) => {
-            if (direction !== Direction.FROM_ALMOND)
+            if (direction !== Direction.FROM_ALMOND) {
+                Main.messageTray._onIdleMonitorBecameActive();
+                this.activateIfAlmondUnfocused();
                 return;
+            }
 
             msg.message_id = id;
             msg.message_type = type;
@@ -486,6 +489,7 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
             this.activateIfAlmondUnfocused();
         });
         this.service.connectSignal('Activate', () => {
+            Main.messageTray._onIdleMonitorBecameActive();
             this.activateIfAlmondUnfocused();
         });
         this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
