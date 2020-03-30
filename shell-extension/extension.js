@@ -123,7 +123,7 @@ function activateGtkAction(actionName, actionParameter) {
         _continue();
     } else {
         app.activate();
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, _continue, 500);
+        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, _continue);
     }
 }
 
@@ -178,7 +178,10 @@ const MessageConstructors = {
             button.connect('clicked', () => {
                 activateGtkAction('win.switch-to', new GLib.Variant('s', 'page-my-stuff'));
             });
-            button.set_detailed_action_name('win.switch-to::page-my-stuff');
+        } else if (msg.link === '/devices/create') {
+            button.connect('clicked', () => {
+                activateGtkAction('win.new-device', null);
+            });
         } else if (msg.link.startsWith('/devices/oauth2/')) {
             // "parse" the link in the context of a dummy base URI
             let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
