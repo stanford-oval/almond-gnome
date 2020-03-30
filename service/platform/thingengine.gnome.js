@@ -50,11 +50,22 @@ module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
         return this._callDBus('org.gnome.Shell', '/edu/stanford/Almond/ShellExtension', 'edu.stanford.Almond.ShellExtension', method, ...args);
     }
 
-    do_open_app({ app_id, url }) {
+    async do_open_app({ app_id, url }) {
+        const appName = app_id.display;
+        // append the file extension
+        const appId = String(app_id) + '.desktop';
+
+        const appList = await this.engine.platform.getCapability('app-launcher').listApps();
+        if (!appList.find(([candidateAppId, candidateAppName]) => candidateAppId === appId)) {
+            // the app we're looking for is not installed
+            // (the proper way to do is to hook this at entity linking level, and resolve the right app by name...)
+            throw new Error(`${appName} is not installed. You might install it from GNOME Software`);
+        }
+
         if (url)
-            return this.engine.platform.getCapability('app-launcher').launchApp(String(app_id), String(url));
+            return this.engine.platform.getCapability('app-launcher').launchApp(appId, String(url));
         else
-            return this.engine.platform.getCapability('app-launcher').launchApp(String(app_id));
+            return this.engine.platform.getCapability('app-launcher').launchApp(appId);
     }
     do_lock() {
         return this.engine.platform.getCapability('system-lock').lock();

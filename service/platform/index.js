@@ -105,9 +105,24 @@ async function runningInFlatpak() {
     return util.promisify(fs.exists)('/.flatpak-info');
 }
 
-const _appLauncher = {
+class AppLauncher {
+    constructor(sessionBus) {
+        this._bus = sessionBus;
+    }
+
+    async init() {
+        this._interface = await ninvoke(this._bus, 'getInterface',
+             'org.gnome.Shell',
+             '/edu/stanford/Almond/ShellExtension',
+             'edu.stanford.Almond.ShellExtension');
+    }
+
+    async listApps() {
+        return ninvoke(this._interface, 'ListApps');
+    }
+
     async launchApp(appId, ...files) {
-        const helperpath = path.resolve(module.filename, '../../../helpers/spawn-app')
+        const helperpath = path.resolve(module.filename, '../../../helpers/spawn-app');
         if (await runningInFlatpak()) {
             // HACK: we need to run our script on the host, so we pass the whole content on the commandline
             // (this is what gnome-builder does, and it also triggers interesting edge cases in glib...)
@@ -122,7 +137,7 @@ const _appLauncher = {
                 stdio: 'inherit'
             });
         }
-    },
+    }
 
     async launchURL(url) {
         if (await runningInFlatpak()) {
@@ -137,7 +152,8 @@ const _appLauncher = {
             });
         }
     }
-};
+}
+
 class SystemLock extends events.EventEmitter {
     constructor(sessionBus) {
         super();
@@ -246,6 +262,7 @@ class Platform {
         this._dbusSession = DBus.sessionBus();
         this._dbusSystem = DBus.systemBus();
         this._systemLock = new SystemLock(this._dbusSession);
+        this._appLauncher = new AppLauncher(this._dbusSession);
         this._systemSettings = new SystemSettings(this._cacheDir);
         this._screenshot = new Screenshot(this._dbusSession, this._gettext);
         this._btApi = null;
@@ -290,6 +307,7 @@ class Platform {
         }
 
         await this._systemLock.init();
+        await this._appLauncher.init();
 
         this._gnomeDev = {
             kind: 'org.thingpedia.builtin.thingengine.gnome',
@@ -420,7 +438,7 @@ class Platform {
             return CVC4Solver;
 
         case 'app-launcher':
-            return _appLauncher;
+            return this._appLauncher;
         case 'system-lock':
             return this._systemLock;
         case 'system-settings':
