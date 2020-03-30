@@ -28,6 +28,7 @@ const Main = imports.ui.main;
 const History = imports.misc.history;
 //const MessageList = imports.ui.messageList;
 const MessageTray = imports.ui.messageTray;
+const Calendar = imports.ui.calendar;
 //const Params = imports.misc.params;
 //const Util = imports.misc.util;
 const Gio = imports.gi.Gio;
@@ -314,6 +315,14 @@ const AssistantNotificationBanner = GObject.registerClass(class AlmondAssistantN
         });
 
         this._addMessages(0, this.notification.model.store.get_n_items());
+
+        // hide the close button
+        if (this._closeButton)
+            this._closeButton.visible = false;
+    }
+
+    close() {
+        // we don't want to destroy the notification when the user dismisses it by clicking "x"
     }
 
     _addMessages(from, to) {
@@ -504,6 +513,8 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
             this._notification = null;
         });
         this.pushNotification(this._notification);
+
+        // HACK: we need to find
     }
 
     _createPolicy() {
@@ -670,6 +681,7 @@ class ExtensionDBus {
 
 let _source;
 let _dbus;
+let _originalAddMessageAtIndex;
 
 /* exported enable */
 function enable() {
@@ -677,6 +689,21 @@ function enable() {
         return;
     _source = new AssistantSource();
     _dbus = new ExtensionDBus(_source);
+
+    // monkey patch Calendar.NotificationSection.addMessageAtIndex so we can hide the close button
+    // on our notification
+    _originalAddMessageAtIndex = Calendar.NotificationSection.prototype.addMessageAtIndex;
+
+    Calendar.NotificationSection.prototype.addMessageAtIndex = function(message, ...args) {
+        if (!(message instanceof Calendar.NotificationMessage))
+            return _originalAddMessageAtIndex.call(this, message, ...args);
+
+        const source = message.notification.source;
+        if (source === _source && message._closeButton)
+            message._closeButton.visible = false;
+
+        return _originalAddMessageAtIndex.call(this, message, ...args);
+    };
 }
 
 /* exported disable */
@@ -687,4 +714,7 @@ function disable() {
     if (_dbus)
         _dbus.destroy();
     _dbus = null;
+
+    // undo monkey patching
+    Calendar.NotificationSection.prototype.addMessageAtIndex = _originalAddMessageAtIndex;
 }
