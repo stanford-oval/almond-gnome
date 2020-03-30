@@ -100,19 +100,41 @@ function makeRandom() {
     return crypto.randomBytes(32).toString('hex');
 }
 
+async function runningInFlatpak() {
+    return util.promisify(fs.exists)('/.flatpak-info');
+}
+
 const _appLauncher = {
-    launchApp(appId, ...files) {
-        child_process.spawn(path.resolve(module.filename, '../../../helpers/spawn-app'), [appId, ...files], {
-            detached: true,
-            stdio: 'inherit'
-        });
+    async launchApp(appId, ...files) {
+        const helperpath = path.resolve(module.filename, '../../../helpers/spawn-app')
+        if (await runningInFlatpak()) {
+            // HACK: we need to run our script on the host, so we pass the whole content on the commandline
+            // (this is what gnome-builder does, and it also triggers interesting edge cases in glib...)
+            const buffer = await util.promisify(fs.readFile)(helperpath, { encoding: 'utf8' });
+            child_process.spawn('flatpak-spawn', ['--host', 'gjs', '-c', buffer, appId, ...files], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        } else {
+            child_process.spawn(helperpath, [appId, ...files], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        }
     },
 
-    launchURL(url) {
-        child_process.spawn('xdg-open', [url], {
-            detached: true,
-            stdio: 'inherit'
-        });
+    async launchURL(url) {
+        if (await runningInFlatpak()) {
+            child_process.spawn('flatpak-spawn', ['--host', 'xdg-open', url], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        } else {
+            child_process.spawn('xdg-open', [url], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        }
     }
 };
 class SystemLock {
