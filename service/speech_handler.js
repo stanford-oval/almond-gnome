@@ -17,6 +17,7 @@ module.exports = class SpeechHandler extends events.EventEmitter {
         super();
         this._platform = platform;
         this._pulse = platform.getCapability('pulseaudio');
+        this._systemLock = platform.getCapability('system-lock');
 
         this._recognizer = new SpeechRecognizer({ locale: this._platform.locale });
         this._recognizer.on('error', (e) => {
@@ -73,10 +74,20 @@ module.exports = class SpeechHandler extends events.EventEmitter {
 
         this._detector = new WakeWordDetector();
         this._detector.on('sound', () => {
+            if (this._systemLock && this._systemLock.isActive)
+                return;
+
             if (this._autoTrigger)
                 this._onDetected();
         });
         this._detector.on('hotword', (hotword) => {
+            // NOTE: this code is shared between Almond Server and Almond GNOME
+            // Almond Server has no concept of system lock, so we check here if systemLock is not null
+            if (this._systemLock && this._systemLock.isActive) {
+                console.log('Ignored hotword ' + hotword + ' because the system is locked');
+                return;
+            }
+
             console.log('Hotword ' + hotword + ' detected');
             this.emit('hotword', hotword);
             this._onDetected();

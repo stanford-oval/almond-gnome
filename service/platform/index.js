@@ -15,6 +15,7 @@ const fs = require('fs');
 const util = require('util');
 const os = require('os');
 const path = require('path');
+const events = require('events');
 const child_process = require('child_process');
 const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
@@ -137,17 +138,32 @@ const _appLauncher = {
         }
     }
 };
-class SystemLock {
-    constructor(systemBus) {
-        this._bus = systemBus;
+class SystemLock extends events.EventEmitter {
+    constructor(sessionBus) {
+        super();
+        this._bus = sessionBus;
+        this._isActive = false;
+    }
+
+    get isActive() {
+        return this._isActive;
+    }
+
+    async init() {
+        this._interface = await ninvoke(this._bus, 'getInterface',
+             'org.gnome.Shell',
+             '/org/gnome/ScreenSaver',
+             'org.gnome.ScreenSaver');
+
+        this._isActive = await ninvoke(this._interface, 'GetActive');
+        this._interface.on('ActiveChanged', (isActive) => {
+            this._isActive = isActive;
+            this.emit('active-changed');
+        });
     }
 
     async lock() {
-        const session = await ninvoke(this._bus, 'getInterface',
-             'org.freedesktop.login1',
-             '/org/freedesktop/login1/session/_3' + process.env.XDG_SESSION_ID,
-             'org.freedesktop.login1.Session');
-        await ninvoke(session, 'Lock');
+        await ninvoke(this._interface, 'Lock');
     }
 }
 
@@ -229,7 +245,7 @@ class Platform {
 
         this._dbusSession = DBus.sessionBus();
         this._dbusSystem = DBus.systemBus();
-        this._systemLock = new SystemLock(this._dbusSystem);
+        this._systemLock = new SystemLock(this._dbusSession);
         this._systemSettings = new SystemSettings(this._cacheDir);
         this._screenshot = new Screenshot(this._dbusSession, this._gettext);
         this._btApi = null;
@@ -272,6 +288,8 @@ class Platform {
             this._prefs.set('sqlcipher-compatibility', 4);
             await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
         }
+
+        await this._systemLock.init();
 
         this._gnomeDev = {
             kind: 'org.thingpedia.builtin.thingengine.gnome',
