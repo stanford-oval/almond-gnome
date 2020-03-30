@@ -333,12 +333,15 @@ class Platform {
         // We can use the capabilities of a desktop assistant
         case 'dbus-session':
         case 'dbus-system':
-        case 'bluetooth':
         case 'app-launcher':
         case 'system-lock':
         case 'system-settings':
         case 'screenshot':
             return true;
+
+        case 'bluetooth':
+            // temporarily disabled
+            return false;
 
 /*
         // We can use the phone capabilities
@@ -386,9 +389,12 @@ class Platform {
         case 'dbus-system':
             return this._dbusSystem;
         case 'bluetooth':
-            if (!this._btApi)
+            // temporarily disabled
+            /*if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);
             return this._btApi;
+            */
+            return null;
         case 'pulseaudio':
             return this._pulse;
 
