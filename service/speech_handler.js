@@ -60,6 +60,7 @@ module.exports = class SpeechHandler extends events.EventEmitter {
             channels: 1,
             properties: {
                 'filter.want': 'echo-cancel',
+                'media.role': 'voice-assistant',
             }
         });
 

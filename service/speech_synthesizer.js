@@ -127,6 +127,7 @@ module.exports = class SpeechSynthesizer {
             latency: 100000, // us (= 0.1 s)
             properties: {
                 'filter.want': 'echo-cancel',
+                'media.role': 'voice-assistant',
             }
         });
     }
