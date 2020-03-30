@@ -104,14 +104,6 @@ module.exports = class SpeechSynthesizer {
     }
 
     _ensureOutputStream(result) {
-        if (this._closeTimeout)
-            clearTimeout(this._closeTimeout);
-        this._closeTimeout = setTimeout(() => {
-            this._outputStream.end();
-            this._outputStream = null;
-            this._closeTimeout = null;
-        }, 60000);
-
         if (this._outputStream && this._sampleRate === result.sampleRate
             && this._numChannels === result.numChannels)
             return;
@@ -135,6 +127,10 @@ module.exports = class SpeechSynthesizer {
     async _sayNext() {
         if (this._queue.length === 0) {
             this._speaking = false;
+            if (this._outputStream) {
+                this._outputStream.end();
+                this._outputStream = null;
+            }
             return;
         }
         this._speaking = true;
