@@ -448,7 +448,7 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
         if (focus_app && focus_app.get_id() === 'edu.stanford.Almond.desktop')
             return;
 
-        this.notify(this._notification);
+        this.showNotification(this._notification);
     }
 
     _continueInit() {
