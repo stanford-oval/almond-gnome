@@ -23,16 +23,31 @@ module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
         this._ = gettext.dgettext.bind(gettext, 'edu.stanford.Almond');
         this.name = this._("Almond 4 GNOME");
         this.description = this._("Control your PC with your voice.");
+
+        this._bus = engine.platform.getCapability('dbus-session');
     }
 
     checkAvailable() {
         return Tp.Availability.AVAILABLE;
     }
 
+    get_power() {
+        // we're running on this PC, so we're definetely on
+        return { state: 'on' };
+    }
+
     get_get_screenshot() {
         return this.engine.platform.getCapability('screenshot').take().then((url) => {
             return [{ picture_url: url }];
         });
+    }
+
+    async _callDBus(name, objpath, iface, method, ...args) {
+        const proxy = await ninvoke(this._bus, 'getInterface', name, objpath, iface);
+        return ninvoke(proxy, method, ...args);
+    }
+    async _callExtension(method, ...args) {
+        return this._callDBus('org.gnome.Shell', '/edu/stanford/Almond/ShellExtension', 'edu.stanford.Almond.ShellExtension', method, ...args);
     }
 
     do_open_app({ app_id, url }) {
@@ -51,15 +66,33 @@ module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
         if (power === 'on')
             return; // nothing to do, if the app is running the PC is on
 
-        const iface = await ninvoke(this._bus, 'getInterface',
-             'org.gnome.SessionManager',
-             '/org/gnome/SessionManager',
-             'org.gnome.SessionManager');
-
         // invoke asynchronously, do not block
-        ninvoke(iface, 'Shutdown').catch((e) => {
+        this._callDBus('org.gnome.SessionManager', '/org/gnome/SessionManager', 'org.gnome.SessionManager', 'Shutdown').catch((e) => {
             console.error('Error during shutdown: ' + e);
         });
+    }
+
+    async do_raise_volume() {
+        await this._callExtension('VolumeUp');
+    }
+    async do_lower_volume() {
+        await this._callExtension('VolumeDown');
+    }
+    async do_set_volume({ volume }) {
+        // volume is 0-100, but the shell extensions wants 0-1
+        await this._callExtension('SetVolume', volume / 100);
+    }
+    async mute() {
+        await this._callExtension('SetMuted', true);
+    }
+    async unmute() {
+        await this._callExtension('SetMuted', false);
+    }
+    async set_sink() {
+        // nothing to do, PulseAudio manages the default sink already
+    }
+    async play_music() {
+        throw new Error(`This function is not available on this platform. If you wish to open a specific music app, say "Open" and the app name.`);
     }
 
     do_create_file({ file_name, contents }) {

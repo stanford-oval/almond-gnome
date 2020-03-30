@@ -1,4 +1,4 @@
-class @org.thingpedia.builtin.thingengine.gnome {
+class @org.thingpedia.builtin.thingengine.gnome extends @org.thingpedia.iot.speaker {
   import loader from @org.thingpedia.builtin();
   import config from @org.thingpedia.config.builtin();
 
