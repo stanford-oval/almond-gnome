@@ -55,8 +55,7 @@ module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
         // append the file extension
         const appId = String(app_id) + '.desktop';
 
-        const appList = await this.engine.platform.getCapability('app-launcher').listApps();
-        if (!appList.find(([candidateAppId, candidateAppName]) => candidateAppId === appId)) {
+        if (!await this.engine.platform.getCapability('app-launcher').hasApp(appId)) {
             // the app we're looking for is not installed
             // (the proper way to do is to hook this at entity linking level, and resolve the right app by name...)
             throw new Error(`${appName} is not installed. You might install it from GNOME Software`);

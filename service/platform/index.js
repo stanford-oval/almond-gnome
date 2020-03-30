@@ -117,8 +117,27 @@ class AppLauncher {
              'edu.stanford.Almond.ShellExtension');
     }
 
-    async listApps() {
+    _internalListApps() {
         return ninvoke(this._interface, 'ListApps');
+    }
+
+    async listApps() {
+        const apps = await this._internalListApps();
+        return apps.map(([appId, appName]) => {
+            if (appId.endsWith('.desktop'))
+                appId = appId.substring(0, appId.length - '.desktop'.length);
+
+            // return in the same format used by /entities/lookup in the Thingpedia API
+            return {
+                value: appId,
+                name: appName,
+                canonical: appName.toLowerCase()
+            };
+        });
+    }
+
+    async hasApp(appId) {
+        return (await this._internalListApps()).some(([candidateAppId,]) => candidateAppId === appId);
     }
 
     async launchApp(appId, ...files) {
