@@ -33,6 +33,9 @@ module.exports = class SpeechHandler extends events.EventEmitter {
     }
 
     _onDetected() {
+        // set auto trigger to false when detected, or we'll get a rapid-fire of requests
+        this._autoTrigger = false;
+
         let req = this._recognizer.request(this._stream);
         req.on('hypothesis', (hypothesis) => this.emit('hypothesis', hypothesis));
         req.on('done', (status, utterance) => {
