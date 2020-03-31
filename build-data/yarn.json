@@ -113,10 +113,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.8.0-beta.1.tgz#bf7e98f2b35d6e9d1d1138c590b89aadcf771dd8",
-        "sha256": "1a5129b7044921b52220bc3b55028058616df8b2669b66894fe9c8233038f8b6",
+        "url": "https://registry.yarnpkg.com/almond-dialog-agent/-/almond-dialog-agent-1.8.0-beta.2.tgz#b0b386c206f3fa7a375436c497957af39547ff62",
+        "sha256": "c44353a9f95f71e6619218d8c3199646a6254883434b06cfffdeadce706b5416",
         "dest": "deps",
-        "dest-filename": "almond-dialog-agent-1.8.0-beta.1.tgz"
+        "dest-filename": "almond-dialog-agent-1.8.0-beta.2.tgz"
     },
     {
         "type": "file",
@@ -400,10 +400,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/canberra/-/canberra-0.1.0.tgz#ebaaec4aa546affae61cbca0c12c2854a8b45be4",
-        "sha256": "2a82c09e878f18563ddccb285918b2b59a9b07077df814ad0e27451d6aca0eb1",
+        "url": "https://registry.yarnpkg.com/canberra/-/canberra-0.1.1.tgz#669a1cb62c4a712e96760086eaa523c67c51a0bd",
+        "sha256": "c664a399f87996451d723e415522af6b5a80a0bac68da843fae7c04bea39f5c2",
         "dest": "deps",
-        "dest-filename": "canberra-0.1.0.tgz"
+        "dest-filename": "canberra-0.1.1.tgz"
     },
     {
         "type": "file",
@@ -813,6 +813,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.17.5.tgz#d8c9d1d66c8981fb9200e2251d799eee92774ae9",
+        "sha256": "91c554f3fdd442fc11eb1ab8f718abb966fcfaf618941c336c78282caaefc8e6",
+        "dest": "deps",
+        "dest-filename": "es-abstract-1.17.5.tgz"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/es-get-iterator/-/es-get-iterator-1.1.0.tgz#bb98ad9d6d63b31aacdc8f89d5d0ee57bcb5b4c8",
         "sha256": "8667a97354a1eab912c7ea15b7f7c4cd9525dd4313ab49bd947f29ae6a98cb7a",
         "dest": "deps",
@@ -1023,10 +1030,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/flatted/-/flatted-2.0.1.tgz#69e57caa8f0eacbc281d2e2cb458d46fdb449e08",
-        "sha256": "544d37651f0cef4fa90d8e909153c3e548a67561b6d898827a2d537a27dc01f2",
+        "url": "https://registry.yarnpkg.com/flatted/-/flatted-2.0.2.tgz#4575b21e2bcee7434aa9be662f4b7b5f9c2b5138",
+        "sha256": "10d10407f0078b627d9fa84c75a5c526287019aed778aa6c7aefc9f4745ee08d",
         "dest": "deps",
-        "dest-filename": "flatted-2.0.1.tgz"
+        "dest-filename": "flatted-2.0.2.tgz"
     },
     {
         "type": "file",
@@ -2808,17 +2815,31 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/string.prototype.trimleft/-/string.prototype.trimleft-2.1.1.tgz#9bdb8ac6abd6d602b17a4ed321870d2f8dcefc74",
-        "sha256": "b8d27658899a3f592d03c74c00d3537ecf802e347b341a58b47de21b01435a47",
+        "url": "https://registry.yarnpkg.com/string.prototype.trimend/-/string.prototype.trimend-1.0.0.tgz#ee497fd29768646d84be2c9b819e292439614373",
+        "sha256": "29af5fec3c21c9946e8ae29a704ba12af11fa17c8ce03e19aacef34546594e14",
         "dest": "deps",
-        "dest-filename": "string.prototype.trimleft-2.1.1.tgz"
+        "dest-filename": "string.prototype.trimend-1.0.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/string.prototype.trimright/-/string.prototype.trimright-2.1.1.tgz#440314b15996c866ce8a0341894d45186200c5d9",
-        "sha256": "727e526a48bf3019f1369e3c20809f6e401c329483a4091f925092fb0179b724",
+        "url": "https://registry.yarnpkg.com/string.prototype.trimleft/-/string.prototype.trimleft-2.1.2.tgz#4408aa2e5d6ddd0c9a80739b087fbc067c03b3cc",
+        "sha256": "7990302ecd0e93f6ac2bf412a1e68bc466143940cb652bbdaef95ec29d89b67d",
         "dest": "deps",
-        "dest-filename": "string.prototype.trimright-2.1.1.tgz"
+        "dest-filename": "string.prototype.trimleft-2.1.2.tgz"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/string.prototype.trimright/-/string.prototype.trimright-2.1.2.tgz#c76f1cef30f21bbad8afeb8db1511496cfb0f2a3",
+        "sha256": "1790f97f35c663efed82e45161d454dec776a76146b32ff73e5facb2bdcd8d4b",
+        "dest": "deps",
+        "dest-filename": "string.prototype.trimright-2.1.2.tgz"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/string.prototype.trimstart/-/string.prototype.trimstart-1.0.0.tgz#afe596a7ce9de905496919406c9734845f01a2f2",
+        "sha256": "85d551d109343b036376b4b2b2320742e887f62951e29016112f3d7bf8eefb8e",
+        "dest": "deps",
+        "dest-filename": "string.prototype.trimstart-1.0.0.tgz"
     },
     {
         "type": "file",
