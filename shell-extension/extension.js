@@ -28,6 +28,7 @@ const Main = imports.ui.main;
 const History = imports.misc.history;
 //const MessageList = imports.ui.messageList;
 const MessageTray = imports.ui.messageTray;
+const Calendar = imports.ui.calendar;
 //const Params = imports.misc.params;
 //const Util = imports.misc.util;
 const Gio = imports.gi.Gio;
@@ -39,6 +40,8 @@ const Shell = imports.gi.Shell;
 const Pango = imports.gi.Pango;
 const Soup = imports.gi.Soup;
 //const Clutter = imports.gi.Clutter;
+
+const { getMixerControl } = imports.ui.status.volume;
 
 const Gettext = imports.gettext.domain('edu.stanford.Almond');
 const _ = Gettext.gettext;
@@ -53,12 +56,35 @@ const { Service } = Me.imports.common.serviceproxy;
 
 const CHAT_EXPAND_LINES = 12;
 
+const VERSION = '1.8.0';
+
+const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+    "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="edu.stanford.Almond.ShellExtension">
+    <property name="Version" type="s" access="read" />
+    <method name="Activate" />
+    <method name="VolumeUp" />
+    <method name="VolumeDown" />
+    <method name="SetVolume">
+      <arg type="d" name="volume" direction="in" />
+    </method>
+    <method name="SetMuted">
+      <arg type="b" name="muted" direction="in" />
+    </method>
+    <method name="ListApps">
+      <arg type="a(ss)" name="apps" direction="out" />
+    </method>
+    <method name="OpenApp">
+      <arg type="s" name="app_id" direction="in" />
+    </method>
+  </interface>
+</node>`;
+
 /* exported init */
 function init(meta) {
     Convenience.initTranslations();
 }
-
-let _source;
 
 const AssistantLineBox = GObject.registerClass(class AlmondAssistantLineBox extends St.BoxLayout {
     vfunc_get_preferred_height(forWidth) {
@@ -97,7 +123,7 @@ function activateGtkAction(actionName, actionParameter) {
         _continue();
     } else {
         app.activate();
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, _continue, 500);
+        GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, _continue);
     }
 }
 
@@ -152,7 +178,10 @@ const MessageConstructors = {
             button.connect('clicked', () => {
                 activateGtkAction('win.switch-to', new GLib.Variant('s', 'page-my-stuff'));
             });
-            button.set_detailed_action_name('win.switch-to::page-my-stuff');
+        } else if (msg.link === '/devices/create') {
+            button.connect('clicked', () => {
+                activateGtkAction('win.new-device', null);
+            });
         } else if (msg.link.startsWith('/devices/oauth2/')) {
             // "parse" the link in the context of a dummy base URI
             let uri = Soup.URI.new_with_base(Soup.URI.new('https://invalid'), msg.link);
@@ -289,6 +318,14 @@ const AssistantNotificationBanner = GObject.registerClass(class AlmondAssistantN
         });
 
         this._addMessages(0, this.notification.model.store.get_n_items());
+
+        // hide the close button
+        if (this._closeButton)
+            this._closeButton.visible = false;
+    }
+
+    close() {
+        // we don't want to destroy the notification when the user dismisses it by clicking "x"
     }
 
     _addMessages(from, to) {
@@ -418,12 +455,12 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
         this.service.HandleCommandRemote(text, onerror);
     }
 
-    _activateIfAlmondUnfocused() {
+    activateIfAlmondUnfocused() {
         const focus_app = Shell.WindowTracker.get_default().focus_app;
         if (focus_app && focus_app.get_id() === 'edu.stanford.Almond.desktop')
             return;
 
-        this.notify(this._notification);
+        this.showNotification(this._notification);
     }
 
     _continueInit() {
@@ -431,8 +468,11 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
         Main.messageTray.add(this);
 
         this.service.connectSignal('NewMessage', (signal, sender, [id, type, direction, msg]) => {
-            if (direction !== Direction.FROM_ALMOND)
+            if (direction !== Direction.FROM_ALMOND) {
+                Main.messageTray._onIdleMonitorBecameActive();
+                this.activateIfAlmondUnfocused();
                 return;
+            }
 
             msg.message_id = id;
             msg.message_type = type;
@@ -449,10 +489,11 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
                 });
             }
         
-            this._activateIfAlmondUnfocused();
+            this.activateIfAlmondUnfocused();
         });
         this.service.connectSignal('Activate', () => {
-            this._activateIfAlmondUnfocused();
+            Main.messageTray._onIdleMonitorBecameActive();
+            this.activateIfAlmondUnfocused();
         });
         this.service.connectSignal('VoiceHypothesis', (signal, sender, [hyp]) => {
             if (!this._banner)
@@ -479,6 +520,8 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
             this._notification = null;
         });
         this.pushNotification(this._notification);
+
+        // HACK: we need to find
     }
 
     _createPolicy() {
@@ -517,15 +560,168 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
     }
 });
 
+class ExtensionDBus {
+    constructor(source) {
+        this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(SERVICE_INTERFACE, this);
+        this._dbusImpl.export(Gio.DBus.session, '/edu/stanford/Almond/ShellExtension');
+
+        this._source = source;
+
+        this._volumeControl = getMixerControl();
+        this._soundSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.sound' });
+    }
+
+    export() {
+    }
+
+    destroy() {
+        this._dbusImpl.unexport();
+        this._soundSettings.run_dispose();
+    }
+
+    get Version() {
+        return VERSION;
+    }
+
+    Activate() {
+        this._source.activateIfAlmondUnfocused();
+    }
+
+    // part of this code was copied from gnome-shell
+    // Copyright The Gnome Shell Authors
+    // Licensed under GPLv2 or later
+
+    _getVolumeIcon(stream) {
+        let icons = ["audio-volume-muted-symbolic",
+                     "audio-volume-low-symbolic",
+                     "audio-volume-medium-symbolic",
+                     "audio-volume-high-symbolic",
+                     "audio-volume-overamplified-symbolic"];
+
+        let volume = stream.volume;
+        let n;
+        if (stream.is_muted || volume <= 0) {
+            n = 0;
+        } else {
+            n = Math.ceil(3 * volume / this._volumeControl.get_vol_max_norm());
+            if (n < 1)
+                n = 1;
+            else if (n > 3)
+                n = 4;
+        }
+        return icons[n];
+    }
+
+    _getVolumeLevel(stream) {
+        return stream.volume / this._volumeControl.get_vol_max_norm();
+    }
+
+    _getVolumeMaxLevel() {
+        let maxVolume = this._volumeControl.get_vol_max_norm();
+
+        const allowAmplified = this._soundSettings.get_boolean('allow-volume-above-100-percent');
+        if (allowAmplified)
+            maxVolume = this._volumeControl.get_vol_max_amplified();
+
+        return maxVolume / this._volumeControl.get_vol_max_norm();
+    }
+
+    _notifyVolume(stream) {
+        let gicon = new Gio.ThemedIcon({ name: this._getVolumeIcon(stream) });
+        let level = this._getVolumeLevel(stream);
+        let maxLevel = this._getVolumeMaxLevel();
+        Main.osdWindowManager.show(-1, gicon, null, level, maxLevel);
+    }
+
+    _setVolume(stream, volume) {
+        let maxVolume = this._volumeControl.get_vol_max_norm();
+        const allowAmplified = this._soundSettings.get_boolean('allow-volume-above-100-percent');
+        if (allowAmplified)
+            maxVolume = this._volumeControl.get_vol_max_amplified();
+        volume = Math.max(Math.min(volume, maxVolume), 0);
+        stream.volume = volume;
+        stream.push_volume();
+        this._notifyVolume(stream);
+    }
+
+    VolumeUp() {
+        const stream = this._volumeControl.get_default_sink();
+        const level = stream.volume / this._volumeControl.get_vol_max_norm();
+        // 6% is what gnome-settings-daemon will use for VolumeUp/VolumeDown keys
+        this._setVolume(stream, (level + 0.06) * this._volumeControl.get_vol_max_norm());
+    }
+
+    VolumeDown() {
+        const stream = this._volumeControl.get_default_sink();
+        const level = stream.volume / this._volumeControl.get_vol_max_norm();
+        this._setVolume(stream, (level - 0.06) * this._volumeControl.get_vol_max_norm());
+    }
+
+    SetVolume(level) {
+        const stream = this._volumeControl.get_default_sink();
+        this._setVolume(stream, level * this._volumeControl.get_vol_max_norm());
+    }
+
+    SetMuted(muted) {
+        const stream = this._volumeControl.get_default_sink();
+        stream.is_muted = muted;
+        stream.change_is_muted(muted);
+        this._notifyVolume(stream);
+    }
+
+    OpenApp(appId) {
+        if (!appId.endsWith('.desktop'))
+            appId += '.desktop';
+        const app = Shell.AppSystem.get_default().lookup_app(appId);
+        if (!app)
+            throw new Error('No such app ' + appId);
+        app.activate();
+    }
+
+    ListApps() {
+        return Shell.AppSystem.get_default().get_installed().map((app) => {
+            return [app.get_id(), app.get_name()];
+        });
+    }
+}
+
+
+let _source;
+let _dbus;
+let _originalAddMessageAtIndex;
+
 /* exported enable */
 function enable() {
     if (_source)
         return;
     _source = new AssistantSource();
+    _dbus = new ExtensionDBus(_source);
+
+    // monkey patch Calendar.NotificationSection.addMessageAtIndex so we can hide the close button
+    // on our notification
+    _originalAddMessageAtIndex = Calendar.NotificationSection.prototype.addMessageAtIndex;
+
+    Calendar.NotificationSection.prototype.addMessageAtIndex = function(message, ...args) {
+        if (!(message instanceof Calendar.NotificationMessage))
+            return _originalAddMessageAtIndex.call(this, message, ...args);
+
+        const source = message.notification.source;
+        if (source === _source && message._closeButton)
+            message._closeButton.visible = false;
+
+        return _originalAddMessageAtIndex.call(this, message, ...args);
+    };
 }
 
 /* exported disable */
 function disable() {
-    _source.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
+    if (_source)
+        _source.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
     _source = null;
+    if (_dbus)
+        _dbus.destroy();
+    _dbus = null;
+
+    // undo monkey patching
+    Calendar.NotificationSection.prototype.addMessageAtIndex = _originalAddMessageAtIndex;
 }

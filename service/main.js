@@ -15,6 +15,7 @@ process.on('unhandledRejection', (up) => { throw up; });
 const ThingTalk = require('thingtalk');
 const Engine = require('thingengine-core');
 const AssistantDispatcher = require('./assistant');
+const { ninvoke } = require('./platform/utils');
 
 const Config = require('./config');
 
@@ -42,7 +43,7 @@ const DBUS_CONTROL_INTERFACE = {
         GetDeviceInfos: ['', 'aa{sv}'],
         GetDeviceInfo: ['s', 'a{sv}'],
         GetDeviceExamples: ['s', 'a(ssuassa{ss}as)'],
-        GetDeviceFactories: ['s', 'aa{sv}'],
+        GetDeviceFactories: ['', 'aa{sv}'],
         CheckDeviceAvailable: ['s', 'u'],
         GetAppInfos: ['', 'aa{sv}'],
         DeleteApp: ['s', 'b'],
@@ -69,6 +70,10 @@ const DBUS_CONTROL_INTERFACE = {
 function marshallASS(obj) {
     return Object.keys(obj).map((key) => [key, obj[key]]);
 }
+// marshall one a{sv} into something that dbus-native will like
+function marshallASV(obj) {
+    return Object.keys(obj).map((key) => [key, marshalAny(obj[key])]);
+}
 
 // marshal any JS value into a variant
 function marshalAny(obj) {
@@ -83,7 +88,7 @@ function marshalAny(obj) {
     else if (Array.isArray(obj))
         return ['av', obj.map(marshalAny)];
     else
-        return ['a{sv}', Object.keys(obj).map((key) => [key, marshalAny(obj[key])])];
+        return ['a{sv}', marshallASV(obj)];
 }
 
 /*
@@ -278,7 +283,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceFactories(deviceClass) {
-        return _engine.thingpedia.getDeviceFactories(deviceClass).then((factories) => factories.map((f) => {
+        return _engine.thingpedia.getDeviceFactories().then((factories) => factories.map((f) => {
             let factory = [];
             let value;
             for (let name in f) {
@@ -360,6 +365,31 @@ class AppControlChannel extends events.EventEmitter {
 const DBUS_NAME_FLAG_ALLOW_REPLACEMENT = 0x1;
 const DBUS_NAME_FLAG_REPLACE_EXISTING = 0x2;
 
+async function sendOldSchoolNotification(bus, title, body, actions = []) {
+    try {
+        const iface = await ninvoke(bus, 'getInterface',
+            'org.freedesktop.Notifications',
+            '/org/freedesktop/Notifications',
+            'org.freedesktop.Notifications');
+
+        const actionsdbus = [];
+        actions.forEach(([label,], i) => {
+            actionsdbus.push(String(i), label);
+        });
+
+        const id = await ninvoke(iface, 'Notify', "Almond", 0, 'edu.stanford.Almond', title, body, actionsdbus, marshallASV({
+            'desktop-entry': 'edu.stanford.Almond.desktop'
+        }), -1);
+        iface.on('ActionInvoked', (notificationId, actionId) => {
+            if (notificationId !== id)
+                return;
+            actions[actionId][1]();
+        });
+    } catch(e) {
+        console.error(`Failed to send notification`, e);
+    }
+}
+
 async function main() {
     platform = require('./platform').newInstance();
     global.platform = platform;
@@ -390,6 +420,45 @@ async function main() {
                 });
             });
             console.log('Ready');
+
+            // check if the shell extension is installed and
+            // if not, send a notification
+            // this is all done in parallel to starting, and we delay it 10 seconds to
+            // ensure that the shell extension has started
+            // (this is important in particular if the shell extension is the one starting us)
+            setTimeout(async () => {
+                if (process.env.XDG_CURRENT_DESKTOP === 'GNOME') {
+                    try {
+                        const obj = await ninvoke(bus, 'getObject', 'org.gnome.Shell',
+                            '/edu/stanford/Almond/ShellExtension');
+                        const [,[version,]] = await ninvoke(obj.as('org.freedesktop.DBus.Properties'), 'Get',
+                            'edu.stanford.Almond.ShellExtension', 'Version');
+                        if (version === '1.8.0') {
+                            console.log('Shell extension installed and up-to-date');
+                        } else {
+                            await sendOldSchoolNotification(bus, "Almond is out of date",
+                                "You should install the latest version of the Almond Shell extension to leverage all functionality.",
+                                [["Update", () => {
+                                platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
+                            }]]);
+                        }
+                    } catch(e) {
+                        await sendOldSchoolNotification(bus, "Almond Shell Extension Missing",
+                            "You should install the latest version of the Almond Shell extension to leverage all functionality.",
+                            [["Install", () => {
+                            platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
+                        }]]);
+                    }
+                } else {
+                    // on other desktops, we send the notification, but only once
+                    const sharedPrefs = platform.getSharedPreferences();
+                    if (!sharedPrefs.get('almond-notified-wrong-desktop')) {
+                        sharedPrefs.set('almond-notified-wrong-desktop', true);
+                        await sendOldSchoolNotification(bus, "Limited Almond functionality",
+                            "Full functionality of Almond is only available on the GNOME desktop.");
+                    }
+                }
+            }, 10000);
 
             _ad.startConversation();
             _running = true;

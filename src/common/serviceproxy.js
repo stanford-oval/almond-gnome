@@ -55,7 +55,6 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
       <arg type="aa{sv}" name="devices" direction="out" />
     </method>
     <method name="GetDeviceFactories">
-      <arg type="s" name="device_class" direction="in" />
       <arg type="aas{sv}" name="factories" direction="out" />
     </method>
     <method name="GetDeviceInfo">

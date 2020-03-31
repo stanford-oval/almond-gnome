@@ -1,9 +1,9 @@
-class @org.thingpedia.builtin.thingengine.gnome {
+class @org.thingpedia.builtin.thingengine.gnome extends @org.thingpedia.iot.speaker {
   import loader from @org.thingpedia.builtin();
   import config from @org.thingpedia.config.builtin();
 
   query get_screenshot(out picture_url: Entity(tt:picture))
-  #_[canonical="screenshot on laptop"]
+  #_[canonical="laptop screenshot"]
   #_[confirmation="a screenshot of your PC"]
   #_[confirmation_remote="a screenshot of $__person's PC"]
   #_[formatted=[{type="picture",url="${picture_url}"}]]
@@ -19,14 +19,14 @@ class @org.thingpedia.builtin.thingengine.gnome {
   #[confirm=false];
 
   action lock()
-  #_[canonical="lock on laptop"]
+  #_[canonical="lock laptop"]
   #_[confirmation="lock your PC"]
   #_[confirmation_remote="lock $__person's PC"]
   #[doc="lock your PC"]
   #[confirm=true];
 
   action set_power(in req power: Enum(on,off) #_[prompt="Do you want to turn it on or off?"])
-  #_[canonical="set power on laptop"]
+  #_[canonical="set laptop power"]
   #_[confirmation="turn $power your PC"]
   #_[confirmation_remote="turn $power $__person's PC"]
   #[doc="switch on/off"]

@@ -1,4 +1,5 @@
 #!/usr/bin/gjs
+"use strict";
 
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
@@ -8,7 +9,7 @@ const Gdk = imports.gi.Gdk;
 // init Gtk for startup notification
 Gtk.init(null);
 log('Opening ' + ARGV[0]);
-const app = Gio.DesktopAppInfo.new(ARGV[0] + '.desktop');
+const app = Gio.DesktopAppInfo.new(ARGV[0]);
 if (!app) {
     log('No such app');
 } else {

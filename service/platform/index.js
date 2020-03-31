@@ -15,6 +15,7 @@ const fs = require('fs');
 const util = require('util');
 const os = require('os');
 const path = require('path');
+const events = require('events');
 const child_process = require('child_process');
 const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
@@ -69,7 +70,7 @@ const _contentApi = {
 const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
 const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
 */
-const BluezBluetooth = require('./bluez');
+//const BluezBluetooth = require('./bluez');
 
 function safeMkdirSync(dir) {
     try {
@@ -100,32 +101,119 @@ function makeRandom() {
     return crypto.randomBytes(32).toString('hex');
 }
 
-const _appLauncher = {
-    launchApp(appId, ...files) {
-        child_process.spawn(path.resolve(module.filename, '../../../helpers/spawn-app'), [appId, ...files], {
-            detached: true,
-            stdio: 'inherit'
-        });
-    },
+async function runningInFlatpak() {
+    return util.promisify(fs.exists)('/.flatpak-info');
+}
 
-    launchURL(url) {
-        child_process.spawn('xdg-open', [url], {
-            detached: true,
-            stdio: 'inherit'
+class AppLauncher {
+    constructor(sessionBus) {
+        this._bus = sessionBus;
+    }
+
+    async init() {
+        await this._tryGettingInterface();
+    }
+
+    async _tryGettingInterface() {
+        try {
+            this._interface = await ninvoke(this._bus, 'getInterface',
+                 'org.gnome.Shell',
+                 '/edu/stanford/Almond/ShellExtension',
+                 'edu.stanford.Almond.ShellExtension');
+        } catch(e) {
+            this._interface = null;
+        }
+    }
+
+    async _internalListApps() {
+        // if we were initialized without the shell extension, try getting it again
+        // in case the user installed after seeing the notification (or there was a race
+        // during initialization)
+        if (!this._interface)
+            await this._tryGettingInterface();
+        if (!this._interface)
+            return [];
+        return ninvoke(this._interface, 'ListApps');
+    }
+
+    async listApps() {
+        const apps = await this._internalListApps();
+        return apps.map(([appId, appName]) => {
+            if (appId.endsWith('.desktop'))
+                appId = appId.substring(0, appId.length - '.desktop'.length);
+
+            // return in the same format used by /entities/lookup in the Thingpedia API
+            return {
+                value: appId,
+                name: appName,
+                canonical: appName.toLowerCase()
+            };
         });
     }
-};
-class SystemLock {
-    constructor(systemBus) {
-        this._bus = systemBus;
+
+    async hasApp(appId) {
+        return (await this._internalListApps()).some(([candidateAppId,]) => candidateAppId === appId);
+    }
+
+    async launchApp(appId, ...files) {
+        const helperpath = path.resolve(module.filename, '../../../helpers/spawn-app');
+        if (await runningInFlatpak()) {
+            // HACK: we need to run our script on the host, so we pass the whole content on the commandline
+            // (this is what gnome-builder does, and it also triggers interesting edge cases in glib...)
+            const buffer = await util.promisify(fs.readFile)(helperpath, { encoding: 'utf8' });
+            child_process.spawn('flatpak-spawn', ['--host', 'gjs', '-c', buffer, appId, ...files], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        } else {
+            child_process.spawn(helperpath, [appId, ...files], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        }
+    }
+
+    async launchURL(url) {
+        if (await runningInFlatpak()) {
+            child_process.spawn('flatpak-spawn', ['--host', 'xdg-open', url], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        } else {
+            child_process.spawn('xdg-open', [url], {
+                detached: true,
+                stdio: 'inherit'
+            });
+        }
+    }
+}
+
+class SystemLock extends events.EventEmitter {
+    constructor(sessionBus) {
+        super();
+        this._bus = sessionBus;
+        this._isActive = false;
+    }
+
+    get isActive() {
+        return this._isActive;
+    }
+
+    async init() {
+        this._interface = await ninvoke(this._bus, 'getInterface',
+             'org.gnome.Shell',
+             '/org/gnome/ScreenSaver',
+             'org.gnome.ScreenSaver');
+
+        this._isActive = await ninvoke(this._interface, 'GetActive');
+        this._interface.on('ActiveChanged', (isActive) => {
+            this._isActive = isActive;
+            this.emit('active-changed');
+        });
     }
 
     async lock() {
-        const session = await ninvoke(this._bus, 'getInterface',
-             'org.freedesktop.login1',
-             '/org/freedesktop/login1/session/_3' + process.env.XDG_SESSION_ID,
-             'org.freedesktop.login1.Session');
-        await ninvoke(session, 'Lock');
+        await ninvoke(this._interface, 'Lock');
     }
 }
 
@@ -207,7 +295,8 @@ class Platform {
 
         this._dbusSession = DBus.sessionBus();
         this._dbusSystem = DBus.systemBus();
-        this._systemLock = new SystemLock(this._dbusSystem);
+        this._systemLock = new SystemLock(this._dbusSession);
+        this._appLauncher = new AppLauncher(this._dbusSession);
         this._systemSettings = new SystemSettings(this._cacheDir);
         this._screenshot = new Screenshot(this._dbusSession, this._gettext);
         this._btApi = null;
@@ -250,6 +339,9 @@ class Platform {
             this._prefs.set('sqlcipher-compatibility', 4);
             await keytar.setPassword('edu.stanford.Almond', 'database-key', this._sqliteKey);
         }
+
+        await this._systemLock.init();
+        await this._appLauncher.init();
 
         this._gnomeDev = {
             kind: 'org.thingpedia.builtin.thingengine.gnome',
@@ -311,12 +403,15 @@ class Platform {
         // We can use the capabilities of a desktop assistant
         case 'dbus-session':
         case 'dbus-system':
-        case 'bluetooth':
         case 'app-launcher':
         case 'system-lock':
         case 'system-settings':
         case 'screenshot':
             return true;
+
+        case 'bluetooth':
+            // temporarily disabled
+            return false;
 
 /*
         // We can use the phone capabilities
@@ -364,9 +459,12 @@ class Platform {
         case 'dbus-system':
             return this._dbusSystem;
         case 'bluetooth':
-            if (!this._btApi)
+            // temporarily disabled
+            /*if (!this._btApi)
                 this._btApi = new BluezBluetooth(this);
             return this._btApi;
+            */
+            return null;
         case 'pulseaudio':
             return this._pulse;
 
@@ -374,7 +472,7 @@ class Platform {
             return CVC4Solver;
 
         case 'app-launcher':
-            return _appLauncher;
+            return this._appLauncher;
         case 'system-lock':
             return this._systemLock;
         case 'system-settings':

@@ -71,19 +71,18 @@ var DeviceConfigDialog = GObject.registerClass({
     Template: 'resource:///edu/stanford/Almond/device-config.ui',
     Children: ['config-stack', 'choices-listbox', 'oauth2-webview-placeholder', 'form-grid'],
 }, class DeviceConfigDialog extends Gtk.Dialog {
-    _init(parent, klass, service) {
+    _init(parent, service) {
         // make sure we have loaded WebKit before we try and create the object
         WebKit.WebView;
 
         super._init({
-            title: klass === 'physical' ? _("Configure New Device") : _("Configure New Account"),
+            title: _("Configure New Skill"),
             transient_for: parent,
             modal: true,
             use_header_bar: 1,
         });
 
         this._service = service;
-        this._klass = klass;
         this._oauth2Session = null;
         this.model = new Gio.ListStore();
         this.choices_listbox.bind_model(this.model, (item) => {
@@ -132,7 +131,7 @@ var DeviceConfigDialog = GObject.registerClass({
         this.config_stack.visible_child_name = 'page-choose-kind';
         this._clearButton();
 
-        return dbusPromiseify(this._service, 'GetDeviceFactoriesRemote', this._klass).then(([factories]) => {
+        return dbusPromiseify(this._service, 'GetDeviceFactoriesRemote').then(([factories]) => {
             for (let factory of factories)
                 this.model.append(new DeviceFactory(factory, this, this._service));
 
