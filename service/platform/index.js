@@ -111,13 +111,28 @@ class AppLauncher {
     }
 
     async init() {
-        this._interface = await ninvoke(this._bus, 'getInterface',
-             'org.gnome.Shell',
-             '/edu/stanford/Almond/ShellExtension',
-             'edu.stanford.Almond.ShellExtension');
+        await this._tryGettingInterface();
     }
 
-    _internalListApps() {
+    async _tryGettingInterface() {
+        try {
+            this._interface = await ninvoke(this._bus, 'getInterface',
+                 'org.gnome.Shell',
+                 '/edu/stanford/Almond/ShellExtension',
+                 'edu.stanford.Almond.ShellExtension');
+        } catch(e) {
+            this._interface = null;
+        }
+    }
+
+    async _internalListApps() {
+        // if we were initialized without the shell extension, try getting it again
+        // in case the user installed after seeing the notification (or there was a race
+        // during initialization)
+        if (!this._interface)
+            await this._tryGettingInterface();
+        if (!this._interface)
+            return [];
         return ninvoke(this._interface, 'ListApps');
     }
 
