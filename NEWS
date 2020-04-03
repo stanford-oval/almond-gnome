@@ -1,3 +1,15 @@
+1.8.0
+=====
+
+* It is now possible to control the computer volume using the commands
+  of the speaker device ("increase the volume", "lower the volume", "mute",
+  "unmute") [#64].
+* Launching apps from inside Almond is now possible when Almond is running
+  as a flatpak [#41, #42, #64].
+* The shell extension was fixed and made more usable and more reliable. It is
+  also now compatible with GNOME 3.36 [#64].
+* Misc bug fixes [#63].
+
 1.8.0-beta.1
 ============
 

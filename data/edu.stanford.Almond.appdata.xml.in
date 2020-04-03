@@ -45,9 +45,11 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
-    <release date="2020-03-27" type="development" version="1.8.0-beta.1">
+    <release date="2020-04-03" version="1.8.0">
       <description>
-        <p>This is a development release in preparation for the 1.8.0 release.</p>
+        <p>It is now possible to control the computer volume using the commands of the speaker device
+           ("increase the volume", "lower the volume", "mute", "unmute").</p>
+        <p>Launching apps from inside Almond is now possible when Almond is running as a flatpak.</p>
         <p>The Almond platform was updated to version 1.8.0, bringing various improvements, primarily in natural language understanding.</p>
         <p>The wake word is now "computer". This uses a universal model, as the previous "almond" model was not working well.</p>
         <p>The wake word implementation changed, resulting in a leaner and more performant app.</p>
