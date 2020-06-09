@@ -26,7 +26,7 @@
     "consumer-queue": "^1.0.0",
     "dbus-native": "^0.4.0",
     "keytar": "^4.2.1",
-    "node-gettext": "^2.0.0",
+    "node-gettext": "^3.0.0",
     "posix": "^4.1.1",
     "pulseaudio2": "^0.2.1",
     "smtlib": "^0.1.1",
