@@ -22,7 +22,7 @@
   "dependencies": {
     "almond-dialog-agent": "~1.8.0",
     "byline": "^5.0.0",
-    "canberra": "^0.1.0",
+    "canberra": "^0.1.2",
     "consumer-queue": "^1.0.0",
     "dbus-native": "^0.4.0",
     "keytar": "^6.0.1",
