@@ -203,7 +203,7 @@ class SystemLock extends events.EventEmitter {
     async init() {
         try {
             this._interface = await ninvoke(this._bus, 'getInterface',
-                 'org.gnome.Shell',
+                 'org.gnome.ScreenSaver',
                  '/org/gnome/ScreenSaver',
                  'org.gnome.ScreenSaver');
         } catch(e) {
