@@ -193,6 +193,7 @@ class SystemLock extends events.EventEmitter {
         super();
         this._bus = sessionBus;
         this._isActive = false;
+        this._interface = null;
     }
 
     get isActive() {
@@ -200,10 +201,15 @@ class SystemLock extends events.EventEmitter {
     }
 
     async init() {
-        this._interface = await ninvoke(this._bus, 'getInterface',
-             'org.gnome.Shell',
-             '/org/gnome/ScreenSaver',
-             'org.gnome.ScreenSaver');
+        try {
+            this._interface = await ninvoke(this._bus, 'getInterface',
+                 'org.gnome.ScreenSaver',
+                 '/org/gnome/ScreenSaver',
+                 'org.gnome.ScreenSaver');
+        } catch(e) {
+            console.error('Failed to initialize screen locking');
+            return;
+        }
 
         this._isActive = await ninvoke(this._interface, 'GetActive');
         this._interface.on('ActiveChanged', (isActive) => {
@@ -213,6 +219,8 @@ class SystemLock extends events.EventEmitter {
     }
 
     async lock() {
+        if (!this._interface)
+            throw new Error("Screen locking is not available");
         await ninvoke(this._interface, 'Lock');
     }
 }
