@@ -38,6 +38,6 @@
   },
   "devDependencies": {
     "@yarnpkg/lockfile": "^1.0.0",
-    "eslint": "^7.4.0"
+    "eslint": "^7.5.0"
   }
 }
