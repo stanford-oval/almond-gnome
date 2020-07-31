@@ -20,7 +20,6 @@ const child_process = require('child_process');
 const Tp = require('thingpedia');
 const Gettext = require('node-gettext');
 const DBus = require('dbus-native');
-const CVC4Solver = require('smtlib').LocalCVC4Solver;
 const PulseAudio = require('pulseaudio2');
 const keytar = require('keytar');
 const sqlite3 = require('sqlite3');
@@ -399,9 +398,6 @@ class Platform extends Tp.BasePlatform {
         case 'gettext':
             return true;
 
-        case 'smt-solver':
-            return true;
-
         default:
             return false;
         }
@@ -435,9 +431,6 @@ class Platform extends Tp.BasePlatform {
 
         case 'wakeword-detector':
             return this._wakeWordDetector;
-
-        case 'smt-solver':
-            return CVC4Solver;
 
         case 'app-launcher':
             return this._appLauncher;

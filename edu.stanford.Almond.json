@@ -4,7 +4,6 @@
     "runtime-version" : "3.36",
     "sdk" : "org.gnome.Sdk",
     "sdk-extensions" : [
-        "org.freedesktop.Sdk.Extension.openjdk11",
         "org.freedesktop.Sdk.Extension.node10"
     ],
     "command" : "/app/bin/edu.stanford.Almond",
@@ -80,105 +79,6 @@
                     "type" : "archive",
                     "url" : "http://www.netlib.org/lapack/lapack-3.8.0.tar.gz",
                     "sha256" : "deb22cc4a6120bff72621155a9917f485f96ef8319ac074a7afbc68aab88bcf6"
-                }
-            ]
-        },
-        {
-            "name" : "libantlr3",
-            "config-opts" : [
-                "--disable-static",
-                "--enable-shared",
-                "--disable-antlrdebug",
-                "--with-pic"
-            ],
-            "rm-configure" : true,
-            "build-options" : {
-                "arch" : {
-                    "x86_64" : {
-                        "config-opts" : [
-                            "--enable-64bit",
-                            "--disable-static",
-                            "--enable-shared",
-                            "--disable-antlrdebug",
-                            "--with-pic"
-                        ]
-                    },
-                    "aarch64" : {
-                        "config-opts" : [
-                            "--enable-64bit",
-                            "--disable-abiflags",
-                            "--disable-static",
-                            "--enable-shared",
-                            "--disable-antlrdebug",
-                            "--with-pic"
-                        ]
-                    },
-                    "arm" : {
-                        "config-opts" : [
-                            "--disable-abiflags",
-                            "--disable-static",
-                            "--enable-shared",
-                            "--disable-antlrdebug",
-                            "--with-pic"
-                        ]
-                    }
-                }
-            },
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "http://www.antlr3.org/download/C/libantlr3c-3.4.tar.gz",
-                    "sha256" : "ca914a97f1a2d2f2c8e1fca12d3df65310ff0286d35c48b7ae5f11dcc8b2eb52"
-                },
-                {
-                    "type" : "script",
-                    "dest-filename" : "autogen.sh",
-                    "commands" : [
-                        "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
-                    ]
-                }
-            ]
-        },
-        {
-            "name" : "antlr3",
-            "buildsystem" : "simple",
-            "build-commands" : [
-                "install -m 0644 -D antlr-3.4-complete.jar /app/share/java/antlr-3.4-complete.jar",
-                "install -m 0755 -D antlr3 /app/bin/antlr3"
-            ],
-            "sources" : [
-                {
-                    "type" : "file",
-                    "url" : "https://www.antlr3.org/download/antlr-3.4-complete.jar",
-                    "sha256" : "9d3e866b610460664522520f73b81777b5626fb0a282a5952b9800b751550bf7"
-                },
-                {
-                    "type" : "script",
-                    "dest-filename" : "antlr3",
-                    "commands" : [
-                        "export CLASSPATH=/app/share/java/antlr-3.4-complete.jar:$CLASSPATH",
-                        "exec /usr/lib/sdk/openjdk11/jvm/openjdk-11/bin/java org.antlr.Tool \"$@\""
-                    ]
-                }
-            ]
-        },
-        {
-            "name" : "cvc4",
-            "buildsystem" : "cmake",
-            "config-opts" : [
-                "-DCMAKE_BUILD_TYPE=Production",
-                "-DENABLE_OPTIMIZED=ON",
-                "-DUSE_CLN=OFF",
-                "-DUSE_READLINE=OFF",
-                "-DENABLE_GPL=OFF",
-                "-DENABLE_PORTFOLIO=OFF",
-                "-DJAVA_HOME=/usr/lib/sdk/openjdk11/jvm/openjdk-11"
-            ],
-            "sources" : [
-                {
-                    "type" : "archive",
-                    "url" : "https://github.com/CVC4/CVC4/archive/1.7.tar.gz",
-                    "sha256" : "9864a364a0076ef7ff63a46cdbc69cbe6568604149626338598d4df7788f8c2e"
                 }
             ]
         },
