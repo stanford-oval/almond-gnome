@@ -24,10 +24,13 @@ const CVC4Solver = require('smtlib').LocalCVC4Solver;
 const PulseAudio = require('pulseaudio2');
 const keytar = require('keytar');
 const sqlite3 = require('sqlite3');
+
 const { ninvoke } = require('./utils');
 
-const prefs = require('thingengine-core/lib/util/prefs');
-const Builtins = require('thingengine-core/lib/devices/builtins');
+const WakeWordDetector = require('../wake-word/snowboy');
+
+// FIXME
+const Builtins = require('genie-toolkit/lib/engine/devices/builtins');
 
 var _unzipApi = {
     unzip(zipPath, dir) {
@@ -39,38 +42,6 @@ var _unzipApi = {
         });
     }
 };
-
-/*
-const JavaAPI = require('./java_api');
-const StreamAPI = require('./streams');
-
-const _unzipApi = JavaAPI.makeJavaAPI('Unzip', ['unzip'], [], []);
-const _gpsApi = JavaAPI.makeJavaAPI('Gps', ['start', 'stop'], [], ['onlocationchanged']);
-const _notifyApi = JavaAPI.makeJavaAPI('Notify', [], ['showMessage'], []);
-const _audioManagerApi = JavaAPI.makeJavaAPI('AudioManager', [],
-    ['setRingerMode', 'adjustMediaVolume', 'setMediaVolume'], []);
-const _smsApi = JavaAPI.makeJavaAPI('Sms', ['start', 'stop', 'sendMessage'], [], ['onsmsreceived']);
-const _btApi = JavaAPI.makeJavaAPI('Bluetooth',
-    ['start', 'startDiscovery', 'pairDevice', 'readUUIDs'],
-    ['stop', 'stopDiscovery'],
-    ['ondeviceadded', 'ondevicechanged', 'onstatechanged', 'ondiscoveryfinished']);
-const _audioRouterApi = JavaAPI.makeJavaAPI('AudioRouter',
-    ['setAudioRouteBluetooth'], ['start', 'stop', 'isAudioRouteBluetooth'], []);
-const _systemAppsApi = JavaAPI.makeJavaAPI('SystemApps', [], ['startMusic'], []);
-const _graphicsApi = require('./graphics');
-
-const _contentJavaApi = JavaAPI.makeJavaAPI('Content', [], ['getStream'], []);
-const _contentApi = {
-    getStream(url) {
-        return _contentJavaApi.getStream(url).then(function(token) {
-            return StreamAPI.get().createStream(token);
-        });
-    }
-}
-const _contactApi = JavaAPI.makeJavaAPI('Contacts', ['lookup'], [], []);
-const _telephoneApi = JavaAPI.makeJavaAPI('Telephone', ['call', 'callEmergency'], [], []);
-*/
-//const BluezBluetooth = require('./bluez');
 
 function safeMkdirSync(dir) {
     try {
@@ -278,12 +249,12 @@ class SystemSettings {
     }
 }
 
-class Platform {
+class Platform extends Tp.BasePlatform {
     // Initialize the platform code
     // Will be called before instantiating the engine
     constructor(homedir) {
+        super();
         homedir = homedir || getFilesDir();
-        this._assistant = null;
 
         this._gettext = new Gettext();
 
@@ -297,7 +268,7 @@ class Platform {
 
         this._gettext.setLocale(this._locale);
         this._timezone = process.env.TZ;
-        this._prefs = new prefs.FilePreferences(this._filesDir + '/prefs.db');
+        this._prefs = new Tp.Helpers.FilePreferences(this._filesDir + '/prefs.db');
         this._cacheDir = getUserCacheDir() + '/almond';
         safeMkdirSync(this._cacheDir);
 
@@ -315,6 +286,8 @@ class Platform {
                 'application.language': this._locale,
             }
         });
+        this._wakeWordDetector = new WakeWordDetector();
+
         this._sqliteKey = null;
     }
 
@@ -362,10 +335,6 @@ class Platform {
         // the device as unsupported (and that would be bad)
         // to avoid that, we inject it eagerly here
         Builtins[this._gnomeDev.kind] = this._gnomeDev;
-    }
-
-    setAssistant(ad) {
-        this._assistant = ad;
     }
 
     get type() {
@@ -417,29 +386,15 @@ class Platform {
         case 'screenshot':
             return true;
 
+        // we have voice/speech
+        case 'wakeword-detector':
+        case 'sound':
+        case 'pulseaudio':
+            return true;
+
         case 'bluetooth':
             // temporarily disabled
             return false;
-
-/*
-        // We can use the phone capabilities
-        case 'notify':
-        case 'gps':
-        case 'audio-manager':
-        case 'sms':
-        case 'bluetooth':
-        case 'audio-router':
-        case 'system-apps':
-        case 'graphics-api':
-        case 'content-api':
-        case 'contacts':
-        case 'telephone':
-        // for compat
-        case 'notify-api':
-            return true;
-*/
-        case 'assistant':
-            return true;
 
         case 'gettext':
             return true;
@@ -473,8 +428,13 @@ class Platform {
             return this._btApi;
             */
             return null;
+
         case 'pulseaudio':
+        case 'sound':
             return this._pulse;
+
+        case 'wakeword-detector':
+            return this._wakeWordDetector;
 
         case 'smt-solver':
             return CVC4Solver;
@@ -487,42 +447,6 @@ class Platform {
             return this._systemSettings;
         case 'screenshot':
             return this._screenshot;
-
-/*
-        case 'notify-api':
-        case 'notify':
-            return _notifyApi;
-
-        case 'gps':
-            return _gpsApi;
-
-        case 'audio-manager':
-            return _audioManagerApi;
-
-        case 'sms':
-            return _smsApi;
-
-        case 'audio-router':
-            return _audioRouterApi;
-
-        case 'system-apps':
-            return _systemAppsApi;
-
-        case 'graphics-api':
-            return _graphicsApi;
-
-        case 'content-api':
-            return _contentApi;
-
-        case 'contacts':
-            return _contactApi;
-
-        case 'telephone':
-            return _telephoneApi;
-*/
-
-        case 'assistant':
-            return this._assistant;
 
         case 'gettext':
             return this._gettext;

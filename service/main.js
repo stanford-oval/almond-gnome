@@ -7,22 +7,22 @@
 // See COPYING for details
 "use strict";
 
-console.log('ThingEngine-GNOME starting up...');
-
-const events = require('events');
+console.log('Almond-GNOME starting up...');
 process.on('unhandledRejection', (up) => { throw up; });
 
+const events = require('events');
+const posix = require('posix');
 const ThingTalk = require('thingtalk');
-const Engine = require('thingengine-core');
-const AssistantDispatcher = require('./assistant');
+const Genie = require('genie-toolkit');
+const canberra = require('canberra');
+
 const { ninvoke } = require('./platform/utils');
 
 const Config = require('./config');
 
-var _engine, _ad;
+var _engine;
 var _running;
 var _stopped;
-var platform;
 
 const DBUS_CONTROL_PATH = '/edu/stanford/Almond/BackgroundService';
 
@@ -79,6 +79,8 @@ function marshallASV(obj) {
 function marshalAny(obj) {
     if (typeof obj === 'string')
         return ['s', obj];
+    else if (typeof obj === 'number' && Math.floor(obj) === obj)
+        return ['i', obj];
     else if (typeof obj === 'number')
         return ['d', obj];
     else if (typeof obj === 'boolean')
@@ -164,24 +166,179 @@ async function loadAllExamples(kind) {
     return output;
 }
 
+const HOTWORD_DETECTED_ID = 1;
+const SOUND_EFFECT_ID = 2;
+
+class LocalUser {
+    constructor() {
+        var pwnam = posix.getpwnam(process.getuid());
+
+        this.id = process.getuid();
+        this.account = pwnam.name;
+        this.name = pwnam.gecos;
+    }
+}
+
 function handleStop() {
     if (_running)
         _engine.stop();
     else
         _stopped = true;
 }
-process.on('SIGINT', handleStop);
-process.on('SIGTERM', handleStop);
+
+const Direction = {
+    FROM_ALMOND: 0,
+    FROM_USER: 1,
+};
+
+const MessageType = {
+    TEXT: 0,
+    PICTURE: 1,
+    CHOICE: 2,
+    LINK: 3,
+    BUTTON: 4,
+    ASK_SPECIAL: 5,
+    RDL: 6,
+    MAX: 6
+};
+
+function marshalAlmondMessage(msg) {
+    let id = msg.id;
+    let type;
+    let direction = msg.type === 'command' ? Direction.FROM_USER : Direction.FROM_ALMOND;
+    let out;
+
+    switch (msg.type) {
+    case 'command':
+        type = MessageType.TEXT;
+        out.text = msg.command;
+        break;
+
+    case 'text':
+    case 'result':
+        type = MessageType.TEXT;
+        out.text = msg.text;
+        out.icon = msg.icon || '';
+        break;
+
+    case 'picture':
+        type = MessageType.PICTURE;
+        out.picture_url = msg.url;
+        out.icon = msg.icon || '';
+        break;
+
+    case 'rdl':
+        type = MessageType.RDL;
+        out.text = msg.rdl.displayTitle;
+        out.rdl_description = msg.rdl.displayText || '';
+        out.rdl_callback = msg.rdl.callback || msg.rdl.webCallback;
+        out.picture_url = msg.rdl.pictureUrl || '';
+        out.icon = msg.icon || '';
+        break;
+
+    case 'button':
+        type = MessageType.BUTTON;
+        out.text = msg.title;
+        out.json = JSON.stringify(msg.json);
+        break;
+
+    case 'choice':
+        type = MessageType.CHOICE;
+        out.text = msg.title;
+        out.choice_idx = String(msg.idx);
+        break;
+
+    case 'link':
+        type = MessageType.LINK;
+        out.text = msg.title;
+        out.link = msg.url;
+        break;
+    }
+
+    return [id, type, direction, marshallASS(out)];
+}
+
+const MAX_MSG_ID = 2**31-1;
 
 class AppControlChannel extends events.EventEmitter {
     // handle control methods here...
     constructor() {
         super();
+        this._conversation = _engine.assistant.openConversation('main', new LocalUser(), {
+            showWelcome: true,
+            debug: true,
+            deleteWhenInactive: false,
+            inactivityTimeout: 30000, // pick a low inactivity timeout to turn off the microphone
+            contextResetTimeout: 600000, // but only reset the timeout after 10 minutes (the default)
+        });
+        this._conversation.addOutput(this, false);
 
-        _ad.on('NewMessage', (id, type, direction, msg) => this.emit('NewMessage', id, type, direction, marshallASS(msg)));
-        _ad.on('RemoveMessage', (id) => this.emit('RemoveMessage', id));
-        _ad.on('VoiceHypothesis', (hyp) => this.emit('VoiceHypothesis', hyp));
-        _ad.on('Activate', () => this.emit('Activate'));
+        this._bus = _engine.platform.getCapability('dbus-session');
+
+        this._nextMsgId = 0;
+        this._history = [];
+
+        this._enableVoiceInput = false;
+        this._enableSpeech = false;
+        this._speechHandler = new Genie.SpeechHandler(this._conversation, _engine.platform, {
+            subscriptionKey: Config.MS_SPEECH_RECOGNITION_PRIMARY_KEY
+        });
+        try {
+            this._eventSoundCtx = new canberra.Context({
+                [canberra.Property.APPLICATION_ID]: 'edu.stanford.Almond',
+            });
+            this._eventSoundCtx.cache({
+                [canberra.Property.EVENT_ID]: 'message-new-instant'
+            });
+        } catch(e) {
+            this._eventSoundCtx = null;
+            console.error(`Failed to initialize libcanberra: ${e.message}`);
+        }
+        this._speechHandler.on('hotword', async (hotword) => {
+            this.emit('Activate');
+
+            if (!this._eventSoundCtx)
+                return;
+            try {
+                await this._eventSoundCtx.play(HOTWORD_DETECTED_ID, {
+                    'media.role': 'voice-assistant',
+                    [canberra.Property.EVENT_ID]: 'message-new-instant'
+                });
+            } catch(e) {
+                console.error(`Failed to play hotword detection sound: ${e.message}`);
+            }
+        });
+    }
+
+    setHypothesis(hypothesis) {
+        this.emit('VoiceHypothesis', hypothesis);
+    }
+
+    async start() {
+        const prefs = _engine.platform.getSharedPreferences();
+
+        let voiceInput = prefs.get('enable-voice-input');
+        if (voiceInput === undefined) {
+            // voice input is on by default
+            prefs.set('enable-voice-input', true);
+        }
+
+        let speech = prefs.get('enable-voice-output');
+        if (speech === undefined) {
+            // voice output is on by default
+            speech = true;
+            prefs.set('enable-voice-output', true);
+        }
+
+        this._speechHandler.setVoiceInput(prefs.get('enable-voice-input'));
+        this._speechHandler.setVoiceOutput(prefs.get('enable-voice-output'));
+        prefs.on('changed', (key) => {
+            this._speechHandler.setVoiceInput(prefs.get('enable-voice-input'));
+            this._speechHandler.setVoiceOutput(prefs.get('enable-voice-output'));
+
+            this.emit('PreferenceChanged', key || '');
+        });
+
         _engine.devices.on('device-added', (device) => {
             this.emit('DeviceAdded', this._toDeviceInfo(device));
         });
@@ -195,10 +352,43 @@ class AppControlChannel extends events.EventEmitter {
             this.emit('AppRemoved', app.uniqueId);
         });
 
-        let prefs = _engine.platform.getSharedPreferences();
-        prefs.on('changed', (key) => {
-            this.emit('PreferenceChanged', key || '');
-        });
+        await this._speechHandler.start();
+        await this._conversation.start();
+    }
+
+    stop() {
+        return this._speechHandler.stop();
+    }
+
+    async _playSoundEffect(name) {
+        // no sound effect if the user told us to be quiet
+        const prefs = this._engine.platform.getSharedPreferences();
+        if (!prefs.get('enable-voice-output'))
+            return;
+        // also no sound effect if libcanberra failed to load
+        if (!this._eventSoundCtx)
+            return;
+        try {
+            await this._eventSoundCtx.play(SOUND_EFFECT_ID, {
+                'media.role': 'voice-assistant',
+                [canberra.Property.EVENT_ID]: name
+            });
+        } catch(e) {
+            console.error(`Failed to play sound effect: ${e.message}`);
+        }
+    }
+
+    addMessage(msg) {
+        if (msg.type === 'result' && msg.result.type === 'sound')
+            this._playSoundEffect(msg.result.name);
+
+        this.emit('NewMessage', marshalAlmondMessage(msg));
+    }
+
+    setExpected(what) {
+        this.emit('NewMessage', [MAX_MSG_ID, MessageType.ASK_SPECIAL, Direction.FROM_ALMOND, marshallASS({
+            ask_special_type: what
+        })]);
     }
 
     Stop() {
@@ -206,27 +396,41 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     async GetHistory() {
-        const history = await _ad.getHistory();
-        return history.map(([id, type, direction, message]) => [id, type, direction, marshallASS(message)]);
+        return this._conversation.history.map(marshalAlmondMessage);
+    }
+
+    _collapseButtons() {
+        const history = this._conversation.history;
+        this.emit('RemoveMessage', MAX_MSG_ID);
+        for (let i = history.length-1; i >= 0; i--) {
+            let msg = history[i];
+            if (msg.type === 'choice' || msg.type === 'button')
+                this.emit('RemoveMessage', msg.id);
+            else
+                break;
+        }
     }
 
     async HandleCommand(command) {
-        await _ad.handleCommand(command);
+        this._collapseButtons();
+        await this._conversation.handleCommand(command);
         return null;
     }
 
     async HandleThingTalk(code) {
-        await _ad.handleThingTalk(code);
+        this._collapseButtons();
+        await this._conversation.handleThingTalk(code);
         return null;
     }
 
     async HandleParsedCommand(title, json) {
-        await _ad.handleParsedCommand(title, json);
+        this._collapseButtons();
+        await this._conversation.handleParsedCommand(JSON.parse(json), title);
         return null;
     }
 
     async StartOAuth2(kind) {
-        const result = await _engine.devices.addFromOAuth(kind);
+        const result = await _engine.startOAuth(kind);
         if (result === null)
             return [false, '', []];
         else
@@ -258,28 +462,9 @@ class AppControlChannel extends events.EventEmitter {
         return true;
     }
 
-    _toDeviceInfo(d) {
-        let deviceKlass = 'physical';
-        if (d.hasKind('data-source'))
-            deviceKlass = 'data';
-        else if (d.hasKind('online-account'))
-            deviceKlass = 'online';
-        else if (d.hasKind('thingengine-system'))
-            deviceKlass = 'system';
-
-        return [['uniqueId', ['s', d.uniqueId || '']],
-                ['name', ['s', d.name || "Unknown device"]],
-                ['description', ['s', d.description || "Description not available"]],
-                ['kind', ['s', d.kind || '']],
-                ['version', ['u', d.constructor.metadata.version || 0]],
-                ['class', ['s', deviceKlass]],
-                ['ownerTier', ['s', d.ownerTier || _engine.ownTier]],
-                ['isTransient', ['b', d.isTransient || false]]];
-    }
-
     GetDeviceInfos() {
-        const devices = _engine.devices.getAllDevices();
-        return devices.map(this._toDeviceInfo, this);
+        const devices = _engine.getDeviceInfos();
+        return devices.map(marshallASV);
     }
 
     GetDeviceFactories(deviceClass) {
@@ -298,11 +483,7 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     GetDeviceInfo(uniqueId) {
-        const d = _engine.devices.getDevice(uniqueId);
-        if (d === undefined)
-            throw new Error('Invalid device ' + uniqueId);
-
-        return this._toDeviceInfo(d);
+        return marshallASV(_engine.getDeviceInfo(uniqueId));
     }
 
     GetDeviceExamples(uniqueId) {
@@ -322,20 +503,9 @@ class AppControlChannel extends events.EventEmitter {
         return _engine.checkDeviceAvailable(uniqueId);
     }
 
-    _toAppInfo(a) {
-        var app =  [['uniqueId', ['s', a.uniqueId || '']],
-                    ['name', ['s', a.name || "Some app"]],
-                    ['description', ['s', a.description || a.name || "Some app"]],
-                    ['icon', ['s', a.icon || '']],
-                    ['isRunning', ['b', a.isRunning || false]],
-                    ['isEnabled', ['b', a.isEnabled || false]],
-                    ['error', ['s', a.error ? a.error.message : '']]];
-        return app;
-    }
-
     GetAppInfos() {
-        const apps = _engine.apps.getAllApps();
-        return apps.map(this._toAppInfo, this);
+        const apps = _engine.getAppInfos();
+        return apps.map(marshallASV);
     }
 
     DeleteApp(uniqueId) {
@@ -390,35 +560,74 @@ async function sendOldSchoolNotification(bus, title, body, actions = []) {
     }
 }
 
-async function main() {
-    platform = require('./platform').newInstance();
-    global.platform = platform;
+async function acquireBusName(bus) {
+    await new Promise((resolve, reject) => {
+        const flags = DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING;
+        bus.requestName('edu.stanford.Almond.BackgroundService', flags, (err) => {
+            if (err)
+                reject(err);
+            else
+                resolve();
+        });
+    });
+}
 
-    let bus;
+async function maybeNotifyShellExtension(platform, bus) {
+    if (process.env.XDG_CURRENT_DESKTOP === 'GNOME') {
+        try {
+            const obj = await ninvoke(bus, 'getObject', 'org.gnome.Shell',
+                '/edu/stanford/Almond/ShellExtension');
+            const [,[version,]] = await ninvoke(obj.as('org.freedesktop.DBus.Properties'), 'Get',
+                'edu.stanford.Almond.ShellExtension', 'Version');
+            if (version === '1.8.0') {
+                console.log('Shell extension installed and up-to-date');
+            } else {
+                await sendOldSchoolNotification(bus, "Almond is out of date",
+                    "You should install the latest version of the Almond Shell extension to leverage all functionality.",
+                    [["Update", () => {
+                    platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
+                }]]);
+            }
+        } catch(e) {
+            await sendOldSchoolNotification(bus, "Almond Shell Extension Missing",
+                "You should install the latest version of the Almond Shell extension to leverage all functionality.",
+                [["Install", () => {
+                platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
+            }]]);
+        }
+    } else {
+        // on other desktops, we send the notification, but only once
+        const sharedPrefs = platform.getSharedPreferences();
+        if (!sharedPrefs.get('almond-notified-wrong-desktop')) {
+            sharedPrefs.set('almond-notified-wrong-desktop', true);
+            await sendOldSchoolNotification(bus, "Limited Almond functionality",
+                "Full functionality of Almond is only available on the GNOME desktop.");
+        }
+    }
+}
+
+async function main() {
+    process.on('SIGINT', handleStop);
+    process.on('SIGTERM', handleStop);
+
+    const platform = require('./platform').newInstance();
     await platform.init();
     try {
         console.log('GNOME platform initialized');
 
         console.log('Creating engine...');
-        _engine = new Engine(platform, { thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL });
+        _engine = new Genie.AssistantEngine(platform, {
+            thingpediaUrl: process.env.THINGPEDIA_URL || Config.THINGPEDIA_URL,
+            nluModelUrl: Config.SEMPRE_URL
+        });
 
-        _ad = new AssistantDispatcher(_engine);
-        platform.setAssistant(_ad);
         const controlChannel = new AppControlChannel();
-        bus = platform.getCapability('dbus-session');
+        const bus = platform.getCapability('dbus-session');
         bus.exportInterface(controlChannel, DBUS_CONTROL_PATH, DBUS_CONTROL_INTERFACE);
 
-        await Promise.all([_engine.open(), _ad.start()]);
+        await _engine.open();
         try {
-            await new Promise((resolve, reject) => {
-                const flags = DBUS_NAME_FLAG_ALLOW_REPLACEMENT | DBUS_NAME_FLAG_REPLACE_EXISTING;
-                bus.requestName('edu.stanford.Almond.BackgroundService', flags, (err) => {
-                    if (err)
-                        reject(err);
-                    else
-                        resolve();
-                });
-            });
+            await acquireBusName(bus);
             console.log('Ready');
 
             // check if the shell extension is installed and
@@ -426,46 +635,15 @@ async function main() {
             // this is all done in parallel to starting, and we delay it 10 seconds to
             // ensure that the shell extension has started
             // (this is important in particular if the shell extension is the one starting us)
-            setTimeout(async () => {
-                if (process.env.XDG_CURRENT_DESKTOP === 'GNOME') {
-                    try {
-                        const obj = await ninvoke(bus, 'getObject', 'org.gnome.Shell',
-                            '/edu/stanford/Almond/ShellExtension');
-                        const [,[version,]] = await ninvoke(obj.as('org.freedesktop.DBus.Properties'), 'Get',
-                            'edu.stanford.Almond.ShellExtension', 'Version');
-                        if (version === '1.8.0') {
-                            console.log('Shell extension installed and up-to-date');
-                        } else {
-                            await sendOldSchoolNotification(bus, "Almond is out of date",
-                                "You should install the latest version of the Almond Shell extension to leverage all functionality.",
-                                [["Update", () => {
-                                platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
-                            }]]);
-                        }
-                    } catch(e) {
-                        await sendOldSchoolNotification(bus, "Almond Shell Extension Missing",
-                            "You should install the latest version of the Almond Shell extension to leverage all functionality.",
-                            [["Install", () => {
-                            platform.getCapability('app-launcher').launchURL('https://extensions.gnome.org/extension/1795/almond/');
-                        }]]);
-                    }
-                } else {
-                    // on other desktops, we send the notification, but only once
-                    const sharedPrefs = platform.getSharedPreferences();
-                    if (!sharedPrefs.get('almond-notified-wrong-desktop')) {
-                        sharedPrefs.set('almond-notified-wrong-desktop', true);
-                        await sendOldSchoolNotification(bus, "Limited Almond functionality",
-                            "Full functionality of Almond is only available on the GNOME desktop.");
-                    }
-                }
-            }, 10000);
+            setTimeout(() => maybeNotifyShellExtension(platform, bus), 10000);
 
-            _ad.startConversation();
             _running = true;
+            await controlChannel.start();
             if (!_stopped)
                 await _engine.run();
         } finally {
             try {
+                await controlChannel.stop();
                 await _engine.close();
             } catch(error) {
                 console.log('Exception during stop: ' + error.message);

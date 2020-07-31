@@ -74,6 +74,7 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     </method>
     <method name="DeleteApp">
       <arg type="s" name="uniqueId" direction="in" />
+      <arg type="b" name="ok" direction="out" />
     </method>
     <method name="SetCloudId">
       <arg type="s" name="cloudId" direction="in" />
