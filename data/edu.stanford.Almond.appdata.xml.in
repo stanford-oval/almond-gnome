@@ -3,7 +3,7 @@
 <component type="desktop">
   <id>edu.stanford.Almond.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0</project_license>
+  <project_license>Apache-2.0</project_license>
   <update_contact>thingpedia-admins at lists.stanford.edu</update_contact>
   <name>Almond</name>
   <summary>The Open Virtual Assistant</summary>
