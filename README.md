@@ -76,6 +76,10 @@ on our [community forum](https://community.almond.stanford.edu).
 
 ## License
 
-Almond is free software, and is distributed under the GNU General Public License, version 3 or later.
+Almond is free software, and is distributed under the Apache 2.0 license.
 See [LICENSE](LICENSE) for details.
+
+Additionally, Almond contains a GNOME Shell extension, included in the "shell-extension"
+folder. That code, and only that code, is licensed under the GNU General Public License,
+version 2 or later.
 
