@@ -326,7 +326,6 @@ class AppControlChannel extends events.EventEmitter {
         let speech = prefs.get('enable-voice-output');
         if (speech === undefined) {
             // voice output is on by default
-            speech = true;
             prefs.set('enable-voice-output', true);
         }
 
