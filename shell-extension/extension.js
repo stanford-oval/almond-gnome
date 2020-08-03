@@ -394,6 +394,27 @@ const AssistantNotificationBanner = GObject.registerClass(class AlmondAssistantN
     }
 });
 
+const AlmondNotificationPolicy = GObject.registerClass(class AlmondNotificationPolicy extends MessageTray.NotificationPolicy {
+    get enable() {
+        return true;
+    }
+    get enableSound() {
+        return false; // Almond runs its own sound
+    }
+    get showBanners() {
+        return true;
+    }
+    get forceExpanded() {
+        return true; // compressed Almond notifications are useless, we want to interact with it
+    }
+    get showInLockScreen() {
+        return false;
+    }
+    get detailsInLockScreen() {
+        return false;
+    }
+});
+
 const AssistantSource = GObject.registerClass(class AssistantSource extends MessageTray.Source {
     _init() {
         super._init(_("Almond"), 'edu.stanford.Almond');
@@ -525,14 +546,7 @@ const AssistantSource = GObject.registerClass(class AssistantSource extends Mess
     }
 
     _createPolicy() {
-        return new MessageTray.NotificationPolicy({
-            enable: true,
-            enableSound: false, // Almond runs its own sound
-            showBanners: true,
-            forceExpanded: true, // compressed Almond notifications are useless, we want to interact with it
-            showInLockScreen: false,
-            detailsInLockScreen: false
-        });
+        return new AlmondNotificationPolicy();
     }
 
     createBanner() {
