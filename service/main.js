@@ -206,7 +206,7 @@ function marshalAlmondMessage(msg) {
     let id = msg.id;
     let type;
     let direction = msg.type === 'command' ? Direction.FROM_USER : Direction.FROM_ALMOND;
-    let out;
+    let out = {};
 
     switch (msg.type) {
     case 'command':
@@ -382,13 +382,13 @@ class AppControlChannel extends events.EventEmitter {
         if (msg.type === 'result' && msg.result.type === 'sound')
             this._playSoundEffect(msg.result.name);
 
-        this.emit('NewMessage', marshalAlmondMessage(msg));
+        this.emit('NewMessage', ...marshalAlmondMessage(msg));
     }
 
     setExpected(what) {
-        this.emit('NewMessage', [MAX_MSG_ID, MessageType.ASK_SPECIAL, Direction.FROM_ALMOND, marshallASS({
-            ask_special_type: what
-        })]);
+        this.emit('NewMessage', MAX_MSG_ID, MessageType.ASK_SPECIAL, Direction.FROM_ALMOND, marshallASS({
+            ask_special_what: what || 'null'
+        }));
     }
 
     Stop() {
