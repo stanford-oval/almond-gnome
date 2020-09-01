@@ -30,7 +30,7 @@ async function main() {
     const yarnlockfile = fs.readFileSync('./yarn.lock').toString();
     const yarnlock = YarnLock.parse(yarnlockfile);
 
-    const urls = new Set;
+    const urls = new Map;
     for (let name in yarnlock.object) {
         const url = yarnlock.object[name].resolved;
 
@@ -41,7 +41,7 @@ async function main() {
             basename = namespace + '-' + basename;
         }
 
-        urls.add([url, basename]);
+        urls.set(url, basename);
     }
 
     const sources = [];

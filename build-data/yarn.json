@@ -22,6 +22,13 @@
     },
     {
         "type": "file",
+        "url": "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.1.0.tgz#3d1f19fb797d42fb1c85458c1c73541eeb1d9e76",
+        "sha256": "7c7a94b26cf98c3618eac1e6a819cb2c724be1329bf859a3804c76116910076c",
+        "dest": "deps",
+        "dest-filename": "@eslint-eslintrc-0.1.0.tgz"
+    },
+    {
+        "type": "file",
         "url": "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0",
         "sha256": "e4354b0e6737e6154ae0910f39f4a7cbe6d13c52b74617da66ac116ef3acc161",
         "dest": "deps",
@@ -71,10 +78,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd",
-        "sha256": "80fcad5efdc6419aef7760e1b9654fa76ee3a35735b3300ff5ca785ff7067767",
+        "url": "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c",
+        "sha256": "d0213df4ca06c0f481512942d55fab742c2f76ef05ce80db1911d0ba616a2b28",
         "dest": "deps",
-        "dest-filename": "acorn-7.3.1.tgz"
+        "dest-filename": "acorn-7.4.0.tgz"
     },
     {
         "type": "file",
@@ -92,13 +99,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/adt/-/adt-0.7.2.tgz#824bb725fe3632c8c35ec24985df610f97d98244",
-        "sha256": "f1a60ad12e5486857bd588892aa2f719ef9701a19fd6c38ecf9f8d33e00c4603",
-        "dest": "deps",
-        "dest-filename": "adt-0.7.2.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536",
         "sha256": "5e645008a327dfa21293ea60d2e2b9aaa383b44553da1b4126a7dc5a2034fcb7",
         "dest": "deps",
@@ -106,24 +106,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/ajv/-/ajv-6.12.3.tgz#18c5af38a111ddeb4f2697bd78d68abc1cabd706",
-        "sha256": "0d2f99fe41b710d69fe4eae4203d0bbcc0ee428448aec1d06dd2f1d89de9963f",
+        "url": "https://registry.yarnpkg.com/ajv/-/ajv-6.12.4.tgz#0614facc4522127fa713445c6bfd3ebd376e2234",
+        "sha256": "028946dddc6808b8eddb02e3cf42275f9997697e3b8e62e4a7fab6d2dedd6fce",
         "dest": "deps",
-        "dest-filename": "ajv-6.12.3.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/ajv/-/ajv-6.12.3.tgz#18c5af38a111ddeb4f2697bd78d68abc1cabd706",
-        "sha256": "0d2f99fe41b710d69fe4eae4203d0bbcc0ee428448aec1d06dd2f1d89de9963f",
-        "dest": "deps",
-        "dest-filename": "ajv-6.12.3.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/ajv/-/ajv-6.12.3.tgz#18c5af38a111ddeb4f2697bd78d68abc1cabd706",
-        "sha256": "0d2f99fe41b710d69fe4eae4203d0bbcc0ee428448aec1d06dd2f1d89de9963f",
-        "dest": "deps",
-        "dest-filename": "ajv-6.12.3.tgz"
+        "dest-filename": "ajv-6.12.4.tgz"
     },
     {
         "type": "file",
@@ -169,13 +155,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d",
-        "sha256": "7318625e1aa6768258ca472572b254711de4ac35f1ee49c4c1a9044c1f020df3",
-        "dest": "deps",
-        "dest-filename": "ansi-styles-3.2.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-4.2.1.tgz#90ae75c424d008d2624c5bf29ead3177ebfcf359",
         "sha256": "d19f43cc0e836ac517bea0908188fe7f654e80287c1b470a02b14b8b787d9bb0",
         "dest": "deps",
@@ -204,10 +183,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911",
-        "sha256": "7faa149cd7811b7e11fc8353dc6e4e9c4de68a02f8221aa8f7dc22108315ac0d",
+        "url": "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38",
+        "sha256": "27903847fc8215e6fc5a33e81490f7baba66403f8aade33771b988cca097728c",
         "dest": "deps",
-        "dest-filename": "argparse-1.0.10.tgz"
+        "dest-filename": "argparse-2.0.1.tgz"
     },
     {
         "type": "file",
@@ -246,13 +225,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525",
-        "sha256": "47ab5c4571504bdee569f03e3423af5b51aa17d6a94866ddcae353ed2d9033eb",
-        "dest": "deps",
-        "dest-filename": "assert-plus-1.0.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/assert-plus/-/assert-plus-0.2.0.tgz#d74e1b87e7affc0db8aadb7021f3fe48101ab234",
         "sha256": "73031b3f39d0f0785e6a39f896067abf50d4283dcde4527835e5eacdf3bbc2fd",
         "dest": "deps",
@@ -281,13 +253,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.2.tgz#6b098ca9d8039079ee3f77f7b783c4480ba513f5",
-        "sha256": "f6c0730193534b8641c1d54cccc378c00ab761086a1ee435b21ef1a48ee7491a",
-        "dest": "deps",
-        "dest-filename": "available-typed-arrays-1.0.2.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.6.0.tgz#14342dd38dbcc94d0e5b87d763cd63612c0e794f",
         "sha256": "592829a38e2ffca197ae26799e7e635981d16bb5bba252074f4e333ad4aa9f3a",
         "dest": "deps",
@@ -302,17 +267,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2",
-        "sha256": "c68d781e6c40ef0c21fa3dd3a392e6ce6bebeb2d0b9124e0ac13558fd7999996",
+        "url": "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428",
+        "sha256": "0bc2224ea933ba1552a75c6e7bc0c4f51e447881608af6af65255900901cd749",
         "dest": "deps",
-        "dest-filename": "aws4-1.10.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2",
-        "sha256": "c68d781e6c40ef0c21fa3dd3a392e6ce6bebeb2d0b9124e0ac13558fd7999996",
-        "dest": "deps",
-        "dest-filename": "aws4-1.10.0.tgz"
+        "dest-filename": "aws4-1.10.1.tgz"
     },
     {
         "type": "file",
@@ -351,24 +309,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df",
-        "sha256": "d77781178c5bd89a91b1f6c5556acd511b1b5927eb13e2ad8189cac29eeb0907",
+        "url": "https://registry.yarnpkg.com/bl/-/bl-4.0.3.tgz#12d6287adc29080e22a705e5764b2a9522cdc489",
+        "sha256": "919af3f62b3d7519d567d987910c88c00a05aca6e9d352bf60ef50fc34db78b8",
         "dest": "deps",
-        "dest-filename": "bindings-1.5.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df",
-        "sha256": "d77781178c5bd89a91b1f6c5556acd511b1b5927eb13e2ad8189cac29eeb0907",
-        "dest": "deps",
-        "dest-filename": "bindings-1.5.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/bl/-/bl-4.0.2.tgz#52b71e9088515d0606d9dd9cc7aa48dc1f98e73a",
-        "sha256": "f6e20f1343db6e2d56b4c8b71cf345525af30d9308a14a9b7e848d28657812a3",
-        "dest": "deps",
-        "dest-filename": "bl-4.0.2.tgz"
+        "dest-filename": "bl-4.0.3.tgz"
     },
     {
         "type": "file",
@@ -376,13 +320,6 @@
         "sha256": "d900ce261c297442a61c9791211c622e42d292b5478d9408221e19ff810d717b",
         "dest": "deps",
         "dest-filename": "block-stream-0.0.9.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/body-parser/-/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a",
-        "sha256": "025459bcf55c23696b24a8f17125a2b40b9a41ecbbdbe174d4e356e8aa4f7ea3",
-        "dest": "deps",
-        "dest-filename": "body-parser-1.19.0.tgz"
     },
     {
         "type": "file",
@@ -526,38 +463,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f",
-        "sha256": "b6be5aabe53e90635beb77cd0e0ba7ae6a25c8cf903b15fcc342353e732e1512",
-        "dest": "deps",
-        "dest-filename": "combined-stream-1.0.8.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f",
-        "sha256": "b6be5aabe53e90635beb77cd0e0ba7ae6a25c8cf903b15fcc342353e732e1512",
-        "dest": "deps",
-        "dest-filename": "combined-stream-1.0.8.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f",
-        "sha256": "b6be5aabe53e90635beb77cd0e0ba7ae6a25c8cf903b15fcc342353e732e1512",
-        "dest": "deps",
-        "dest-filename": "combined-stream-1.0.8.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b",
         "sha256": "35902dd620cf0058c49ea614120f18a889d984269a90381b7622e79c2cfe4261",
         "dest": "deps",
         "dest-filename": "concat-map-0.0.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e",
-        "sha256": "f0d49b480cfabcf86c98b729e4dca966d17d187152b9458983b889473a128336",
-        "dest": "deps",
-        "dest-filename": "console-control-strings-1.1.0.tgz"
     },
     {
         "type": "file",
@@ -589,13 +498,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b",
-        "sha256": "db3e3f71df10b2b226a4e9abdc95a47aaa725e499dcee72099beddedcf9e1948",
-        "dest": "deps",
-        "dest-filename": "content-type-1.0.4.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c",
         "sha256": "89f345e24abee506e690eb6ff5bd1973957f916cba72b2a224ab2355544d5313",
         "dest": "deps",
@@ -607,13 +509,6 @@
         "sha256": "2ef9cb6c5d6e2e3466cb8985342998fd1024663c5ca5224dfaec756c0aec1dfd",
         "dest": "deps",
         "dest-filename": "cookie-0.4.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7",
-        "sha256": "a4a44dab6579ede3e06ade58d26f8fd642eae09153fd59c608fcb7951a499398",
-        "dest": "deps",
-        "dest-filename": "core-util-is-1.0.2.tgz"
     },
     {
         "type": "file",
@@ -638,17 +533,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.11.1.tgz#3935a7862d7e431020a25538905dec0153fa75bd",
-        "sha256": "5fe7ca31b06587dfdaab90bd0682d91cff063c4e6355b8a8928e53340eb92c61",
+        "url": "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.12.0.tgz#fd42d6291bbaadd51d3009f6cadbb3e53b4ce026",
+        "sha256": "15db1f2535a3754083e34eff27e3b1feecf64bc8911f999700662e287571646b",
         "dest": "deps",
-        "dest-filename": "csv-parse-4.11.1.tgz"
+        "dest-filename": "csv-parse-4.12.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-5.5.0.tgz#0bdeaaf60d6e15b89c752a0eceb4b4c2c8af5a8a",
-        "sha256": "b3def49a33da279524bc12edb2cac51c37ad509bbc1a470bbecead0b40eb2d3e",
+        "url": "https://registry.yarnpkg.com/csv-stringify/-/csv-stringify-5.5.1.tgz#f42cdd379b0f7f142933a11f674b1a91ebd0fcd0",
+        "sha256": "69bb0a4fa33ae1c162e4f0cf15e935c89432070be736fcb8d1effef85036ede4",
         "dest": "deps",
-        "dest-filename": "csv-stringify-5.5.0.tgz"
+        "dest-filename": "csv-stringify-5.5.1.tgz"
     },
     {
         "type": "file",
@@ -663,13 +558,6 @@
         "sha256": "1cc2739e01e7739fe6d7d2d33369f622f85e0fb87078692f4a855ad5804ac915",
         "dest": "deps",
         "dest-filename": "dbus-native-0.4.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f",
-        "sha256": "34ae48c66698f1f81e2a2e6e322f34e8a88b0986a3fa7b74bb5ea14c0edb1c98",
-        "dest": "deps",
-        "dest-filename": "debug-2.6.9.tgz"
     },
     {
         "type": "file",
@@ -729,13 +617,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.3.tgz#cf88da6cbee26fe6db7094f61d870cbd84cee9f1",
-        "sha256": "5524f4db15bb95af92c791ba208e2fc774bd8ae17eb347865492d444f95a70a5",
-        "dest": "deps",
-        "dest-filename": "define-properties-1.1.3.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619",
         "sha256": "ac38fce4217dfb1d772427c7d8d0d073e35ecd832915e97a61d9ab5c504129d3",
         "dest": "deps",
@@ -778,13 +659,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b",
-        "sha256": "7a2af298b85cb36f877693318e157e4d20719ce8dca02b34d68c12142b71218b",
-        "dest": "deps",
-        "dest-filename": "detect-libc-1.0.3.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/doctrine/-/doctrine-3.0.0.tgz#addebead72a6574db783639dc87a121773973961",
         "sha256": "1004df8845f9c26d6644e4d9bf1076a3d4ff758690c81ee9f485dbf9c8571d20",
         "dest": "deps",
@@ -792,17 +666,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1",
-        "sha256": "e970de93b55944f514569a97b5d134163db45fee7814315ff4ce9fa2f0a6312e",
+        "url": "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.2.tgz#3abe43aef3835f8ae077d136ddce0f276b0400e6",
+        "sha256": "aa316a606a4a0af1978d5c6bfcb1f942a819418892848d3672b448e0c10f463d",
         "dest": "deps",
-        "dest-filename": "duplexer-0.1.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1",
-        "sha256": "e970de93b55944f514569a97b5d134163db45fee7814315ff4ce9fa2f0a6312e",
-        "dest": "deps",
-        "dest-filename": "duplexer-0.1.1.tgz"
+        "dest-filename": "duplexer-0.1.2.tgz"
     },
     {
         "type": "file",
@@ -824,13 +691,6 @@
         "sha256": "e07dcbb6bf4b7efe73b55b162ab69767b655268147cc06d374a58a7c8c3ea4b7",
         "dest": "deps",
         "dest-filename": "emoji-regex-7.0.3.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/en-inflectors/-/en-inflectors-1.0.12.tgz#fd334776608a021cb4202157f20d52ab934af78a",
-        "sha256": "f53c3802f90148684ab37e7ff1668df01869c11a4ca943d60e79cae77fafbeac",
-        "dest": "deps",
-        "dest-filename": "en-inflectors-1.0.12.tgz"
     },
     {
         "type": "file",
@@ -883,13 +743,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/end-of-stream/-/end-of-stream-1.4.4.tgz#5ae64a5f45057baf3626ec14da0ca5e4b2431eb0",
-        "sha256": "0b8becf0cba76fdddfe4ad2289917edf74047913eb6891a7922ccf822bdf0db5",
-        "dest": "deps",
-        "dest-filename": "end-of-stream-1.4.4.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/enquirer/-/enquirer-2.3.6.tgz#2a7fe5dd634a1e4125a975ec994ff5456dc3734d",
         "sha256": "c882f81ad108f122c382925d4773040cb16264a684e6b241909cfbfd37b7b948",
         "dest": "deps",
@@ -911,17 +764,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.17.6.tgz#9142071707857b2cacc7b89ecb670316c3e2d52a",
-        "sha256": "65b18890b449dc3f4382ff630b1ff86e2f99be2cf1d54aeec25f38a6acbdb07b",
+        "url": "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.18.0-next.0.tgz#b302834927e624d8e5837ed48224291f2c66e6fc",
+        "sha256": "ca1bde39498b4d3958f25bb467c79e70907c21443708302f42db0f4b6b41e08d",
         "dest": "deps",
-        "dest-filename": "es-abstract-1.17.6.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.17.6.tgz#9142071707857b2cacc7b89ecb670316c3e2d52a",
-        "sha256": "65b18890b449dc3f4382ff630b1ff86e2f99be2cf1d54aeec25f38a6acbdb07b",
-        "dest": "deps",
-        "dest-filename": "es-abstract-1.17.6.tgz"
+        "dest-filename": "es-abstract-1.18.0-next.0.tgz"
     },
     {
         "type": "file",
@@ -974,24 +820,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.3.0.tgz#30ebd1ef7c2fdff01c3a4f151044af25fab0523e",
-        "sha256": "a9d7e840305df2cb16ff6be0fdd3e7b69db54fef607cd02f500f8183867eab36",
+        "url": "https://registry.yarnpkg.com/eslint/-/eslint-7.8.0.tgz#9a3e2e6e4d0a3f8c42686073c25ebf2e91443e8a",
+        "sha256": "3569ce69aecbc0a3ebb6bfcb958fe3260f54bccf5184692eebb09467572b8cb5",
         "dest": "deps",
-        "dest-filename": "eslint-visitor-keys-1.3.0.tgz"
+        "dest-filename": "eslint-7.8.0.tgz"
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/eslint/-/eslint-7.6.0.tgz#522d67cfaea09724d96949c70e7a0550614d64d6",
-        "sha256": "fd9968727fe5d616cf0d3a361a0c1f13294888ef2ddf9d8beac57d9842dce09e",
+        "url": "https://registry.yarnpkg.com/espree/-/espree-7.3.0.tgz#dc30437cf67947cf576121ebd780f15eeac72348",
+        "sha256": "22a4e80b5150c3a01fc7cb912f1c6f511467cb9b2f28ba22f9370a8d063cc357",
         "dest": "deps",
-        "dest-filename": "eslint-7.6.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/espree/-/espree-7.2.0.tgz#1c263d5b513dbad0ac30c4991b93ac354e948d69",
-        "sha256": "df72ca3a10d48e453c7bb8aa48e9724786623663c548ef14fe8f6033ec17140e",
-        "dest": "deps",
-        "dest-filename": "espree-7.2.0.tgz"
+        "dest-filename": "espree-7.3.0.tgz"
     },
     {
         "type": "file",
@@ -1009,10 +848,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/esrecurse/-/esrecurse-4.2.1.tgz#007a3b9fdbc2b3bb87e4879ea19c92fdbd3942cf",
-        "sha256": "d757a917a617f6adcb6994bd9d0341a22bd12cfd5fa49880417425a2487b4d19",
+        "url": "https://registry.yarnpkg.com/esrecurse/-/esrecurse-4.3.0.tgz#7ad7964d679abb28bee72cec63758b1c5d2c9921",
+        "sha256": "3ecf9370d7296b47b570c88a11f70b35bb965af8d536536b259eb55f9b793b61",
         "dest": "deps",
-        "dest-filename": "esrecurse-4.2.1.tgz"
+        "dest-filename": "esrecurse-4.3.0.tgz"
     },
     {
         "type": "file",
@@ -1023,17 +862,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/estraverse/-/estraverse-4.3.0.tgz#398ad3f3c5a24948be7725e83d11a7de28cdbd1d",
-        "sha256": "7f262b147df8eeb209d0b7220b4dff6c70a5b1edba157bf335cee0bb71b9f1ae",
+        "url": "https://registry.yarnpkg.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880",
+        "sha256": "9b8607646676c6f3cc06cdb04af32198a7f5e3b271502def087c4561627de001",
         "dest": "deps",
-        "dest-filename": "estraverse-4.3.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/estraverse/-/estraverse-5.1.0.tgz#374309d39fd935ae500e7b92e8a6b4c720e59642",
-        "sha256": "64460c84db1ca32ba394d3e6b9ca3d5b9aed1ec8e0b83259c2d15493a8141e00",
-        "dest": "deps",
-        "dest-filename": "estraverse-5.1.0.tgz"
+        "dest-filename": "estraverse-5.2.0.tgz"
     },
     {
         "type": "file",
@@ -1069,13 +901,6 @@
         "sha256": "2600b551c4e3f56d1bd5e28505d4ecfe3e73e58cc3a0ad5be08c0bf395aa02a9",
         "dest": "deps",
         "dest-filename": "express-4.17.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa",
-        "sha256": "1d91d0b0faa50cba223fa937c7b5a4a662968b1d78b3e59dca5c917dd5cf72b2",
-        "dest": "deps",
-        "dest-filename": "extend-3.0.2.tgz"
     },
     {
         "type": "file",
@@ -1254,20 +1079,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/fstream/-/fstream-1.0.12.tgz#4e8ba8ee2d48be4f7d0de505455548eae5932045",
-        "sha256": "7397e7e550f38bf60657067af1d7e70d504ea81375e7cf519dcf617e283b7564",
-        "dest": "deps",
-        "dest-filename": "fstream-1.0.12.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/fstream/-/fstream-1.0.12.tgz#4e8ba8ee2d48be4f7d0de505455548eae5932045",
-        "sha256": "7397e7e550f38bf60657067af1d7e70d504ea81375e7cf519dcf617e283b7564",
-        "dest": "deps",
-        "dest-filename": "fstream-1.0.12.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d",
         "sha256": "2d552e7c98b4c3acbf6420cc2eed535e592bb987ed2b32e35795bf777dd2e082",
         "dest": "deps",
@@ -1289,10 +1100,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-beta.4.tgz#15181b200bb21009639d2acecd8ce6f82ad38617",
-        "sha256": "fc30a347fdcd1d326dd806198fc7dd255d307db1e95432ee41b202632a3fc39e",
+        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-beta.6.tgz#560a5d041bcbe94bc08a5d02001e80eda8b487f9",
+        "sha256": "8b94765e5c765151a15e1eef240b16296533c04be00a4528d228c7eedf661716",
         "dest": "deps",
-        "dest-filename": "genie-toolkit-0.7.0-beta.4.tgz"
+        "dest-filename": "genie-toolkit-0.7.0-beta.6.tgz"
     },
     {
         "type": "file",
@@ -1321,13 +1132,6 @@
         "sha256": "9d1d98d2838b2d959879780d8f8fdf9429b6cba6de537687bf03c5718d69f091",
         "dest": "deps",
         "dest-filename": "glob-parent-5.1.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6",
-        "sha256": "54b05170b446eced68494509bb23892d0b17fd2a2bf1596609bdf322c415a6c2",
-        "dest": "deps",
-        "dest-filename": "glob-7.1.6.tgz"
     },
     {
         "type": "file",
@@ -1401,13 +1205,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/has-symbols/-/has-symbols-1.0.1.tgz#9f5214758a44196c406d9bd76cebf81ec2dd31e8",
-        "sha256": "3d0af8ac4a12bcab413fd2505a33cddd8ddef0ae06e123e33a71559163e3d689",
-        "dest": "deps",
-        "dest-filename": "has-symbols-1.0.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/has-unicode/-/has-unicode-2.0.1.tgz#e0e6fe6a28cf51138855e086d1691e771de2a8b9",
         "sha256": "d061dd9f29aa7e063efe6bae9906e8111a8e2b9b69876cf4e9e2337b7335ecac",
         "dest": "deps",
@@ -1419,13 +1216,6 @@
         "sha256": "c38cf9eefce04e58ec3e945bfe448b9236d64f9337f6bf6e1f62e1c5b6b05573",
         "dest": "deps",
         "dest-filename": "has-1.0.3.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4",
-        "sha256": "25a9c9d9755c48a1b2a9c69ee5d678796584d0f4464610277136d10098b1b283",
-        "dest": "deps",
-        "dest-filename": "hawk-3.1.3.tgz"
     },
     {
         "type": "file",
@@ -1492,13 +1282,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b",
-        "sha256": "576c64f2098ed44c3d5e48d7a9dc65512700c1d6a969a71a74d474da8e734635",
-        "dest": "deps",
-        "dest-filename": "iconv-lite-0.4.24.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.2.tgz#ce13d1875b0c3a674bd6a04b7f76b01b1b6ded01",
         "sha256": "9d6805cee66fc99871137caef9853acb11c8971e0085738f2ad71aa7c455727b",
         "dest": "deps",
@@ -1555,41 +1338,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c",
-        "sha256": "d94dbc6c1bb3c5ac0fb12a73ade187108fc60de273a1b754f55044eb5e24afaf",
-        "dest": "deps",
-        "dest-filename": "inherits-2.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c",
-        "sha256": "d94dbc6c1bb3c5ac0fb12a73ade187108fc60de273a1b754f55044eb5e24afaf",
-        "dest": "deps",
-        "dest-filename": "inherits-2.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c",
-        "sha256": "d94dbc6c1bb3c5ac0fb12a73ade187108fc60de273a1b754f55044eb5e24afaf",
-        "dest": "deps",
-        "dest-filename": "inherits-2.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c",
-        "sha256": "d94dbc6c1bb3c5ac0fb12a73ade187108fc60de273a1b754f55044eb5e24afaf",
-        "dest": "deps",
-        "dest-filename": "inherits-2.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c",
-        "sha256": "d94dbc6c1bb3c5ac0fb12a73ade187108fc60de273a1b754f55044eb5e24afaf",
-        "dest": "deps",
-        "dest-filename": "inherits-2.0.4.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de",
         "sha256": "7f5f58e9b54e87e264786e7e84d9e078aaf68c1003de9fa68945101e02356cdf",
         "dest": "deps",
@@ -1601,20 +1349,6 @@
         "sha256": "fe8ebd87cc87404eeb3ec89880bc49d83df337f8b95a504366c4674f3646785d",
         "dest": "deps",
         "dest-filename": "ini-1.3.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a",
-        "sha256": "a8f688da4c42c598ef772c608103fdf1ea0abec15ba082456fba2bdc32224259",
-        "dest": "deps",
-        "dest-filename": "ip-1.1.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a",
-        "sha256": "a8f688da4c42c598ef772c608103fdf1ea0abec15ba082456fba2bdc32224259",
-        "dest": "deps",
-        "dest-filename": "ip-1.1.5.tgz"
     },
     {
         "type": "file",
@@ -1660,20 +1394,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.0.tgz#83336560b54a38e35e3a2df7afd0454d691468bb",
-        "sha256": "a6c4a0594c97b75bd74b5ae1422ed631ebb2b857a473aa0bf91cd69f759facab",
-        "dest": "deps",
-        "dest-filename": "is-callable-1.2.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.2.tgz#bda736f2cd8fd06d32844e7743bfa7494c3bfd7e",
-        "sha256": "305b0f5fe94161935fe4c77df330e997f6c8b20630dc515defd0295bd1a58382",
-        "dest": "deps",
-        "dest-filename": "is-date-object-1.0.2.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.2.tgz#bda736f2cd8fd06d32844e7743bfa7494c3bfd7e",
         "sha256": "305b0f5fe94161935fe4c77df330e997f6c8b20630dc515defd0295bd1a58382",
         "dest": "deps",
@@ -1709,17 +1429,17 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.1.tgz#7567dbe9f2f5e2467bc77ab83c4a29482407a5dc",
-        "sha256": "8b57563403911ae1fb38cb960dfe47c1c103d11dfa0eabd739dde3dc945ab90c",
-        "dest": "deps",
-        "dest-filename": "is-glob-4.0.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/is-map/-/is-map-2.0.1.tgz#520dafc4307bb8ebc33b813de5ce7c9400d644a1",
         "sha256": "b848a2036a11842706e0031a626c743305f0964915dc88d459c1f3d3fd5eec52",
         "dest": "deps",
         "dest-filename": "is-map-2.0.1.tgz"
+    },
+    {
+        "type": "file",
+        "url": "https://registry.yarnpkg.com/is-negative-zero/-/is-negative-zero-2.0.0.tgz#9553b121b0fac28869da9ed459e20c7543788461",
+        "sha256": "897ab0637d6ed811552c44476567b1164e8df70ea33a0f0f46939fe031226c7e",
+        "dest": "deps",
+        "dest-filename": "is-negative-zero-2.0.0.tgz"
     },
     {
         "type": "file",
@@ -1730,17 +1450,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.0.tgz#ece38e389e490df0dc21caea2bd596f987f767ff",
-        "sha256": "fb49450be7a71339e516d96d59de305f5a96238b5fc4c18409b5b2e292ec6728",
+        "url": "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.1.tgz#c6f98aacc546f6cec5468a07b7b153ab564a57b9",
+        "sha256": "518bd53dc9cf4aa12e24961d2696849041486e69859df38566ca639ec591b869",
         "dest": "deps",
-        "dest-filename": "is-regex-1.1.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/is-regex/-/is-regex-1.1.0.tgz#ece38e389e490df0dc21caea2bd596f987f767ff",
-        "sha256": "fb49450be7a71339e516d96d59de305f5a96238b5fc4c18409b5b2e292ec6728",
-        "dest": "deps",
-        "dest-filename": "is-regex-1.1.0.tgz"
+        "dest-filename": "is-regex-1.1.1.tgz"
     },
     {
         "type": "file",
@@ -1748,13 +1461,6 @@
         "sha256": "55db1ba0764d73c5e6e29e59bed6a35c307c6a47d2939a9b296e3c2e1b221c1c",
         "dest": "deps",
         "dest-filename": "is-set-2.0.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/is-string/-/is-string-1.0.5.tgz#40493ed198ef3ff477b8c7f92f644ec82a5cd3a6",
-        "sha256": "d6c05956276d3f3f9443ebe0cafd248191f0348bc397c6cfbcd52f4eb32efb1e",
-        "dest": "deps",
-        "dest-filename": "is-string-1.0.5.tgz"
     },
     {
         "type": "file",
@@ -1832,13 +1538,6 @@
         "sha256": "d884c7a2d8adb5568c1272d92b4f9c62707f4226cf9e7b22e7b957c7361e3c53",
         "dest": "deps",
         "dest-filename": "js-tokens-4.0.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.0.tgz#a7a34170f26a21bb162424d8adacb4113a69e482",
-        "sha256": "3c82c5db6d3a31632e442863ebb006640700d773f73ece89b3686ff42b88c8ef",
-        "dest": "deps",
-        "dest-filename": "js-yaml-3.14.0.tgz"
     },
     {
         "type": "file",
@@ -1954,17 +1653,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b",
-        "sha256": "d36e4d3da7ef0b9d6a60d1a9ca49d0acfe2213041b0ad56373176922255e415f",
+        "url": "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52",
+        "sha256": "d2aa8c6afc3c8591765785a37d1c5acae482a8eb3ab9729ed28922692454f2e2",
         "dest": "deps",
-        "dest-filename": "lodash-4.17.19.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b",
-        "sha256": "d36e4d3da7ef0b9d6a60d1a9ca49d0acfe2213041b0ad56373176922255e415f",
-        "dest": "deps",
-        "dest-filename": "lodash-4.17.19.tgz"
+        "dest-filename": "lodash-4.17.20.tgz"
     },
     {
         "type": "file",
@@ -2017,27 +1709,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.27.tgz#47949f98e279ea53119f5722e0f34e529bec009f",
-        "sha256": "f2a072da3505a4eaf6b155582a64429d27660f137f0644b6d0d86ec1e62529ec",
-        "dest": "deps",
-        "dest-filename": "mime-types-2.1.27.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.27.tgz#47949f98e279ea53119f5722e0f34e529bec009f",
-        "sha256": "f2a072da3505a4eaf6b155582a64429d27660f137f0644b6d0d86ec1e62529ec",
-        "dest": "deps",
-        "dest-filename": "mime-types-2.1.27.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.27.tgz#47949f98e279ea53119f5722e0f34e529bec009f",
-        "sha256": "f2a072da3505a4eaf6b155582a64429d27660f137f0644b6d0d86ec1e62529ec",
-        "dest": "deps",
-        "dest-filename": "mime-types-2.1.27.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1",
         "sha256": "215210390e617ac355b422692c7096476e3fe648176cb72b40075a03c9cc379a",
         "dest": "deps",
@@ -2056,27 +1727,6 @@
         "sha256": "426a24d79bb6f0d3bb133e62cec69021836d254b39d931c104ddd7c464adea71",
         "dest": "deps",
         "dest-filename": "minimatch-3.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083",
-        "sha256": "426a24d79bb6f0d3bb133e62cec69021836d254b39d931c104ddd7c464adea71",
-        "dest": "deps",
-        "dest-filename": "minimatch-3.0.4.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602",
-        "sha256": "a1800ce4d39356e96497bd09a41fad0033a13dd8eeb469008333547505ce4350",
-        "dest": "deps",
-        "dest-filename": "minimist-1.2.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602",
-        "sha256": "a1800ce4d39356e96497bd09a41fad0033a13dd8eeb469008333547505ce4350",
-        "dest": "deps",
-        "dest-filename": "minimist-1.2.5.tgz"
     },
     {
         "type": "file",
@@ -2101,20 +1751,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/minipass/-/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6",
-        "sha256": "a175ae2f513276f687dbea32274de7af04df49c1eb39cfbe14e2bd4842e07ba9",
-        "dest": "deps",
-        "dest-filename": "minipass-2.9.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/minipass/-/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6",
-        "sha256": "a175ae2f513276f687dbea32274de7af04df49c1eb39cfbe14e2bd4842e07ba9",
-        "dest": "deps",
-        "dest-filename": "minipass-2.9.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/minizlib/-/minizlib-1.3.3.tgz#2290de96818a34c29551c8a8d301216bd65a861d",
         "sha256": "a44b92393119b3c1e9ea83cbdf200b4fb0ed6391c25dfe1ebaa1766bcfd59119",
         "dest": "deps",
@@ -2126,20 +1762,6 @@
         "sha256": "29bcb44df9b5cc4a5b4c3f44f16ec48c53389d2f3892c95c779e31a980075246",
         "dest": "deps",
         "dest-filename": "mkdirp-classic-0.5.3.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def",
-        "sha256": "4e5ab01a61e329dd14d4020ce846e3abd93ee79b0f788f22fd5d5b4a61b1bb0a",
-        "dest": "deps",
-        "dest-filename": "mkdirp-0.5.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def",
-        "sha256": "4e5ab01a61e329dd14d4020ce846e3abd93ee79b0f788f22fd5d5b4a61b1bb0a",
-        "dest": "deps",
-        "dest-filename": "mkdirp-0.5.5.tgz"
     },
     {
         "type": "file",
@@ -2192,27 +1814,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01",
-        "sha256": "5f06c3b322447cf3f1c9d55897cee1c8f1fecb3d42ee04c1fd8490a6d6bcbdc3",
-        "dest": "deps",
-        "dest-filename": "nan-2.14.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01",
-        "sha256": "5f06c3b322447cf3f1c9d55897cee1c8f1fecb3d42ee04c1fd8490a6d6bcbdc3",
-        "dest": "deps",
-        "dest-filename": "nan-2.14.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/nan/-/nan-2.14.1.tgz#d7be34dfa3105b91494c3147089315eff8874b01",
-        "sha256": "5f06c3b322447cf3f1c9d55897cee1c8f1fecb3d42ee04c1fd8490a6d6bcbdc3",
-        "dest": "deps",
-        "dest-filename": "nan-2.14.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.2.tgz#b1fddc0b2c46e380a0b7a76f984dd47c41a13806",
         "sha256": "07f68d86d914b7f9e8055f20a3964512bd02ef522fab9cebce6d9ede7141e8ef",
         "dest": "deps",
@@ -2241,10 +1842,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.18.0.tgz#1f5486cfd7d38bd4f5392fa44a4ad4d9a0dffbf4",
-        "sha256": "28b367d14de9685654a40e95df3795065a7ebb232b07cafdacb3c51ed53e5c9b",
+        "url": "https://registry.yarnpkg.com/node-abi/-/node-abi-2.19.1.tgz#6aa32561d0a5e2fdb6810d8c25641b657a8cea85",
+        "sha256": "e9437d67d62a15f20a75b83c57866b613cec43d0312baba2f550f371a69b8530",
         "dest": "deps",
-        "dest-filename": "node-abi-2.18.0.tgz"
+        "dest-filename": "node-abi-2.19.1.tgz"
     },
     {
         "type": "file",
@@ -2346,20 +1947,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.2.tgz#08a7f2a8bf734604779a9efa4ad5cc717abb954b",
-        "sha256": "6812a94724c1379c7d57500949afa319d26baa1ee777325f472571d965770759",
-        "dest": "deps",
-        "dest-filename": "npmlog-4.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.2.tgz#08a7f2a8bf734604779a9efa4ad5cc717abb954b",
-        "sha256": "6812a94724c1379c7d57500949afa319d26baa1ee777325f472571d965770759",
-        "dest": "deps",
-        "dest-filename": "npmlog-4.1.2.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d",
         "sha256": "896ec5dd2269a0f219b0e46dd24b5532cdfd1648f1e5156078854b912d619f3c",
         "dest": "deps",
@@ -2416,20 +2003,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e",
-        "sha256": "9678d9055619767c8a134033709e88a6e0a19600f3d3f2cda40acdfd75e7f212",
-        "dest": "deps",
-        "dest-filename": "object-keys-1.1.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.1.tgz#1c47f272df277f3b1daf061677d9c82e2322c60e",
-        "sha256": "9678d9055619767c8a134033709e88a6e0a19600f3d3f2cda40acdfd75e7f212",
-        "dest": "deps",
-        "dest-filename": "object-keys-1.1.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.0.tgz#968bf1100d7956bb3ca086f006f846b3bc4008da",
         "sha256": "0e791b6687f4c5f2ab5f5af71dc7835d43597ced458e9bc4bf5fff06d62543c3",
         "dest": "deps",
@@ -2448,27 +2021,6 @@
         "sha256": "a1bd8b50b06c253f8428ddef6b5aa0c4b6c6d169d5fe54b5ae66dd49358d9d69",
         "dest": "deps",
         "dest-filename": "on-headers-1.0.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1",
-        "sha256": "cf51460ba370c698f68b976e514d113497339ba018b6003e8e8eb569c6fccfcf",
-        "dest": "deps",
-        "dest-filename": "once-1.4.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1",
-        "sha256": "cf51460ba370c698f68b976e514d113497339ba018b6003e8e8eb569c6fccfcf",
-        "dest": "deps",
-        "dest-filename": "once-1.4.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1",
-        "sha256": "cf51460ba370c698f68b976e514d113497339ba018b6003e8e8eb569c6fccfcf",
-        "dest": "deps",
-        "dest-filename": "once-1.4.0.tgz"
     },
     {
         "type": "file",
@@ -2504,13 +2056,6 @@
         "sha256": "13e722c2d777c084983e2e1e1150a496aa25685791a71244e61a605ec892ad89",
         "dest": "deps",
         "dest-filename": "os-tmpdir-1.0.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/osenv/-/osenv-0.1.5.tgz#85cdfafaeb28e8677f416e287592b5f3f49ea410",
-        "sha256": "7d19469a119cf35262531ed0729a67a0eacb55baea57f257e7f2801341516448",
-        "dest": "deps",
-        "dest-filename": "osenv-0.1.5.tgz"
     },
     {
         "type": "file",
@@ -2654,13 +2199,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec",
-        "sha256": "e5ccd079bf02390e34cbb51b75f73a8be42795146a2e2e23cbb204dddb04ff3c",
-        "dest": "deps",
-        "dest-filename": "punycode-2.1.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/put/-/put-0.0.6.tgz#30f5f60bd6e4389bd329e16a25386cbb2e4a00a3",
         "sha256": "1ad397439fffc983bb40b1655f46a68f8d1b07fbe4b05b9e09bf3e6e7df999cb",
         "dest": "deps",
@@ -2731,45 +2269,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed",
-        "sha256": "03a5fae485203eb424dd3e9b1c4cf9ce3d04c03b154cb4fb6604497815cae93b",
-        "dest": "deps",
-        "dest-filename": "rc-1.2.8.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57",
         "sha256": "09a07ecf7aa5dce26bad942925abb75fcb85e058f90e42a6329102374d3477c7",
         "dest": "deps",
         "dest-filename": "readable-stream-2.3.7.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57",
-        "sha256": "09a07ecf7aa5dce26bad942925abb75fcb85e058f90e42a6329102374d3477c7",
-        "dest": "deps",
-        "dest-filename": "readable-stream-2.3.7.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57",
-        "sha256": "09a07ecf7aa5dce26bad942925abb75fcb85e058f90e42a6329102374d3477c7",
-        "dest": "deps",
-        "dest-filename": "readable-stream-2.3.7.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198",
-        "sha256": "530920d2dd9b9ce05500c3abb43fb6d8faf47e7be7b90e5893fc8f47949fc6bb",
-        "dest": "deps",
-        "dest-filename": "readable-stream-3.6.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198",
-        "sha256": "530920d2dd9b9ce05500c3abb43fb6d8faf47e7be7b90e5893fc8f47949fc6bb",
-        "dest": "deps",
-        "dest-filename": "readable-stream-3.6.0.tgz"
     },
     {
         "type": "file",
@@ -2822,20 +2325,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec",
-        "sha256": "009e4e9ed94b7baafd1941e17ad3529bda0d0dccf77f8da9baf22e01e5ce2f3c",
-        "dest": "deps",
-        "dest-filename": "rimraf-2.7.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec",
-        "sha256": "009e4e9ed94b7baafd1941e17ad3529bda0d0dccf77f8da9baf22e01e5ce2f3c",
-        "dest": "deps",
-        "dest-filename": "rimraf-2.7.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab",
         "sha256": "8cb56fcabdd214cf19ce24cf82a11950093f388670d01f6b112cc2d86cf67f7e",
         "dest": "deps",
@@ -2857,48 +2346,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d",
-        "sha256": "e09206c60fccafb952c854af7629cbb031a98d6da2e143fb3aa3c8a48402aa22",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d",
-        "sha256": "e09206c60fccafb952c854af7629cbb031a98d6da2e143fb3aa3c8a48402aa22",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
-        "sha256": "5d181804516c4a693a384272a7bd0e42d17e0d4b301ccfbe408669ccafdcb3e8",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.2.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
-        "sha256": "5d181804516c4a693a384272a7bd0e42d17e0d4b301ccfbe408669ccafdcb3e8",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.2.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
-        "sha256": "5d181804516c4a693a384272a7bd0e42d17e0d4b301ccfbe408669ccafdcb3e8",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.2.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
-        "sha256": "5d181804516c4a693a384272a7bd0e42d17e0d4b301ccfbe408669ccafdcb3e8",
-        "dest": "deps",
-        "dest-filename": "safe-buffer-5.2.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6",
         "sha256": "5d181804516c4a693a384272a7bd0e42d17e0d4b301ccfbe408669ccafdcb3e8",
         "dest": "deps",
@@ -2910,41 +2357,6 @@
         "sha256": "78812f65ae3b98071ce1c9bacbe0666f4220d0b2753c2a11530eb27df440a3b3",
         "dest": "deps",
         "dest-filename": "safer-buffer-2.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a",
-        "sha256": "78812f65ae3b98071ce1c9bacbe0666f4220d0b2753c2a11530eb27df440a3b3",
-        "dest": "deps",
-        "dest-filename": "safer-buffer-2.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a",
-        "sha256": "78812f65ae3b98071ce1c9bacbe0666f4220d0b2753c2a11530eb27df440a3b3",
-        "dest": "deps",
-        "dest-filename": "safer-buffer-2.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a",
-        "sha256": "78812f65ae3b98071ce1c9bacbe0666f4220d0b2753c2a11530eb27df440a3b3",
-        "dest": "deps",
-        "dest-filename": "safer-buffer-2.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a",
-        "sha256": "78812f65ae3b98071ce1c9bacbe0666f4220d0b2753c2a11530eb27df440a3b3",
-        "dest": "deps",
-        "dest-filename": "safer-buffer-2.1.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9",
-        "sha256": "adc442e017041cffca4d4418d06006ae5f17a9984557fa80c3a6cd8859021cf2",
-        "dest": "deps",
-        "dest-filename": "sax-1.2.4.tgz"
     },
     {
         "type": "file",
@@ -2966,20 +2378,6 @@
         "sha256": "fef2fb32aa27fc28c2e834336469d84615cb187449e3622caa2897a0535db56d",
         "dest": "deps",
         "dest-filename": "semver-5.7.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7",
-        "sha256": "fef2fb32aa27fc28c2e834336469d84615cb187449e3622caa2897a0535db56d",
-        "dest": "deps",
-        "dest-filename": "semver-5.7.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/semver/-/semver-7.3.2.tgz#604962b052b81ed0786aae84389ffba70ffd3938",
-        "sha256": "a16a584af6fd9984d2d9e9c2adcd6adaf1ebfadf6a94a46ceee540e84ee91989",
-        "dest": "deps",
-        "dest-filename": "semver-7.3.2.tgz"
     },
     {
         "type": "file",
@@ -3039,10 +2437,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/side-channel/-/side-channel-1.0.2.tgz#df5d1abadb4e4bf4af1cd8852bf132d2f7876947",
-        "sha256": "be803057b3f6f3794d3ca92856a8f5d996d0f2fe59593e863aeda78a468077e5",
+        "url": "https://registry.yarnpkg.com/side-channel/-/side-channel-1.0.3.tgz#cdc46b057550bbab63706210838df5d4c19519c3",
+        "sha256": "3e94642afc363a90c53806e5abdeed638a217a11309cacb4cf51bbc0c0bfb87c",
         "dest": "deps",
-        "dest-filename": "side-channel-1.0.2.tgz"
+        "dest-filename": "side-channel-1.0.3.tgz"
     },
     {
         "type": "file",
@@ -3137,13 +2535,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c",
-        "sha256": "283c1020a1c2b0bf0b9b0f123a6f248524b5623ec6fc4029cc65a139ca6ade3c",
-        "dest": "deps",
-        "dest-filename": "statuses-1.5.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/stemmer/-/stemmer-1.0.5.tgz#fd89beaf8bff5d04b6643bfffcaed0fc420deec0",
         "sha256": "bd767fa93015d6ce89dbd171a5579ed8088ee9544eb94bbe91922bfa5203bb16",
         "dest": "deps",
@@ -3228,13 +2619,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-3.0.1.tgz#6a385fb8853d952d5ff05d0e8aaf94278dc63dcf",
-        "sha256": "1c9d385a4118959514f84dce8d7bb2dafc802f0272dd00348aa18d17b95b793a",
-        "dest": "deps",
-        "dest-filename": "strip-ansi-3.0.1.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-4.0.0.tgz#a8479022eb1ac368a871389b635262c505ee368f",
         "sha256": "aab0a8473699e01692bac2bb83d5460e295a3dad0e6653e0dd6af57e8ff6202d",
         "dest": "deps",
@@ -3277,10 +2661,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/supports-color/-/supports-color-7.1.0.tgz#68e32591df73e25ad1c4b49108a2ec507962bfd1",
-        "sha256": "03790a3ec287836732318925931fffdae6efe090576d966b005cbc8a20eed880",
+        "url": "https://registry.yarnpkg.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da",
+        "sha256": "f16acafd1634624e60c24a5538004c4e168c82607f10dbe28395e9df3e7d5e4a",
         "dest": "deps",
-        "dest-filename": "supports-color-7.1.0.tgz"
+        "dest-filename": "supports-color-7.2.0.tgz"
     },
     {
         "type": "file",
@@ -3319,13 +2703,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/tar/-/tar-2.2.2.tgz#0ca8848562c7299b8b446ff6a4d60cdbb23edc40",
-        "sha256": "bf7c24d5fa55e1beecccc9ec2adba2f63d3d1d18db9ee39b7084c38737bfbc63",
-        "dest": "deps",
-        "dest-filename": "tar-2.2.2.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525",
         "sha256": "059f3d98b6033a883eb073c0b6940c9079a4239cf358aaee0905a81f41009f73",
         "dest": "deps",
@@ -3347,17 +2724,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.8.0-beta.2.tgz#94c35f7ea83075e6ee3bd426dfbedd70c58e4043",
-        "sha256": "cef339c117a3b17567b439bd42b4f0366b5c3838dd3a884261e4875689aac43d",
+        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.8.0-beta.5.tgz#59d15fd40368eef5b754ec4bfcab4b61eb17c5d0",
+        "sha256": "df435d0670545bb7c698e09c60ccce8292a0b84337cb00e170ccae7a3078bef3",
         "dest": "deps",
-        "dest-filename": "thingpedia-2.8.0-beta.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.8.0-beta.2.tgz#94c35f7ea83075e6ee3bd426dfbedd70c58e4043",
-        "sha256": "cef339c117a3b17567b439bd42b4f0366b5c3838dd3a884261e4875689aac43d",
-        "dest": "deps",
-        "dest-filename": "thingpedia-2.8.0-beta.2.tgz"
+        "dest-filename": "thingpedia-2.8.0-beta.5.tgz"
     },
     {
         "type": "file",
@@ -3368,38 +2738,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.11.0-beta.2.tgz#9cb76fd952209d37971199107ff9854d8123d61c",
-        "sha256": "7e4da44c8a61e0bacdbd23ff841e2227efe663cba3f295f69da109e46a42a6a3",
+        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.11.0-beta.5.tgz#0cbc2a90827af30d6807e9f8a3cf2f528144b622",
+        "sha256": "e8bdc7cdc54c799277a10702cae6af391703f74bcc961f0280402f4eb2ccf696",
         "dest": "deps",
-        "dest-filename": "thingtalk-1.11.0-beta.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5",
-        "sha256": "16b27a8c0fb13e5727356b328d72dbbc5f20bd909252f14d19da344e9354573e",
-        "dest": "deps",
-        "dest-filename": "through-2.3.8.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5",
-        "sha256": "16b27a8c0fb13e5727356b328d72dbbc5f20bd909252f14d19da344e9354573e",
-        "dest": "deps",
-        "dest-filename": "through-2.3.8.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5",
-        "sha256": "16b27a8c0fb13e5727356b328d72dbbc5f20bd909252f14d19da344e9354573e",
-        "dest": "deps",
-        "dest-filename": "through-2.3.8.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5",
-        "sha256": "16b27a8c0fb13e5727356b328d72dbbc5f20bd909252f14d19da344e9354573e",
-        "dest": "deps",
-        "dest-filename": "through-2.3.8.tgz"
+        "dest-filename": "thingtalk-1.11.0-beta.5.tgz"
     },
     {
         "type": "file",
@@ -3452,20 +2794,6 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64",
-        "sha256": "6cea33d67a9bd83f8bd250655c78a2c89ea912bcc6be91c8e65807ce69cfdfd6",
-        "dest": "deps",
-        "dest-filename": "tweetnacl-0.14.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1",
-        "sha256": "8035d10cc48e2692358ac06cbadfa795279aaf6b3c04f29bd322f6df09513f8e",
-        "dest": "deps",
-        "dest-filename": "type-check-0.4.0.tgz"
-    },
-    {
-        "type": "file",
         "url": "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1",
         "sha256": "8035d10cc48e2692358ac06cbadfa795279aaf6b3c04f29bd322f6df09513f8e",
         "dest": "deps",
@@ -3477,20 +2805,6 @@
         "sha256": "9f196f4105285775fc89dc50afe583e8576cf2043e111430159c4c3dc8b2f5c7",
         "dest": "deps",
         "dest-filename": "type-fest-0.8.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131",
-        "sha256": "94dab5853380e14378bab3fc4e4def824efd0d32783341f9c0ec98b6137dc3ae",
-        "dest": "deps",
-        "dest-filename": "type-is-1.6.18.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131",
-        "sha256": "94dab5853380e14378bab3fc4e4def824efd0d32783341f9c0ec98b6137dc3ae",
-        "dest": "deps",
-        "dest-filename": "type-is-1.6.18.tgz"
     },
     {
         "type": "file",
@@ -3515,24 +2829,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec",
-        "sha256": "2dfb5e06d1d4bf1fe9f0fa7f633c4a2fde04d8b41cf0b9bd249a42561d5edfb6",
+        "url": "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.0.tgz#aa714261de793e8a82347a7bcc9ce74e86f28602",
+        "sha256": "2136118e898eb299ca560c39e5b0f8e80eb288300054b2229acf290495461da9",
         "dest": "deps",
-        "dest-filename": "unpipe-1.0.0.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/uri-js/-/uri-js-4.2.2.tgz#94c540e1ff772956e2299507c010aea6c8838eb0",
-        "sha256": "fa2e3a0fdbe0ab9dc82cefdb424370fac52ded8d412bbd51d655aa24716df7ae",
-        "dest": "deps",
-        "dest-filename": "uri-js-4.2.2.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf",
-        "sha256": "79a1de983c1b393180c47456d6b73caab278a00ea6e37d5c6675f2dcdec2a3e5",
-        "dest": "deps",
-        "dest-filename": "util-deprecate-1.0.2.tgz"
+        "dest-filename": "uri-js-4.4.0.tgz"
     },
     {
         "type": "file",
@@ -3547,13 +2847,6 @@
         "sha256": "ded95d8fedda75712b7282073ee7e5b7359646d3f6cd4b1ed3b0ddfe5dae5036",
         "dest": "deps",
         "dest-filename": "utils-merge-1.0.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee",
-        "sha256": "ba77c9306dbc34c7ae503e9eb142e284f98ea9ab609f416052c2fbbefb6df4dd",
-        "dest": "deps",
-        "dest-filename": "uuid-3.4.0.tgz"
     },
     {
         "type": "file",
@@ -3687,13 +2980,6 @@
         "sha256": "8af7744b545bc3c8883589dafd5536b06194edb6ea667d5fd7f2cfee4c121c94",
         "dest": "deps",
         "dest-filename": "xmlbuilder-11.0.1.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/yallist/-/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd",
-        "sha256": "50f14ae6cfe8360cb2259ba3e93305e069036f13251d69d3cbee9e1d4775ca04",
-        "dest": "deps",
-        "dest-filename": "yallist-3.1.1.tgz"
     },
     {
         "type": "file",
