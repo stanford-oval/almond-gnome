@@ -45,6 +45,16 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2020-09-01" version="1.99.0-beta.1" type="development">
+      <description>
+        <p>This is the first release to use the new Genie Toolkit as the core dialogue
+system, replacing both the Almond dialogue agent and the ThingEngine. Genie
+supports multi-turn interactions.</p>
+        <p>The app was relicensed to Apache 2.0.</p>
+        <p>Improved support for running in desktop environments other than GNOME.</p>
+      </description>
+      <url>https://wiki.almond.stanford.edu/en/release-planning/one-point-ninetynine</url>
+    </release>
     <release date="2020-04-03" version="1.8.0">
       <description>
         <p>It is now possible to control the computer volume using the commands of the speaker device

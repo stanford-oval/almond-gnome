@@ -1,3 +1,20 @@
+1.99.0-beta.1
+=============
+
+This is the first release to use the new Genie Toolkit as the core dialogue
+system, replacing both the Almond dialogue agent and the ThingEngine. Genie
+supports multi-turn interactions.
+
+You can learn more about this release at
+<https://wiki.almond.stanford.edu/en/release-planning/one-point-ninetynine>.
+
+Additional changes:
+
+* The app was relicensed to Apache 2.0 [#86].
+* Improved support for running in other desktop environments [#79].
+* Updated dependencies [#65, #69, #71, #72, #74, #75, #76, #77, #80, #81, #82,
+  #83, #87, #88, #92].
+
 1.8.0
 =====
 

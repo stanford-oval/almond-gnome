@@ -1,11 +1,11 @@
 {
   "name": "almond-gnome",
-  "version": "1.8.0",
+  "version": "1.99.0-beta.1",
   "description": "Almond for GNOME",
   "private": true,
-  "author": "Stanford University Mobile and Social Computing Lab",
-  "license": "GPL-3.0+",
-  "repository": "https://github.com/stanford-oval/almond-cloud",
+  "author": "Stanford University Open Virtual Assistant Lab",
+  "license": "Apache 2.0",
+  "repository": "https://github.com/stanford-oval/almond-gnome",
   "contributors": [
     {
       "name": "Giovanni Campagna",
