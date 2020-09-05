@@ -45,7 +45,7 @@
   <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
-    <release date="2020-09-01" version="1.99.0-beta.1" type="development">
+    <release date="2020-09-05" version="1.99.0-rc.1" type="development">
       <description>
         <p>This is the first release to use the new Genie Toolkit as the core dialogue
 system, replacing both the Almond dialogue agent and the ThingEngine. Genie
