@@ -1100,10 +1100,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-beta.6.tgz#560a5d041bcbe94bc08a5d02001e80eda8b487f9",
-        "sha256": "8b94765e5c765151a15e1eef240b16296533c04be00a4528d228c7eedf661716",
+        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-rc.1.tgz#d032fac5f9ebd4fc3e8df6391599603cb0df4541",
+        "sha256": "12119e90f84d36493e538fe88da3b53234b8ab9d6d286f666f3009c2b83b4941",
         "dest": "deps",
-        "dest-filename": "genie-toolkit-0.7.0-beta.6.tgz"
+        "dest-filename": "genie-toolkit-0.7.0-rc.1.tgz"
     },
     {
         "type": "file",

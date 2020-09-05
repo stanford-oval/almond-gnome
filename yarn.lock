@@ -1130,9 +1130,9 @@ gauge@~2.7.3:
     wide-align "^1.1.0"
 
 genie-toolkit@^0.7.0-beta.5:
-  version "0.7.0-beta.6"
-  resolved "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-beta.6.tgz#560a5d041bcbe94bc08a5d02001e80eda8b487f9"
-  integrity sha512-VxlEmIbvqgTiRQK+NNIvO27bi3fkgPXkBuG+VABddcsZSfTwvOI8d8gOfYc/OzCEWZ/dN+8jsgGuJpOzSbcIDw==
+  version "0.7.0-rc.1"
+  resolved "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-rc.1.tgz#d032fac5f9ebd4fc3e8df6391599603cb0df4541"
+  integrity sha512-Hr/fMY9jSxB7MpFp0kg4LYNr43qW/YvSPZZ8zSc733uM9kDD2nDD7IPS+EzJNiPb8McteMkKL7LisO5pPM1/qQ==
   dependencies:
     JSONStream "^1.3.5"
     adt "^0.7.2"
