@@ -1,6 +1,6 @@
 {
   "name": "almond-gnome",
-  "version": "1.99.0-rc.1",
+  "version": "1.99.0",
   "description": "Almond for GNOME",
   "private": true,
   "author": "Stanford University Open Virtual Assistant Lab",
