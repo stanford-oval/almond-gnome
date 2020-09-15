@@ -477,10 +477,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/consumer-queue/-/consumer-queue-1.0.1.tgz#be0a8efcf9e3aa7e1ab0248d5c07f817c45b5276",
-        "sha256": "9543939863272617cb8471fb647466b59fe784819a8d7e8a39da90e52a696d56",
+        "url": "https://registry.yarnpkg.com/consumer-queue/-/consumer-queue-1.0.2.tgz#935c73771d8b71f0711e2b495ada152f8be8f3d6",
+        "sha256": "a3124578bf1f561f4d9fdcc583fe8d146cfb2a855310a4133406474b58bf08b2",
         "dest": "deps",
-        "dest-filename": "consumer-queue-1.0.1.tgz"
+        "dest-filename": "consumer-queue-1.0.2.tgz"
     },
     {
         "type": "file",
@@ -1100,10 +1100,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0-rc.2.tgz#83e5999638b1cd844779d3696c743df25d05b9c1",
-        "sha256": "5cfa0564756a1996065e3a67773e473e34d35b75603b368ef1bd619803c3812c",
+        "url": "https://registry.yarnpkg.com/genie-toolkit/-/genie-toolkit-0.7.0.tgz#fe366f67422aaf45e7e563cde20d05ed9a6f6d83",
+        "sha256": "2bb20cf31bc47564e743b49f2ede52d4e9273dba0e94633e7d12b42030c83eed",
         "dest": "deps",
-        "dest-filename": "genie-toolkit-0.7.0-rc.2.tgz"
+        "dest-filename": "genie-toolkit-0.7.0.tgz"
     },
     {
         "type": "file",
@@ -2724,17 +2724,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.8.0-beta.5.tgz#59d15fd40368eef5b754ec4bfcab4b61eb17c5d0",
-        "sha256": "df435d0670545bb7c698e09c60ccce8292a0b84337cb00e170ccae7a3078bef3",
+        "url": "https://registry.yarnpkg.com/thingpedia/-/thingpedia-2.8.0.tgz#c9288b43655a61652c6704d7529d68f4a9bb15e0",
+        "sha256": "03ff503a95b9993ce197b7ca36ce78570213f13e098e3c868109fc05fa406dac",
         "dest": "deps",
-        "dest-filename": "thingpedia-2.8.0-beta.5.tgz"
-    },
-    {
-        "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk-units/-/thingtalk-units-0.1.0.tgz#c3b69bc0c7d0a3ba5bfad3ccf02dc1c291d1abc8",
-        "sha256": "4ff73ab05ab720e7e94a3502b16ad5051434e692117061eb0807030fe0a5ee76",
-        "dest": "deps",
-        "dest-filename": "thingtalk-units-0.1.0.tgz"
+        "dest-filename": "thingpedia-2.8.0.tgz"
     },
     {
         "type": "file",
@@ -2745,10 +2738,10 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.11.0-rc.1.tgz#30761ed9abccbf57fdb71d62ad5a6073a37545d2",
-        "sha256": "90b77cb0962a48034ba626bc85f5fc82a21850f03bdff9374f3f456f5291ecd2",
+        "url": "https://registry.yarnpkg.com/thingtalk/-/thingtalk-1.11.0.tgz#c8811d7d0b1a3fc640014ec03fbef1d2ce12df51",
+        "sha256": "46fb9a65ab47a5d161fb27a42f75eabf327eb0f6645a3c5ca446acae2c4511a5",
         "dest": "deps",
-        "dest-filename": "thingtalk-1.11.0-rc.1.tgz"
+        "dest-filename": "thingtalk-1.11.0.tgz"
     },
     {
         "type": "file",
