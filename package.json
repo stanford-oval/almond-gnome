@@ -22,7 +22,7 @@
   "dependencies": {
     "byline": "^5.0.0",
     "canberra": "^0.1.2",
-    "consumer-queue": "^1.0.0",
+    "consumer-queue": "^1.1.0",
     "dbus-native": "^0.4.0",
     "genie-toolkit": "^0.7.0",
     "keytar": "^6.0.1",
