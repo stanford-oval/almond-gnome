@@ -38,5 +38,5 @@ for src in data:
         for command in src['commands']:
             os.system(command)
     else:
-        raise ValueError(f'Invalid module type {src["type"]}')
+        raise ValueError('Invalid module type %s' % (src["type"],))
 
