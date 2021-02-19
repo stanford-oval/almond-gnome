@@ -193,8 +193,6 @@
             "npm_config_build_from_source" : "true",
             "npm_config_sqlite" : "/app",
             "npm_config_sqlite_libname" : "sqlcipher",
-            "PYTHONDONTWRITEBYTECODE" : "1",
-            "ALMOND_SPAWN_SERVICE_MANUALLY" : "1",
             "NPM" : "/usr/lib/sdk/node12/bin/npm"
         },
         "append-path" : "/usr/lib/sdk/node12/bin"

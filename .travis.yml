@@ -24,11 +24,11 @@ install:
   - test -f .flatpak-builder/cache/config || rm -fr .flatpak-builder/cache
 script:
   - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 --share=network _app npm ci
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app npm run lint
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app meson --prefix=/app _build
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install >/dev/null 2>&1
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=npm_config_build_from_source=true --env=npm_config_sqlite=/app --env=npm_config_sqlite_libname=sqlcipher --env=NPM=/usr/lib/sdk/node12/bin/npm --env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/node12/bin --share=network _app npm ci
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=npm_config_build_from_source=true --env=npm_config_sqlite=/app --env=npm_config_sqlite_libname=sqlcipher --env=NPM=/usr/lib/sdk/node12/bin/npm --env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/node12/bin --share=network _app npm run lint
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=npm_config_build_from_source=true --env=npm_config_sqlite=/app --env=npm_config_sqlite_libname=sqlcipher --env=NPM=/usr/lib/sdk/node12/bin/npm --env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/node12/bin --share=network _app meson --prefix=/app _build
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=npm_config_build_from_source=true --env=npm_config_sqlite=/app --env=npm_config_sqlite_libname=sqlcipher --env=NPM=/usr/lib/sdk/node12/bin/npm --env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/node12/bin --share=network _app ninja -C _build
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=npm_config_build_from_source=true --env=npm_config_sqlite=/app --env=npm_config_sqlite_libname=sqlcipher --env=NPM=/usr/lib/sdk/node12/bin/npm --env=PATH=/app/bin:/usr/bin:/usr/lib/sdk/node12/bin --share=network _app ninja -C _build install >/dev/null 2>&1
   - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json
 deploy:
   provider: script
