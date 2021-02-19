@@ -39,7 +39,7 @@ const { ninvoke } = require('./utils');
 const WakeWordDetector = require('../wake-word/snowboy');
 
 // FIXME
-const Builtins = require('genie-toolkit/lib/engine/devices/builtins');
+const Builtins = require('genie-toolkit/dist/lib/engine/devices/builtins');
 
 var _unzipApi = {
     unzip(zipPath, dir) {
@@ -343,7 +343,7 @@ class Platform extends Tp.BasePlatform {
         // before PairedEngineManager calls getPlatformDevice(), which can result in loading
         // the device as unsupported (and that would be bad)
         // to avoid that, we inject it eagerly here
-        Builtins[this._gnomeDev.kind] = this._gnomeDev;
+        Builtins.default[this._gnomeDev.kind] = this._gnomeDev;
     }
 
     get type() {

@@ -123,6 +123,12 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <signal name="DeviceRemoved">
       <arg type="s" name="unique_id" />
     </signal>
+    <signal name="AppAdded">
+      <arg type="a{sv}" name="app" />
+    </signal>
+    <signal name="AppRemoved">
+      <arg type="s" name="unique_id" />
+    </signal>
     <signal name="PreferenceChanged">
       <arg type="s" name="key" />
     </signal>
