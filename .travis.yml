@@ -3,10 +3,15 @@ branches:
   - "/^wip/"
 language: c
 dist: xenial
-sudo: true
 addons:
   ssh_known_hosts:
-  - almond-dev.stanford.edu
+  - dev.almond.stanford.edu
+cache:
+  ccache: true
+  directories:
+  - .flatpak-builder/downloads
+  - .flatpak-builder/cache
+  - .flatpak-builder/checksums
 before_install:
   - ./travis/unlock-key.sh
   - sudo apt-add-repository -y ppa:alexlarsson/flatpak
@@ -15,21 +20,19 @@ install:
   - sudo apt-get install -y flatpak-builder elfutils
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   - flatpak --user install -y flathub org.gnome.Sdk//3.36 org.gnome.Platform//3.36 org.freedesktop.Sdk.Extension.openjdk11//19.08 org.freedesktop.Sdk.Extension.node10//19.08
-  - curl -O https://crowdie.stanford.edu/flatpak/build-cache.tar.gz
-  - tar xf build-cache.tar.gz
   - ./travis/download-deps.py
 script:
   - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node10 --env=PYTHONDONTWRITEBYTECODE=1 --share=network _app yarn
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node10 --env=PYTHONDONTWRITEBYTECODE=1 _app yarn --offline lint
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node10 --env=PYTHONDONTWRITEBYTECODE=1 _app meson --prefix=/app _build
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node10 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build
-  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node10 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install >/dev/null 2>&1
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 --share=network _app npm ci
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app npm run lint
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app meson --prefix=/app _build
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build
+  - flatpak build --env=npm_config_nodedir=/usr/lib/sdk/node12 --env=PYTHONDONTWRITEBYTECODE=1 _app ninja -C _build install >/dev/null 2>&1
   - flatpak-builder --finish-only --repo=_repo _app edu.stanford.Almond.json
 deploy:
   provider: script
-  skip_cleanup: true
-  script: ssh -i ./travis/id_rsa.autodeploy flatpak-builder@almond-dev.stanford.edu
+  cleanup: false
+  script: ssh -i ./travis/id_rsa.autodeploy flatpak-builder@dev.almond.stanford.edu
   on:
     branch: master
     repo: stanford-oval/almond-gnome
