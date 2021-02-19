@@ -1,0 +1,3 @@
+[submodule "tools/flatpak-builder-tools"]
+	path = tools/flatpak-builder-tools
+	url = https://github.com/flatpak/flatpak-builder-tools

@@ -58,12 +58,13 @@ def recurse(path):
 
 recurse('.')
 shutil.copy2(os.path.join(rootsrcdir, 'package.json'), os.path.join(builddir, 'package.json'))
-shutil.copy2(os.path.join(rootsrcdir, 'yarn.lock'), os.path.join(builddir, 'yarn.lock'))
-shutil.copy2(os.path.join(rootsrcdir, '.yarnrc'), os.path.join(builddir, '.yarnrc'))
-with open(os.path.join(builddir, '.yarnrc'), 'a') as fp:
-    depsdir = os.path.abspath(os.path.join(rootsrcdir, 'deps'))
-    print(f'yarn-offline-mirror "{depsdir}"', file=fp)
-
-yarn = os.environ.get('YARN', 'yarn')
+shutil.copy2(os.path.join(rootsrcdir, 'package-lock.json'), os.path.join(builddir, 'package-lock.json'))
+shutil.copy2(os.path.join(rootsrcdir, '.npmrc'), os.path.join(builddir, '.npmrc'))
+npm = os.environ.get('NPM', 'npm')
 print(os.path.abspath(builddir))
-subprocess.check_call([yarn, "install", "--offline", "--only=production", "--frozen-lockfile", "--noprogress"], cwd=builddir)
+
+# make sure npm is present in the path
+#if npm.startswith('/'):
+#    npmdir = os.path.dirname(npm)
+#    os.environ['PATH'] = os.environ['PATH'] + ':' + npmdir
+subprocess.check_call([npm, "install", "--offline", "--cache", os.path.abspath(os.path.join(rootsrcdir, 'flatpak-node/npm-cache')), "--only=production"], cwd=builddir)
