@@ -19,7 +19,7 @@ before_install:
 install:
   - sudo apt-get install -y flatpak-builder elfutils
   - flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  - flatpak --user install -y flathub org.gnome.Sdk//3.36 org.gnome.Platform//3.36 org.freedesktop.Sdk.Extension.openjdk11//19.08 org.freedesktop.Sdk.Extension.node10//19.08
+  - flatpak --user install -y flathub org.gnome.Sdk//3.38 org.gnome.Platform//3.38 org.freedesktop.Sdk.Extension.node12//20.08
   - ./travis/download-deps.py
 script:
   - flatpak-builder --ccache --stop-at=almond-gnome --force-clean _app/ edu.stanford.Almond.json
