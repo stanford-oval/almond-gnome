@@ -23,7 +23,6 @@ process.on('unhandledRejection', (up) => { throw up; });
 
 const events = require('events');
 const posix = require('posix');
-const ThingTalk = require('thingtalk');
 const Genie = require('genie-toolkit');
 const canberra = require('canberra');
 
@@ -150,7 +149,7 @@ function loadOneExample(ex) {
         utterance = utterance.substring(1).trim();
     utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
 
-    let code = ThingTalk.NNSyntax.toNN(newprogram, {});
+    let code = Genie.ThingTalkUtils.serializeNormalized(newprogram);
     return {
         utterance: utterance,
         type: ex.type,
@@ -165,9 +164,7 @@ function loadOneExample(ex) {
 }
 
 async function loadAllExamples(kind) {
-    const datasetCode = await _engine.thingpedia.getExamplesByKinds([kind], true);
-    const parsed = await ThingTalk.Grammar.parseAndTypecheck(datasetCode, _engine.schemas);
-    const dataset = parsed.datasets[0];
+    const dataset = await _engine.schemas.getExamplesByKind(kind);
     let output = [];
     for (let ex of dataset.examples) {
         const loaded = loadOneExample(ex);
@@ -289,8 +286,6 @@ class AppControlChannel extends events.EventEmitter {
         this._nextMsgId = 0;
         this._history = [];
 
-        this._enableVoiceInput = false;
-        this._enableSpeech = false;
         this._speechHandler = new Genie.SpeechHandler(this._conversation, _engine.platform, {
             subscriptionKey: Config.MS_SPEECH_RECOGNITION_PRIMARY_KEY
         });
@@ -328,35 +323,30 @@ class AppControlChannel extends events.EventEmitter {
     async start() {
         const prefs = _engine.platform.getSharedPreferences();
 
-        let voiceInput = prefs.get('enable-voice-input');
+        const voiceInput = prefs.get('enable-voice-input');
         if (voiceInput === undefined) {
             // voice input is on by default
             prefs.set('enable-voice-input', true);
         }
 
-        let speech = prefs.get('enable-voice-output');
+        const speech = prefs.get('enable-voice-output');
         if (speech === undefined) {
             // voice output is on by default
             prefs.set('enable-voice-output', true);
         }
 
-        this._speechHandler.setVoiceInput(prefs.get('enable-voice-input'));
-        this._speechHandler.setVoiceOutput(prefs.get('enable-voice-output'));
         prefs.on('changed', (key) => {
-            this._speechHandler.setVoiceInput(prefs.get('enable-voice-input'));
-            this._speechHandler.setVoiceOutput(prefs.get('enable-voice-output'));
-
             this.emit('PreferenceChanged', key || '');
         });
 
         _engine.devices.on('device-added', (device) => {
-            this.emit('DeviceAdded', this._toDeviceInfo(device));
+            this.emit('DeviceAdded', marshallASV(_engine.getDeviceInfo(device.uniqueId)));
         });
         _engine.devices.on('device-removed', (device) => {
             this.emit('DeviceRemoved', device.uniqueId);
         });
         _engine.apps.on('app-added', (app) => {
-            this.emit('AppAdded', this._toAppInfo(app));
+            this.emit('AppAdded', marshallASV(_engine.getAppInfo(app.uniqueId)));
         });
         _engine.apps.on('app-removed', (app) => {
             this.emit('AppRemoved', app.uniqueId);
@@ -511,6 +501,10 @@ class AppControlChannel extends events.EventEmitter {
 
     CheckDeviceAvailable(uniqueId) {
         return _engine.checkDeviceAvailable(uniqueId);
+    }
+
+    GetAppInfo(uniqueId) {
+        return marshallASV(_engine.getAppInfo(uniqueId));
     }
 
     GetAppInfos() {
