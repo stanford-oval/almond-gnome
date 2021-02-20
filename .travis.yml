@@ -5,7 +5,7 @@ language: c
 dist: xenial
 addons:
   ssh_known_hosts:
-  - dev.almond.stanford.edu
+  - crowdie.stanford.edu
 cache:
   ccache: true
   directories:
