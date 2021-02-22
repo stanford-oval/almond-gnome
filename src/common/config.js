@@ -19,6 +19,6 @@
 "use strict";
 
 /* exported SEMPRE_URL */
-var SEMPRE_URL = 'https://almond-nl.stanford.edu';
+var SEMPRE_URL = 'https://nlp-staging.almond.stanford.edu';
 /* exported THINGPEDIA_URL */
-var THINGPEDIA_URL = 'https://thingpedia.stanford.edu/thingpedia';
+var THINGPEDIA_URL = 'https://dev.almond.stanford.edu/thingpedia';
