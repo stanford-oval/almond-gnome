@@ -1,34 +1,56 @@
+@define-color almond_balloon_border #B83;
+@define-color user_balloon_border @theme_selected_bg_color; /* or the original #C63 */
+
 .big-label {
     font-size: 4em;
     font-weight: bold;
 }
 
-.from-user {
-  border-image-source: url("resource:///edu/stanford/Almond/bubble_user.png");
-  border-image-slice: 88 130 93 97 fill;
-  border-image-width: 13px 24px 12px 24px;
-  padding: 13px 24px 12px 24px;
-}
-
-.from-almond {
-  border-image-source: url("resource:///edu/stanford/Almond/bubble_almond.png");
-  border-image-slice: 90 97 94 120 fill;
-  border-image-width: 13px 24px 12px 24px;
-  padding: 13px 24px 12px 24px;
-}
-
 #assistant-chat-listbox {
+  background-color: @theme_bg_color;
+  background-image: linear-gradient(rgba(128,128,128,0.5), rgba(180,140,64,0.5));
   padding-top: 12px;
   padding-bottom: 12px;
 }
 
 .message-container {
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 0px 12px;
 }
-.message {
-  background-color: white;
+
+.message .balloon {
+  color: @theme_fg_color;
+  background-color: @text_view_bg;
   background-clip: content-box;
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+.message.from-user .balloon {
+  border-right: 6px solid @user_balloon_border;
+}
+
+.message.from-almond .balloon {
+  border-left: 6px solid @almond_balloon_border;
+}
+
+.message .arrow {
+  margin-top: 20px;
+  border: 0 solid transparent;
+  border-right: 0 solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 10px solid @almond_balloon_border;
+  background-color: transparent;
+}
+.message.from-user .arrow {
+  border-left: 0 solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 10px solid @user_balloon_border;
+}
+
+.message .balloon label {
+  background-color: transparent;
+  padding: 15px 20px;
 }
 
 .app-name {

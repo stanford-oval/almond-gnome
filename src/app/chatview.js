@@ -32,7 +32,7 @@ const { ginvoke, gpromise } = imports.common.util;
 function makeAlmondWrapper(msg) {
     const box = new Gtk.Box({
         orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 12,
+        spacing: 0,
         halign: Gtk.Align.START
     });
     box.get_style_context().add_class('message-container');
@@ -50,7 +50,7 @@ function makeAlmondWrapper(msg) {
 
 function makeGenericWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
-                            spacing: 12 });
+                            spacing: 0 });
     box.get_style_context().add_class('message-container');
     return box;
 }
@@ -162,30 +162,47 @@ const ResizableImage = GObject.registerClass({
 const MessageConstructors = {
     [MessageType.TEXT](msg) {
         let label;
+        let balloon;
+        let arrow;
         let box;
+
         if (msg.direction === Direction.FROM_ALMOND) {
             box = makeAlmondWrapper(msg);
+            box.get_style_context().add_class('from-almond');
+            arrow = new Gtk.Box({ halign: Gtk.Align.START });
+            box.pack_start(arrow, true, true, 0);
+            balloon = new Gtk.Box({
+                hexpand: true,
+                halign: Gtk.Align.START });
+            box.pack_start(balloon, true, true, 0);
             label = new Gtk.Label({
                 wrap: true,
                 selectable: true,
                 hexpand: true,
-                halign: Gtk.Align.START,
                 xalign: 0 });
-            label.get_style_context().add_class('from-almond');
         } else {
             box = makeGenericWrapper(msg);
+            box.get_style_context().add_class('from-user');
+            arrow = new Gtk.Box({ halign: Gtk.Align.START });
+            box.pack_end(arrow, false, false, 0);
+            balloon = new Gtk.Box({
+                hexpand: true,
+                halign: Gtk.Align.END });
+            box.pack_end(balloon, true, true, 0);
             label = new Gtk.Label({
                 wrap: true,
                 selectable: true,
                 hexpand: true,
-                halign: Gtk.Align.END,
                 xalign: 1 });
-            label.get_style_context().add_class('from-user');
         }
-        label.get_style_context().add_class('message');
+        box.get_style_context().add_class('message');
+        arrow.get_style_context().add_class('arrow');
+        arrow.show();
+        balloon.get_style_context().add_class('balloon');
+        balloon.show();
         msg.bind_property('text', label, 'label', GObject.BindingFlags.SYNC_CREATE);
         label.show();
-        box.pack_start(label, true, true, 0);
+        balloon.pack_start(label, true, true, 0);
         return box;
     },
 
