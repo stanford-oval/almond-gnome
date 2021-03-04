@@ -23,7 +23,7 @@
     "byline": "^5.0.0",
     "canberra": "^0.1.2",
     "dbus-native": "^0.4.0",
-    "genie-toolkit": "^0.8.0-alpha.3",
+    "genie-toolkit": "github:stanford-oval/genie-toolkit#master",
     "keytar": "^7.3.0",
     "node-gettext": "^3.0.0",
     "posix": "^4.1.1",
