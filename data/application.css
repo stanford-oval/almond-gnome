@@ -28,10 +28,12 @@
 }
 .message.from-user .balloon {
   border-right: 6px solid @user_balloon_border;
+  margin-left: 100px;
 }
 
 .message.from-almond .balloon {
   border-left: 6px solid @almond_balloon_border;
+  margin-right: 100px;
 }
 
 .message .arrow {
@@ -48,7 +50,7 @@
   border-top: 10px solid @user_balloon_border;
 }
 
-.message .balloon label {
+.message .balloon .content {
   background-color: transparent;
   padding: 15px 20px;
 }
