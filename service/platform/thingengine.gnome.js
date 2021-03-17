@@ -23,6 +23,13 @@ const Tp = require('thingpedia');
 const fs = require('fs');
 const { ninvoke } = require('./utils');
 
+class CustomError extends Error {
+    constructor(code, message) {
+        super(message);
+        this.code = code;
+    }
+}
+
 module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
     constructor(engine, state) {
         super(engine, state);
@@ -68,7 +75,7 @@ module.exports = class ThingEngineGNOMEDevice extends Tp.BaseDevice {
         if (!await this.engine.platform.getCapability('app-launcher').hasApp(appId)) {
             // the app we're looking for is not installed
             // (the proper way to do is to hook this at entity linking level, and resolve the right app by name...)
-            throw new Error(`${appName} is not installed. You might install it from GNOME Software`);
+            throw new CustomError('not_installed', `${appName} is not installed. You might install it from GNOME Software`);
         }
 
         if (url)
