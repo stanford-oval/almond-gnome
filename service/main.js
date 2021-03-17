@@ -172,12 +172,17 @@ function loadOneExample(ex) {
 }
 
 async function loadAllExamples(kind) {
-    const dataset = await _engine.schemas.getExamplesByKind(kind);
-    let output = [];
-    for (let ex of dataset.examples) {
-        const loaded = loadOneExample(ex);
-        if (loaded !== null)
-            output.push(loaded);
+    const output = [];
+
+    const classDef = await _engine.schemas.getFullMeta(kind);
+
+    for (const kind of [classDef.kind].concat(classDef.extends)) {
+        const dataset = await _engine.schemas.getExamplesByKind(kind);
+        for (let ex of dataset.examples) {
+            const loaded = loadOneExample(ex);
+            if (loaded !== null)
+                output.push(loaded);
+        }
     }
     return output;
 }
