@@ -8,7 +8,6 @@
 
 #assistant-chat-listbox {
   background-color: @theme_bg_color;
-  background-image: linear-gradient(rgba(128,128,128,0.5), rgba(180,140,64,0.5));
   padding-top: 12px;
   padding-bottom: 12px;
 }
