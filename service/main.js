@@ -41,6 +41,7 @@ const DBUS_CONTROL_INTERFACE = {
     methods: {
         Stop: ['', ''],
         GetHistory: ['', 'a(uuua{ss})'],
+        SaveRecording: ['', 's'],
         HandleCommand: ['s', ''],
         HandleThingTalk: ['s', ''],
         HandleParsedCommand: ['ss', ''],
@@ -333,6 +334,7 @@ class AppControlChannel extends events.EventEmitter {
             contextResetTimeout: 600000, // but only reset the timeout after 10 minutes (the default)
         });
         this._conversation.addOutput(this, false);
+        this._conversation.startRecording();
 
         this._bus = _engine.platform.getCapability('dbus-session');
 
@@ -462,6 +464,11 @@ class AppControlChannel extends events.EventEmitter {
             else
                 break;
         }
+    }
+
+    async SaveRecording() {
+        await this._conversation.saveLog();
+        return this._conversation.log || '';
     }
 
     async HandleCommand(command) {

@@ -29,6 +29,9 @@ const SERVICE_INTERFACE = `<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Obje
     <method name="GetHistory">
       <arg type="a(uuua{ss})" name="history" direction="out" />
     </method>
+    <method name="SaveRecording">
+      <arg type="s" name="filename" direction="out" />
+    </method>
     <method name="HandleCommand">
       <arg type="s" name="command" direction="in" />
     </method>

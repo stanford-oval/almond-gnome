@@ -71,6 +71,8 @@ var MainWindow = GObject.registerClass({
                             activate: this._about },
                           { name: 'settings',
                             activate: this._showSettings },
+                          { name: 'open-recording',
+                            activate: this._openRecording },
                           { name: 'switch-to',
                             activate: this._switchTo,
                             parameter_type: new GLib.VariantType('s') },
@@ -286,6 +288,14 @@ var MainWindow = GObject.registerClass({
             entities: {}
         });
         this.handleParsedCommand(json, _("Configure %s").format(title));
+    }
+
+    _openRecording() {
+        return dbusPromiseify(this._service, 'SaveRecordingRemote').then(([filename]) => {
+            if (!filename)
+                return;
+            Gtk.show_uri_on_window(this, 'file://' + filename, Gtk.get_current_event_time());
+        });
     }
 
     _configureNewDevice() {

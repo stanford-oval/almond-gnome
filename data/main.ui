@@ -455,6 +455,10 @@
     </section>
     <section>
       <item>
+        <attribute name="action">win.open-recording</attribute>
+        <attribute name="label" translatable="yes">Open Conversation Recording</attribute>
+      </item>
+      <!--<item>
         <attribute name="action">win.assistant-special-message</attribute>
         <attribute name="target">help</attribute>
         <attribute name="label" translatable="yes">Help</attribute>
@@ -465,7 +469,7 @@
         <attribute name="target">train</attribute>
         <attribute name="label" translatable="yes">Train</attribute>
         <attribute name="accel">&lt;Primary&gt;t</attribute>
-      </item>
+      </item>-->
     </section>
     <section>
       <item>
