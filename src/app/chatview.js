@@ -32,7 +32,7 @@ const { ginvoke, gpromise } = imports.common.util;
 function makeAlmondWrapper(msg) {
     const box = new Gtk.Box({
         orientation: Gtk.Orientation.HORIZONTAL,
-        spacing: 12,
+        spacing: 0,
         halign: Gtk.Align.START
     });
     box.get_style_context().add_class('message-container');
@@ -50,7 +50,7 @@ function makeAlmondWrapper(msg) {
 
 function makeGenericWrapper(msg) {
     var box = new Gtk.Box({ orientation: Gtk.Orientation.HORIZONTAL,
-                            spacing: 12 });
+                            spacing: 0 });
     box.get_style_context().add_class('message-container');
     return box;
 }
@@ -159,38 +159,68 @@ const ResizableImage = GObject.registerClass({
     }
 });
 
+function balloonWrapper(msg) {
+    let balloon;
+    let arrow;
+    let outerBox;
+    if (msg.direction === Direction.FROM_ALMOND) {
+        outerBox = makeAlmondWrapper(msg);
+        outerBox.get_style_context().add_class('from-almond');
+        arrow = new Gtk.Box({ halign: Gtk.Align.START });
+        outerBox.pack_start(arrow, true, true, 0);
+        balloon = new Gtk.Box({
+            hexpand: true,
+            halign: Gtk.Align.START });
+        outerBox.pack_start(balloon, true, true, 0);
+    } else {
+        outerBox = makeGenericWrapper(msg);
+        outerBox.get_style_context().add_class('from-user');
+        arrow = new Gtk.Box({ halign: Gtk.Align.START });
+        outerBox.pack_end(arrow, false, false, 0);
+        balloon = new Gtk.Box({
+            hexpand: true,
+            halign: Gtk.Align.END });
+        outerBox.pack_end(balloon, true, true, 0);
+    }
+    outerBox.get_style_context().add_class('message');
+    arrow.get_style_context().add_class('arrow');
+    arrow.show();
+    balloon.get_style_context().add_class('balloon');
+    balloon.show();
+    const contentBox = new Gtk.Box({ hexpand: true });
+    contentBox.get_style_context().add_class('content');
+    contentBox.show();
+    balloon.pack_start(contentBox, true, true, 0);
+    outerBox.contentBox = contentBox;
+    return outerBox;
+}
+
 const MessageConstructors = {
     [MessageType.TEXT](msg) {
         let label;
-        let box;
+        const messageBox = balloonWrapper(msg);
+
         if (msg.direction === Direction.FROM_ALMOND) {
-            box = makeAlmondWrapper(msg);
             label = new Gtk.Label({
                 wrap: true,
                 selectable: true,
                 hexpand: true,
-                halign: Gtk.Align.START,
                 xalign: 0 });
-            label.get_style_context().add_class('from-almond');
         } else {
-            box = makeGenericWrapper(msg);
             label = new Gtk.Label({
                 wrap: true,
                 selectable: true,
                 hexpand: true,
-                halign: Gtk.Align.END,
                 xalign: 1 });
-            label.get_style_context().add_class('from-user');
         }
-        label.get_style_context().add_class('message');
         msg.bind_property('text', label, 'label', GObject.BindingFlags.SYNC_CREATE);
         label.show();
-        box.pack_start(label, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(label, true, true, 0);
+        return messageBox;
     },
 
     [MessageType.PICTURE](msg) {
-        const box = makeAlmondWrapper(msg);
+        const messageBox = balloonWrapper(msg);
         const frame = new Gtk.Frame({
             shadow_type: Gtk.ShadowType.NONE,
             halign: Gtk.Align.START
@@ -218,12 +248,12 @@ const MessageConstructors = {
         });
         frame.show();
         frame.add(spinner);
-        box.pack_start(frame, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(frame, true, true, 0);
+        return messageBox;
     },
 
     [MessageType.CHOICE](msg, service, window) {
-        const box = makeGenericWrapper(msg);
+        const messageBox = balloonWrapper(msg);
         const button = new Gtk.Button({
             halign: Gtk.Align.CENTER,
             hexpand: true });
@@ -232,16 +262,15 @@ const MessageConstructors = {
         button.connect('clicked', () => {
             window.handleChoice(msg.choice_idx, msg.text);
         });
-        box.pack_start(button, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(button, true, true, 0);
+        return messageBox;
     },
 
     [MessageType.LINK](msg, service, window) {
         // A LINK message is an internal navigation button that is represented
         // as URL (for ease of implementation in web based UIs)
         // we remap it to window actions
-
-        const box = makeGenericWrapper(msg);
+        const messageBox = balloonWrapper(msg);
         const button = new Gtk.Button({
             halign: Gtk.Align.CENTER,
             hexpand: true });
@@ -271,12 +300,12 @@ const MessageConstructors = {
             log('WARNING: unexpected link to ' + msg.link);
         }
 
-        box.pack_start(button, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(button, true, true, 0);
+        return messageBox;
     },
 
     [MessageType.BUTTON](msg, service, window) {
-        const box = makeGenericWrapper(msg);
+        const messageBox = balloonWrapper(msg);
         const button = new Gtk.Button({
             halign: Gtk.Align.CENTER,
             hexpand: true });
@@ -285,13 +314,13 @@ const MessageConstructors = {
         button.connect('clicked', () => {
             window.handleParsedCommand(msg.json, msg.text);
         });
-        box.pack_start(button, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(button, true, true, 0);
+        return messageBox;
     },
 
     [MessageType.ASK_SPECIAL](msg, service, window) {
+        const messageBox = balloonWrapper(msg);
         if (msg.ask_special_what === 'yesno') {
-            const box = makeGenericWrapper(msg);
             const button_box = new Gtk.ButtonBox({
                 layout_style: Gtk.ButtonBoxStyle.CENTER,
                 hexpand: true });
@@ -319,11 +348,9 @@ const MessageConstructors = {
             button_box.add(no);
 
             button_box.show();
-            box.pack_start(button_box, true, true, 0);
-            return box;
+            messageBox.contentBox.pack_start(button_box, true, true, 0);
+            return messageBox;
         } else if (msg.ask_special_what === 'picture') {
-            const box = makeGenericWrapper(msg);
-
             const filter = new Gtk.FileFilter();
             filter.add_mime_type('image/*');
 
@@ -354,8 +381,8 @@ const MessageConstructors = {
                     }
                 }), button.get_file().get_basename());
             });
-            box.pack_start(button, true, true, 0);
-            return box;
+            messageBox.contentBox.pack_start(button, true, true, 0);
+            return messageBox;
         } else {
             // do something else
             throw new Error('unhandled ask-special type ' + msg.ask_special_what);
@@ -363,7 +390,7 @@ const MessageConstructors = {
     },
 
     [MessageType.RDL](msg) {
-        const box = makeAlmondWrapper(msg);
+        const messageBox = balloonWrapper(msg);
         const vbox = new Gtk.Box({
             halign: Gtk.Align.START,
             orientation: Gtk.Orientation.VERTICAL,
@@ -408,8 +435,8 @@ const MessageConstructors = {
             vbox.add(spinner);
         }
         vbox.show();
-        box.pack_start(vbox, true, true, 0);
-        return box;
+        messageBox.contentBox.pack_start(vbox, true, true, 0);
+        return messageBox;
     }
 };
 
