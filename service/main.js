@@ -149,7 +149,15 @@ function loadOneExample(ex) {
         utterance = utterance.substring(1).trim();
     utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
 
-    let code = Genie.ThingTalkUtils.serializeNormalized(newprogram);
+    const [code,] = Genie.ThingTalkUtils.serializeNormalized(newprogram);
+
+    // FIXME: the generated code is not correct
+    for (let i = 0; i < code.length; i++) {
+        const token = code[i];
+        if (token.startsWith('__const_SLOT'))
+            code[i] = token.substring('__const_'.length);
+    }
+
     return {
         utterance: utterance,
         type: ex.type,
@@ -425,7 +433,22 @@ class AppControlChannel extends events.EventEmitter {
 
     async HandleParsedCommand(title, json) {
         this._collapseButtons();
-        await this._conversation.handleParsedCommand(JSON.parse(json), title);
+
+        const parsed = JSON.parse(json);
+
+        // HACK: genie-toolkit expects that slots will be filled by ID for entities, but we
+        // want to fill them by name because that's what the user expects, so we remap here
+        const { entities } = parsed;
+        for (const name in entities) {
+            if (name.startsWith('SLOT_')) {
+                const slotname = parsed.slots[parseInt(name.substring('SLOT_'.length))];
+                const slotType = parsed.slotTypes[slotname];
+                if (slotType.startsWith('Entity('))
+                    entities[name] = { value: null, display: entities[name] };
+            }
+        }
+
+        await this._conversation.handleParsedCommand(parsed, title);
         return null;
     }
 
