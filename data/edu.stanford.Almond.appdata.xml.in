@@ -11,8 +11,7 @@
   <description>
     <p>Almond is a virtual assistant that lets you interact with your services and accounts in natural language, with flexibility and privacy.
     Almond draws its power from the crowdsourced Thingpedia, an open collection of Web and Internet of Things APIs.
-    Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.
-    Thingpedia supports more than 100 different services, accounts and IoT devices.</p>
+    Anyone can contribute support for the favorite service, with few lines of code and a handful of natural language sentences.</p>
   </description>
   <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
@@ -42,9 +41,17 @@
   <url type="homepage">https://almond.stanford.edu</url>
   <url type="bugtracker">https://github.com/stanford-oval/almond-gnome/issues</url>
   <!--<url type="donation">http://www.homepage.com/donation.html</url>-->
-  <url type="help">https://almond.stanford.edu/doc/getting-started.md</url>
+  <url type="help">https://wiki.almond.stanford.edu</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2020-09-15" version="2.0.0-alpha.1" type="development">
+      <description>
+        <p>This is the first Alpha release of the Almond 2.0 release cycle. It brings
+the latest version of the Almond platform, with several improvements across
+the board.</p>
+      </description>
+      <url>https://wiki.almond.stanford.edu/en/release-planning/two-point-oh</url>
+    </release>
     <release date="2020-09-15" version="1.99.0">
       <description>
         <p>This is the first release to use the new Genie Toolkit as the core dialogue
