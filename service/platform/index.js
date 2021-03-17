@@ -187,7 +187,7 @@ class SystemLock extends events.EventEmitter {
                  '/org/gnome/ScreenSaver',
                  'org.gnome.ScreenSaver');
         } catch(e) {
-            console.error('Failed to initialize screen locking');
+            console.error('Failed to initialize screen locking', e);
             return;
         }
 

@@ -20,11 +20,11 @@
         "--filesystem=host",
         "--talk-name=ca.desrt.dconf",
         "--system-talk-name=org.bluez",
-        "--system-talk-name=org.freedesktop.login1",
         "--talk-name=org.gtk.vfs.*",
         "--talk-name=org.gnome.SessionManager",
         "--talk-name=org.gnome.Shell",
         "--talk-name=org.gnome.Shell.Screenshot",
+        "--talk-name=org.gnome.ScreenSaver",
         "--talk-name=org.freedesktop.secrets",
         "--talk-name=org.freedesktop.Flatpak",
         "--talk-name=org.freedesktop.Notifications"
