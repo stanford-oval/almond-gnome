@@ -177,6 +177,46 @@ async function loadAllExamples(kind) {
     const classDef = await _engine.schemas.getFullMeta(kind);
 
     for (const kind of [classDef.kind].concat(classDef.extends)) {
+        const classDef = await _engine.schemas.getFullMeta(kind);
+        // make one example for each canonical form
+        for (const qname in classDef.queries) {
+            const query = classDef.queries[qname];
+            const canonical = Array.isArray(query.metadata.canonical) ?
+                query.metadata.canonical[0] : query.metadata.canonical;
+            output.push({
+                utterance: canonical,
+                type: 'query',
+                target: {
+                    example_id: 0,
+                    // make up the code manually so we don't need to use the Thingtalk library
+                    // which is not available here to avoid dependency version issues
+                    code: ['@' + kind, '.', query.name, '(', ')', ';'],
+                    entities: {},
+                    slotTypes: {},
+                    slots: []
+                }
+            });
+        }
+        // make one example for each canonical form
+        for (const aname in classDef.actions) {
+            const action = classDef.actions[aname];
+            const canonical = Array.isArray(action.metadata.canonical) ?
+                action.metadata.canonical[0] : action.metadata.canonical;
+            output.push({
+                utterance: canonical,
+                type: 'action',
+                target: {
+                    example_id: 0,
+                    // make up the code manually so we don't need to use the Thingtalk library
+                    // which is not available here to avoid dependency version issues
+                    code: ['@' + kind, '.', action.name, '(', ')', ';'],
+                    entities: {},
+                    slotTypes: {},
+                    slots: []
+                }
+            });
+        }
+
         const dataset = await _engine.schemas.getExamplesByKind(kind);
         for (let ex of dataset.examples) {
             const loaded = loadOneExample(ex);
