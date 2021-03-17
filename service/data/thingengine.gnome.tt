@@ -11,6 +11,9 @@ class @org.thingpedia.builtin.thingengine.gnome extends @org.thingpedia.iot.spea
   action open_app(in req app_id: Entity(org.freedesktop:app_id) #_[prompt="What app do you want to open?"],
                   in opt url: Entity(tt:url) #_[prompt="What file do you want to open?"])
   #_[canonical=["open an app", "open a program"]]
+  #_[on_error={
+    not_installed="${app_id} is not installed . you should first install it from gnome software"
+  }]
   #[doc="open the given app (optionally with a file)"]
   #[confirm=false];
 

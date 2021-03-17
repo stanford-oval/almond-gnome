@@ -149,7 +149,15 @@ function loadOneExample(ex) {
         utterance = utterance.substring(1).trim();
     utterance = utterance.split(' ').map((t) => t.startsWith('$') ? normalizeSlot(t) : t).join(' ');
 
-    let code = Genie.ThingTalkUtils.serializeNormalized(newprogram);
+    const [code,] = Genie.ThingTalkUtils.serializeNormalized(newprogram);
+
+    // FIXME: the generated code is not correct
+    for (let i = 0; i < code.length; i++) {
+        const token = code[i];
+        if (token.startsWith('__const_SLOT'))
+            code[i] = token.substring('__const_'.length);
+    }
+
     return {
         utterance: utterance,
         type: ex.type,
@@ -164,12 +172,57 @@ function loadOneExample(ex) {
 }
 
 async function loadAllExamples(kind) {
-    const dataset = await _engine.schemas.getExamplesByKind(kind);
-    let output = [];
-    for (let ex of dataset.examples) {
-        const loaded = loadOneExample(ex);
-        if (loaded !== null)
-            output.push(loaded);
+    const output = [];
+
+    const classDef = await _engine.schemas.getFullMeta(kind);
+
+    for (const kind of [classDef.kind].concat(classDef.extends)) {
+        const classDef = await _engine.schemas.getFullMeta(kind);
+        // make one example for each canonical form
+        for (const qname in classDef.queries) {
+            const query = classDef.queries[qname];
+            const canonical = Array.isArray(query.metadata.canonical) ?
+                query.metadata.canonical[0] : query.metadata.canonical;
+            output.push({
+                utterance: canonical,
+                type: 'query',
+                target: {
+                    example_id: 0,
+                    // make up the code manually so we don't need to use the Thingtalk library
+                    // which is not available here to avoid dependency version issues
+                    code: ['@' + kind, '.', query.name, '(', ')', ';'],
+                    entities: {},
+                    slotTypes: {},
+                    slots: []
+                }
+            });
+        }
+        // make one example for each canonical form
+        for (const aname in classDef.actions) {
+            const action = classDef.actions[aname];
+            const canonical = Array.isArray(action.metadata.canonical) ?
+                action.metadata.canonical[0] : action.metadata.canonical;
+            output.push({
+                utterance: canonical,
+                type: 'action',
+                target: {
+                    example_id: 0,
+                    // make up the code manually so we don't need to use the Thingtalk library
+                    // which is not available here to avoid dependency version issues
+                    code: ['@' + kind, '.', action.name, '(', ')', ';'],
+                    entities: {},
+                    slotTypes: {},
+                    slots: []
+                }
+            });
+        }
+
+        const dataset = await _engine.schemas.getExamplesByKind(kind);
+        for (let ex of dataset.examples) {
+            const loaded = loadOneExample(ex);
+            if (loaded !== null)
+                output.push(loaded);
+        }
     }
     return output;
 }
@@ -425,7 +478,22 @@ class AppControlChannel extends events.EventEmitter {
 
     async HandleParsedCommand(title, json) {
         this._collapseButtons();
-        await this._conversation.handleParsedCommand(JSON.parse(json), title);
+
+        const parsed = JSON.parse(json);
+
+        // HACK: genie-toolkit expects that slots will be filled by ID for entities, but we
+        // want to fill them by name because that's what the user expects, so we remap here
+        const { entities } = parsed;
+        for (const name in entities) {
+            if (name.startsWith('SLOT_')) {
+                const slotname = parsed.slots[parseInt(name.substring('SLOT_'.length))];
+                const slotType = parsed.slotTypes[slotname];
+                if (slotType.startsWith('Entity('))
+                    entities[name] = { value: null, display: entities[name] };
+            }
+        }
+
+        await this._conversation.handleParsedCommand(parsed, title);
         return null;
     }
 
