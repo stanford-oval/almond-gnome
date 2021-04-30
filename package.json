@@ -32,6 +32,6 @@
     "thingpedia": "~2.9.0-alpha.1"
   },
   "devDependencies": {
-    "eslint": "^7.21.0"
+    "eslint": "^7.25.0"
   }
 }
