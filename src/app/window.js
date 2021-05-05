@@ -486,7 +486,7 @@ var MainWindow = GObject.registerClass({
               translator_credits: _("translator-credits"),
               program_name: _("Almond"),
               comments: _("The Open Virtual Assistant"),
-              copyright: 'Copyright 2016-2020 The Board of Trustees of The Leland Stanford Junior University',
+              copyright: 'Copyright 2016-2021 The Board of Trustees of The Leland Stanford Junior University',
               license_type: Gtk.License.APACHE_2_0,
               logo_icon_name: 'edu.stanford.Almond',
               version: pkg.version,
