@@ -38,7 +38,8 @@ var MessageType = {
     BUTTON: 4,
     ASK_SPECIAL: 5,
     RDL: 6,
-    MAX: 6
+    NEW_PROGRAM: 7,
+    MAX: 7
 };
 
 var Message = GObject.registerClass({
@@ -118,6 +119,10 @@ var AssistantModel = class AssistantModel {
     }
 
     _onNewMessage([id, type, direction, msg]) {
+        if (type === MessageType.NEW_PROGRAM)
+            return;
+        if (type === MessageType.ASK_SPECIAL && ['yesno', 'picture'].indexOf(msg.ask_special_what) < 0)
+            return;
         if (type === MessageType.CHOICE)
             msg.choice_idx = parseInt(msg.choice_idx);
 
@@ -128,12 +133,6 @@ var AssistantModel = class AssistantModel {
         const obj = new Message(msg);
         this.emit('new-message', obj);
 
-        if (type === MessageType.ASK_SPECIAL) {
-            if (['yesno', 'picture'].indexOf(msg.ask_special_what) < 0) {
-                // do something about it...
-                return;
-            }
-        }
         this.store.append(obj);
     }
 

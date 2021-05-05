@@ -22,7 +22,6 @@ console.log('Almond-GNOME starting up...');
 process.on('unhandledRejection', (up) => { throw up; });
 
 const events = require('events');
-const posix = require('posix');
 const Genie = require('genie-toolkit');
 const canberra = require('canberra');
 
@@ -231,16 +230,6 @@ async function loadAllExamples(kind) {
 const HOTWORD_DETECTED_ID = 1;
 const SOUND_EFFECT_ID = 2;
 
-class LocalUser {
-    constructor() {
-        var pwnam = posix.getpwnam(process.getuid());
-
-        this.id = process.getuid();
-        this.account = pwnam.name;
-        this.name = pwnam.gecos;
-    }
-}
-
 function handleStop() {
     if (_running)
         _engine.stop();
@@ -261,7 +250,8 @@ const MessageType = {
     BUTTON: 4,
     ASK_SPECIAL: 5,
     RDL: 6,
-    MAX: 6
+    NEW_PROGRAM: 7,
+    MAX: 7
 };
 
 function marshalAlmondMessage(msg) {
@@ -277,7 +267,6 @@ function marshalAlmondMessage(msg) {
         break;
 
     case 'text':
-    case 'result':
         type = MessageType.TEXT;
         out.text = msg.text;
         out.icon = msg.icon || '';
@@ -315,6 +304,13 @@ function marshalAlmondMessage(msg) {
         out.text = msg.title;
         out.link = msg.url;
         break;
+
+    case 'new-program':
+        type = MessageType.NEW_PROGRAM;
+        out.uniqueId = msg.uniqueId;
+        out.name = msg.name;
+        out.code = msg.code;
+        out.icon = msg.icon || '';
     }
 
     return [id, type, direction, marshallASS(out)];
@@ -326,7 +322,7 @@ class AppControlChannel extends events.EventEmitter {
     // handle control methods here...
     constructor() {
         super();
-        this._conversation = _engine.assistant.openConversation('main', new LocalUser(), {
+        this._conversation = _engine.assistant.openConversation('main', {
             showWelcome: true,
             debug: true,
             deleteWhenInactive: false,
@@ -344,6 +340,36 @@ class AppControlChannel extends events.EventEmitter {
         this._speechHandler = new Genie.SpeechHandler(this._conversation, _engine.platform, {
             subscriptionKey: Config.MS_SPEECH_RECOGNITION_PRIMARY_KEY
         });
+
+        let play;
+        const ensureNullPlayback = () => {
+            if (play)
+                return;
+            play = _engine.platform.getCapability('sound').createPlaybackStream({
+                format: 'S16LE',
+                rate: 16000,
+                channels: 1,
+                stream: 'genie-voice-null',
+                properties: {
+                    'media.role': 'voice-assistant',
+                    'filter.want': 'echo-cancel',
+                }
+            });
+        };
+
+        const stopNullPlayback = () => {
+            if (play) {
+                play.end();
+                play = null;
+            }
+        };
+
+        this._speechHandler.on('wakeword', (hotword) => {
+            ensureNullPlayback();
+         });
+        this._speechHandler.on('no-match', stopNullPlayback);
+        this._speechHandler.on('match', stopNullPlayback);
+
         try {
             this._eventSoundCtx = new canberra.Context({
                 [canberra.Property.APPLICATION_ID]: 'edu.stanford.Almond',
@@ -355,7 +381,7 @@ class AppControlChannel extends events.EventEmitter {
             this._eventSoundCtx = null;
             console.error(`Failed to initialize libcanberra: ${e.message}`);
         }
-        this._speechHandler.on('hotword', async (hotword) => {
+        this._speechHandler.on('wakeword', async (hotword) => {
             this.emit('Activate');
 
             if (!this._eventSoundCtx)
@@ -368,6 +394,17 @@ class AppControlChannel extends events.EventEmitter {
             } catch(e) {
                 console.error(`Failed to play hotword detection sound: ${e.message}`);
             }
+        });
+
+        this._speechHandler.on('no-match', async () => {
+            if (!this._eventSoundCtx)
+                return;
+            await this._eventSoundCtx.play(HOTWORD_DETECTED_ID, {
+                'media.role': 'voice-assistant',
+                [canberra.Property.EVENT_ID]: 'dialog-warning'
+            }).catch((e) => {
+                console.error(`Failed to play hotword no-match sound: ${e.message}`);
+            });
         });
     }
 
@@ -434,9 +471,6 @@ class AppControlChannel extends events.EventEmitter {
     }
 
     addMessage(msg) {
-        if (msg.type === 'result' && msg.result.type === 'sound')
-            this._playSoundEffect(msg.result.name);
-
         this.emit('NewMessage', ...marshalAlmondMessage(msg));
     }
 

@@ -17,12 +17,12 @@ for src in data:
     if src['type'] == 'file':
         os.makedirs(src['dest'], exist_ok=True)
         dest = os.path.join(src['dest'], src['dest-filename'])
-        print(dest)
 
         if src['url'].startswith('data:'):
             with open(dest, 'wb') as fp:
                 fp.write(urllib.parse.unquote_to_bytes(src['url'][len('data:'):]))
         else:
+            print(dest)
             with urllib.request.urlopen(src['url'], context=ssl_context) as fsrc, \
                 open(dest, 'wb') as fdest:
                     shutil.copyfileobj(fsrc, fdest)

@@ -295,9 +295,36 @@ class Platform extends Tp.BasePlatform {
                 'application.language': this._locale,
             }
         });
+        this._pulse.on('error', (err) => { console.error('error on PulseAudio', err); });
+        this._pulse.on('connection', () => {
+            this._ensurePulseConfig();
+        });
         this._wakeWordDetector = new WakeWordDetector();
 
         this._sqliteKey = null;
+    }
+
+    async _ensurePulseConfig() {
+        try {
+            let hasFilterHeuristics = false, hasFilterApply = false;
+            const pulseModList = await this._pulse.modules();
+            for (let i = 0; i < pulseModList.length; i++) {
+                const mod = pulseModList[i];
+                if (mod.name === 'module-filter-heuristics')
+                    hasFilterHeuristics = true;
+                if (mod.name === 'module-filter-apply')
+                    hasFilterApply = true;
+                if (mod.name === 'module-role-ducking')
+                    await this._pulse.unloadModule(mod.index);
+            }
+            if (!hasFilterHeuristics)
+                await this._pulse.loadModule("module-filter-heuristics");
+            if (!hasFilterApply)
+                await this._pulse.loadModule("module-filter-apply");
+            await this._pulse.loadModule("module-role-ducking", "trigger_roles=voice-assistant ducking_roles=music volume=40% global=true");
+        } catch(e) {
+            console.error("failed to configure PulseAudio");
+        }
     }
 
     async init() {
