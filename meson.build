@@ -1,5 +1,5 @@
 project('almond-gnome', 'c',
-  version: '2.0.0~beta.1',
+  version: '2.0.0',
   meson_version: '>= 0.48.0',
 )
 

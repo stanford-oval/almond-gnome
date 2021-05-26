@@ -44,6 +44,14 @@
   <url type="help">https://wiki.almond.stanford.edu</url>
   <!--<url type="translate">http://www.homepage.com/how-to-submit-translations.html</url>-->
   <releases>
+    <release date="2020-05-26" version="2.0.0">
+      <description>
+        <p>This is the stable version of Almond 2.0. It includes stability improvements
+          and bug fixes.
+        </p>
+      </description>
+      <url>https://wiki.almond.stanford.edu/en/release-planning/two-point-oh</url>
+    </release>
     <release date="2020-05-04" version="2.0.0~beta.1" type="development">
       <description>
         <p>This release brings improvements across several skills, with in particular
