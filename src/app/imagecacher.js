@@ -51,7 +51,7 @@ var ImageCacher = class ImageCacher {
     }
 
     async _doCacheIcon(icon, cancellable) {
-        const source = Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/devices/icon/' + icon);
+        const source = Gio.File.new_for_uri(Config.THINGPEDIA_URL + '/api/v3/devices/icon/' + icon);
         const dest = Gio.File.new_for_path(GLib.build_filenamev([this._icondir, icon + '.png']));
 
         try {
