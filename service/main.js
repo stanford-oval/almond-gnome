@@ -338,7 +338,7 @@ class AppControlChannel extends events.EventEmitter {
         this._history = [];
 
         this._speechHandler = new Genie.SpeechHandler(this._conversation, _engine.platform, {
-            subscriptionKey: Config.MS_SPEECH_RECOGNITION_PRIMARY_KEY
+            nlUrl: Config.NL_URL
         });
 
         let play;

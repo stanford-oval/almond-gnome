@@ -258,6 +258,45 @@ class SystemSettings {
     }
 }
 
+let webrtcvad;
+try {
+    webrtcvad = require('webrtcvad').default;
+} catch(e) {
+    console.log("VAD not available");
+    webrtcvad = null;
+}
+
+class VAD {
+    constructor() {
+        this._instance = null;
+        this.frameSize = 0;
+    }
+
+    setup(bitrate, level) {
+        if (this._instance)
+            this._instance = null;
+
+        if (webrtcvad) {
+            this._instance = new webrtcvad(bitrate, level);
+            // 16khz audio single-channel 16 bit: 10ms: 160b, 20ms: 320b, 30ms: 480b
+            this.frameSize = 320;
+            // console.log("setup VAD bitrate", bitrate, "level", level);
+            return true;
+        }
+
+        return false;
+    }
+
+    process(chunk) {
+        if (!this._instance)
+            return false;
+        let n = chunk.length % this.frameSize, r = 0;
+        for (let i = 0; i < n; i++)
+            r += this._instance.process(chunk.slice(i * this.frameSize, this.frameSize));
+        return r;
+    }
+}
+
 class Platform extends Tp.BasePlatform {
     // Initialize the platform code
     // Will be called before instantiating the engine
@@ -300,6 +339,9 @@ class Platform extends Tp.BasePlatform {
             this._ensurePulseConfig();
         });
         this._wakeWordDetector = new WakeWordDetector();
+        this._voiceDetector = null;
+        if (webrtcvad && VAD)
+            this._voiceDetector = new VAD();
 
         this._sqliteKey = null;
     }
@@ -428,6 +470,9 @@ class Platform extends Tp.BasePlatform {
         case 'pulseaudio':
             return true;
 
+        case 'voice-detector':
+            return this._voiceDetector !== null;
+
         case 'bluetooth':
             // temporarily disabled
             return false;
@@ -468,7 +513,8 @@ class Platform extends Tp.BasePlatform {
 
         case 'wakeword-detector':
             return this._wakeWordDetector;
-
+        case 'voice-detector':
+            return this._voiceDetector;
         case 'app-launcher':
             return this._appLauncher;
         case 'system-lock':
